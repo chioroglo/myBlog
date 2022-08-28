@@ -1,7 +1,4 @@
-﻿using DAL;
-using Microsoft.EntityFrameworkCore;
-
-namespace webApi
+﻿namespace webApi
 {
     public static class Program
     {

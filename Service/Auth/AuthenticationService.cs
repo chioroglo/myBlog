@@ -14,7 +14,7 @@ namespace Service.Auth
         }
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest userData)
         {
-            var currentUser = await _userService.IdentifyUser(userData.Username, userData.Password);
+            var currentUser = await _userService.TryIdentifyUser(userData.Username, userData.Password);
             return currentUser;
         }
     }

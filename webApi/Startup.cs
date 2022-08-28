@@ -3,9 +3,6 @@ using Mapping;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace webApi
 {
@@ -26,20 +23,16 @@ namespace webApi
             
             authenticationBuilder.LoadConfigurationForJwtBearer(Configuration);
             services.AddControllers();
-            services.AddAutoMapper(
-                typeof(ApplicationAssemblyMarker).Assembly
-                );
-
+            services.AddAutoMapper(typeof(ApplicationAssemblyMarker).Assembly);
             services.AddEndpointsApiExplorer();
 
             services.AddSwaggerGen();
 
-            string connection = Configuration.GetConnectionString("DefaultConnection");
 
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BlogDbContext>(options =>
             {
-                options.UseSqlServer(connection);
-
+                options.UseSqlServer(connectionString);
             });
 
             services.InitializeRepositories();

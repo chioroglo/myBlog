@@ -31,21 +31,6 @@ namespace webApi.Controllers
             };
 
             return null;
-            /*
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-
-            if (identity != null)
-            {
-                var identityClaims = identity.Claims;
-
-                return new AuthenticateResponse()
-                {
-                    Id = Convert.ToInt32(identityClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value),
-                    Username = identityClaims.FirstOrDefault(o => o.Type == ClaimTypes.Name)?.Value
-                };
-            }
-            return null;
-            */
         }
     }
 }

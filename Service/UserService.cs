@@ -51,9 +51,9 @@ namespace Service
             return await _userRepository.GetWhere(predicate);
         }
 
-        public async Task<AuthenticateResponse> IdentifyUser(string username, string password)
+        public async Task<AuthenticateResponse> TryIdentifyUser(string username, string password)
         {
-            var matchingUsers = await GetWhere(u => u.Username == username && u.Password == password);
+            var matchingUsers = await _userRepository.GetWhere(u => u.Username == username && u.Password == password);
             
             if (!matchingUsers.Any())
             {
