@@ -4,12 +4,12 @@
     "D:\\webApi\\Service\\Service.csproj": {}
   },
   "projects": {
-    "D:\\webApi\\Data\\MyBlog.DAL.csproj": {
+    "D:\\webApi\\Data\\DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\webApi\\Data\\MyBlog.DAL.csproj",
-        "projectName": "MyBlog.DAL",
-        "projectPath": "D:\\webApi\\Data\\MyBlog.DAL.csproj",
+        "projectUniqueName": "D:\\webApi\\Data\\DAL.csproj",
+        "projectName": "DAL",
+        "projectPath": "D:\\webApi\\Data\\DAL.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
         "outputPath": "D:\\webApi\\Data\\obj\\",
         "projectStyle": "PackageReference",
@@ -132,8 +132,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\webApi\\Data\\MyBlog.DAL.csproj": {
-                "projectPath": "D:\\webApi\\Data\\MyBlog.DAL.csproj"
+              "D:\\webApi\\Data\\DAL.csproj": {
+                "projectPath": "D:\\webApi\\Data\\DAL.csproj"
               },
               "D:\\webApi\\Entities\\Entities.csproj": {
                 "projectPath": "D:\\webApi\\Entities\\Entities.csproj"
@@ -313,8 +313,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\webApi\\Data\\MyBlog.DAL.csproj": {
-                "projectPath": "D:\\webApi\\Data\\MyBlog.DAL.csproj"
+              "D:\\webApi\\Data\\DAL.csproj": {
+                "projectPath": "D:\\webApi\\Data\\DAL.csproj"
               },
               "D:\\webApi\\Domain\\Domain.csproj": {
                 "projectPath": "D:\\webApi\\Domain\\Domain.csproj"

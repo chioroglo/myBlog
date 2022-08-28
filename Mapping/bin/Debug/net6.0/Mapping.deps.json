@@ -482,12 +482,28 @@
           }
         }
       },
+      "DAL/1.0.0": {
+        "dependencies": {
+          "AutoMapper": "11.0.1",
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "11.0.0",
+          "Entities": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
+          "Microsoft.EntityFrameworkCore": "6.0.8",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.8",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.8",
+          "Microsoft.IdentityModel.Tokens": "6.22.1",
+          "System.IdentityModel.Tokens.Jwt": "6.22.1"
+        },
+        "runtime": {
+          "DAL.dll": {}
+        }
+      },
       "Domain/1.0.0": {
         "dependencies": {
+          "DAL": "1.0.0",
           "Entities": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
-          "MyBlog.DAL": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
         },
         "runtime": {
@@ -507,22 +523,6 @@
         },
         "runtime": {
           "Entities.dll": {}
-        }
-      },
-      "MyBlog.DAL/1.0.0": {
-        "dependencies": {
-          "AutoMapper": "11.0.1",
-          "AutoMapper.Extensions.Microsoft.DependencyInjection": "11.0.0",
-          "Entities": "1.0.0",
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
-          "Microsoft.EntityFrameworkCore": "6.0.8",
-          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.8",
-          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.8",
-          "Microsoft.IdentityModel.Tokens": "6.22.1",
-          "System.IdentityModel.Tokens.Jwt": "6.22.1"
-        },
-        "runtime": {
-          "MyBlog.DAL.dll": {}
         }
       }
     }
@@ -862,17 +862,17 @@
       "path": "system.windows.extensions/4.7.0",
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
     },
+    "DAL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
     "Entities/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "MyBlog.DAL/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

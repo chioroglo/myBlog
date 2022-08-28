@@ -758,7 +758,45 @@
           }
         }
       },
-      "MyBlog.DAL/1.0.0": {
+      "DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "AutoMapper": "11.0.1",
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "11.0.0",
+          "Entities": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
+          "Microsoft.EntityFrameworkCore": "6.0.8",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.8",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.8",
+          "Microsoft.IdentityModel.Tokens": "6.22.1",
+          "System.IdentityModel.Tokens.Jwt": "6.22.1"
+        },
+        "compile": {
+          "bin/placeholder/DAL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DAL.dll": {}
+        }
+      },
+      "Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "DAL": "1.0.0",
+          "Entities": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
+          "Microsoft.IdentityModel.Tokens": "6.22.1",
+          "System.IdentityModel.Tokens.Jwt": "6.22.1"
+        },
+        "compile": {
+          "bin/placeholder/Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Domain.dll": {}
+        }
+      },
+      "Entities/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
@@ -769,87 +807,49 @@
           "Microsoft.EntityFrameworkCore.Abstractions": "6.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
-          "MyBlog.Entities": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
         },
         "compile": {
-          "bin/placeholder/MyBlog.DAL.dll": {}
+          "bin/placeholder/Entities.dll": {}
         },
         "runtime": {
-          "bin/placeholder/MyBlog.DAL.dll": {}
+          "bin/placeholder/Entities.dll": {}
         }
       },
-      "MyBlog.Domain/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
-          "Microsoft.IdentityModel.Tokens": "6.22.1",
-          "MyBlog.DAL": "1.0.0",
-          "MyBlog.Entities": "1.0.0",
-          "System.IdentityModel.Tokens.Jwt": "6.22.1"
-        },
-        "compile": {
-          "bin/placeholder/MyBlog.Domain.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/MyBlog.Domain.dll": {}
-        }
-      },
-      "MyBlog.Entities/1.0.0": {
+      "Mapping/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "AutoMapper": "11.0.1",
-          "AutoMapper.Extensions.Microsoft.DependencyInjection": "11.0.0",
+          "Domain": "1.0.0",
+          "Entities": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
-          "Microsoft.EntityFrameworkCore": "6.0.8",
-          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.8",
-          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
         },
         "compile": {
-          "bin/placeholder/MyBlog.Entities.dll": {}
+          "bin/placeholder/Mapping.dll": {}
         },
         "runtime": {
-          "bin/placeholder/MyBlog.Entities.dll": {}
+          "bin/placeholder/Mapping.dll": {}
         }
       },
-      "MyBlog.Mapping/1.0.0": {
+      "Service/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "AutoMapper": "11.0.1",
+          "DAL": "1.0.0",
+          "Domain": "1.0.0",
+          "Entities": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
-          "MyBlog.Domain": "1.0.0",
-          "MyBlog.Entities": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
         },
         "compile": {
-          "bin/placeholder/MyBlog.Mapping.dll": {}
+          "bin/placeholder/Service.dll": {}
         },
         "runtime": {
-          "bin/placeholder/MyBlog.Mapping.dll": {}
-        }
-      },
-      "MyBlog.Service/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
-          "Microsoft.IdentityModel.Tokens": "6.22.1",
-          "MyBlog.DAL": "1.0.0",
-          "MyBlog.Domain": "1.0.0",
-          "MyBlog.Entities": "1.0.0",
-          "System.IdentityModel.Tokens.Jwt": "6.22.1"
-        },
-        "compile": {
-          "bin/placeholder/MyBlog.Service.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/MyBlog.Service.dll": {}
+          "bin/placeholder/Service.dll": {}
         }
       }
     }
@@ -2284,36 +2284,39 @@
         "version.txt"
       ]
     },
-    "MyBlog.DAL/1.0.0": {
+    "DAL/1.0.0": {
       "type": "project",
-      "path": "../Data/MyBlog.DAL.csproj",
-      "msbuildProject": "../Data/MyBlog.DAL.csproj"
+      "path": "../Data/DAL.csproj",
+      "msbuildProject": "../Data/DAL.csproj"
     },
-    "MyBlog.Domain/1.0.0": {
+    "Domain/1.0.0": {
       "type": "project",
-      "path": "../Domain/MyBlog.Domain.csproj",
-      "msbuildProject": "../Domain/MyBlog.Domain.csproj"
+      "path": "../Domain/Domain.csproj",
+      "msbuildProject": "../Domain/Domain.csproj"
     },
-    "MyBlog.Entities/1.0.0": {
+    "Entities/1.0.0": {
       "type": "project",
-      "path": "../Entities/MyBlog.Entities.csproj",
-      "msbuildProject": "../Entities/MyBlog.Entities.csproj"
+      "path": "../Entities/Entities.csproj",
+      "msbuildProject": "../Entities/Entities.csproj"
     },
-    "MyBlog.Mapping/1.0.0": {
+    "Mapping/1.0.0": {
       "type": "project",
-      "path": "../Mapping/MyBlog.Mapping.csproj",
-      "msbuildProject": "../Mapping/MyBlog.Mapping.csproj"
+      "path": "../Mapping/Mapping.csproj",
+      "msbuildProject": "../Mapping/Mapping.csproj"
     },
-    "MyBlog.Service/1.0.0": {
+    "Service/1.0.0": {
       "type": "project",
-      "path": "../Service/MyBlog.Service.csproj",
-      "msbuildProject": "../Service/MyBlog.Service.csproj"
+      "path": "../Service/Service.csproj",
+      "msbuildProject": "../Service/Service.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "AutoMapper >= 11.0.1",
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 11.0.0",
+      "DAL >= 1.0.0",
+      "Domain >= 1.0.0",
+      "Mapping >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.8",
       "Microsoft.EntityFrameworkCore >= 6.0.8",
       "Microsoft.EntityFrameworkCore.Abstractions >= 6.0.8",
@@ -2321,10 +2324,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.8",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.8",
       "Microsoft.IdentityModel.Tokens >= 6.22.1",
-      "MyBlog.DAL >= 1.0.0",
-      "MyBlog.Domain >= 1.0.0",
-      "MyBlog.Mapping >= 1.0.0",
-      "MyBlog.Service >= 1.0.0",
+      "Service >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.2.3",
       "System.IdentityModel.Tokens.Jwt >= 6.22.1"
     ]
@@ -2335,9 +2335,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\webApi\\webApi\\Myblog.API.csproj",
-      "projectName": "Myblog.API",
-      "projectPath": "D:\\webApi\\webApi\\Myblog.API.csproj",
+      "projectUniqueName": "D:\\webApi\\webApi\\API.csproj",
+      "projectName": "API",
+      "projectPath": "D:\\webApi\\webApi\\API.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
       "outputPath": "D:\\webApi\\webApi\\obj\\",
       "projectStyle": "PackageReference",
@@ -2356,17 +2356,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\webApi\\Data\\MyBlog.DAL.csproj": {
-              "projectPath": "D:\\webApi\\Data\\MyBlog.DAL.csproj"
+            "D:\\webApi\\Data\\DAL.csproj": {
+              "projectPath": "D:\\webApi\\Data\\DAL.csproj"
             },
-            "D:\\webApi\\Domain\\MyBlog.Domain.csproj": {
-              "projectPath": "D:\\webApi\\Domain\\MyBlog.Domain.csproj"
+            "D:\\webApi\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\webApi\\Domain\\Domain.csproj"
             },
-            "D:\\webApi\\Mapping\\MyBlog.Mapping.csproj": {
-              "projectPath": "D:\\webApi\\Mapping\\MyBlog.Mapping.csproj"
+            "D:\\webApi\\Mapping\\Mapping.csproj": {
+              "projectPath": "D:\\webApi\\Mapping\\Mapping.csproj"
             },
-            "D:\\webApi\\Service\\MyBlog.Service.csproj": {
-              "projectPath": "D:\\webApi\\Service\\MyBlog.Service.csproj"
+            "D:\\webApi\\Service\\Service.csproj": {
+              "projectPath": "D:\\webApi\\Service\\Service.csproj"
             }
           }
         }

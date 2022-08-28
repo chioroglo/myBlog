@@ -2015,9 +2015,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\webApi\\Entities\\MyBlog.Entities.csproj",
-      "projectName": "MyBlog.Entities",
-      "projectPath": "D:\\webApi\\Entities\\MyBlog.Entities.csproj",
+      "projectUniqueName": "D:\\webApi\\Entities\\Entities.csproj",
+      "projectName": "Entities",
+      "projectPath": "D:\\webApi\\Entities\\Entities.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
       "outputPath": "D:\\webApi\\Entities\\obj\\",
       "projectStyle": "PackageReference",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eNV4k61dK/Ts9IEETJmdVwDz5evjJLqNmqRpBrx4jdM27j4GCg9H02/4/WMhWj+apVvoWP93bkbHPR8QGyXFTQ==",
+  "dgSpecHash": "H+44UOYoMYKrVo8RCfZSPoTwKkL9jKew3FjY1UD+0eVivj6L6OuK46ByJeZV1q+17DrzSojQ7RWOGxyOGviC0A==",
   "success": true,
-  "projectFilePath": "D:\\webApi\\Data\\MyBlog.DAL.csproj",
+  "projectFilePath": "D:\\webApi\\Data\\DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",

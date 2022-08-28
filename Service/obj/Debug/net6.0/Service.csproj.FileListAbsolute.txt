@@ -17,5 +17,5 @@ D:\webApi\Service\obj\Debug\net6.0\Service.pdb
 D:\webApi\Service\obj\Debug\net6.0\ref\Service.dll
 D:\webApi\Service\bin\Debug\net6.0\Service.runtimeconfig.json
 D:\webApi\Service\obj\Debug\net6.0\Service.genruntimeconfig.cache
-D:\webApi\Service\bin\Debug\net6.0\MyBlog.DAL.dll
-D:\webApi\Service\bin\Debug\net6.0\MyBlog.DAL.pdb
+D:\webApi\Service\bin\Debug\net6.0\DAL.dll
+D:\webApi\Service\bin\Debug\net6.0\DAL.pdb

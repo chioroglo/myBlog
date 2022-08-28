@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Domain;
 using Domain.Dto.Post;
 using Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MyBlog.Service.Auth;
 using Service.Abstract;
-using System.Net;
 using System.Security.Claims;
 
 namespace webApi.Controllers
@@ -43,7 +41,7 @@ namespace webApi.Controllers
         {
             try
             {
-                postContent.AuthorId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                postContent.AuthorId = Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
                 var postEntity = _mapper.Map<PostDto, PostEntity>(postContent);
 
                 await _postsService.Add(postEntity);
@@ -91,7 +89,7 @@ namespace webApi.Controllers
             try
             {
                 var post = await _postsService.GetById(id);
-                var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var currentUserId = Convert.ToInt32(User.FindFirstValue(TokenClaimNames.Id));
 
                 if (post.AuthorId == currentUserId)
                 {
@@ -100,8 +98,17 @@ namespace webApi.Controllers
                 }
                 else
                 {
-                    return BadRequest($"This post[POST ID: {id}] does not belong to this user [USER ID: {currentUserId}]");
+                    return BadRequest($"This post[POST ID: {id}] belongs to [USER ID:{post.AuthorId}]. Request came from [USER ID:{currentUserId}]");
                 }
+            }
+            catch(NullReferenceException e)
+            {
+                if (PostDoesNotExist(id))
+                {
+                    return BadRequest($"Post [POST ID : {id}] does not exist");
+                }
+
+                return BadRequest(e.Message);
             }
             catch(Exception e)
             {

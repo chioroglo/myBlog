@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using Domain;
 using Domain.Dto.Account;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
-using System.Security.Claims;
 
 namespace webApi.Controllers
 {
-    [ApiController]
     [Route("api/users")]
     public class UserController : AppBaseController
     {

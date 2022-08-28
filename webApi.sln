@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myblog.API", "webApi\Myblog.API.csproj", "{FB8B66E8-A565-4289-B46C-3E33162017ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "webApi\API.csproj", "{FB8B66E8-A565-4289-B46C-3E33162017ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlog.Entities", "Entities\MyBlog.Entities.csproj", "{4CBFF938-DA52-41F4-A97B-6A0E0613F79E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{4CBFF938-DA52-41F4-A97B-6A0E0613F79E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlog.DAL", "Data\MyBlog.DAL.csproj", "{F7F6BB91-309C-48B7-B339-8DB068FB7EE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "Data\DAL.csproj", "{F7F6BB91-309C-48B7-B339-8DB068FB7EE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlog.Mapping", "Mapping\MyBlog.Mapping.csproj", "{7D17021B-4AB2-4689-AB94-52363D33E775}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mapping", "Mapping\Mapping.csproj", "{7D17021B-4AB2-4689-AB94-52363D33E775}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlog.Domain", "Domain\MyBlog.Domain.csproj", "{6670C395-A64B-49F7-9215-5564B595F592}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{6670C395-A64B-49F7-9215-5564B595F592}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlog.Service", "Service\MyBlog.Service.csproj", "{D439981A-3F0E-42FD-AC5E-F578BE7A4BB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{D439981A-3F0E-42FD-AC5E-F578BE7A4BB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

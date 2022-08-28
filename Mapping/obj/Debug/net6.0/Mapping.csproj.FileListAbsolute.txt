@@ -17,5 +17,5 @@ D:\webApi\Mapping\obj\Debug\net6.0\Mapping.pdb
 D:\webApi\Mapping\obj\Debug\net6.0\ref\Mapping.dll
 D:\webApi\Mapping\bin\Debug\net6.0\Mapping.runtimeconfig.json
 D:\webApi\Mapping\obj\Debug\net6.0\Mapping.genruntimeconfig.cache
-D:\webApi\Mapping\bin\Debug\net6.0\MyBlog.DAL.dll
-D:\webApi\Mapping\bin\Debug\net6.0\MyBlog.DAL.pdb
+D:\webApi\Mapping\bin\Debug\net6.0\DAL.dll
+D:\webApi\Mapping\bin\Debug\net6.0\DAL.pdb

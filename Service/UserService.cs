@@ -3,7 +3,7 @@ using DAL.Repositories.Abstract;
 using Domain.Dto.Account;
 using Entities;
 using Microsoft.AspNetCore.Http;
-using MyBlog.Domain.Dto.Auth;
+using MyBlog.Service.Auth;
 using Service.Abstract;
 using System.Diagnostics;
 using System.Linq.Expressions;

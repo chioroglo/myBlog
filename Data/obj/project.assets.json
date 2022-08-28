@@ -687,7 +687,7 @@
           }
         }
       },
-      "MyBlog.Entities/1.0.0": {
+      "Entities/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
@@ -701,10 +701,10 @@
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
         },
         "compile": {
-          "bin/placeholder/MyBlog.Entities.dll": {}
+          "bin/placeholder/Entities.dll": {}
         },
         "runtime": {
-          "bin/placeholder/MyBlog.Entities.dll": {}
+          "bin/placeholder/Entities.dll": {}
         }
       }
     }
@@ -2014,16 +2014,17 @@
         "version.txt"
       ]
     },
-    "MyBlog.Entities/1.0.0": {
+    "Entities/1.0.0": {
       "type": "project",
-      "path": "../Entities/MyBlog.Entities.csproj",
-      "msbuildProject": "../Entities/MyBlog.Entities.csproj"
+      "path": "../Entities/Entities.csproj",
+      "msbuildProject": "../Entities/Entities.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "AutoMapper >= 11.0.1",
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 11.0.0",
+      "Entities >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.8",
       "Microsoft.EntityFrameworkCore >= 6.0.8",
       "Microsoft.EntityFrameworkCore.Abstractions >= 6.0.8",
@@ -2031,7 +2032,6 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.8",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.8",
       "Microsoft.IdentityModel.Tokens >= 6.22.1",
-      "MyBlog.Entities >= 1.0.0",
       "System.IdentityModel.Tokens.Jwt >= 6.22.1"
     ]
   },
@@ -2041,9 +2041,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\webApi\\Data\\MyBlog.DAL.csproj",
-      "projectName": "MyBlog.DAL",
-      "projectPath": "D:\\webApi\\Data\\MyBlog.DAL.csproj",
+      "projectUniqueName": "D:\\webApi\\Data\\DAL.csproj",
+      "projectName": "DAL",
+      "projectPath": "D:\\webApi\\Data\\DAL.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
       "outputPath": "D:\\webApi\\Data\\obj\\",
       "projectStyle": "PackageReference",
@@ -2062,8 +2062,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\webApi\\Entities\\MyBlog.Entities.csproj": {
-              "projectPath": "D:\\webApi\\Entities\\MyBlog.Entities.csproj"
+            "D:\\webApi\\Entities\\Entities.csproj": {
+              "projectPath": "D:\\webApi\\Entities\\Entities.csproj"
             }
           }
         }

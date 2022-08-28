@@ -10,7 +10,6 @@ using Service.Abstract.Auth;
 
 namespace webApi.Controllers
 {
-    [ApiController]
     [Route("api/login")]
     public class LoginController : AppBaseController
     {

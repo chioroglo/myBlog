@@ -108,12 +108,12 @@
         }
       }
     },
-    "D:\\webApi\\Domain\\MyBlog.Domain.csproj": {
+    "D:\\webApi\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\webApi\\Domain\\MyBlog.Domain.csproj",
-        "projectName": "MyBlog.Domain",
-        "projectPath": "D:\\webApi\\Domain\\MyBlog.Domain.csproj",
+        "projectUniqueName": "D:\\webApi\\Domain\\Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "D:\\webApi\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
         "outputPath": "D:\\webApi\\Domain\\obj\\",
         "projectStyle": "PackageReference",
@@ -313,8 +313,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\webApi\\Domain\\MyBlog.Domain.csproj": {
-                "projectPath": "D:\\webApi\\Domain\\MyBlog.Domain.csproj"
+              "D:\\webApi\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\webApi\\Domain\\Domain.csproj"
               },
               "D:\\webApi\\Entities\\MyBlog.Entities.csproj": {
                 "projectPath": "D:\\webApi\\Entities\\MyBlog.Entities.csproj"
@@ -401,8 +401,8 @@
               "D:\\webApi\\Data\\MyBlog.DAL.csproj": {
                 "projectPath": "D:\\webApi\\Data\\MyBlog.DAL.csproj"
               },
-              "D:\\webApi\\Domain\\MyBlog.Domain.csproj": {
-                "projectPath": "D:\\webApi\\Domain\\MyBlog.Domain.csproj"
+              "D:\\webApi\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\webApi\\Domain\\Domain.csproj"
               },
               "D:\\webApi\\Entities\\MyBlog.Entities.csproj": {
                 "projectPath": "D:\\webApi\\Entities\\MyBlog.Entities.csproj"
@@ -485,8 +485,8 @@
               "D:\\webApi\\Data\\MyBlog.DAL.csproj": {
                 "projectPath": "D:\\webApi\\Data\\MyBlog.DAL.csproj"
               },
-              "D:\\webApi\\Domain\\MyBlog.Domain.csproj": {
-                "projectPath": "D:\\webApi\\Domain\\MyBlog.Domain.csproj"
+              "D:\\webApi\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\webApi\\Domain\\Domain.csproj"
               },
               "D:\\webApi\\Mapping\\MyBlog.Mapping.csproj": {
                 "projectPath": "D:\\webApi\\Mapping\\MyBlog.Mapping.csproj"

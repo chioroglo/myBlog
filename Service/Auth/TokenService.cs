@@ -1,7 +1,7 @@
 ﻿using Domain.Dto.Account;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using MyBlog.Domain.Dto.Auth;
+using MyBlog.Service.Auth;
 using Service.Abstract.Auth;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
