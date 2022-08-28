@@ -3,7 +3,9 @@ using DAL.Repositories.Abstract;
 using Domain.Dto.Account;
 using Entities;
 using Microsoft.AspNetCore.Http;
+using MyBlog.Domain.Dto.Auth;
 using Service.Abstract;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Security.Claims;
 
@@ -39,7 +41,10 @@ namespace Service
 
         public async Task<AuthenticateResponse> GetCurrentUser()
         {
-            var userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier));
+            Debug.WriteLine(_httpContextAccessor.HttpContext.User.FindFirst(TokenClaimNames.Username));
+            Debug.WriteLine(_httpContextAccessor.HttpContext.User.FindFirst(TokenClaimNames.Id));
+
+            var userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirstValue(TokenClaimNames.Id));
             var user = await _userRepository.GetById(userId);
             
             var response = _mapper.Map<AuthenticateResponse>(user);

@@ -1,6 +1,7 @@
 ﻿using Domain.Dto.Account;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using MyBlog.Domain.Dto.Auth;
 using Service.Abstract.Auth;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -24,11 +25,17 @@ namespace Service.Auth
 
             var claims = new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier,userData.Id.ToString()),
-                new Claim(ClaimTypes.Name,userData.Username)
+                new Claim(TokenClaimNames.Id,userData.Id.ToString()),
+                new Claim(TokenClaimNames.Username,userData.Username)
             };
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddMinutes(15), signingCredentials: credentials);
+            var token = new JwtSecurityToken(
+                issuer:_config["Jwt:Issuer"],
+                audience:_config["Jwt:Audience"],
+                claims: claims, 
+                expires: DateTime.UtcNow.AddMinutes(15),
+                signingCredentials: credentials);
+
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
