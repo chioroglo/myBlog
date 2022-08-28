@@ -1,0 +1,14 @@
+D:\webApi\Entities\bin\Release\net6.0\Entities.deps.json
+D:\webApi\Entities\bin\Release\net6.0\Entities.runtimeconfig.json
+D:\webApi\Entities\bin\Release\net6.0\Entities.dll
+D:\webApi\Entities\bin\Release\net6.0\Entities.pdb
+D:\webApi\Entities\obj\Release\net6.0\Entities.csproj.AssemblyReference.cache
+D:\webApi\Entities\obj\Release\net6.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+D:\webApi\Entities\obj\Release\net6.0\Entities.AssemblyInfoInputs.cache
+D:\webApi\Entities\obj\Release\net6.0\Entities.AssemblyInfo.cs
+D:\webApi\Entities\obj\Release\net6.0\Entities.csproj.CoreCompileInputs.cache
+D:\webApi\Entities\obj\Release\net6.0\Entities.dll
+D:\webApi\Entities\obj\Release\net6.0\refint\Entities.dll
+D:\webApi\Entities\obj\Release\net6.0\Entities.pdb
+D:\webApi\Entities\obj\Release\net6.0\Entities.genruntimeconfig.cache
+D:\webApi\Entities\obj\Release\net6.0\ref\Entities.dll

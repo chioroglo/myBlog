@@ -1,0 +1,14 @@
+D:\webApi\Entities\bin\Debug\net6.0\MyBlog.Entities.deps.json
+D:\webApi\Entities\bin\Debug\net6.0\MyBlog.Entities.runtimeconfig.json
+D:\webApi\Entities\bin\Debug\net6.0\MyBlog.Entities.dll
+D:\webApi\Entities\bin\Debug\net6.0\MyBlog.Entities.pdb
+D:\webApi\Entities\obj\Debug\net6.0\MyBlog.Entities.csproj.AssemblyReference.cache
+D:\webApi\Entities\obj\Debug\net6.0\MyBlog.Entities.GeneratedMSBuildEditorConfig.editorconfig
+D:\webApi\Entities\obj\Debug\net6.0\MyBlog.Entities.AssemblyInfoInputs.cache
+D:\webApi\Entities\obj\Debug\net6.0\MyBlog.Entities.AssemblyInfo.cs
+D:\webApi\Entities\obj\Debug\net6.0\MyBlog.Entities.csproj.CoreCompileInputs.cache
+D:\webApi\Entities\obj\Debug\net6.0\MyBlog.Entities.dll
+D:\webApi\Entities\obj\Debug\net6.0\refint\MyBlog.Entities.dll
+D:\webApi\Entities\obj\Debug\net6.0\MyBlog.Entities.pdb
+D:\webApi\Entities\obj\Debug\net6.0\MyBlog.Entities.genruntimeconfig.cache
+D:\webApi\Entities\obj\Debug\net6.0\ref\MyBlog.Entities.dll

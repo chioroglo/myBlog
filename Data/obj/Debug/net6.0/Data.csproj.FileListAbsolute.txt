@@ -1,0 +1,17 @@
+D:\webApi\Data\bin\Debug\net6.0\Data.deps.json
+D:\webApi\Data\bin\Debug\net6.0\Data.dll
+D:\webApi\Data\bin\Debug\net6.0\Data.pdb
+D:\webApi\Data\obj\Debug\net6.0\Data.csproj.AssemblyReference.cache
+D:\webApi\Data\obj\Debug\net6.0\Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\webApi\Data\obj\Debug\net6.0\Data.AssemblyInfoInputs.cache
+D:\webApi\Data\obj\Debug\net6.0\Data.AssemblyInfo.cs
+D:\webApi\Data\obj\Debug\net6.0\Data.csproj.CoreCompileInputs.cache
+D:\webApi\Data\obj\Debug\net6.0\Data.dll
+D:\webApi\Data\obj\Debug\net6.0\refint\Data.dll
+D:\webApi\Data\obj\Debug\net6.0\Data.pdb
+D:\webApi\Data\obj\Debug\net6.0\ref\Data.dll
+D:\webApi\Data\bin\Debug\net6.0\Data.runtimeconfig.json
+D:\webApi\Data\obj\Debug\net6.0\Data.csproj.CopyComplete
+D:\webApi\Data\obj\Debug\net6.0\Data.genruntimeconfig.cache
+D:\webApi\Data\bin\Debug\net6.0\Entities.dll
+D:\webApi\Data\bin\Debug\net6.0\Entities.pdb

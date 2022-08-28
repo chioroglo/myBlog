@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = DAL
+build_property.ProjectDir = D:\webApi\Data\
