@@ -91,14 +91,14 @@ namespace webApi.Controllers
                 var post = await _postsService.GetById(id);
                 var currentUserId = Convert.ToInt32(User.FindFirstValue(TokenClaimNames.Id));
 
-                if (post.AuthorId == currentUserId)
+                if (post.UserId == currentUserId)
                 {
                     await _postsService.Remove(id);
                     return Ok($"successfully deleted post {id}");
                 }
                 else
                 {
-                    return BadRequest($"This post[POST ID: {id}] belongs to [USER ID:{post.AuthorId}]. Request came from [USER ID:{currentUserId}]");
+                    return BadRequest($"This post[POST ID: {id}] belongs to [USER ID:{post.UserId}]. Request came from [USER ID:{currentUserId}]");
                 }
             }
             catch(NullReferenceException e)

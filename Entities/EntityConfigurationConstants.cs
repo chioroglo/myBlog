@@ -1,6 +1,6 @@
 ﻿namespace Entities
 {
-    public static class DatabaseConfigurationConstants
+    public static class EntityConfigurationConstants
     {
         public const int USERNAME_MIN_LENGTH = 3;
         public const int USERNAME_MAX_LENGTH = 20;

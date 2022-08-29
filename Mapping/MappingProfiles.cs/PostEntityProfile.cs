@@ -14,7 +14,7 @@ namespace Mapping.MappingProfiles.cs
             CreateMap<PostDto, PostEntity>()
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.Content, opt => opt.MapFrom(src => src.Content))
-                .ForMember(dst => dst.AuthorId, opt => opt.MapFrom(src => src.AuthorId));
+                .ForMember(dst => dst.UserId, opt => opt.MapFrom(src => src.AuthorId));
         }
     }
 }

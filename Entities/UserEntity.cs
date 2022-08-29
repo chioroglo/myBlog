@@ -14,5 +14,9 @@ namespace Entities
         public byte[]? Avatar { get; set; }
 
         public DateTime LastActivity { get; set; }
+
+        public ICollection<PostEntity> Posts { get; set; }
+
+        public ICollection<CommentEntity> Comments { get; set; }
     }
 }

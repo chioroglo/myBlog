@@ -4,7 +4,11 @@ namespace Entities
 {
     public class PostEntity : BaseEntity
     {
-        public int AuthorId { get; set; }
+        public int UserId { get; set; }
+
+        public UserEntity User { get; set; }
+
+        public ICollection<CommentEntity> Comments { get; set; }
         
         public string Content { get; set; }
     }

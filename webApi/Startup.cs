@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.Configurations;
 using Mapping;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
