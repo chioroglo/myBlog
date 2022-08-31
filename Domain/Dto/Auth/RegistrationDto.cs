@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using static Entities.EntityConfigurationConstants;
 
 namespace Domain.Dto.Account

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.Dto.Post;
+using Domain;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,29 +22,28 @@ namespace webApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostEntity>>> Get()
+        public async Task<ActionResult<IEnumerable<PostModel>>> Get()
         {
             var posts = await _postsService.GetAll();
             return posts.ToList();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PostEntity>> Get(int id)
+        public async Task<ActionResult<PostModel>> Get(int id)
         {
-            PostEntity post = await Task.FromResult( _postsService.GetById(id) ).Result;
+            PostModel post = await Task.FromResult( _postsService.GetById(id) ).Result;
             return post == null ? NotFound() : post;
             
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost(PostDto postContent)
+        public async Task<IActionResult> CreatePost(PostModel postContent)
         {
             try
             {
                 postContent.AuthorId = Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
-                var postEntity = _mapper.Map<PostDto, PostEntity>(postContent);
 
-                await _postsService.Add(postEntity);
+                await _postsService.Add(postContent);
 
 
                 return Ok();
@@ -57,7 +56,7 @@ namespace webApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<PostEntity>> Put(int id,PostEntity post)
+        public async Task<ActionResult<PostModel>> Put(int id,PostModel post)
         {
             if (id != post.Id)
             {
@@ -91,14 +90,14 @@ namespace webApi.Controllers
                 var post = await _postsService.GetById(id);
                 var currentUserId = Convert.ToInt32(User.FindFirstValue(TokenClaimNames.Id));
 
-                if (post.UserId == currentUserId)
+                if (post.AuthorId == currentUserId)
                 {
                     await _postsService.Remove(id);
                     return Ok($"successfully deleted post {id}");
                 }
                 else
                 {
-                    return BadRequest($"This post[POST ID: {id}] belongs to [USER ID:{post.UserId}]. Request came from [USER ID:{currentUserId}]");
+                    return BadRequest($"This post[POST ID: {id}] belongs to [USER ID:{post.AuthorId}]. Request came from [USER ID:{currentUserId}]");
                 }
             }
             catch(NullReferenceException e)

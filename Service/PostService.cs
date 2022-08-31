@@ -20,8 +20,6 @@ namespace Service
 
         public async Task Add(PostModel viewModel)
         {
-            viewModel.RegistrationDate = DateTime.UtcNow;
-
             var entity = _mapper.Map<PostEntity>(viewModel);
 
             await _postRepository.Add(entity);
@@ -44,21 +42,16 @@ namespace Service
             return mappedResult;
         }
 
-        public async Task<IEnumerable<PostModel>> GetWhere(Expression<Func<PostEntity, bool>> predicate)
-        {
-            var result = await _postRepository.GetWhere(predicate);
-
-            return result;
-        }
-
         public async Task<bool> Remove(int id)
         {
             return await _postRepository.Remove(id);
         }
 
-        public async Task Update(PostEntity entity)
+        public async Task Update(PostModel entity)
         {
-            await _postRepository.Update(entity);
+            var mappedRequest = _mapper.Map<PostEntity>(entity);
+
+            await _postRepository.Update(mappedRequest);
         }
     }
 }

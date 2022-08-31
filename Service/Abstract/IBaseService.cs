@@ -10,7 +10,7 @@ namespace Service.Abstract
 
         public Task<TEntity> GetById(int id);
         
-        public Task<IEnumerable<TEntity>> GetWhere(Expression<Func<TEntity, bool>> predicate);
+        //public Task<IEnumerable<TEntity>> GetWhere(Expression<Func<TEntity, bool>> predicate);
         
         public Task<bool> Remove(int id);
         

@@ -21,6 +21,9 @@ namespace DAL.Configurations
                 .HasMaxLength(FIRSTNAME_LASTNAME_MAX_LENGTH);
 
             builder.Property(e => e.Password).IsRequired();
+
+            builder.Property(e => e.LastActivity).
+                HasDefaultValueSql("GETUTCDATE()").IsRequired();
         }
     }
 }

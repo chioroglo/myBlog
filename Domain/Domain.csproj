@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dto\Post\" />
+  </ItemGroup>
+
 </Project>

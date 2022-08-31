@@ -24,7 +24,7 @@ namespace webApi
             
             authenticationBuilder.LoadConfigurationForJwtBearer(Configuration);
             services.AddControllers();
-            services.AddAutoMapper(typeof(ApplicationAssemblyMarker).Assembly);
+            services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
             services.AddEndpointsApiExplorer();
 
             services.AddSwaggerGen();

@@ -51,11 +51,6 @@ namespace Service
             return response;
         }
 
-        public async Task<IEnumerable<UserEntity>> GetWhere(Expression<Func<UserEntity, bool>> predicate)
-        {
-            return await _userRepository.GetWhere(predicate);
-        }
-
         public async Task<AuthenticateResponse> TryIdentifyUser(string username, string password)
         {
             var matchingUsers = await _userRepository.GetWhere(u => u.Username == username && u.Password == password);
