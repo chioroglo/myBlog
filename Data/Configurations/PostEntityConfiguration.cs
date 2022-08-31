@@ -20,6 +20,8 @@ namespace DAL.Configurations
 
             builder.Property(e => e.Content).IsRequired();
 
+            builder.Property(e => e.Title).IsRequired();
+
         }
     }
 }

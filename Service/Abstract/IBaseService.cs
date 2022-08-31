@@ -1,5 +1,4 @@
-﻿using Domain.Abstract;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Service.Abstract
 {

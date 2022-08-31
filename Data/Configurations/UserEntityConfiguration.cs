@@ -21,14 +21,6 @@ namespace DAL.Configurations
                 .HasMaxLength(FIRSTNAME_LASTNAME_MAX_LENGTH);
 
             builder.Property(e => e.Password).IsRequired();
-
-            /*
-            builder.
-                HasMany(e => e.Posts).WithOne(x => x.User)
-                .HasForeignKey(e => e.UserId);
-
-            builder.HasMany(e => e.Comments).WithOne(x => x.User)
-            */
         }
     }
 }

@@ -7,18 +7,17 @@ namespace DAL
 {
     public partial class BlogDbContext : DbContext
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        //private readonly IHttpContextAccessor _httpContextAccessor;
 
         public BlogDbContext()
         {
 
         }
 
-        public BlogDbContext(DbContextOptions<BlogDbContext> options,IHttpContextAccessor httpContextAccessor) : base(options)
+        public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
         {
-            Database.EnsureDeleted();
-            _httpContextAccessor = httpContextAccessor;
             Database.EnsureCreated();
+            //_httpContextAccessor = httpContextAccessor;
         }
 
 

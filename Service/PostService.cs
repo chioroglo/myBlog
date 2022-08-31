@@ -18,25 +18,37 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task Add(PostEntity entity)
+        public async Task Add(PostModel viewModel)
         {
-            entity.RegistrationDate = DateTime.UtcNow;
+            viewModel.RegistrationDate = DateTime.UtcNow;
+
+            var entity = _mapper.Map<PostEntity>(viewModel);
+
             await _postRepository.Add(entity);
         }
 
-        public async Task<IEnumerable<PostEntity>> GetAll()
+        public async Task<IEnumerable<PostModel>> GetAll()
         {
-            return await _postRepository.GetAll();
+            var result = await _postRepository.GetAll();
+
+            var mappedResult = result.Select(e => _mapper.Map<PostModel>(e));
+            
+            return mappedResult;
         }
 
-        public async Task<PostEntity> GetById(int id)
+        public async Task<PostModel> GetById(int id)
         {
-            return await _postRepository.GetById(id);
+            var result = await _postRepository.GetById(id);
+
+            var mappedResult = _mapper.Map<PostModel>(result);
+            return mappedResult;
         }
 
-        public async Task<IEnumerable<PostEntity>> GetWhere(Expression<Func<PostEntity, bool>> predicate)
+        public async Task<IEnumerable<PostModel>> GetWhere(Expression<Func<PostEntity, bool>> predicate)
         {
-            return await _postRepository.GetWhere(predicate);
+            var result = await _postRepository.GetWhere(predicate);
+
+            return result;
         }
 
         public async Task<bool> Remove(int id)

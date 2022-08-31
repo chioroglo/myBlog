@@ -11,7 +11,7 @@ namespace DAL.Configurations.Abstract
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.RegistrationDate).
-                HasDefaultValue(DateTime.UtcNow).
+                HasDefaultValue(new DateTime(2022,1,1)).
                 IsRequired();
         }
 

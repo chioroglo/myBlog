@@ -6,12 +6,8 @@ namespace Domain
     {
         public int AuthorId { get; set; }
 
-        public string Content { get; set; }
-
-        public string AuthorUsername { get; set; }
+        public string Title { get; set; }
         
-        public byte[] AuthorAvatar { get; set; }
-
-        public List<CommentModel> Comments { get; set; }
+        public string Content { get; set; }
     }
 }

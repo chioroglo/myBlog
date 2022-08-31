@@ -1,8 +1,10 @@
-﻿using Entities;
+﻿using Domain;
+using Entities;
 
 namespace Service.Abstract
 {
-    public interface IPostsService : IBaseService<PostEntity>
+    public interface IPostsService : IBaseService<PostModel>
     {
+
     }
 }
