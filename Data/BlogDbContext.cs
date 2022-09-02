@@ -7,8 +7,6 @@ namespace DAL
 {
     public partial class BlogDbContext : DbContext
     {
-        //private readonly IHttpContextAccessor _httpContextAccessor;
-
         public BlogDbContext()
         {
 
@@ -17,7 +15,6 @@ namespace DAL
         public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
         {
             Database.EnsureCreated();
-            //_httpContextAccessor = httpContextAccessor;
         }
 
 

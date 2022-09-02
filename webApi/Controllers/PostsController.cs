@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain;
-using Entities;
+using Domain.Dto.Post;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyBlog.Service.Auth;
@@ -32,18 +32,23 @@ namespace webApi.Controllers
         public async Task<ActionResult<PostModel>> Get(int id)
         {
             PostModel post = await Task.FromResult( _postsService.GetById(id) ).Result;
-            return post == null ? NotFound() : post;
+            return post == null ?
+                NotFound($"post [POST ID: {id} was not found]")
+                :
+                post;
             
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost(PostModel postContent)
+        public async Task<IActionResult> CreatePost(PostDto postContent)
         {
             try
             {
-                postContent.AuthorId = Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
+                PostModel postRequest = _mapper.Map<PostModel>(postContent);
 
-                await _postsService.Add(postContent);
+                postRequest.AuthorId = Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
+
+                await _postsService.Add(postRequest);
 
 
                 return Ok();
@@ -56,22 +61,19 @@ namespace webApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<PostModel>> Put(int id,PostModel post)
+        public async Task<ActionResult<PostDto>> Put(int id,PostDto post)
         {
-            if (id != post.Id)
-            {
-                return BadRequest();
-            }
+            PostModel updateRequest = _mapper.Map<PostModel>(post);
 
             try
             {
-                await _postsService.Update(post);
+                await _postsService.Update(updateRequest);
             }
             catch (DbUpdateConcurrencyException e)
             {
-                if (PostDoesNotExist(post.Id))
+                if (PostDoesNotExist(id))
                 {
-                    return NotFound();
+                    return NotFound($"Post [POST ID: {id}] does not exist");
                 }
                 else
                 {
@@ -79,7 +81,7 @@ namespace webApi.Controllers
                 }
             }
 
-            return await Task.FromResult(post);
+            return Ok(post);
         }
 
         [HttpDelete("{id}")]

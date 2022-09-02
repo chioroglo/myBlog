@@ -14,6 +14,9 @@ namespace DAL.Configurations
                 IsRequired().
                 HasMaxLength(USERNAME_MAX_LENGTH);
 
+            builder.HasIndex(e => new { e.Id, e.Username }).
+                IsUnique();
+
             builder.Property(e => e.FirstName)
                 .HasMaxLength(FIRSTNAME_LASTNAME_MAX_LENGTH);
 

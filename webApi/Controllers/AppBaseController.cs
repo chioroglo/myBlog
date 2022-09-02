@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace webApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public abstract class AppBaseController : ControllerBase
     {
