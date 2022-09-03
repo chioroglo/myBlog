@@ -23,7 +23,7 @@ namespace webApi.Controllers
         [HttpGet("current")]
         public async Task<UserModel> GetAuthenticatedUser()
         {
-            var currentId = Convert.ToInt32(HttpContext.User.FindFirst(TokenClaimNames.Id).Value);
+            var currentId = GetCurrentUserId();
             
             var user = await _userService.GetById(currentId);
 

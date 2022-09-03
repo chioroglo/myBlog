@@ -132,11 +132,5 @@ namespace webApi.Controllers
         {
             return _postsService.GetById(id) != null;
         }
-
-        [NonAction]
-        private int GetCurrentUserId()
-        {
-            return Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
-        }
     }
 }
