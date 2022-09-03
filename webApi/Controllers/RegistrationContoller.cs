@@ -1,9 +1,9 @@
-﻿using Domain;
+﻿using API.Controllers.Base;
+using Domain;
 using Domain.Dto.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract.Auth;
-using webApi.Controllers;
 
 namespace API.Controllers
 {

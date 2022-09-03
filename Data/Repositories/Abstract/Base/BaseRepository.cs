@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace DAL.Repositories.Abstract
+namespace DAL.Repositories.Abstract.Base
 {
     public abstract class BaseRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity
     {
@@ -18,22 +18,22 @@ namespace DAL.Repositories.Abstract
             await _db.Set<TEntity>().AddAsync(entity);
             await _db.SaveChangesAsync();
         }
-        
+
         public async Task<IEnumerable<TEntity>> GetAll()
         {
             return await _db.Set<TEntity>().ToListAsync();
         }
-        
+
         public async Task<TEntity> GetById(int id)
         {
             return await _db.Set<TEntity>().FindAsync(id);
         }
-        
+
         public async Task<IEnumerable<TEntity>> GetWhere(Expression<Func<TEntity, bool>> predicate)
         {
             return await _db.Set<TEntity>().Where(predicate).ToListAsync();
         }
-        
+
         public async Task<bool> Remove(int id)
         {
             TEntity? entity = await GetById(id);
@@ -52,7 +52,7 @@ namespace DAL.Repositories.Abstract
                 }
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine($"[BaseRepository/Remove] : {e.Message}");
                 return false;

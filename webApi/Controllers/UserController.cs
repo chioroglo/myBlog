@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using API.Controllers.Base;
+using AutoMapper;
 using Domain;
 using Domain.Dto.Account;
 using Microsoft.AspNetCore.Mvc;

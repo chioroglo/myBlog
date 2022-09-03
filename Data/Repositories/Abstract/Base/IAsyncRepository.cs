@@ -1,7 +1,7 @@
 ﻿using Entities.Abstract;
 using System.Linq.Expressions;
 
-namespace DAL.Repositories.Abstract
+namespace DAL.Repositories.Abstract.Base
 {
     public interface IAsyncRepository<T> where T : BaseEntity
     {

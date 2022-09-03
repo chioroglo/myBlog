@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace webApi.Controllers
+namespace API.Controllers.Base
 {
     [Authorize]
     [ApiController]
@@ -10,4 +10,3 @@ namespace webApi.Controllers
 
     }
 }
- 

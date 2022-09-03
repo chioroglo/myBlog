@@ -1,4 +1,5 @@
-﻿using Domain.Dto.Account;
+﻿using API.Controllers.Base;
+using Domain.Dto.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract.Auth;
