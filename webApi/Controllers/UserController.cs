@@ -20,6 +20,16 @@ namespace webApi.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<UserModel>> GetAllUsers()
+        {
+            var users = await _userService.GetAll();
+
+            var userModels = users.Select(e => _mapper.Map<UserModel>(e));
+
+            return userModels;
+        }
+
         [HttpGet("current")]
         public async Task<UserModel> GetAuthenticatedUser()
         {
