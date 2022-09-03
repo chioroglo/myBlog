@@ -13,6 +13,7 @@ namespace webApi
             services.AddScoped<IPostsService, PostService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IRegistrationService, RegistrationService>();
             //services.AddScoped<ICommentService, CommentService>();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL.Repositories.Abstract;
+using Domain;
 using Domain.Dto.Account;
 using Entities;
 using Microsoft.AspNetCore.Http;
@@ -15,11 +16,9 @@ namespace Service
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
+        
         public UserService(IUserRepository userRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
             _mapper = mapper;
         }
@@ -63,6 +62,18 @@ namespace Service
         public async Task Update(UserEntity entity)
         {
             await _userRepository.Update(entity);
+        }
+
+        public async Task<UserModel> GetByUsername(string username)
+        {
+            var usernameFound = await _userRepository.GetWhere(e => e.Username == username);
+
+            if (usernameFound.Any())
+            {
+                return _mapper.Map<UserModel>(usernameFound.FirstOrDefault());
+            }
+
+            return null;
         }
     }
 }

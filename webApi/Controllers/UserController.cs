@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Domain;
 using Domain.Dto.Account;
 using Microsoft.AspNetCore.Mvc;
+using MyBlog.Service.Auth;
 using Service.Abstract;
 
 namespace webApi.Controllers
@@ -18,13 +20,15 @@ namespace webApi.Controllers
         }
 
         [HttpGet("current")]
-        public async Task<AuthenticateResponse> GetAuthenticatedUser()
+        public async Task<UserModel> GetAuthenticatedUser()
         {
+            var currentId = Convert.ToInt32(HttpContext.User.FindFirst(TokenClaimNames.Id).Value);
+            
             var user = await _userService.GetById(currentId);
 
             if (user != null)
             {
-                return user;
+                return _mapper.Map<UserModel>(user);
             };
 
             return null;

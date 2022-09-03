@@ -6,12 +6,12 @@ using Service.Abstract.Auth;
 namespace webApi.Controllers
 {
     [Route("api/login")]
-    public class LoginController : AppBaseController
+    public class AuthenticationController : AppBaseController
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly ITokenService _tokenService;
 
-        public LoginController(IAuthenticationService authenticationService,ITokenService tokenService)
+        public AuthenticationController(IAuthenticationService authenticationService,ITokenService tokenService)
         {
             _tokenService = tokenService;
             _authenticationService = authenticationService;
@@ -23,7 +23,7 @@ namespace webApi.Controllers
         {
             var user = await _authenticationService.Authenticate(userData);
 
-            if (user != null)
+            if (user != null)   
             {
                 var token = await _tokenService.GenerateAccessToken(user);
                 return Ok(token);
@@ -31,5 +31,6 @@ namespace webApi.Controllers
 
             return NotFound("Credentials were not valid");
         }
+
     }
 }

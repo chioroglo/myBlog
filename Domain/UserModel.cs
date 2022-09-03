@@ -1,5 +1,4 @@
 ﻿using Domain.Abstract;
-using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {

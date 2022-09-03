@@ -7,7 +7,7 @@ namespace Service.Auth
     public class AuthenticationService : IAuthenticationService
     {
         private IUserService _userService;
-
+        
         public AuthenticationService(IUserService userService)
         {
             _userService = userService;
