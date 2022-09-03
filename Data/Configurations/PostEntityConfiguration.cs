@@ -2,6 +2,7 @@
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using static DAL.Configurations.EntityConfigurationConstants;
 
 namespace DAL.Configurations
 {
@@ -18,11 +19,13 @@ namespace DAL.Configurations
                 WithMany(e => e.Posts).
                 OnDelete(DeleteBehavior.NoAction);
 
-            builder.Property(e => e.Content).IsRequired();
+            builder.Property(e => e.Content)
+                .HasMaxLength(POST_MAX_LENGTH)
+                .IsRequired();
 
-            builder.Property(e => e.Title).IsRequired()
-                .HasDefaultValue("GETUTCDATE()");
-
+            builder.Property(e => e.Title)
+                .HasMaxLength(POST_TITLE_MAX_LENGTH)
+                .IsRequired();
         }
     }
 }

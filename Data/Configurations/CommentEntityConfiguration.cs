@@ -2,6 +2,7 @@
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using static DAL.Configurations.EntityConfigurationConstants;
 
 namespace DAL.Configurations
 {
@@ -19,7 +20,9 @@ namespace DAL.Configurations
                 .HasForeignKey(e => e.PostId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Property(e => e.Content).IsRequired();
+            builder.Property(e => e.Content)
+                .HasMaxLength(COMMENT_MAX_LENGTH)
+                .IsRequired();
         }
     }
 }

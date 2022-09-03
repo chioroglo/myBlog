@@ -2,7 +2,8 @@
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static Entities.EntityConfigurationConstants;
+
+using static DAL.Configurations.EntityConfigurationConstants;
 
 namespace DAL.Configurations
 {
@@ -12,16 +13,16 @@ namespace DAL.Configurations
         {
             builder.Property(e => e.Username).
                 IsRequired().
-                HasMaxLength(USERNAME_MAX_LENGTH);
+                HasMaxLength(USER_USERNAME_MAX_LENGTH);
 
             builder.HasIndex(e => new { e.Id, e.Username }).
                 IsUnique();
 
             builder.Property(e => e.FirstName)
-                .HasMaxLength(FIRSTNAME_LASTNAME_MAX_LENGTH);
+                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH);
 
             builder.Property(e => e.LastName)
-                .HasMaxLength(FIRSTNAME_LASTNAME_MAX_LENGTH);
+                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH);
 
             builder.Property(e => e.Password).IsRequired();
 
