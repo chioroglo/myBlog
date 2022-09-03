@@ -39,18 +39,6 @@ namespace Service
             return await _userRepository.GetById(id);
         }
 
-        public async Task<AuthenticateResponse> GetCurrentUser()
-        {
-            Debug.WriteLine(_httpContextAccessor.HttpContext.User.FindFirst(TokenClaimNames.Username));
-            Debug.WriteLine(_httpContextAccessor.HttpContext.User.FindFirst(TokenClaimNames.Id));
-
-            var userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirstValue(TokenClaimNames.Id));
-            var user = await _userRepository.GetById(userId);
-            
-            var response = _mapper.Map<AuthenticateResponse>(user);
-            return response;
-        }
-
         public async Task<AuthenticateResponse> TryIdentifyUser(string username, string password)
         {
             var matchingUsers = await _userRepository.GetWhere(u => u.Username == username && u.Password == password);

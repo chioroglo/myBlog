@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Domain.Dto.Account
+﻿namespace Domain.Dto.Account
 {
     public class RegistrationDto
     {
@@ -11,5 +9,7 @@ namespace Domain.Dto.Account
         public string? LastName { get; set; }
 
         public string Password { get; set; }
+
+        public string ConfirmPassword { get; set; }
     }
 }

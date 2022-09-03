@@ -20,7 +20,7 @@ namespace webApi.Controllers
         [HttpGet("current")]
         public async Task<AuthenticateResponse> GetAuthenticatedUser()
         {
-            var user = await _userService.GetCurrentUser();
+            var user = await _userService.GetById(currentId);
 
             if (user != null)
             {
