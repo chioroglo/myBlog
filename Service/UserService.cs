@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using DAL.Repositories.Abstract;
 using Domain;
-using Domain.Dto.Account;
 using Entities;
-using Microsoft.AspNetCore.Http;
-using MyBlog.Service.Auth;
 using Service.Abstract;
-using System.Diagnostics;
 namespace Service
 {
     public class UserService : IUserService
@@ -14,7 +10,7 @@ namespace Service
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         
-        public UserService(IUserRepository userRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
