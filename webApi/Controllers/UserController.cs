@@ -9,12 +9,12 @@ using Service.Abstract;
 namespace webApi.Controllers
 {
     [Route("api/users")]
-    public class UserController : AppBaseController
+    public class UsersController : AppBaseController
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UsersController(IUserService userService, IMapper mapper)
         {
             _mapper = mapper;
             _userService = userService;
@@ -30,8 +30,26 @@ namespace webApi.Controllers
             return userModels;
         }
 
+        [Route("[action]/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = await _userService.GetById(id);
+
+            return user == null ? NotFound() : Ok(_mapper.Map<UserModel>(user));
+        }
+
+        [Route("[action]/{username}")]
+        [HttpGet]
+        public async Task<IActionResult> GetByUsername(string username)
+        {
+            var user = await _userService.GetByUsername(username);
+
+            return user == null ? NotFound() : Ok(_mapper.Map<UserModel>(user));
+        }
+
         [HttpGet("current")]
-        public async Task<UserModel> GetAuthenticatedUser()
+        public async Task<IActionResult> GetAuthenticatedUser()
         {
             var currentId = GetCurrentUserId();
             
@@ -39,7 +57,7 @@ namespace webApi.Controllers
 
             if (user != null)
             {
-                return _mapper.Map<UserModel>(user);
+                return Ok(_mapper.Map<UserModel>(user));
             };
 
             return null;

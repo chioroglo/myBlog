@@ -30,7 +30,7 @@ namespace webApi.Controllers
             return posts.ToList();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<PostModel>> Get(int id)
         {
             PostModel post = await _postsService.GetById(id);
@@ -63,7 +63,7 @@ namespace webApi.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult<PostDto>> UpdatePost(int id,PostDto post)
         {
 
@@ -94,7 +94,7 @@ namespace webApi.Controllers
             return updateIsSuccessfull ? Ok(updatedPost) : BadRequest();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             try
