@@ -1,4 +1,6 @@
-﻿using Domain.Dto.Account;
+﻿using AutoMapper;
+using DAL.Repositories.Abstract;
+using Domain.Dto.Account;
 using Service.Abstract;
 using Service.Abstract.Auth;
 
@@ -6,15 +8,34 @@ namespace Service.Auth
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private IUserService _userService;
-        
-        public AuthenticationService(IUserService userService)
+        private IUserRepository _userRepository;
+        private IMapper _mapper;
+
+        public AuthenticationService(IUserRepository userRepository, IMapper mapper)
         {
-            _userService = userService;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
+
+        public async Task<AuthenticateResponse> TryIdentifyUser(string username, string password)
+        {
+            var matchingUsers = await _userRepository.GetWhere(u => u.Username == username && u.Password == password);
+
+            if (!matchingUsers.Any())
+            {
+                return null;
+            }
+
+            var identifiedUser = matchingUsers.FirstOrDefault();
+
+            var response = _mapper.Map<AuthenticateResponse>(identifiedUser);
+
+            return response;
+        }
+
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest userData)
         {
-            var currentUser = await _userService.TryIdentifyUser(userData.Username, userData.Password);
+            var currentUser = await TryIdentifyUser(userData.Username, userData.Password);
             return currentUser;
         }
     }

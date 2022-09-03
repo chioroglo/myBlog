@@ -63,7 +63,7 @@ namespace webApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<PostDto>> Put(int id,PostDto post)
+        public async Task<ActionResult<PostDto>> UpdatePost(int id,PostDto post)
         {
 
             PostModel updateRequest = _mapper.Map<PostModel>(post);

@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Http;
 using MyBlog.Service.Auth;
 using Service.Abstract;
 using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Security.Claims;
-
 namespace Service
 {
     public class UserService : IUserService
@@ -36,22 +33,6 @@ namespace Service
         public async Task<UserEntity> GetById(int id)
         {
             return await _userRepository.GetById(id);
-        }
-
-        public async Task<AuthenticateResponse> TryIdentifyUser(string username, string password)
-        {
-            var matchingUsers = await _userRepository.GetWhere(u => u.Username == username && u.Password == password);
-            
-            if (!matchingUsers.Any())
-            {
-                return null;
-            }
-
-            var identifiedUser = matchingUsers.FirstOrDefault();
-
-            var response = _mapper.Map<AuthenticateResponse>(identifiedUser);
-
-            return response;
         }
 
         public async Task<bool> Remove(int id)
