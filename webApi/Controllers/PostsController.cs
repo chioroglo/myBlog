@@ -21,6 +21,7 @@ namespace webApi.Controllers
             _mapper = mapper;
         }
 
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostModel>>> Get()
         {
@@ -31,7 +32,8 @@ namespace webApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PostModel>> Get(int id)
         {
-            PostModel post = await Task.FromResult( _postsService.GetById(id) ).Result;
+            PostModel post = await _postsService.GetById(id);
+
             return post == null ?
                 NotFound($"post [POST ID: {id} was not found]")
                 :
@@ -46,12 +48,12 @@ namespace webApi.Controllers
             {
                 PostModel postRequest = _mapper.Map<PostModel>(postContent);
 
-                postRequest.AuthorId = Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
+                postRequest.AuthorId = GetCurrentUserId();
 
                 await _postsService.Add(postRequest);
 
 
-                return Ok();
+                return Ok($"post was successfully created!");
             }
             catch (Exception e)
             {
@@ -63,11 +65,16 @@ namespace webApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<PostDto>> Put(int id,PostDto post)
         {
+
             PostModel updateRequest = _mapper.Map<PostModel>(post);
 
+            updateRequest.Id = id;
+            updateRequest.AuthorId = GetCurrentUserId();
+
+            bool updateIsSuccessfull = false; 
             try
             {
-                await _postsService.Update(updateRequest);
+                updateIsSuccessfull = await _postsService.Update(updateRequest);
             }
             catch (DbUpdateConcurrencyException e)
             {
@@ -81,7 +88,9 @@ namespace webApi.Controllers
                 }
             }
 
-            return Ok(post);
+            var updatedPost = await _postsService.GetById(id);
+
+            return updateIsSuccessfull ? Ok(updatedPost) : BadRequest();
         }
 
         [HttpDelete("{id}")]
@@ -90,7 +99,7 @@ namespace webApi.Controllers
             try
             {
                 var post = await _postsService.GetById(id);
-                var currentUserId = Convert.ToInt32(User.FindFirstValue(TokenClaimNames.Id));
+                var currentUserId = GetCurrentUserId();
 
                 if (post.AuthorId == currentUserId)
                 {
@@ -121,6 +130,12 @@ namespace webApi.Controllers
         private bool PostDoesNotExist(int id)
         {
             return _postsService.GetById(id) != null;
+        }
+
+        [NonAction]
+        private int GetCurrentUserId()
+        {
+            return Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
         }
     }
 }

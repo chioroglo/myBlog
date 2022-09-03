@@ -14,6 +14,6 @@ namespace Service.Abstract
         
         public Task<bool> Remove(int id);
         
-        public Task Update(TEntity entity);
+        public Task<bool> Update(TEntity entity);
     }
 }

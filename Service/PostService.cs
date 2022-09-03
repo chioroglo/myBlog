@@ -47,11 +47,35 @@ namespace Service
             return await _postRepository.Remove(id);
         }
 
-        public async Task Update(PostModel entity)
+        public async Task<bool> Update(PostModel request)
         {
-            var mappedRequest = _mapper.Map<PostEntity>(entity);
+            int postId = request.Id;
 
-            await _postRepository.Update(mappedRequest);
+            var post = await _postRepository.GetById(postId);
+
+            if (post == null)
+            {
+                return false;
+            }
+
+            if (request.AuthorId != post.UserId)
+            {
+                return false;
+            }
+
+            post.Title = request.Title;
+            post.Content = request.Content;
+
+            try
+            {
+                await _postRepository.Update(post);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return true;
         }
     }
 }

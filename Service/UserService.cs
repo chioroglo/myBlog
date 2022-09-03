@@ -59,9 +59,17 @@ namespace Service
             return await _userRepository.Remove(id);
         }
 
-        public async Task Update(UserEntity entity)
+        public async Task<bool> Update(UserEntity entity)
         {
-            await _userRepository.Update(entity);
+            try
+            {
+                await _userRepository.Update(entity);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return true;
         }
 
         public async Task<UserModel> GetByUsername(string username)
