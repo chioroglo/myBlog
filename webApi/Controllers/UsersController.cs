@@ -60,7 +60,7 @@ namespace webApi.Controllers
                 return Ok(_mapper.Map<UserModel>(user));
             };
 
-            return null;
+            return NotFound();
         }
     }
 }

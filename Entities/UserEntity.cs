@@ -10,10 +10,10 @@ namespace Entities
         public string? LastName { get; set; }
 
         public string Password { get; set; }
-
-        public byte[]? Avatar { get; set; }
-
+        
         public DateTime LastActivity { get; set; }
+        
+        public AvatarEntity Avatar { get; set; }
 
         public ICollection<PostEntity> Posts { get; set; }
 

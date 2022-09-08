@@ -13,11 +13,11 @@ namespace DAL.Configurations
             builder.HasMany(e => e.Comments).
                 WithOne(e => e.Post).
                 HasForeignKey(e => e.PostId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(e => e.User).
                 WithMany(e => e.Posts).
-                OnDelete(DeleteBehavior.NoAction);
+                OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(e => e.Content)
                 .HasMaxLength(POST_MAX_LENGTH)

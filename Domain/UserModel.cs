@@ -8,8 +8,6 @@ namespace Domain
 
         public string FullName { get; set; }
 
-        public byte[] Avatar { get; set; }
-
         public DateTime LastActivity { get; set; }
 
         public List<PostModel> Posts { get; set; }

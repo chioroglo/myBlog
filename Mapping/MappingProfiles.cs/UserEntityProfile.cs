@@ -17,8 +17,8 @@ namespace Mapping.MappingProfiles.cs
             CreateMap<RegistrationDto, UserEntity>()
                 .ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.Username, opt => opt.MapFrom(src => src.Username))
-                .ForMember(dst => dst.FirstName, opt => opt.MapFrom(src => src.FirstName))
-                .ForMember(dst => dst.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dst => dst.FirstName, opt => opt.MapFrom(src =>  String.IsNullOrEmpty(src.FirstName) ? null : src.FirstName))
+                .ForMember(dst => dst.LastName, opt => opt.MapFrom(src => String.IsNullOrEmpty(src.LastName) ? null : src.LastName))
                 .ForMember(dst => dst.Password, opt => opt.MapFrom(src => src.Password))
                 .ForMember(dst => dst.RegistrationDate, opt => opt.NullSubstitute(DateTime.UtcNow));
 

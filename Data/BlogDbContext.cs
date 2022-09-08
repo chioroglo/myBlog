@@ -23,6 +23,8 @@ namespace DAL
 
         public DbSet<CommentEntity>? Comments { get; set; }
 
+        public DbSet<AvatarEntity>? Avatar { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
