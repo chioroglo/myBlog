@@ -1,4 +1,4 @@
-﻿using Entities.Abstract;
+﻿using Domain.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -59,9 +59,15 @@ namespace DAL.Repositories.Abstract.Base
             }
         }
 
+
         public async Task Update(TEntity entity)
         {
             _db.Update(entity);
+            SaveChangesAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
             await _db.SaveChangesAsync();
         }
     }

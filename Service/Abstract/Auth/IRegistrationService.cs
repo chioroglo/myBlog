@@ -1,5 +1,5 @@
-﻿using Domain;
-using Domain.Dto.Account;
+﻿using Domain.Dto.Account;
+using Domain.Models;
 
 namespace Service.Abstract.Auth
 {

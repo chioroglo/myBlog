@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Dto.Post;
-using Entities;
+using Domain.Models;
 
 namespace Mapping.MappingProfiles.cs
 {

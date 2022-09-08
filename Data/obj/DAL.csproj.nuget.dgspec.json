@@ -28,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\webApi\\Entities\\Entities.csproj": {
-                "projectPath": "D:\\webApi\\Entities\\Entities.csproj"
+              "D:\\webApi\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\webApi\\Domain\\Domain.csproj"
               }
             }
           }
@@ -108,14 +108,14 @@
         }
       }
     },
-    "D:\\webApi\\Entities\\Entities.csproj": {
+    "D:\\webApi\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\webApi\\Entities\\Entities.csproj",
-        "projectName": "Entities",
-        "projectPath": "D:\\webApi\\Entities\\Entities.csproj",
+        "projectUniqueName": "D:\\webApi\\Domain\\Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "D:\\webApi\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "D:\\webApi\\Entities\\obj\\",
+        "outputPath": "D:\\webApi\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -144,33 +144,7 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[11.0.1, )"
-            },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[11.0.0, )"
-            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
-              "target": "Package",
-              "version": "[6.0.8, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[6.0.8, )"
-            },
-            "Microsoft.EntityFrameworkCore.Abstractions": {
-              "target": "Package",
-              "version": "[6.0.8, )"
-            },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[6.0.8, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[6.0.8, )"
             },

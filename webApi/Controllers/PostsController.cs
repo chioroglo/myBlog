@@ -1,7 +1,7 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
-using Domain;
 using Domain.Dto.Post;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyBlog.Service.Auth;
@@ -24,7 +24,7 @@ namespace webApi.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostModel>>> Get()
+        public async Task<IEnumerable<PostModel>> Get()
         {
             var posts = await _postsService.GetAll();
             return posts.ToList();
@@ -64,7 +64,7 @@ namespace webApi.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<PostDto>> UpdatePost(int id,PostDto post)
+        public async Task<IActionResult> UpdatePost(int id,PostDto post)
         {
 
             PostModel updateRequest = _mapper.Map<PostModel>(post);

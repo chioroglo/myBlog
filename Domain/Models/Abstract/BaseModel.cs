@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Domain.Abstract
+﻿namespace Domain.Models.Abstract
 {
     public abstract class BaseModel : IBaseModel
     {

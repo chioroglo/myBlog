@@ -1,6 +1,6 @@
 ﻿namespace Domain.Abstract
 {
-    public interface IBaseModel
+    public interface IBaseEntity
     {
         public int Id { get; set; }
 

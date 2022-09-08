@@ -1,7 +1,6 @@
 ﻿using DAL.Configurations;
-using Entities;
+using Domain;
 using Microsoft.EntityFrameworkCore;
-
 namespace DAL
 {
     public partial class BlogDbContext : DbContext
@@ -17,13 +16,13 @@ namespace DAL
         }
 
 
-        public DbSet<UserEntity>? Users { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
 
-        public DbSet<PostEntity>? Posts { get; set; }
+        public DbSet<PostEntity> Posts { get; set; }
 
-        public DbSet<CommentEntity>? Comments { get; set; }
+        public DbSet<CommentEntity> Comments { get; set; }
 
-        public DbSet<AvatarEntity>? Avatar { get; set; }
+        public DbSet<AvatarEntity> Avatars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

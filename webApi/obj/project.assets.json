@@ -764,7 +764,7 @@
         "dependencies": {
           "AutoMapper": "11.0.1",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "11.0.0",
-          "Entities": "1.0.0",
+          "Domain": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
           "Microsoft.EntityFrameworkCore": "6.0.8",
           "Microsoft.EntityFrameworkCore.Abstractions": "6.0.8",
@@ -783,8 +783,6 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "DAL": "1.0.0",
-          "Entities": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
@@ -794,26 +792,6 @@
         },
         "runtime": {
           "bin/placeholder/Domain.dll": {}
-        }
-      },
-      "Entities/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "AutoMapper": "11.0.1",
-          "AutoMapper.Extensions.Microsoft.DependencyInjection": "11.0.0",
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
-          "Microsoft.EntityFrameworkCore": "6.0.8",
-          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.8",
-          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.8",
-          "Microsoft.IdentityModel.Tokens": "6.22.1",
-          "System.IdentityModel.Tokens.Jwt": "6.22.1"
-        },
-        "compile": {
-          "bin/placeholder/Entities.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Entities.dll": {}
         }
       },
       "Mapping/1.0.0": {
@@ -822,7 +800,6 @@
         "dependencies": {
           "AutoMapper": "11.0.1",
           "Domain": "1.0.0",
-          "Entities": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
@@ -840,7 +817,6 @@
         "dependencies": {
           "DAL": "1.0.0",
           "Domain": "1.0.0",
-          "Entities": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
@@ -2293,11 +2269,6 @@
       "type": "project",
       "path": "../Domain/Domain.csproj",
       "msbuildProject": "../Domain/Domain.csproj"
-    },
-    "Entities/1.0.0": {
-      "type": "project",
-      "path": "../Entities/Entities.csproj",
-      "msbuildProject": "../Entities/Entities.csproj"
     },
     "Mapping/1.0.0": {
       "type": "project",

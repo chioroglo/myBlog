@@ -1,6 +1,6 @@
 ﻿using Domain;
 using Domain.Dto.Account;
-using Entities;
+using Domain.Models;
 
 namespace Service.Abstract
 {

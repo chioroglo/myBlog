@@ -1,6 +1,6 @@
-﻿using Entities.Abstract;
+﻿using Domain.Abstract;
 
-namespace Entities
+namespace Domain
 {
     public class CommentEntity : BaseEntity
     {
@@ -11,7 +11,7 @@ namespace Entities
         public int PostId { get; set; }
 
         public PostEntity Post { get; set; }
-     
+
         public string Content { get; set; }
 
     }

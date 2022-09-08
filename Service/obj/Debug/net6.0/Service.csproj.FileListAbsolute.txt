@@ -2,9 +2,7 @@ D:\webApi\Service\bin\Debug\net6.0\Service.deps.json
 D:\webApi\Service\bin\Debug\net6.0\Service.dll
 D:\webApi\Service\bin\Debug\net6.0\Service.pdb
 D:\webApi\Service\bin\Debug\net6.0\Domain.dll
-D:\webApi\Service\bin\Debug\net6.0\Entities.dll
 D:\webApi\Service\bin\Debug\net6.0\Domain.pdb
-D:\webApi\Service\bin\Debug\net6.0\Entities.pdb
 D:\webApi\Service\obj\Debug\net6.0\Service.csproj.AssemblyReference.cache
 D:\webApi\Service\obj\Debug\net6.0\Service.GeneratedMSBuildEditorConfig.editorconfig
 D:\webApi\Service\obj\Debug\net6.0\Service.AssemblyInfoInputs.cache

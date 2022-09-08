@@ -1,7 +1,7 @@
-﻿using Domain.Abstract;
+﻿using Domain.Models.Abstract;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain
+namespace Domain.Models
 {
     public class CommentModel : BaseModel
     {

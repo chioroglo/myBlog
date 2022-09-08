@@ -1,6 +1,6 @@
-﻿using Domain.Abstract;
+﻿using Domain.Models.Abstract;
 
-namespace Domain
+namespace Domain.Models
 {
     public class UserModel : BaseModel
     {

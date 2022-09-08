@@ -1,5 +1,6 @@
 ﻿using DAL.Configurations.Abstract;
-using Entities;
+using Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configurations

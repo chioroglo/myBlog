@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DAL.Repositories.Abstract;
 using Domain;
-using Entities;
+using Domain.Models;
 using Service.Abstract;
 namespace Service
 {

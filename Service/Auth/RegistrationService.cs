@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Dto.Account;
-using Entities;
+using Domain.Models;
 using Service.Abstract;
 using Service.Abstract.Auth;
 

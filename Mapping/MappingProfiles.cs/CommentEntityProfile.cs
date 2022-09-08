@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain;
-using Entities;
+using Domain.Models;
 
 namespace Mapping.MappingProfiles.cs
 {

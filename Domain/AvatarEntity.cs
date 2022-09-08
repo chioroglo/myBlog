@@ -1,6 +1,6 @@
-﻿using Entities.Abstract;
+﻿using Domain.Abstract;
 
-namespace Entities
+namespace Domain
 {
     public class AvatarEntity : BaseEntity
     {

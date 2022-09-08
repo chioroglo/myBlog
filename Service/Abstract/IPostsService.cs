@@ -1,5 +1,4 @@
-﻿using Domain;
-using Entities;
+﻿using Domain.Models;
 
 namespace Service.Abstract
 {

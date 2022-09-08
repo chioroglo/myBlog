@@ -1,5 +1,5 @@
 ﻿using DAL.Repositories.Abstract.Base;
-using Entities;
+using Domain;
 
 namespace DAL.Repositories.Abstract
 {

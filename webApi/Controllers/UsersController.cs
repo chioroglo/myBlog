@@ -1,7 +1,7 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
-using Domain;
 using Domain.Dto.Account;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Service.Auth;
 using Service.Abstract;
