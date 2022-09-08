@@ -22,7 +22,7 @@ namespace DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Entities.AvatarEntity", b =>
+            modelBuilder.Entity("Entities.Avatar", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,7 +30,7 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<byte[]>("Avatar")
+                    b.Property<byte[]>("Image")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
@@ -47,10 +47,10 @@ namespace DAL.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Avatar");
+                    b.ToTable("Image");
                 });
 
-            modelBuilder.Entity("Entities.CommentEntity", b =>
+            modelBuilder.Entity("Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,7 +83,7 @@ namespace DAL.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Entities.PostEntity", b =>
+            modelBuilder.Entity("Entities.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -116,7 +116,7 @@ namespace DAL.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("Entities.UserEntity", b =>
+            modelBuilder.Entity("Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,26 +159,26 @@ namespace DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Entities.AvatarEntity", b =>
+            modelBuilder.Entity("Entities.Avatar", b =>
                 {
-                    b.HasOne("Entities.UserEntity", "User")
-                        .WithOne("Avatar")
-                        .HasForeignKey("Entities.AvatarEntity", "UserId")
+                    b.HasOne("Entities.User", "User")
+                        .WithOne("Image")
+                        .HasForeignKey("Entities.Avatar", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.CommentEntity", b =>
+            modelBuilder.Entity("Entities.Comment", b =>
                 {
-                    b.HasOne("Entities.PostEntity", "Post")
+                    b.HasOne("Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.UserEntity", "User")
+                    b.HasOne("Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -189,9 +189,9 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.PostEntity", b =>
+            modelBuilder.Entity("Entities.Post", b =>
                 {
-                    b.HasOne("Entities.UserEntity", "User")
+                    b.HasOne("Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -200,14 +200,14 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.PostEntity", b =>
+            modelBuilder.Entity("Entities.Post", b =>
                 {
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("Entities.UserEntity", b =>
+            modelBuilder.Entity("Entities.User", b =>
                 {
-                    b.Navigation("Avatar")
+                    b.Navigation("Image")
                         .IsRequired();
 
                     b.Navigation("Comments");

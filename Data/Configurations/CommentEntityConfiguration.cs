@@ -6,10 +6,12 @@ using static DAL.Configurations.EntityConfigurationConstants;
 
 namespace DAL.Configurations
 {
-    public class CommentEntityConfiguration : BaseEntityConfiguration<CommentEntity>
+    public class CommentEntityConfiguration : BaseEntityConfiguration<Comment>
     {
-        public override void ConfigureNonPkProperties(EntityTypeBuilder<CommentEntity> builder)
+        public override void ConfigureNonPkProperties(EntityTypeBuilder<Comment> builder)
         {
+            builder.ToTable(nameof(Comment));
+
             builder.HasOne(e => e.User)
                 .WithMany(e => e.Comments)
                 .HasForeignKey(e => e.UserId)

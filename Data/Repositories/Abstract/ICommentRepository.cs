@@ -3,7 +3,7 @@ using Domain;
 
 namespace DAL.Repositories.Abstract
 {
-    public interface ICommentRepository : IAsyncRepository<CommentEntity>
+    public interface ICommentRepository : IAsyncRepository<Comment>
     {
 
     }

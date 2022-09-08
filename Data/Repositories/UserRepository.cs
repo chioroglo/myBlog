@@ -4,7 +4,7 @@ using Domain;
 
 namespace DAL.Repositories
 {
-    public class UserRepository : BaseRepository<UserEntity>, IUserRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         public UserRepository(BlogDbContext db) : base(db)
         {

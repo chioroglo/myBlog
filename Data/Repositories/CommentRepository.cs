@@ -4,7 +4,7 @@ using Domain;
 
 namespace DAL.Repositories
 {
-    public class CommentRepository : BaseRepository<CommentEntity>, ICommentRepository
+    public class CommentRepository : BaseRepository<Comment>, ICommentRepository
     {
         public CommentRepository(BlogDbContext db) : base(db)
         {

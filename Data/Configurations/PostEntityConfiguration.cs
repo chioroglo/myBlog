@@ -6,10 +6,13 @@ using static DAL.Configurations.EntityConfigurationConstants;
 
 namespace DAL.Configurations
 {
-    public class PostEntityConfiguration : BaseEntityConfiguration<PostEntity>
+    public class PostEntityConfiguration : BaseEntityConfiguration<Post>
     {
-        public override void ConfigureNonPkProperties(EntityTypeBuilder<PostEntity> builder)
+        public override void ConfigureNonPkProperties(EntityTypeBuilder<Post> builder)
         {
+
+            builder.ToTable(nameof(Post));
+
             builder.HasMany(e => e.Comments).
                 WithOne(e => e.Post).
                 HasForeignKey(e => e.PostId)

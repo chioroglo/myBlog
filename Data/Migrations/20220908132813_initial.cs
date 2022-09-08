@@ -28,7 +28,7 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Avatar",
+                name: "Image",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -99,7 +99,7 @@ namespace DAL.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Avatar_UserId",
-                table: "Avatar",
+                table: "Image",
                 column: "UserId",
                 unique: true);
 
@@ -128,7 +128,7 @@ namespace DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Avatar");
+                name: "Image");
 
             migrationBuilder.DropTable(
                 name: "Comments");

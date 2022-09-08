@@ -2,13 +2,13 @@
 
 namespace Domain
 {
-    public class PostEntity : BaseEntity
+    public class Post : BaseEntity
     {
         public int UserId { get; set; }
 
-        public UserEntity User { get; set; }
+        public User User { get; set; }
 
-        public ICollection<CommentEntity> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
         public string Title { get; set; }
 

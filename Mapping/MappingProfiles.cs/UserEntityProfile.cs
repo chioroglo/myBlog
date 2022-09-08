@@ -9,12 +9,12 @@ namespace Mapping.MappingProfiles.cs
     {
         public UserEntityProfile()
         {
-            CreateMap<UserEntity, AuthenticateResponse>()
+            CreateMap<User, AuthenticateResponse>()
                 .ForMember(dst => dst.Id , opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.Username, opt => opt.MapFrom(src => src.Username))
                 .ForMember(dst => dst.Token, opt => opt.Ignore());
 
-            CreateMap<RegistrationDto, UserEntity>()
+            CreateMap<RegistrationDto, User>()
                 .ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.Username, opt => opt.MapFrom(src => src.Username))
                 .ForMember(dst => dst.FirstName, opt => opt.MapFrom(src =>  String.IsNullOrEmpty(src.FirstName) ? null : src.FirstName))
@@ -22,7 +22,7 @@ namespace Mapping.MappingProfiles.cs
                 .ForMember(dst => dst.Password, opt => opt.MapFrom(src => src.Password))
                 .ForMember(dst => dst.RegistrationDate, opt => opt.NullSubstitute(DateTime.UtcNow));
 
-            CreateMap<UserEntity, UserModel>()
+            CreateMap<User, UserModel>()
                 .ForMember(
                 dst => dst.FullName,
                 opt => opt.MapFrom(

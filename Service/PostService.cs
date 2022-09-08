@@ -20,7 +20,7 @@ namespace Service
 
         public async Task Add(PostModel viewModel)
         {
-            var entity = _mapper.Map<PostEntity>(viewModel);
+            var entity = _mapper.Map<Post>(viewModel);
 
             await _postRepository.Add(entity);
         }

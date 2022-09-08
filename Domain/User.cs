@@ -2,7 +2,7 @@
 
 namespace Domain
 {
-    public class UserEntity : BaseEntity
+    public class User : BaseEntity
     {
         public string Username { get; set; }
 
@@ -14,10 +14,10 @@ namespace Domain
 
         public DateTime LastActivity { get; set; }
 
-        public AvatarEntity Avatar { get; set; }
+        public Avatar Avatar { get; set; }
 
-        public ICollection<PostEntity> Posts { get; set; }
+        public ICollection<Post> Posts { get; set; }
 
-        public ICollection<CommentEntity> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

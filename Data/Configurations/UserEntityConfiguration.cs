@@ -7,10 +7,12 @@ using static DAL.Configurations.EntityConfigurationConstants;
 
 namespace DAL.Configurations
 {
-    public class UserEntityConfiguration : BaseEntityConfiguration<UserEntity>
+    public class UserEntityConfiguration : BaseEntityConfiguration<User>
     {
-        public override void ConfigureNonPkProperties(EntityTypeBuilder<UserEntity> builder)
+        public override void ConfigureNonPkProperties(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable(nameof(User));
+
             builder.Property(e => e.Username).
                 IsRequired().
                 HasMaxLength(USER_USERNAME_MAX_LENGTH);

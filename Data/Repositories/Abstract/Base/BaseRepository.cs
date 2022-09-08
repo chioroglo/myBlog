@@ -16,7 +16,6 @@ namespace DAL.Repositories.Abstract.Base
         public async Task Add(TEntity entity)
         {
             await _db.Set<TEntity>().AddAsync(entity);
-            await _db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
@@ -43,7 +42,6 @@ namespace DAL.Repositories.Abstract.Base
                 if (entity != null)
                 {
                     _db.Remove(entity);
-                    await _db.SaveChangesAsync();
                     return true;
                 }
                 else
@@ -63,7 +61,6 @@ namespace DAL.Repositories.Abstract.Base
         public async Task Update(TEntity entity)
         {
             _db.Update(entity);
-            SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()

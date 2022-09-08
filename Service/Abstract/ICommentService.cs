@@ -2,7 +2,7 @@
 
 namespace Service.Abstract
 {
-    public interface ICommentService : IBaseService<CommentEntity>
+    public interface ICommentService : IBaseService<Comment>
     {
 
     }

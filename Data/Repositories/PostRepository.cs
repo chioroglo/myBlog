@@ -4,7 +4,7 @@ using Domain;
 
 namespace DAL.Repositories
 {
-    public class PostRepository : BaseRepository<PostEntity>, IPostRepository
+    public class PostRepository : BaseRepository<Post>, IPostRepository
     {
         public PostRepository(BlogDbContext db) : base(db)
         {

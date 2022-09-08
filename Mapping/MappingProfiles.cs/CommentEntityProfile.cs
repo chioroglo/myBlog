@@ -8,7 +8,7 @@ namespace Mapping.MappingProfiles.cs
     {
         public CommentEntityProfile()
         {
-            CreateMap<CommentEntity, CommentModel>();
+            CreateMap<Comment, CommentModel>();
         }
     }
 }

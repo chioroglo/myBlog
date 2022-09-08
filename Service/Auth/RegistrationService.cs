@@ -30,7 +30,7 @@ namespace Service.Auth
                 throw new Exception($"Passwords do not match");
             }
 
-            UserEntity newUserEntity = _mapper.Map<UserEntity>(registerData);
+            User newUserEntity = _mapper.Map<User>(registerData);
 
             await _userService.Add(newUserEntity);
 
