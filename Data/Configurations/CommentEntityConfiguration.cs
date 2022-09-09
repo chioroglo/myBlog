@@ -11,7 +11,7 @@ namespace DAL.Configurations
         public override void ConfigureNonPkProperties(EntityTypeBuilder<Comment> builder)
         {
             builder.ToTable(nameof(Comment));
-
+            // todo udalit noaction
             builder.HasOne(e => e.User)
                 .WithMany(e => e.Comments)
                 .HasForeignKey(e => e.UserId)

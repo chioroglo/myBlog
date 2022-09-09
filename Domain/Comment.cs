@@ -13,6 +13,5 @@ namespace Domain
         public Post Post { get; set; }
 
         public string Content { get; set; }
-
     }
 }

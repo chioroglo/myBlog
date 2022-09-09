@@ -8,16 +8,16 @@ namespace DAL.Repositories.Abstract.Base
         Task SaveChangesAsync();
         // crud repo interface
 
-        Task Add(T entity);
+        Task AddAsync(T entity);
 
-        Task<T> GetById(int id);
+        Task<T> GetByIdAsync(int id);
 
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
 
-        Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> GetWhereAsync(Expression<Func<T, bool>> predicate);
 
-        Task Update(T entity);
+        Task UpdateAsync(T entity);
 
-        Task<bool> Remove(int id);
+        Task<bool> RemoveAsync(int id);
     }
 }

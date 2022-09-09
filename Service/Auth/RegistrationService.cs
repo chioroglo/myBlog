@@ -34,14 +34,16 @@ namespace Service.Auth
 
             await _userService.Add(newUserEntity);
 
-            return await _userService.GetByUsername(registerData.Username);
+            var newUserFromDb = await _userService.GetByUsername(registerData.Username);
+
+            return _mapper.Map<UserModel>(newUserFromDb);
         }
 
         private async Task<bool> NicknameIsOccupied(string username)
         {
-            UserModel occupiedNicknames = await _userService.GetByUsername(username);
+            User requestOfUserOfProvidedNickname = await _userService.GetByUsername(username);
 
-            return occupiedNicknames != null;
+            return requestOfUserOfProvidedNickname != null;
         }
 
         private bool PasswordsDoNotMatch(string actualPassword,string confirmationPassword)

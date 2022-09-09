@@ -1,4 +1,5 @@
 D:\webApi\Domain\bin\Debug\net6.0\Domain.deps.json
+D:\webApi\Domain\bin\Debug\net6.0\Domain.runtimeconfig.json
 D:\webApi\Domain\bin\Debug\net6.0\Domain.dll
 D:\webApi\Domain\bin\Debug\net6.0\Domain.pdb
 D:\webApi\Domain\obj\Debug\net6.0\Domain.csproj.AssemblyReference.cache
@@ -9,6 +10,5 @@ D:\webApi\Domain\obj\Debug\net6.0\Domain.csproj.CoreCompileInputs.cache
 D:\webApi\Domain\obj\Debug\net6.0\Domain.dll
 D:\webApi\Domain\obj\Debug\net6.0\refint\Domain.dll
 D:\webApi\Domain\obj\Debug\net6.0\Domain.pdb
-D:\webApi\Domain\obj\Debug\net6.0\ref\Domain.dll
-D:\webApi\Domain\bin\Debug\net6.0\Domain.runtimeconfig.json
 D:\webApi\Domain\obj\Debug\net6.0\Domain.genruntimeconfig.cache
+D:\webApi\Domain\obj\Debug\net6.0\ref\Domain.dll

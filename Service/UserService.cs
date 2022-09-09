@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DAL.Repositories.Abstract;
 using Domain;
-using Domain.Models;
 using Service.Abstract;
 namespace Service
 {
@@ -18,46 +17,51 @@ namespace Service
 
         public async Task Add(User entity)
         {
-            await _userRepository.Add(entity);
+            await _userRepository.AddAsync(entity);
+            await _userRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<User>> GetAll()
         {
-            return await _userRepository.GetAll();
+            return await _userRepository.GetAllAsync();
         }
 
         public async Task<User> GetById(int id)
         {
-            return await _userRepository.GetById(id);
+            return await _userRepository.GetByIdAsync(id);
         }
 
         public async Task<bool> Remove(int id)
         {
-            return await _userRepository.Remove(id);
+            var wasSuccessfullyDeleted = await _userRepository.RemoveAsync(id);
+            await _userRepository.SaveChangesAsync();
+
+            return wasSuccessfullyDeleted;
         }
 
         public async Task<bool> Update(User entity)
         {
             try
             {
-                await _userRepository.Update(entity);
+                await _userRepository.UpdateAsync(entity);
             }
             catch(Exception e)
             {
                 throw new Exception(e.Message);
             }
+            
+            await _userRepository.SaveChangesAsync();
             return true;
         }
 
-        public async Task<UserModel> GetByUsername(string username)
+        public async Task<User> GetByUsername(string username)
         {
-            var usernameFound = await _userRepository.GetWhere(e => e.Username == username);
+            var usernameFound = await _userRepository.GetWhereAsync(e => e.Username == username);
 
             if (usernameFound.Any())
             {
-                return _mapper.Map<UserModel>(usernameFound.FirstOrDefault());
+                return usernameFound.FirstOrDefault();
             }
-
             return null;
         }
     }

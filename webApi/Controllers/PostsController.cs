@@ -4,19 +4,17 @@ using Domain.Dto.Post;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyBlog.Service.Auth;
 using Service.Abstract;
-using System.Security.Claims;
 
 namespace webApi.Controllers
 {
     [Route("api/posts")]
     public class PostsController : AppBaseController
     {
-        private readonly IPostsService _postsService;
+        private readonly IPostService _postsService;
         private readonly IMapper _mapper;
 
-        public PostsController(IPostsService postsService,IMapper mapper)
+        public PostsController(IPostService postsService,IMapper mapper)
         {
             _postsService = postsService;
             _mapper = mapper;

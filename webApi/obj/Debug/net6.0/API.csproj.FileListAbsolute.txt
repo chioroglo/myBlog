@@ -1,9 +1,3 @@
-D:\webApi\webApi\obj\Debug\net6.0\API.csproj.AssemblyReference.cache
-D:\webApi\webApi\obj\Debug\net6.0\API.GeneratedMSBuildEditorConfig.editorconfig
-D:\webApi\webApi\obj\Debug\net6.0\API.AssemblyInfoInputs.cache
-D:\webApi\webApi\obj\Debug\net6.0\API.AssemblyInfo.cs
-D:\webApi\webApi\obj\Debug\net6.0\API.csproj.CoreCompileInputs.cache
-D:\webApi\webApi\obj\Debug\net6.0\API.MvcApplicationPartsAssemblyInfo.cache
 D:\webApi\webApi\bin\Debug\net6.0\appsettings.Development.json
 D:\webApi\webApi\bin\Debug\net6.0\appsettings.json
 D:\webApi\webApi\bin\Debug\net6.0\API.exe
@@ -61,7 +55,13 @@ D:\webApi\webApi\bin\Debug\net6.0\DAL.pdb
 D:\webApi\webApi\bin\Debug\net6.0\Domain.pdb
 D:\webApi\webApi\bin\Debug\net6.0\Mapping.pdb
 D:\webApi\webApi\bin\Debug\net6.0\Service.pdb
+D:\webApi\webApi\obj\Debug\net6.0\API.csproj.AssemblyReference.cache
+D:\webApi\webApi\obj\Debug\net6.0\API.GeneratedMSBuildEditorConfig.editorconfig
+D:\webApi\webApi\obj\Debug\net6.0\API.AssemblyInfoInputs.cache
+D:\webApi\webApi\obj\Debug\net6.0\API.AssemblyInfo.cs
+D:\webApi\webApi\obj\Debug\net6.0\API.csproj.CoreCompileInputs.cache
 D:\webApi\webApi\obj\Debug\net6.0\API.MvcApplicationPartsAssemblyInfo.cs
+D:\webApi\webApi\obj\Debug\net6.0\API.MvcApplicationPartsAssemblyInfo.cache
 D:\webApi\webApi\obj\Debug\net6.0\staticwebassets.build.json
 D:\webApi\webApi\obj\Debug\net6.0\staticwebassets.development.json
 D:\webApi\webApi\obj\Debug\net6.0\scopedcss\bundle\API.styles.css

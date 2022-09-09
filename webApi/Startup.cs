@@ -23,9 +23,7 @@ namespace webApi
             
             authenticationBuilder.LoadConfigurationForJwtBearer(Configuration);
             services.AddControllers();
-            services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
             services.AddEndpointsApiExplorer();
-
             services.AddSwaggerGen();
 
 
@@ -35,6 +33,7 @@ namespace webApi
                 options.UseSqlServer(connectionString);
             });
 
+            services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
             services.InitializeRepositories();
             services.InitializeServices();
 

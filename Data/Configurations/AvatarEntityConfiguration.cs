@@ -13,7 +13,6 @@ namespace DAL.Configurations
 
             builder.HasOne(e => e.User)
                 .WithOne(e => e.Avatar);
-
         }
     }
 }

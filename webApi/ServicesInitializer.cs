@@ -10,11 +10,11 @@ namespace webApi
         public static void InitializeServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPostsService, PostService>();
+            services.AddScoped<IPostService, PostService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
-            //services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<ICommentService, CommentService>();
         }
     }
 }

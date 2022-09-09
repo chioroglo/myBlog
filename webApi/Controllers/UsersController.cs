@@ -1,11 +1,8 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
-using Domain.Dto.Account;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Service.Auth;
 using Service.Abstract;
-
 namespace webApi.Controllers
 {
     [Route("api/users")]
@@ -30,7 +27,7 @@ namespace webApi.Controllers
             return userModels;
         }
 
-        [Route("[action]/{id}")]
+        [Route("{id}")]
         [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {

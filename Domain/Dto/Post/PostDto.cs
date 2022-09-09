@@ -1,11 +1,13 @@
-﻿namespace Domain.Dto.Post
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Dto.Post
 {
     public class PostDto
     {
-        public int AuthorId { get; set; }
-
+        [Required]
         public string Title { get; set; }
 
+        [Required]
         public string Content { get; set; }
     }
 }

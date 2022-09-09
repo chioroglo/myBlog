@@ -13,6 +13,7 @@ namespace DAL.Configurations
         {
             builder.ToTable(nameof(User));
 
+
             builder.Property(e => e.Username).
                 IsRequired().
                 HasMaxLength(USER_USERNAME_MAX_LENGTH);
@@ -21,10 +22,12 @@ namespace DAL.Configurations
                 IsUnique();
 
             builder.Property(e => e.FirstName)
-                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH);
+                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH)
+                .IsRequired(false);
 
             builder.Property(e => e.LastName)
-                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH);
+                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH)
+                .IsRequired(false);
 
             builder.Property(e => e.Password).IsRequired();
 

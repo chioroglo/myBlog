@@ -11,7 +11,7 @@ namespace webApi
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
-            //services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
         }
     }
 }

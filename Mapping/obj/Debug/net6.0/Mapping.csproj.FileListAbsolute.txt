@@ -1,4 +1,5 @@
 D:\webApi\Mapping\bin\Debug\net6.0\Mapping.deps.json
+D:\webApi\Mapping\bin\Debug\net6.0\Mapping.runtimeconfig.json
 D:\webApi\Mapping\bin\Debug\net6.0\Mapping.dll
 D:\webApi\Mapping\bin\Debug\net6.0\Mapping.pdb
 D:\webApi\Mapping\bin\Debug\net6.0\Domain.dll
@@ -12,6 +13,5 @@ D:\webApi\Mapping\obj\Debug\net6.0\Mapping.csproj.CopyComplete
 D:\webApi\Mapping\obj\Debug\net6.0\Mapping.dll
 D:\webApi\Mapping\obj\Debug\net6.0\refint\Mapping.dll
 D:\webApi\Mapping\obj\Debug\net6.0\Mapping.pdb
-D:\webApi\Mapping\obj\Debug\net6.0\ref\Mapping.dll
-D:\webApi\Mapping\bin\Debug\net6.0\Mapping.runtimeconfig.json
 D:\webApi\Mapping\obj\Debug\net6.0\Mapping.genruntimeconfig.cache
+D:\webApi\Mapping\obj\Debug\net6.0\ref\Mapping.dll
