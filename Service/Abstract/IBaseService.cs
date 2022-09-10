@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Service.Abstract
+﻿namespace Service.Abstract
 {
     public interface IBaseService<TEntity>
     {

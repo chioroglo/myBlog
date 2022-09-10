@@ -1,4 +1,6 @@
-﻿using DAL;
+﻿using API.Extensions;
+using API.Extensions.Auth;
+using DAL;
 using Mapping;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,8 +22,8 @@ namespace webApi
             services.AddHttpContextAccessor();
 
             AuthenticationBuilder authenticationBuilder = services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
-            
             authenticationBuilder.LoadConfigurationForJwtBearer(Configuration);
+            
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
@@ -42,23 +44,20 @@ namespace webApi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Configure the HTTP request pipeline.
+
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+            app.UseExceptionHandling();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
 
             app.Use(async (context, next) =>
             {
-                var endpoint = context.GetEndpoint();
-                var rulesEndpoint = (endpoint as RouteEndpoint)?.RoutePattern.RawText;
-                Console.WriteLine();
-                Console.WriteLine(endpoint?.DisplayName);
-                Console.WriteLine(rulesEndpoint);
                 await next();
             });
 

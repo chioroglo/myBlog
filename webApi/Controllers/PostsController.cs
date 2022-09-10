@@ -25,19 +25,16 @@ namespace webApi.Controllers
         public async Task<IEnumerable<PostModel>> Get()
         {
             var posts = await _postsService.GetAll();
+
             return posts.ToList();
         }
 
         [HttpGet("{postId:int}")]
-        public async Task<ActionResult<PostModel>> Get(int id)
+        public async Task<PostModel> Get(int postId)
         {
-            PostModel post = await _postsService.GetById(id);
+            PostModel post = await _postsService.GetById(postId);
 
-            return post == null ?
-                NotFound($"post [POST ID: {id} was not found]")
-                :
-                post;
-            
+            return post;
         }
 
         [HttpPost]

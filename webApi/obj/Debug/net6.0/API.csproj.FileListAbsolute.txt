@@ -71,3 +71,4 @@ D:\webApi\webApi\obj\Debug\net6.0\refint\API.dll
 D:\webApi\webApi\obj\Debug\net6.0\API.pdb
 D:\webApi\webApi\obj\Debug\net6.0\API.genruntimeconfig.cache
 D:\webApi\webApi\obj\Debug\net6.0\ref\API.dll
+D:\webApi\webApi\bin\Debug\net6.0\Newtonsoft.Json.dll

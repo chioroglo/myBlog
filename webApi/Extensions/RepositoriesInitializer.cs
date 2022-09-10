@@ -3,7 +3,7 @@ using DAL.Repositories.Abstract;
 using Service.Abstract.Auth;
 using Service.Auth;
 
-namespace webApi
+namespace API.Extensions
 {
     public static class RepositoriesInitializer
     {

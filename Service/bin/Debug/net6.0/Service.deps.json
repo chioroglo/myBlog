@@ -13,6 +13,7 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
           "Microsoft.EntityFrameworkCore.Tools": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
+          "Newtonsoft.Json": "13.0.1",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
         },
         "runtime": {
@@ -341,6 +342,14 @@
           }
         }
       },
+      "Newtonsoft.Json/13.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
+      },
       "System.Collections.Immutable/6.0.0": {
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
@@ -491,6 +500,7 @@
           "Microsoft.EntityFrameworkCore.Abstractions": "6.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
+          "Newtonsoft.Json": "13.0.1",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
         },
         "runtime": {
@@ -501,6 +511,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.22.1",
+          "Newtonsoft.Json": "13.0.1",
           "System.IdentityModel.Tokens.Jwt": "6.22.1"
         },
         "runtime": {
@@ -745,6 +756,13 @@
       "sha512": "sha512-mtVirZr++rq+XCDITMUdnETD59XoeMxSpLRIII7JRI6Yj0LEDiO1pPn0ktlnIj12Ix8bfvQqQDMMIF9wC98oCA==",
       "path": "microsoft.win32.systemevents/4.7.0",
       "hashPath": "microsoft.win32.systemevents.4.7.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "path": "newtonsoft.json/13.0.1",
+      "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
     },
     "System.Collections.Immutable/6.0.0": {
       "type": "package",

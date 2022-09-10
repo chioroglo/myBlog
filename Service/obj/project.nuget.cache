@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Hq5z3fjQaFvie7tj/9cJjo4jAmJuCa1OeTd1B5+nqyok1+pfNnFY6GAXH3lSBiHIBJG+45V1C0L5m0Zfrct2Hg==",
+  "dgSpecHash": "d5ns/GWuyudYwG3Ftarz+vg5/lQJh1/dms+gI0/5xq/0FA0Z93O4Ay/C+ixJ6DqHRCgpxQmWewFu9W663/BXtg==",
   "success": true,
   "projectFilePath": "D:\\webApi\\Service\\Service.csproj",
   "expectedPackageFiles": [
@@ -37,6 +37,7 @@
     "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",

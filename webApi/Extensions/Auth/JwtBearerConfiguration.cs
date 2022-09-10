@@ -2,11 +2,11 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace webApi
+namespace API.Extensions.Auth
 {
     public static class JwtBearerConfiguration
     {
-        public static void LoadConfigurationForJwtBearer(this AuthenticationBuilder authenticationBuilder,IConfiguration configuration)
+        public static void LoadConfigurationForJwtBearer(this AuthenticationBuilder authenticationBuilder, IConfiguration configuration)
         {
             authenticationBuilder.AddJwtBearer(
                 options =>
