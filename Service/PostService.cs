@@ -3,6 +3,7 @@ using DAL.Repositories.Abstract;
 using Domain;
 using Domain.Models;
 using Service.Abstract;
+using Service.Exceptions;
 
 namespace Service
 {
@@ -17,12 +18,16 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task Add(PostModel viewModel)
+        public async Task Add(PostModel request)
         {
-            var entity = _mapper.Map<Post>(viewModel);
+            if (await _postRepository.GetByTitle(request.Title) != null)
+            {
+                throw new ValidationException("This title is occupied");
+            }
+
+            var entity = _mapper.Map<Post>(request);
 
             await _postRepository.AddAsync(entity);
-
             await _postRepository.SaveChangesAsync();
         }
 
@@ -43,16 +48,23 @@ namespace Service
             return mappedResult;
         }
 
-        public async Task<bool> Remove(int id)
+        public async Task<bool> Remove(int postId,int issuerId)
         {
-            var wasSuccessfullyDeleted = await _postRepository.RemoveAsync(id);
+            var post = await _postRepository.GetByIdAsync(postId);
 
-            if (wasSuccessfullyDeleted)
+            if (post == null)
             {
-                await _postRepository.SaveChangesAsync();
-                return true;
+                throw new ValidationException($"Post of id {postId} does not exists");
             }
-            return false;
+            if (post.UserId != issuerId)
+            {
+                throw new ValidationException("This post does not belong to authorized user");
+            }
+
+            await _postRepository.RemoveAsync(postId);
+            await _postRepository.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<bool> Update(PostModel request)
@@ -63,27 +75,17 @@ namespace Service
 
             if (post == null)
             {
-                return false;
+                throw new ValidationException($"Post of postId {postId} was not found");
             }
-
             if (request.AuthorId != post.UserId)
             {
-                return false;
+                throw new ValidationException($"Authorized user has no priveleges to edit this post postID:{postId}");
             }
 
             post.Title = request.Title;
             post.Content = request.Content;
 
-            try
-            {
-                await _postRepository.UpdateAsync(post);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-
-
+            await _postRepository.UpdateAsync(post);
             await _postRepository.SaveChangesAsync();
 
             return true;

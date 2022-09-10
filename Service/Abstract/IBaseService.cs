@@ -8,7 +8,7 @@
 
         public Task<TEntity> GetById(int id);
         
-        public Task<bool> Remove(int id);
+        public Task<bool> Remove(int id,int issuerId);
         
         public Task<bool> Update(TEntity entity);
     }

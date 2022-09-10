@@ -2,6 +2,8 @@
 using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
+using Service.Exceptions;
+
 namespace Service
 {
     public class UserService : IUserService
@@ -31,26 +33,24 @@ namespace Service
             return await _userRepository.GetByIdAsync(id);
         }
 
-        public async Task<bool> Remove(int id)
+        public async Task<bool> Remove(int id, int issuerId)
         {
-            var wasSuccessfullyDeleted = await _userRepository.RemoveAsync(id);
+            if (id != issuerId)
+            {
+                throw new ValidationException($"You cannot delete this account!");
+            }
+
+            await _userRepository.RemoveAsync(id);
             await _userRepository.SaveChangesAsync();
 
-            return wasSuccessfullyDeleted;
+            return true;
         }
 
         public async Task<bool> Update(User entity)
         {
-            try
-            {
-                await _userRepository.UpdateAsync(entity);
-            }
-            catch(Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            
+            await _userRepository.UpdateAsync(entity);            
             await _userRepository.SaveChangesAsync();
+
             return true;
         }
 
@@ -58,11 +58,8 @@ namespace Service
         {
             var usernameFound = await _userRepository.GetWhereAsync(e => e.Username == username);
 
-            if (usernameFound.Any())
-            {
-                return usernameFound.FirstOrDefault();
-            }
-            return null;
+            return usernameFound.FirstOrDefault();
+
         }
     }
 }

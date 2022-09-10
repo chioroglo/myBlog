@@ -5,6 +5,6 @@ namespace DAL.Repositories.Abstract
 {
     public interface IPostRepository : IAsyncRepository<Post>
     {
-
+        Task<Post> GetByTitle(string title);
     }
 }

@@ -48,7 +48,7 @@ namespace Service
             return comments;
         }
 
-        public async Task<bool> Remove(int id)
+        public async Task<bool> Remove(int id,int issuerId)
         {
             var wasSuccessfullyDeleted = await _commentRepository.RemoveAsync(id);
 

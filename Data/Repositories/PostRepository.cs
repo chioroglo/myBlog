@@ -9,5 +9,12 @@ namespace DAL.Repositories
         public PostRepository(BlogDbContext db) : base(db)
         {
         }
+
+        public async Task<Post> GetByTitle(string title)
+        {
+            var found = await GetWhereAsync(e => e.Title == title); 
+
+            return found.FirstOrDefault();
+        }
     }
 }

@@ -83,12 +83,10 @@ namespace API.Controllers
         public async Task DeleteComment(int commentId)
         {
             var comment = await _commentsService.GetById(commentId);
+
             var currentUserId = GetCurrentUserId();
 
-            if (comment.UserId == currentUserId)
-            {
-                await _commentsService.Remove(commentId);
-            }
+            await _commentsService.Remove(commentId,issuerId: currentUserId);
         }
     }
 }

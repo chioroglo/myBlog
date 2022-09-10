@@ -36,25 +36,10 @@ namespace DAL.Repositories.Abstract.Base
         public async Task<bool> RemoveAsync(int id)
         {
             TEntity? entity = await GetByIdAsync(id);
-            try
-            {
+            
+            _db.Remove(entity);
 
-                if (entity != null)
-                {
-                    _db.Remove(entity);
-                    return true;
-                }
-                else
-                {
-                    throw new ArgumentNullException($"could not found entity under id {id}");
-                }
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"[BaseRepository/RemoveAsync] : {e.Message}");
-                return false;
-            }
+            return true;
         }
 
 
