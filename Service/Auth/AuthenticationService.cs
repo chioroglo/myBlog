@@ -2,8 +2,8 @@
 using DAL.Repositories.Abstract;
 using Domain.Dto.Account;
 using Domain.Dto.Auth;
-using Service.Abstract;
 using Service.Abstract.Auth;
+using System.Security.Authentication;
 
 namespace Service.Auth
 {
@@ -18,7 +18,16 @@ namespace Service.Auth
             _mapper = mapper;
         }
 
-        public async Task<AuthenticateResponse> TryIdentifyUser(string username, string password)
+
+        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest userData)
+        {
+            var currentUser = await TryIdentifyUser(userData.Username, userData.Password) 
+                ?? throw new AuthenticationException("Credentials were not valid");
+            
+            return currentUser;
+        }
+
+        private async Task<AuthenticateResponse> TryIdentifyUser(string username, string password)
         {
             var matchingUsers = await _userRepository.GetWhereAsync(u => u.Username == username && u.Password == password);
 
@@ -32,12 +41,6 @@ namespace Service.Auth
             var response = _mapper.Map<AuthenticateResponse>(identifiedUser);
 
             return response;
-        }
-
-        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest userData)
-        {
-            var currentUser = await TryIdentifyUser(userData.Username, userData.Password);
-            return currentUser;
         }
     }
 }

@@ -27,7 +27,8 @@ namespace Mapping.MappingProfiles.cs
                 dst => dst.FullName,
                 opt => opt.MapFrom(
                     src => (src.FirstName == null && src.LastName == null) ? string.Empty : $"{src.FirstName} {src.LastName}"
-                    ));
+                    ))
+                .ForMember(dst => dst.UserId, opt => opt.MapFrom(src => src.Id));
         }
     }
 }

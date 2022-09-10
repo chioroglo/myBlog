@@ -3,6 +3,7 @@ using Domain.Dto.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract.Auth;
+using System.Security.Authentication;
 
 namespace webApi.Controllers
 {
@@ -20,17 +21,12 @@ namespace webApi.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] AuthenticateRequest userData)
+        public async Task<string> Login([FromBody] AuthenticateRequest userData)
         {
             var user = await _authenticationService.Authenticate(userData);
 
-            if (user != null)   
-            {
-                var token = await _tokenService.GenerateAccessToken(user);
-                return Ok(token);
-            }
-
-            return NotFound("Credentials were not valid");
+            var token = await _tokenService.GenerateAccessToken(user);
+            return token;
         }
 
     }

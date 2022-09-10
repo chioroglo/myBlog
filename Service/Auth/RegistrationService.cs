@@ -4,6 +4,7 @@ using Domain.Dto.Account;
 using Domain.Models;
 using Service.Abstract;
 using Service.Abstract.Auth;
+using Service.Exceptions;
 
 namespace Service.Auth
 {
@@ -23,11 +24,11 @@ namespace Service.Auth
             
             if (await NicknameIsOccupied(registerData.Username))
             {
-                throw new Exception($"Username {registerData.Username} is occupied");
+                throw new ValidationException($"Username {registerData.Username} is occupied");
             }
             if (PasswordsDoNotMatch(registerData.Password,registerData.ConfirmPassword))
             {
-                throw new Exception($"Passwords do not match");
+                throw new ValidationException($"Passwords do not match");
             }
 
             User newUserEntity = _mapper.Map<User>(registerData);

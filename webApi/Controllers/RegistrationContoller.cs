@@ -19,19 +19,10 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] RegistrationDto registrationData)
+        public async Task<UserModel> Register([FromBody] RegistrationDto registrationData)
         {
-            UserModel response;
-            try
-            {
-                response = await _registrationService.Register(registrationData);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
-            return Ok(response);
+            UserModel response = await _registrationService.Register(registrationData);
+            return response;
         }
     }
 }

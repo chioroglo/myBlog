@@ -5,7 +5,7 @@ namespace Domain.Models.Abstract
     public abstract class BaseModel : IBaseModel
     {
         [Required]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         public DateTime RegistrationDate { get; set; }

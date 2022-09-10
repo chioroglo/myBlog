@@ -5,8 +5,6 @@ namespace Service.Abstract.Auth
 {
     public interface IAuthenticationService
     {
-        public Task<AuthenticateResponse> TryIdentifyUser(string username, string password);
-
-        public Task<AuthenticateResponse> Authenticate(AuthenticateRequest userData);
+        Task<AuthenticateResponse> Authenticate(AuthenticateRequest userData);
     }
 }

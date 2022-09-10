@@ -55,7 +55,7 @@ namespace webApi.Controllers
 
             PostModel updateRequest = _mapper.Map<PostModel>(post);
 
-            updateRequest.Id = postId;
+            updateRequest.UserId = postId;
             updateRequest.AuthorId = GetCurrentUserId();
 
             await _postsService.Update(updateRequest);

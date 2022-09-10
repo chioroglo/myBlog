@@ -29,35 +29,30 @@ namespace webApi.Controllers
 
         [Route("{id}")]
         [HttpGet]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<UserModel> GetById(int id)
         {
             var user = await _userService.GetById(id);
 
-            return user == null ? NotFound() : Ok(_mapper.Map<UserModel>(user));
+            return _mapper.Map<UserModel>(user);
         }
 
         [Route("[action]/{username}")]
         [HttpGet]
-        public async Task<IActionResult> GetByUsername(string username)
+        public async Task<UserModel> GetByUsername(string username)
         {
             var user = await _userService.GetByUsername(username);
 
-            return user == null ? NotFound() : Ok(_mapper.Map<UserModel>(user));
+            return _mapper.Map<UserModel>(user);
         }
 
         [HttpGet("current")]
-        public async Task<IActionResult> GetAuthenticatedUser()
+        public async Task<UserModel> GetAuthenticatedUser()
         {
             var currentId = GetCurrentUserId();
             
             var user = await _userService.GetById(currentId);
 
-            if (user != null)
-            {
-                return Ok(_mapper.Map<UserModel>(user));
-            };
-
-            return NotFound();
+            return _mapper.Map<UserModel>(user);
         }
     }
 }

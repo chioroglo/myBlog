@@ -1,6 +1,7 @@
 ﻿using API.Middlewares.Models;
 using Service.Exceptions;
 using System.Net;
+using System.Security.Authentication;
 
 namespace API.Middlewares
 {
@@ -29,6 +30,11 @@ namespace API.Middlewares
                 switch (e)
                 {
                     case ValidationException:
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                            break;
+                        }
+                    case AuthenticationException:
                         {
                             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                             break;
