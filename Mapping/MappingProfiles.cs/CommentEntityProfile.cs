@@ -11,7 +11,7 @@ namespace Mapping.MappingProfiles.cs
         {
             CreateMap<Comment, CommentModel>()
                 .ForMember(e => e.Content,opt => opt.MapFrom(e => e.Content))
-                .ForMember(e => e.UserId, opt => opt.MapFrom(e => e.Id))
+                .ForMember(e => e.Id, opt => opt.MapFrom(e => e.Id))
                 .ForMember(e => e.RegistrationDate, opt => opt.MapFrom(e => e.RegistrationDate))
                 .ForMember(e => e.AuthorId, opt => opt.MapFrom(e => e.UserId))
                 .ForMember(e => e.PostId, opt => opt.MapFrom(e => e.PostId));

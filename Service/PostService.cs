@@ -69,7 +69,7 @@ namespace Service
 
         public async Task<bool> Update(PostModel request)
         {
-            int postId = request.UserId;
+            int postId = request.Id;
 
             var post = await _postRepository.GetByIdAsync(postId);
 

@@ -26,6 +26,7 @@ namespace Service.Auth
             {
                 throw new ValidationException($"Username {registerData.Username} is occupied");
             }
+
             if (PasswordsDoNotMatch(registerData.Password,registerData.ConfirmPassword))
             {
                 throw new ValidationException($"Passwords do not match");

@@ -44,7 +44,7 @@ namespace DAL.Migrations
                         name: "FK_Avatar_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -66,7 +66,7 @@ namespace DAL.Migrations
                         name: "FK_Posts_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -88,13 +88,13 @@ namespace DAL.Migrations
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -121,7 +121,7 @@ namespace DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Id_Username",
                 table: "Users",
-                columns: new[] { "UserId", "Username" },
+                columns: new[] { "Id", "Username" },
                 unique: true);
         }
 

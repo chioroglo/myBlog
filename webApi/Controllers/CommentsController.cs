@@ -4,7 +4,6 @@ using Domain;
 using Domain.Dto.Comment;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Service.Abstract;
 
 namespace API.Controllers
@@ -51,32 +50,28 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task CreateComment([FromBody] CommentDto request)
+        public async Task<CommentModel> CreateComment([FromBody] CommentDto request)
         {
             var commentEntity = _mapper.Map<Comment>(request);
 
             commentEntity.UserId = GetCurrentUserId();
-
             await _commentsService.Add(commentEntity);
+
+            return _mapper.Map<CommentModel>(commentEntity);
         }
 
         
         [HttpPut("{commentId:int}")]
-        public async Task EditComment(int commentId, [FromBody] CommentDto updateRequest)
+        public async Task<CommentModel> EditComment(int commentId, [FromBody] CommentDto updateRequest)
         {
             var commentEntity = _mapper.Map<Comment>(updateRequest);
 
             commentEntity.Id = commentId;
             commentEntity.UserId = GetCurrentUserId();
 
-            try
-            {
-                await _commentsService.Update(commentEntity);
-            }
-            catch (DbUpdateConcurrencyException e)
-            {
-                throw new Exception(e.Message);
-            }
+            await _commentsService.Update(commentEntity);
+
+            return _mapper.Map<CommentModel>(commentEntity);
         }
 
         [HttpDelete("{commentId:int}")]

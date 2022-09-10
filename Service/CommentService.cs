@@ -2,23 +2,28 @@
 using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
+using Service.Exceptions;
 
 namespace Service
 {
     public class CommentService : ICommentService
     {
         private ICommentRepository _commentRepository;
+        private IPostRepository _postRepository;
         private IMapper _mapper;
 
 
-        public CommentService(ICommentRepository commentRepository, IMapper mapper)
+        public CommentService(ICommentRepository commentRepository,IPostRepository postRepository, IMapper mapper)
         {
+            _postRepository = postRepository;
             _commentRepository = commentRepository;
             _mapper = mapper;
         }
 
         public async Task Add(Comment entity)
         {
+            var post = await _postRepository.GetByIdAsync(entity.PostId) ?? throw new ValidationException($"Post of ID {entity.PostId} does not exists");
+
             await _commentRepository.AddAsync(entity);
             await _commentRepository.SaveChangesAsync();
         }
@@ -35,58 +40,37 @@ namespace Service
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostId(int postId)
         {
-            IEnumerable<Comment> comments;
-            try
-            {
-                comments = await _commentRepository.GetWhereAsync(e => e.PostId == postId);
-            }
-            catch(Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-
+            IEnumerable<Comment> comments = await _commentRepository.GetWhereAsync(e => e.PostId == postId);
             return comments;
         }
 
         public async Task<bool> Remove(int id,int issuerId)
         {
-            var wasSuccessfullyDeleted = await _commentRepository.RemoveAsync(id);
+            var comment = await _commentRepository.GetByIdAsync(id) ?? throw new ValidationException("This comment does not exist");
 
-            if (wasSuccessfullyDeleted)
+            if (issuerId != comment.UserId)
             {
-                await _commentRepository.SaveChangesAsync();
-                return true;
+                throw new ValidationException("Authorized user has no access to this comment");
             }
-            return false;
+
+            await _commentRepository.RemoveAsync(id);
+            await _commentRepository.SaveChangesAsync();
+            return true;
+            
         }
 
         public async Task<bool> Update(Comment entity)
         {
-            int commentId = entity.Id;
-
-            var comment = await _commentRepository.GetByIdAsync(commentId);
-
-            if (comment == null)
-            {
-                return false;
-            }
+            var comment = await _commentRepository.GetByIdAsync(entity.Id);
 
             if (entity.UserId != comment.UserId)
             {
-                return false;
+                throw new ValidationException("Authorized user has no access to this comment");
             }
 
             comment.Content = entity.Content;
 
-            try
-            {
-                await _commentRepository.UpdateAsync(comment);
-            }
-            catch(Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-
+            await _commentRepository.UpdateAsync(comment);
             await _commentRepository.SaveChangesAsync();
             return true;
         }

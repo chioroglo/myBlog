@@ -2,7 +2,7 @@
 {
     public interface IBaseModel
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
 
         public DateTime RegistrationDate { get; set; }
     }
