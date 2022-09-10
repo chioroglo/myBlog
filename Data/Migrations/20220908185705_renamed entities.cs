@@ -112,7 +112,7 @@ namespace DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Avatar_UserId",
                 table: "Avatar",
-                column: "UserId",
+                column: "AuthorId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -123,12 +123,12 @@ namespace DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Comment_UserId",
                 table: "Comment",
-                column: "UserId");
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Post_UserId",
                 table: "Post",
-                column: "UserId");
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Id_Username",
@@ -247,18 +247,18 @@ namespace DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_UserId",
                 table: "Comments",
-                column: "UserId");
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_UserId",
                 table: "Image",
-                column: "UserId",
+                column: "AuthorId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
                 table: "Posts",
-                column: "UserId");
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Id_Username",

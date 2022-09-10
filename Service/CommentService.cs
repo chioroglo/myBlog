@@ -8,8 +8,8 @@ namespace Service
     public class CommentService : ICommentService
     {
         private ICommentRepository _commentRepository;
-        private IUserRepository _userRepository;
         private IMapper _mapper;
+
 
         public CommentService(ICommentRepository commentRepository, IMapper mapper)
         {
@@ -20,6 +20,7 @@ namespace Service
         public async Task Add(Comment entity)
         {
             await _commentRepository.AddAsync(entity);
+            await _commentRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Comment>> GetAll()

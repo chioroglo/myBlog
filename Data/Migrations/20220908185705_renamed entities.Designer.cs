@@ -41,12 +41,12 @@ namespace DAL.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("AuthorId")
                         .IsUnique();
 
                     b.ToTable("Avatar", (string)null);
@@ -73,14 +73,14 @@ namespace DAL.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Comment", (string)null);
                 });
@@ -108,12 +108,12 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Post", (string)null);
                 });
@@ -167,7 +167,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("Domain.User", "User")
                         .WithOne("Avatar")
-                        .HasForeignKey("Domain.Avatar", "UserId")
+                        .HasForeignKey("Domain.Avatar", "AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -184,7 +184,7 @@ namespace DAL.Migrations
 
                     b.HasOne("Domain.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -197,7 +197,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("Domain.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

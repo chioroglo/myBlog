@@ -28,7 +28,7 @@ namespace webApi.Controllers
             return posts.ToList();
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{postId:int}")]
         public async Task<ActionResult<PostModel>> Get(int id)
         {
             PostModel post = await _postsService.GetById(id);
@@ -61,13 +61,13 @@ namespace webApi.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdatePost(int id,PostDto post)
+        [HttpPut("{postId:int}")]
+        public async Task<IActionResult> UpdatePost(int postId,PostDto post)
         {
 
             PostModel updateRequest = _mapper.Map<PostModel>(post);
 
-            updateRequest.Id = id;
+            updateRequest.Id = postId;
             updateRequest.AuthorId = GetCurrentUserId();
 
             bool updateIsSuccessfull = false; 
@@ -77,9 +77,9 @@ namespace webApi.Controllers
             }
             catch (DbUpdateConcurrencyException e)
             {
-                if (PostDoesNotExist(id))
+                if (PostDoesNotExist(postId))
                 {
-                    return NotFound($"Post [POST ID: {id}] does not exist");
+                    return NotFound($"Post [POST ID: {postId}] does not exist");
                 }
                 else
                 {
@@ -87,34 +87,34 @@ namespace webApi.Controllers
                 }
             }
 
-            var updatedPost = await _postsService.GetById(id);
+            var updatedPost = await _postsService.GetById(postId);
 
             return updateIsSuccessfull ? Ok(updatedPost) : BadRequest();
         }
 
-        [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpDelete("{postId:int}")]
+        public async Task<ActionResult> Delete(int postId)
         {
             try
             {
-                var post = await _postsService.GetById(id);
+                var post = await _postsService.GetById(postId);
                 var currentUserId = GetCurrentUserId();
 
                 if (post.AuthorId == currentUserId)
                 {
-                    await _postsService.Remove(id);
-                    return Ok($"successfully deleted post {id}");
+                    await _postsService.Remove(postId);
+                    return Ok($"successfully deleted post {postId}");
                 }
                 else
                 {
-                    return BadRequest($"This post[POST ID: {id}] belongs to [USER ID:{post.AuthorId}]. Request came from [USER ID:{currentUserId}]");
+                    return BadRequest($"This post[POST ID: {postId}] belongs to [USER ID:{post.AuthorId}]. Request came from [USER ID:{currentUserId}]");
                 }
             }
             catch(NullReferenceException e)
             {
-                if (PostDoesNotExist(id))
+                if (PostDoesNotExist(postId))
                 {
-                    return BadRequest($"Post [POST ID : {id}] does not exist");
+                    return BadRequest($"Post [POST ID : {postId}] does not exist");
                 }
 
                 return BadRequest(e.Message);
@@ -126,9 +126,9 @@ namespace webApi.Controllers
         }
 
         [NonAction]
-        private bool PostDoesNotExist(int id)
+        private bool PostDoesNotExist(int postId)
         {
-            return _postsService.GetById(id) != null;
+            return _postsService.GetById(postId) != null;
         }
     }
 }
