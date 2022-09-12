@@ -1,8 +1,7 @@
-﻿using AutoMapper;
-using DAL.Repositories.Abstract;
+﻿using DAL.Repositories.Abstract;
 using Domain;
+using Domain.Exceptions;
 using Service.Abstract;
-using Service.Exceptions;
 
 namespace Service
 {

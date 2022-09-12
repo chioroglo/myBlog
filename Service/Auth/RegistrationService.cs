@@ -4,7 +4,7 @@ using Domain.Dto.Account;
 using Domain.Models;
 using Service.Abstract;
 using Service.Abstract.Auth;
-using Service.Exceptions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Service.Auth
 {

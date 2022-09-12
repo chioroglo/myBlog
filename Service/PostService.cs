@@ -1,7 +1,7 @@
 ﻿using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
-using Service.Exceptions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Service
 {
@@ -42,12 +42,9 @@ namespace Service
 
         public async Task<bool> Remove(int postId,int issuerId)
         {
+            
             var post = await _postRepository.GetByIdAsync(postId);
 
-            if (post == null)
-            {
-                throw new ValidationException($"Post of id {postId} does not exists");
-            }
             if (post.UserId != issuerId)
             {
                 throw new ValidationException("This post does not belong to authorized user");

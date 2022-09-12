@@ -1,4 +1,4 @@
-﻿namespace Service.Exceptions
+﻿namespace Domain.Exceptions
 {
     public class ValidationException : Exception
     {

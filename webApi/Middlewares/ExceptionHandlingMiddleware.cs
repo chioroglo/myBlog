@@ -1,5 +1,5 @@
 ﻿using API.Middlewares.Models;
-using Service.Exceptions;
+using Domain.Exceptions;
 using System.Net;
 using System.Security.Authentication;
 

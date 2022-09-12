@@ -1,4 +1,5 @@
 ﻿using Domain.Abstract;
+using Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -25,7 +26,14 @@ namespace DAL.Repositories.Abstract.Base
 
         public async Task<TEntity> GetByIdAsync(int id)
         {
-            return await _db.Set<TEntity>().FindAsync(id);
+            var entity = await _db.Set<TEntity>().FindAsync(id);
+
+            if (entity == null)
+            {
+                throw new ValidationException($"{typeof(TEntity)} of ID: {id} does not exist");
+            }
+
+            return entity;
         }
 
         public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)

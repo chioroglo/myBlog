@@ -1,7 +1,7 @@
 ﻿using DAL.Repositories.Abstract;
 using Domain;
+using Domain.Exceptions;
 using Service.Abstract;
-using Service.Exceptions;
 
 namespace Service
 {
@@ -19,7 +19,8 @@ namespace Service
 
         public async Task Add(Comment entity)
         {
-            var post = await _postRepository.GetByIdAsync(entity.PostId) ?? throw new ValidationException($"Post of ID {entity.PostId} does not exists");
+            // check if post exists
+            await _postRepository.GetByIdAsync(entity.PostId);
 
             await _commentRepository.AddAsync(entity);
             await _commentRepository.SaveChangesAsync();
@@ -43,7 +44,7 @@ namespace Service
 
         public async Task<bool> Remove(int id,int issuerId)
         {
-            var comment = await _commentRepository.GetByIdAsync(id) ?? throw new ValidationException("This comment does not exist");
+            var comment = await _commentRepository.GetByIdAsync(id);
 
             if (issuerId != comment.UserId)
             {
