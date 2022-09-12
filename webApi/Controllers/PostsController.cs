@@ -1,9 +1,9 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
+using Domain;
 using Domain.Dto.Post;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Service.Abstract;
 
 namespace webApi.Controllers
@@ -26,54 +26,47 @@ namespace webApi.Controllers
         {
             var posts = await _postsService.GetAll();
 
-            return posts.ToList();
+            
+            return posts.Select(e => _mapper.Map<PostModel>(e));
         }
 
         [HttpGet("{postId:int}")]
         public async Task<PostModel> Get(int postId)
         {
-            PostModel post = await _postsService.GetById(postId);
+            var post = await _postsService.GetById(postId);
 
-            return post;
+            return _mapper.Map<PostModel>(post);
         }
 
         [HttpPost]
         public async Task<PostModel> CreatePost(PostDto postContent)
         {
-            PostModel postRequest = _mapper.Map<PostModel>(postContent);
-            postRequest.AuthorId = GetCurrentUserId();
+            var request = _mapper.Map<Post>(postContent);
+            request.UserId = GetCurrentUserId();
 
-            await _postsService.Add(postRequest);
+            await _postsService.Add(request);
 
-            postRequest.RegistrationDate = DateTime.UtcNow;
-            return postRequest;
+            request.RegistrationDate = DateTime.UtcNow;
+            return _mapper.Map<PostModel>(request);
         }
 
         [HttpPut("{postId:int}")]
         public async Task<PostModel> UpdatePost(int postId,[FromBody] PostDto post)
         {
 
-            PostModel updateRequest = _mapper.Map<PostModel>(post);
+            var request = _mapper.Map<Post>(post);
+            request.Id = postId;
+            request.UserId = GetCurrentUserId();
 
-            updateRequest.Id = postId;
-            updateRequest.AuthorId = GetCurrentUserId();
-
-            await _postsService.Update(updateRequest);
+            await _postsService.Update(request);
 
             var updatedPost = await _postsService.GetById(postId);
-
-            return updatedPost;
+            return _mapper.Map<PostModel>(updatedPost);
         }
 
         [HttpDelete("{postId:int}")]
         public async Task<IActionResult> Delete(int postId)
         {
-            //      var post = await _postsService.GetById(postId);
-            //      var currentUserId = GetCurrentUserId();
-            //
-            //      if (post.AuthorId == currentUserId)
-            //          await _postsService.Remove(postId);
-
             await _postsService.Remove(postId, issuerId: GetCurrentUserId());
             return Ok();
         }

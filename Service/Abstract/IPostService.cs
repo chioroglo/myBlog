@@ -1,9 +1,8 @@
 ﻿using Domain;
-using Domain.Models;
 
 namespace Service.Abstract
 {
-    public interface IPostService : IBaseService<PostModel>
+    public interface IPostService : IBaseService<Post>
     {
 
     }

@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using DAL.Repositories.Abstract;
+﻿using DAL.Repositories.Abstract;
 using Domain;
-using Domain.Models;
 using Service.Abstract;
 using Service.Exceptions;
 
@@ -10,42 +8,36 @@ namespace Service
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
-        private readonly IMapper _mapper;
 
-        public PostService(IPostRepository postRepository,IMapper mapper)
+        public PostService(IPostRepository postRepository)
         {
             _postRepository = postRepository;
-            _mapper = mapper;
         }
 
-        public async Task Add(PostModel request)
+        public async Task Add(Post request)
         {
             if (await _postRepository.GetByTitle(request.Title) != null)
             {
                 throw new ValidationException("This title is occupied");
             }
 
-            var entity = _mapper.Map<Post>(request);
-
-            await _postRepository.AddAsync(entity);
+            
+            await _postRepository.AddAsync(request);
             await _postRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<PostModel>> GetAll()
+        public async Task<IEnumerable<Post>> GetAll()
         {
             var result = await _postRepository.GetAllAsync();
-
-            var mappedResult = result.Select(e => _mapper.Map<PostModel>(e));
             
-            return mappedResult;
+            return result;
         }
 
-        public async Task<PostModel> GetById(int id)
+        public async Task<Post> GetById(int id)
         {
             var result = await _postRepository.GetByIdAsync(id);
 
-            var mappedResult = _mapper.Map<PostModel>(result);
-            return mappedResult;
+            return result;
         }
 
         public async Task<bool> Remove(int postId,int issuerId)
@@ -67,7 +59,7 @@ namespace Service
             return true;
         }
 
-        public async Task<bool> Update(PostModel request)
+        public async Task<bool> Update(Post request)
         {
             int postId = request.Id;
 
@@ -77,7 +69,8 @@ namespace Service
             {
                 throw new ValidationException($"Post of postId {postId} was not found");
             }
-            if (request.AuthorId != post.UserId)
+
+            if (request.UserId != post.UserId)
             {
                 throw new ValidationException($"Authorized user has no priveleges to edit this post postID:{postId}");
             }

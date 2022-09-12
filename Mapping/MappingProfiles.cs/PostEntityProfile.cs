@@ -19,7 +19,7 @@ namespace Mapping.MappingProfiles.cs
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Content, opt => opt.MapFrom(src => src.Content));
 
-            CreateMap<PostDto, PostModel>()
+            CreateMap<PostDto, Post>()
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Content, opt => opt.MapFrom(src => src.Content));
         }
