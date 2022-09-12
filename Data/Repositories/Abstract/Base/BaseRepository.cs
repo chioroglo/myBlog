@@ -30,7 +30,7 @@ namespace DAL.Repositories.Abstract.Base
 
             if (entity == null)
             {
-                throw new ValidationException($"{typeof(TEntity)} of ID: {id} does not exist");
+                throw new ValidationException($"{typeof(TEntity).Name} of ID: {id} does not exist");
             }
 
             return entity;
