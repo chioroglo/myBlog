@@ -50,7 +50,6 @@ namespace webApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseExceptionHandling();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -63,6 +62,7 @@ namespace webApi
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseDatabaseTransactions();
 
             app.UseEndpoints(endpoints =>
             {

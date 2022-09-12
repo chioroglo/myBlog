@@ -10,10 +10,9 @@
             });
         }
 
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
-                CreateHostBuilder().Build().Run();
-
+            await CreateHostBuilder().Build().RunAsync();
             return 0;
         }
     }
