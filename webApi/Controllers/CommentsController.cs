@@ -58,6 +58,8 @@ namespace API.Controllers
 
             await _commentsService.Add(commentEntity);
 
+            commentEntity.RegistrationDate = DateTime.UtcNow;
+
             return _mapper.Map<CommentModel>(commentEntity);
         }
 
