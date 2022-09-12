@@ -55,6 +55,7 @@ namespace API.Controllers
             var commentEntity = _mapper.Map<Comment>(request);
 
             commentEntity.UserId = GetCurrentUserId();
+
             await _commentsService.Add(commentEntity);
 
             return _mapper.Map<CommentModel>(commentEntity);

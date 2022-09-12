@@ -6,7 +6,7 @@ namespace DAL.Repositories.Abstract.Base
 {
     public abstract class BaseRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly BlogDbContext _db;
+        protected readonly BlogDbContext _db;
 
         protected BaseRepository(BlogDbContext db)
         {
@@ -51,6 +51,25 @@ namespace DAL.Repositories.Abstract.Base
         public async Task SaveChangesAsync()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<TEntity> GetByIdWithIncludeAsync(int id, params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            var query = IncludeProperties(includeProperties);
+
+            return await query.FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        private IQueryable<TEntity> IncludeProperties(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            IQueryable<TEntity> entities = _db.Set<TEntity>();
+            
+            foreach(var includeProperty in includeProperties)
+            {
+                entities = entities.Include(includeProperty);
+            }
+
+            return entities;
         }
     }
 }

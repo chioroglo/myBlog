@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using DAL.Repositories.Abstract;
+﻿using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
 using Service.Exceptions;
@@ -10,14 +9,12 @@ namespace Service
     {
         private ICommentRepository _commentRepository;
         private IPostRepository _postRepository;
-        private IMapper _mapper;
 
 
-        public CommentService(ICommentRepository commentRepository,IPostRepository postRepository, IMapper mapper)
+        public CommentService(ICommentRepository commentRepository,IPostRepository postRepository)
         {
             _postRepository = postRepository;
             _commentRepository = commentRepository;
-            _mapper = mapper;
         }
 
         public async Task Add(Comment entity)
@@ -35,12 +32,12 @@ namespace Service
 
         public async Task<Comment> GetById(int id)
         {
-            return await _commentRepository.GetByIdAsync(id);
+            return await _commentRepository.GetByIdWithIncludeAsync(id, e => e.User);
         }
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostId(int postId)
         {
-            IEnumerable<Comment> comments = await _commentRepository.GetWhereAsync(e => e.PostId == postId);
+            IEnumerable<Comment> comments = await _commentRepository.GetByPostIdIncludeUserAsync(postId);
             return comments;
         }
 

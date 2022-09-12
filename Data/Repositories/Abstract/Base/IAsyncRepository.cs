@@ -16,6 +16,8 @@ namespace DAL.Repositories.Abstract.Base
 
         Task<IEnumerable<T>> GetWhereAsync(Expression<Func<T, bool>> predicate);
 
+        Task<T> GetByIdWithIncludeAsync(int id, params Expression<Func<T, object>>[] includeProperties);
+
         Task UpdateAsync(T entity);
 
         Task<bool> RemoveAsync(int id);

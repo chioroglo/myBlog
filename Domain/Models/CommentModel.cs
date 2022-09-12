@@ -8,6 +8,9 @@ namespace Domain.Models
 
         public int AuthorId { get; set; }
 
+        public string AuthorUsername { get; set; }
+        
         public string Content { get; set; }
+
     }
 }

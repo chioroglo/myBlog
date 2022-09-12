@@ -5,6 +5,6 @@ namespace DAL.Repositories.Abstract
 {
     public interface ICommentRepository : IAsyncRepository<Comment>
     {
-
+        Task<IEnumerable<Comment>> GetByPostIdIncludeUserAsync(int postId);
     }
 }
