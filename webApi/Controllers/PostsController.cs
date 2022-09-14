@@ -3,6 +3,7 @@ using AutoMapper;
 using Domain;
 using Domain.Dto.Post;
 using Domain.Models;
+using Domain.Models.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
@@ -69,6 +70,20 @@ namespace webApi.Controllers
         {
             await _postsService.Remove(postId, issuerId: GetCurrentUserId());
             return Ok();
+        }
+
+        [HttpPost("paginated-search")]
+        public async Task<PaginatedResult<PostModel>> GetPagedPosts(PagedRequest pagedRequest)
+        {
+            var response = await _postsService.GetPage(pagedRequest);
+
+            return new PaginatedResult<PostModel>()
+            {
+                PageIndex = response.PageIndex,
+                PageSize = response.PageSize,
+                Total = response.Total,
+                Items = response.Items.Select(e => _mapper.Map<PostModel>(e)).ToList()
+            };
         }
     }
 }

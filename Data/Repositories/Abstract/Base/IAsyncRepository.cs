@@ -1,25 +1,28 @@
 ﻿using Domain.Abstract;
+using Domain.Models.Pagination;
 using System.Linq.Expressions;
 
 namespace DAL.Repositories.Abstract.Base
 {
-    public interface IAsyncRepository<T> where T : BaseEntity
+    public interface IAsyncRepository<TEntity> where TEntity : BaseEntity
     {
         Task SaveChangesAsync();
         // crud repo interface
 
-        Task AddAsync(T entity);
+        Task AddAsync(TEntity entity);
 
-        Task<T> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync(int id);
 
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<IEnumerable<T>> GetWhereAsync(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task<T> GetByIdWithIncludeAsync(int id, params Expression<Func<T, object>>[] includeProperties);
+        Task<TEntity> GetByIdWithIncludeAsync(int id, params Expression<Func<TEntity, object>>[] includeProperties);
 
-        Task UpdateAsync(T entity);
+        Task UpdateAsync(TEntity entity);
 
         Task<bool> RemoveAsync(int id);
+
+        Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest);
     }
 }

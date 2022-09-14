@@ -8,6 +8,7 @@ namespace DAL.Repositories
     {
         public PostRepository(BlogDbContext db) : base(db)
         {
+
         }
 
         public async Task<Post> GetByTitle(string title)

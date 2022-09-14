@@ -1,5 +1,6 @@
 ﻿using DAL.Repositories.Abstract;
 using Domain;
+using Domain.Models.Pagination;
 using Service.Abstract;
 using System.ComponentModel.DataAnnotations;
 
@@ -38,6 +39,13 @@ namespace Service
             var result = await _postRepository.GetByIdAsync(id);
 
             return result;
+        }
+
+        public async Task<PaginatedResult<Post>> GetPage(PagedRequest query)
+        {
+            var pagedPosts = await _postRepository.GetPagedData(query);
+
+            return pagedPosts;
         }
 
         public async Task<bool> Remove(int postId,int issuerId)

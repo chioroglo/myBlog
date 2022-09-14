@@ -1,5 +1,7 @@
 ﻿using Domain.Abstract;
 using Domain.Exceptions;
+using Domain.Extensions;
+using Domain.Models.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -78,6 +80,11 @@ namespace DAL.Repositories.Abstract.Base
             }
 
             return entities;
+        }
+
+        public async Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest)
+        {
+            return await _db.Set<TEntity>().CreatePaginatedResultAsync(pagedRequest);
         }
     }
 }
