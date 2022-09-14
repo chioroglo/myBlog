@@ -13,13 +13,13 @@ namespace DAL.Configurations
         {
             builder.ToTable(nameof(User));
 
+            // todo perenesti tochki na new stroku
+            builder.Property(e => e.Username)
+                .IsRequired()
+                .HasMaxLength(USER_USERNAME_MAX_LENGTH);
 
-            builder.Property(e => e.Username).
-                IsRequired().
-                HasMaxLength(USER_USERNAME_MAX_LENGTH);
-
-            builder.HasIndex(e => new { e.Id, e.Username }).
-                IsUnique();
+            builder.HasIndex(e => new { e.Id, e.Username })
+                .IsUnique();
 
             builder.Property(e => e.FirstName)
                 .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH)
@@ -29,10 +29,12 @@ namespace DAL.Configurations
                 .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH)
                 .IsRequired(false);
 
-            builder.Property(e => e.Password).IsRequired();
+            builder.Property(e => e.Password)
+                .IsRequired();
 
-            builder.Property(e => e.LastActivity).
-                HasDefaultValueSql("GETUTCDATE()").IsRequired();
+            builder.Property(e => e.LastActivity)
+                .HasDefaultValueSql("GETUTCDATE()")
+                .IsRequired();
         }
     }
 }

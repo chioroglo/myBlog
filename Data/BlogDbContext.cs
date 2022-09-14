@@ -1,6 +1,7 @@
 ﻿using DAL.Configurations;
 using Domain;
 using Microsoft.EntityFrameworkCore;
+
 namespace DAL
 {
     public partial class BlogDbContext : DbContext
@@ -31,6 +32,7 @@ namespace DAL
             var assembly = typeof(ConfigurationsAssemblyMarker).Assembly;
 
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
+
         }
     }
 }
