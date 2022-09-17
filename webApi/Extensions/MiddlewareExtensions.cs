@@ -2,7 +2,7 @@
 
 namespace API.Extensions
 {
-    public static class MiddlewaresInitializer
+    public static class MiddlewareExtensions
     {
         public static IApplicationBuilder UseExceptionHandling(this IApplicationBuilder app) => app.UseMiddleware<ExceptionHandlingMiddleware>();
 

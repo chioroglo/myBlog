@@ -11,16 +11,6 @@ namespace DAL.Configurations
         public override void ConfigureNonPkProperties(EntityTypeBuilder<Comment> builder)
         {
             builder.ToTable(nameof(Comment));
-            // todo udalit noaction
-            builder.HasOne(e => e.User)
-                .WithMany(e => e.Comments)
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasOne(e => e.Post)
-                .WithMany(e => e.Comments)
-                .HasForeignKey(e => e.PostId)
-                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Property(e => e.Content)
                 .HasMaxLength(COMMENT_MAX_LENGTH)

@@ -10,7 +10,7 @@ namespace DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -24,32 +24,32 @@ namespace DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Image",
+                name: "Avatar",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    Avatar = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Avatar", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Avatar_Users_UserId",
+                        name: "FK_Avatar_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
+                name: "Post",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -61,17 +61,17 @@ namespace DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.PrimaryKey("PK_Post", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_Users_UserId",
+                        name: "FK_Post_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
+                name: "Comment",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -83,44 +83,44 @@ namespace DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.PrimaryKey("PK_Comment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Posts_PostId",
+                        name: "FK_Comment_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_Users_UserId",
+                        name: "FK_Comment_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Avatar_UserId",
-                table: "Image",
-                column: "AuthorId",
+                table: "Avatar",
+                column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_PostId",
-                table: "Comments",
+                name: "IX_Comment_PostId",
+                table: "Comment",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_UserId",
-                table: "Comments",
-                column: "AuthorId");
+                name: "IX_Comment_UserId",
+                table: "Comment",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
-                table: "Posts",
-                column: "AuthorId");
+                name: "IX_Post_UserId",
+                table: "Post",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Id_Username",
-                table: "Users",
+                name: "IX_User_Id_Username",
+                table: "User",
                 columns: new[] { "Id", "Username" },
                 unique: true);
         }
@@ -128,16 +128,16 @@ namespace DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Image");
+                name: "Avatar");
 
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "Comment");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "Post");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
         }
     }
 }

@@ -11,8 +11,8 @@ namespace DAL.Configurations
         {
             builder.ToTable(nameof(Avatar));
 
-            builder.HasOne(e => e.User)
-                .WithOne(e => e.Avatar);
+            builder.Property(e => e.Url)
+                .IsRequired();
         }
     }
 }

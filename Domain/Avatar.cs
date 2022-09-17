@@ -8,6 +8,6 @@ namespace Domain
 
         public User User { get; set; }
 
-        public byte[] Image { get; set; }
+        public string Url { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -30,21 +30,21 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<byte[]>("Image")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<DateTime>("RegistrationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("AuthorId")
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Avatar", (string)null);
@@ -71,14 +71,14 @@ namespace DAL.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comment", (string)null);
                 });
@@ -106,12 +106,12 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Post", (string)null);
                 });
@@ -125,7 +125,6 @@ namespace DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -135,7 +134,6 @@ namespace DAL.Migrations
                         .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -165,7 +163,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("Domain.User", "User")
                         .WithOne("Avatar")
-                        .HasForeignKey("Domain.Avatar", "AuthorId")
+                        .HasForeignKey("Domain.Avatar", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -182,7 +180,7 @@ namespace DAL.Migrations
 
                     b.HasOne("Domain.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -195,7 +193,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("Domain.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

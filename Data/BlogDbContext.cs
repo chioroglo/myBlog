@@ -13,7 +13,7 @@ namespace DAL
 
         public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
+
         }
 
 

@@ -11,8 +11,8 @@ namespace DAL.Configurations.Abstract
         private void ConfigurePkAndRegistrationDate(EntityTypeBuilder<TEntity> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.RegistrationDate).
-                HasDefaultValueSql("GETUTCDATE()")
+            builder.Property(e => e.RegistrationDate)
+                .HasDefaultValueSql("GETUTCDATE()")
                 .IsRequired();
         }
 

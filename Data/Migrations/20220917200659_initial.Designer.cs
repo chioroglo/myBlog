@@ -12,19 +12,19 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20220908132813_initial")]
+    [Migration("20220917200659_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Entities.Avatar", b =>
+            modelBuilder.Entity("Domain.Avatar", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,27 +32,27 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<byte[]>("Image")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<DateTime>("RegistrationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("AuthorId")
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Image");
+                    b.ToTable("Avatar", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Comment", b =>
+            modelBuilder.Entity("Domain.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,19 +73,19 @@ namespace DAL.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Post", b =>
+            modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -108,17 +108,17 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Post", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.User", b =>
+            modelBuilder.Entity("Domain.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -158,31 +158,31 @@ namespace DAL.Migrations
                     b.HasIndex("Id", "Username")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Avatar", b =>
+            modelBuilder.Entity("Domain.Avatar", b =>
                 {
-                    b.HasOne("Entities.User", "User")
-                        .WithOne("Image")
-                        .HasForeignKey("Entities.Avatar", "AuthorId")
+                    b.HasOne("Domain.User", "User")
+                        .WithOne("Avatar")
+                        .HasForeignKey("Domain.Avatar", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Comment", b =>
+            modelBuilder.Entity("Domain.Comment", b =>
                 {
-                    b.HasOne("Entities.Post", "Post")
+                    b.HasOne("Domain.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Domain.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -191,25 +191,25 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Post", b =>
+            modelBuilder.Entity("Domain.Post", b =>
                 {
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Domain.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Post", b =>
+            modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("Entities.User", b =>
+            modelBuilder.Entity("Domain.User", b =>
                 {
-                    b.Navigation("Image")
+                    b.Navigation("Avatar")
                         .IsRequired();
 
                     b.Navigation("Comments");

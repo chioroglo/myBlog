@@ -13,7 +13,7 @@ namespace DAL.Configurations
         {
             builder.ToTable(nameof(User));
 
-            // todo perenesti tochki na new stroku
+
             builder.Property(e => e.Username)
                 .IsRequired()
                 .HasMaxLength(USER_USERNAME_MAX_LENGTH);
@@ -22,12 +22,10 @@ namespace DAL.Configurations
                 .IsUnique();
 
             builder.Property(e => e.FirstName)
-                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH)
-                .IsRequired(false);
+                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH);
 
             builder.Property(e => e.LastName)
-                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH)
-                .IsRequired(false);
+                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH);
 
             builder.Property(e => e.Password)
                 .IsRequired();
@@ -35,6 +33,16 @@ namespace DAL.Configurations
             builder.Property(e => e.LastActivity)
                 .HasDefaultValueSql("GETUTCDATE()")
                 .IsRequired();
+
+            builder.HasMany(e => e.Posts)
+                .WithOne(e => e.User);
+
+            builder.HasMany(e => e.Comments)
+                .WithOne(e => e.User)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(e => e.Avatar)
+                .WithOne(e => e.User);
         }
     }
 }

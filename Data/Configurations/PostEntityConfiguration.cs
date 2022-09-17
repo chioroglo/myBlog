@@ -13,15 +13,6 @@ namespace DAL.Configurations
 
             builder.ToTable(nameof(Post));
 
-            builder.HasMany(e => e.Comments)
-                .WithOne(e => e.Post)
-                .HasForeignKey(e => e.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(e => e.User)
-                .WithMany(e => e.Posts)
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.Property(e => e.Content)
                 .HasMaxLength(POST_MAX_LENGTH)
                 .IsRequired();
@@ -29,6 +20,8 @@ namespace DAL.Configurations
             builder.Property(e => e.Title)
                 .HasMaxLength(POST_TITLE_MAX_LENGTH)
                 .IsRequired();
+
+            builder.HasMany(e => e.Comments).WithOne(e => e.Post);
         }
     }
 }

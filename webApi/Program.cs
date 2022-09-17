@@ -1,4 +1,6 @@
-﻿namespace webApi
+﻿using API.Extensions;
+
+namespace webApi
 {
     public static class Program
     {
@@ -12,7 +14,9 @@
 
         public static async Task<int> Main(string[] args)
         {
-            await CreateHostBuilder().Build().RunAsync();
+            var host = CreateHostBuilder().Build();
+            await HostExtensions.SeedData(host);
+            await host.RunAsync();
             return 0;
         }
     }
