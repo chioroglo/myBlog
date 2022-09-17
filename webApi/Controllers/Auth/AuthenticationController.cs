@@ -3,9 +3,8 @@ using Domain.Dto.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract.Auth;
-using System.Security.Authentication;
 
-namespace webApi.Controllers
+namespace API.Controllers.Auth
 {
     [Route("api/login")]
     public class AuthenticationController : AppBaseController
@@ -13,7 +12,7 @@ namespace webApi.Controllers
         private readonly IAuthenticationService _authenticationService;
         private readonly ITokenService _tokenService;
 
-        public AuthenticationController(IAuthenticationService authenticationService,ITokenService tokenService)
+        public AuthenticationController(IAuthenticationService authenticationService, ITokenService tokenService)
         {
             _tokenService = tokenService;
             _authenticationService = authenticationService;

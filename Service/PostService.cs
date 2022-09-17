@@ -41,13 +41,6 @@ namespace Service
             return result;
         }
 
-        public async Task<PaginatedResult<Post>> GetPage(PagedRequest query)
-        {
-            var pagedPosts = await _postRepository.GetPagedData(query);
-
-            return pagedPosts;
-        }
-
         public async Task<bool> Remove(int postId,int issuerId)
         {
             
@@ -87,6 +80,13 @@ namespace Service
             await _postRepository.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<PaginatedResult<Post>> GetPage(PagedRequest query)
+        {
+            var pagedPosts = await _postRepository.GetPagedData(query);
+
+            return pagedPosts;
         }
     }
 }

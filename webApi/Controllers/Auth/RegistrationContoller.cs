@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract.Auth;
 
-namespace API.Controllers
+namespace API.Controllers.Auth
 {
     [Route("api/register")]
     public class RegistrationController : AppBaseController

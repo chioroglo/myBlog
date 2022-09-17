@@ -52,6 +52,7 @@ namespace Domain.Extensions
                 query = query.Where(predicate.ToString(), propertyValues);
             }
 
+            Console.WriteLine(predicate.ToString());
             return query;
         }
 

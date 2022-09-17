@@ -1,6 +1,7 @@
 ﻿using DAL.Repositories.Abstract;
 using Domain;
 using Domain.Exceptions;
+using Domain.Models.Pagination;
 using Service.Abstract;
 
 namespace Service
@@ -57,6 +58,13 @@ namespace Service
 
             return usernameFound.FirstOrDefault();
 
+        }
+
+        public Task<PaginatedResult<User>> GetPage(PagedRequest query)
+        {
+            var pagedUsers = _userRepository.GetPagedData(query);
+            
+            return pagedUsers;
         }
     }
 }

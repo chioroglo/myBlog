@@ -1,15 +1,19 @@
-﻿namespace Service.Abstract
+﻿using Domain.Models.Pagination;
+
+namespace Service.Abstract
 {
-    public interface IBaseService<TEntity>
+    public interface IBaseService<TEntity> where TEntity: class
     {
-        public Task Add(TEntity entity);
+        Task Add(TEntity entity);
 
-        public Task<IEnumerable<TEntity>> GetAll();
+        Task<IEnumerable<TEntity>> GetAll();
 
-        public Task<TEntity> GetById(int id);
+        Task<TEntity> GetById(int id);
         
-        public Task<bool> Remove(int id,int issuerId);
+        Task<bool> Remove(int id,int issuerId);
         
-        public Task<bool> Update(TEntity entity);
+        Task<bool> Update(TEntity entity);
+
+        Task<PaginatedResult<TEntity>> GetPage(PagedRequest query);
     }
 }

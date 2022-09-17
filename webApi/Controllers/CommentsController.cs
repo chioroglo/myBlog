@@ -3,6 +3,7 @@ using AutoMapper;
 using Domain;
 using Domain.Dto.Comment;
 using Domain.Models;
+using Domain.Models.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
@@ -85,6 +86,21 @@ namespace API.Controllers
             var currentUserId = GetCurrentUserId();
 
             await _commentsService.Remove(commentId,issuerId: currentUserId);
+        }
+
+        [HttpPost("paginated-search")]
+        public async Task<PaginatedResult<CommentModel>> GetPage(PagedRequest query)
+        {
+            var response = await _commentsService.GetPage(query);
+
+            return new PaginatedResult<CommentModel>()
+            {
+                PageIndex = response.PageIndex,
+                PageSize = response.PageSize,
+                Total = response.Total,
+                Items = response.Items.Select(e => _mapper.Map<CommentModel>(e)).ToList()
+            };
+            
         }
     }
 }

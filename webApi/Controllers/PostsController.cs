@@ -21,9 +21,8 @@ namespace webApi.Controllers
             _mapper = mapper;
         }
 
-
         [HttpGet]
-        public async Task<IEnumerable<PostModel>> Get()
+        public async Task<IEnumerable<PostModel>> GetAll()
         {
             var posts = await _postsService.GetAll();
 

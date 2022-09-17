@@ -1,6 +1,7 @@
 ﻿using DAL.Repositories.Abstract;
 using Domain;
 using Domain.Exceptions;
+using Domain.Models.Pagination;
 using Service.Abstract;
 
 namespace Service
@@ -42,6 +43,7 @@ namespace Service
             return comments;
         }
 
+
         public async Task<bool> Remove(int id,int issuerId)
         {
             var comment = await _commentRepository.GetByIdAsync(id);
@@ -71,6 +73,13 @@ namespace Service
             await _commentRepository.UpdateAsync(comment);
             await _commentRepository.SaveChangesAsync();
             return true;
+        }
+        
+        public async Task<PaginatedResult<Comment>> GetPage(PagedRequest query)
+        {
+            var pagedComments = await _commentRepository.GetPagedData(query);
+
+            return pagedComments;
         }
     }
 }
