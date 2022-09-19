@@ -55,6 +55,8 @@ namespace DAL.Repositories.Abstract.Base
 
         public async Task UpdateAsync(TEntity entity)
         {
+
+            // refactor this method
             _db.Update(entity);
         }
 
@@ -65,9 +67,14 @@ namespace DAL.Repositories.Abstract.Base
 
         public async Task<TEntity> GetByIdWithIncludeAsync(int id, params Expression<Func<TEntity, object>>[] includeProperties)
         {
+            // refactor this method, add exception
             var query = IncludeProperties(includeProperties);
 
             return await query.FirstOrDefaultAsync(e => e.Id == id);
+        }
+        public async Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest)
+        {
+            return await _db.Set<TEntity>().CreatePaginatedResultAsync(pagedRequest);
         }
 
         private IQueryable<TEntity> IncludeProperties(params Expression<Func<TEntity, object>>[] includeProperties)
@@ -82,9 +89,5 @@ namespace DAL.Repositories.Abstract.Base
             return entities;
         }
 
-        public async Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest)
-        {
-            return await _db.Set<TEntity>().CreatePaginatedResultAsync(pagedRequest);
-        }
     }
 }

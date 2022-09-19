@@ -5,7 +5,7 @@ namespace API.Extensions
 {
     public static class HostExtensions
     {
-        public static async Task SeedData(this IHost host)
+        public static async Task<IHost> SeedData(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
@@ -16,6 +16,8 @@ namespace API.Extensions
                     var context = services.GetRequiredService<BlogDbContext>();
 
                     await SeedFacade.SeedData(context);
+
+                    return host;
                 }
                 catch(Exception e)
                 {

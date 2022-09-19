@@ -1,4 +1,4 @@
-﻿namespace DAL.Configurations
+﻿namespace Domain.Validation
 {
     public static class EntityConfigurationConstants
     {

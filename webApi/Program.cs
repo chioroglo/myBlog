@@ -14,8 +14,7 @@ namespace webApi
 
         public static async Task<int> Main(string[] args)
         {
-            var host = CreateHostBuilder().Build();
-            await HostExtensions.SeedData(host);
+            var host = await CreateHostBuilder().Build().SeedData();
             await host.RunAsync();
             return 0;
         }

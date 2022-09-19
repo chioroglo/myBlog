@@ -15,6 +15,7 @@ namespace API.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IAvatarService, AvatarService>();
         }
     }
 }

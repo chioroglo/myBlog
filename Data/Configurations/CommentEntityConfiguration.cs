@@ -2,7 +2,7 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static DAL.Configurations.EntityConfigurationConstants;
+using static Domain.Validation.EntityConfigurationConstants;
 
 namespace DAL.Configurations
 {

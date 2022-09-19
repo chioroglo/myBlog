@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static DAL.Configurations.EntityConfigurationConstants;
+using static Domain.Validation.EntityConfigurationConstants;
 
 namespace Domain.Dto.Account
 {

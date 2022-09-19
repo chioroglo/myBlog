@@ -1,7 +1,5 @@
 ﻿using DAL.Repositories;
 using DAL.Repositories.Abstract;
-using Service.Abstract.Auth;
-using Service.Auth;
 
 namespace API.Extensions
 {
@@ -12,6 +10,7 @@ namespace API.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IAvatarRepository, AvatarRepository>();
         }
     }
 }
