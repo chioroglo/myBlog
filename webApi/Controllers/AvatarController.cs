@@ -5,7 +5,6 @@ using Service.Abstract;
 
 namespace API.Controllers
 {
-
     [Route("api/avatar")]
     public class AvatarController : AppBaseController
     {
@@ -20,8 +19,9 @@ namespace API.Controllers
         public async Task<FileContentResult> UploadAvatar([FromForm] AvatarDto request)
         {
             request.UserId = GetCurrentUserId();
+            var byteImage = await _avatarService.Add(request.Image, request.UserId);
 
-            return File(await _avatarService.Add(request.Image, request.UserId),contentType:"image/jpeg");
+            return File(byteImage,contentType:"image/jpeg");
         }
 
         [Route("{userId:int}")]
@@ -37,15 +37,15 @@ namespace API.Controllers
         public async Task<FileContentResult> UpdateAvatar([FromForm] AvatarDto request)
         {
             request.UserId = GetCurrentUserId();
+            var byteImage = await _avatarService.Update(request.Image, request.UserId);
 
-            return File(await _avatarService.Update(request.Image, request.UserId),"image/jpeg");
+            return File(byteImage,"image/jpeg");
         }
 
         [HttpDelete]
         public async Task RemoveAvatarOfCurrentUser()
         {
             await _avatarService.Remove(GetCurrentUserId());
-
         }
     }
 
