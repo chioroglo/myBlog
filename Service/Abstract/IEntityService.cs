@@ -2,6 +2,7 @@
 
 namespace Service.Abstract
 {
+    // todo remove bool from remove and update, adjust classes implementing this interface
     public interface IEntityService<TEntity> where TEntity: class
     {
         Task Add(TEntity entity);

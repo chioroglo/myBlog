@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20220920105244_add postreaction")]
-    partial class addpostreaction
+    [Migration("20220920132105_add reaction")]
+    partial class addreaction
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

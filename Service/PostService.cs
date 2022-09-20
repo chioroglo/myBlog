@@ -48,7 +48,7 @@ namespace Service
 
             if (post.UserId != issuerId)
             {
-                throw new ValidationException("This post does not belong to authorized user");
+                throw new ValidationException($"This {nameof(Post)} does not belong to authorized user");
             }
 
             await _postRepository.RemoveAsync(postId);

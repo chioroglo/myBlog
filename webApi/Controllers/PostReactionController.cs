@@ -7,6 +7,7 @@ using Service.Abstract;
 
 namespace API.Controllers
 {
+    [Route("api/reactions")]
     public class PostReactionController : AppBaseController
     {
         private readonly IPostReactionService _postReactionService;
@@ -62,7 +63,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{postId:int}")]
-        public async Task RemoveReactionFromPost(int postId)
+        public async Task RemoveReaction(int postId)
         {
             await _postReactionService.Remove(postId, GetCurrentUserId());
         }

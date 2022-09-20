@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class addpostreaction : Migration
+    public partial class addreaction : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
