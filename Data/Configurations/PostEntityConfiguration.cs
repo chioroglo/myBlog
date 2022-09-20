@@ -21,7 +21,11 @@ namespace DAL.Configurations
                 .HasMaxLength(POST_TITLE_MAX_LENGTH)
                 .IsRequired();
 
-            builder.HasMany(e => e.Comments).WithOne(e => e.Post);
+            builder.HasMany(e => e.Comments)
+                .WithOne(e => e.Post);
+
+            builder.HasMany(e => e.Reactions)
+                .WithOne(e => e.Post);
         }
     }
 }

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Service
 {
-    public class AvatarService : IAvatarService
+    public class AvatarService : IFileHandlingService
     {
         private readonly IAvatarRepository _avatarRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;

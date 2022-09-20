@@ -8,9 +8,9 @@ namespace API.Controllers
     [Route("api/avatar")]
     public class AvatarController : AppBaseController
     {
-        private readonly IAvatarService _avatarService;
+        private readonly IFileHandlingService _avatarService;
 
-        public AvatarController(IAvatarService avatarService)
+        public AvatarController(IFileHandlingService avatarService)
         {
             _avatarService = avatarService;
         }

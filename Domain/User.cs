@@ -19,5 +19,7 @@ namespace Domain
         public ICollection<Post> Posts { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
+
+        public ICollection<PostReaction> PostReactions { get; set; }
     }
 }

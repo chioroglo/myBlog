@@ -2,7 +2,7 @@
 
 namespace Service.Abstract
 {
-    public interface IAvatarService
+    public interface IFileHandlingService
     {
         Task<byte[]> GetByUserIdAsync(int userId);
 

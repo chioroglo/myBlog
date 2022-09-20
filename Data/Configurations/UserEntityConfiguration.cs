@@ -43,6 +43,10 @@ namespace DAL.Configurations
 
             builder.HasOne(e => e.Avatar)
                 .WithOne(e => e.User);
+
+            builder.HasMany(e => e.PostReactions)
+                .WithOne(e => e.User)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
