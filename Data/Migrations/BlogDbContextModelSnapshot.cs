@@ -140,7 +140,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
+                    b.HasAlternateKey("PostId", "UserId");
 
                     b.HasIndex("UserId");
 

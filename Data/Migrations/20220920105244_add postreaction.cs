@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class addedpostreactions : Migration
+    public partial class addpostreaction : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,6 +23,7 @@ namespace DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostReaction", x => x.Id);
+                    table.UniqueConstraint("AK_PostReaction_PostId_UserId", x => new { x.PostId, x.UserId });
                     table.ForeignKey(
                         name: "FK_PostReaction_Post_PostId",
                         column: x => x.PostId,
@@ -35,11 +36,6 @@ namespace DAL.Migrations
                         principalTable: "User",
                         principalColumn: "Id");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PostReaction_PostId",
-                table: "PostReaction",
-                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostReaction_UserId",

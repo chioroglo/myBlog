@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20220920095621_added postreactions")]
-    partial class addedpostreactions
+    [Migration("20220920105244_add postreaction")]
+    partial class addpostreaction
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -142,7 +142,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
+                    b.HasAlternateKey("PostId", "UserId");
 
                     b.HasIndex("UserId");
 

@@ -11,6 +11,8 @@ namespace DAL.Configurations
         {
             builder.ToTable(nameof(PostReaction));
 
+            builder.HasAlternateKey(e => new { e.PostId, e.UserId });
+
             builder.Property(e => e.ReactionType);
         }
     }
