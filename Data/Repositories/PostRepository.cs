@@ -1,6 +1,7 @@
 ﻿using DAL.Repositories.Abstract;
 using DAL.Repositories.Abstract.Base;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
@@ -11,11 +12,11 @@ namespace DAL.Repositories
 
         }
 
-        public async Task<Post> GetByTitle(string title)
+        public async Task<Post?> GetByTitleAsync(string title)
         {
-            var found = await GetWhereAsync(e => e.Title == title); 
+            var found = await _db.Posts.Where(e => e.Title == title).FirstOrDefaultAsync(); 
 
-            return found.FirstOrDefault();
+            return found;
         }
     }
 }

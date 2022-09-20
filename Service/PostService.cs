@@ -17,13 +17,13 @@ namespace Service
 
         public async Task Add(Post request)
         {
-            if (await _postRepository.GetByTitle(request.Title) != null)
+            if (await _postRepository.GetByTitleAsync(request.Title) != null)
             {
                 throw new ValidationException("This title is occupied");
             }
 
             
-            await _postRepository.AddAsync(request);
+            _postRepository.Add(request);
             await _postRepository.SaveChangesAsync();
         }
 
@@ -38,12 +38,16 @@ namespace Service
         {
             var result = await _postRepository.GetByIdAsync(id);
 
+            if (result == null)
+            {
+                throw new ValidationException($"{nameof(Post)} of ID: {id} does not exist");
+            }
+
             return result;
         }
 
         public async Task<bool> Remove(int postId,int issuerId)
         {
-            
             var post = await _postRepository.GetByIdAsync(postId);
 
             if (post.UserId != issuerId)
@@ -76,7 +80,7 @@ namespace Service
             post.Title = request.Title;
             post.Content = request.Content;
 
-            await _postRepository.UpdateAsync(post);
+            _postRepository.Update(post);
             await _postRepository.SaveChangesAsync();
 
             return true;

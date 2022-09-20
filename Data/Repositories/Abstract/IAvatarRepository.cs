@@ -3,8 +3,8 @@ using Domain;
 
 namespace DAL.Repositories.Abstract
 {
-    public interface IAvatarRepository : IAsyncRepository<Avatar>
+    public interface IAvatarRepository : IBaseRepository<Avatar>
     {
-        Task<Avatar> GetByUserId(int userId);
+        Task<Avatar?> GetByUserIdAsync(int userId);
     }
 }

@@ -17,7 +17,7 @@ namespace Service
 
         public async Task Add(User entity)
         {
-            await _userRepository.AddAsync(entity);
+            _userRepository.Add(entity);
             await _userRepository.SaveChangesAsync();
         }
 
@@ -28,14 +28,21 @@ namespace Service
 
         public async Task<User> GetById(int id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new ValidationException($"{nameof(User)} of ID: {id} does not exist");
+            }
+
+            return user;
         }
 
         public async Task<bool> Remove(int id, int issuerId)
         {
             if (id != issuerId)
             {
-                throw new ValidationException($"You cannot delete this account!");
+                throw new ValidationException($"{nameof(User)} of ID : {issuerId} cannot delete this account!");
             }
 
             await _userRepository.RemoveAsync(id);
@@ -46,13 +53,13 @@ namespace Service
 
         public async Task<bool> Update(User entity)
         {
-            await _userRepository.UpdateAsync(entity);            
+            _userRepository.Update(entity);            
             await _userRepository.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<User> GetByUsername(string username)
+        public async Task<User?> GetByUsername(string username)
         {
             var usernameFound = await _userRepository.GetWhereAsync(e => e.Username == username);
 

@@ -3,8 +3,8 @@ using Domain;
 
 namespace DAL.Repositories.Abstract
 {
-    public interface IPostRepository : IAsyncRepository<Post>
+    public interface IPostRepository : IBaseRepository<Post>
     {
-        Task<Post> GetByTitle(string title);
+        Task<Post?> GetByTitleAsync(string title);
     }
 }

@@ -3,7 +3,7 @@ using Domain;
 
 namespace DAL.Repositories.Abstract
 {
-    public interface ICommentRepository : IAsyncRepository<Comment>
+    public interface ICommentRepository : IBaseRepository<Comment>
     {
         Task<IEnumerable<Comment>> GetByPostIdIncludeUserAsync(int postId);
     }

@@ -3,7 +3,7 @@ using Domain;
 
 namespace DAL.Repositories.Abstract
 {
-    public interface IPostReactionRepository : IAsyncRepository<PostReaction>
+    public interface IPostReactionRepository : IBaseRepository<PostReaction>
     {
 
     }

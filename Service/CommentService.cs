@@ -20,10 +20,14 @@ namespace Service
 
         public async Task Add(Comment entity)
         {
-            // check if post exists
-            await _postRepository.GetByIdAsync(entity.PostId);
+            var post = _postRepository.GetByIdAsync(entity.PostId);
 
-            await _commentRepository.AddAsync(entity);
+            if (post == null)
+            {
+                throw new ValidationException($"{nameof(Post)} of ID: {entity.PostId} does not exist");
+            }
+
+            _commentRepository.Add(entity);
             await _commentRepository.SaveChangesAsync();
         }
 
@@ -32,14 +36,14 @@ namespace Service
             return await _commentRepository.GetAllAsync();
         }
 
-        public async Task<Comment> GetById(int id)
+        public async Task<Comment?> GetById(int id)
         {
             return await _commentRepository.GetByIdWithIncludeAsync(id, e => e.User);
         }
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostId(int postId)
         {
-            IEnumerable<Comment> comments = await _commentRepository.GetByPostIdIncludeUserAsync(postId);
+            var comments = await _commentRepository.GetByPostIdIncludeUserAsync(postId);
             return comments;
         }
 
@@ -47,10 +51,15 @@ namespace Service
         public async Task<bool> Remove(int id,int issuerId)
         {
             var comment = await _commentRepository.GetByIdAsync(id);
+            
+            if (comment == null)
+            {
+                throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
+            }
 
             if (issuerId != comment.UserId)
             {
-                throw new ValidationException("Authorized user has no access to this comment");
+                throw new ValidationException($"Authorized {nameof(User)} of ID: {issuerId} has no access to this comment");
             }
 
             await _commentRepository.RemoveAsync(id);
@@ -63,6 +72,11 @@ namespace Service
         {
             var comment = await _commentRepository.GetByIdAsync(entity.Id);
 
+            if (comment == null)
+            {
+                throw new ValidationException($"{nameof(Comment)} of ID: {entity.Id} does not exist");
+            }
+
             if (entity.UserId != comment.UserId)
             {
                 throw new ValidationException("Authorized user has no access to this comment");
@@ -70,7 +84,7 @@ namespace Service
 
             comment.Content = entity.Content;
 
-            await _commentRepository.UpdateAsync(comment);
+            _commentRepository.Update(comment);
             await _commentRepository.SaveChangesAsync();
             return true;
         }

@@ -7,18 +7,13 @@ using System.Linq.Expressions;
 
 namespace DAL.Repositories.Abstract.Base
 {
-    public abstract class BaseRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
         protected readonly BlogDbContext _db;
 
         protected BaseRepository(BlogDbContext db)
         {
             _db = db;
-        }
-
-        public async Task AddAsync(TEntity entity)
-        {
-            await _db.Set<TEntity>().AddAsync(entity);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -30,11 +25,6 @@ namespace DAL.Repositories.Abstract.Base
         {
             var entity = await _db.Set<TEntity>().FindAsync(id);
 
-            if (entity == null)
-            {
-                throw new ValidationException($"{typeof(TEntity).Name} of ID: {id} does not exist");
-            }
-
             return entity;
         }
 
@@ -43,21 +33,22 @@ namespace DAL.Repositories.Abstract.Base
             return await _db.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public async Task<bool> RemoveAsync(int id)
+        public async Task RemoveAsync(int id)
         {
             TEntity? entity = await GetByIdAsync(id);
-            
-            _db.Remove(entity);
 
-            return true;
+            if (entity == null)
+            {
+                throw new ValidationException($"{typeof(TEntity).Name} of ID: {id} does not exist");
+            }
+
+            _db.Remove(entity);
         }
 
 
-        public async Task UpdateAsync(TEntity entity)
+        public void Update(TEntity entity)
         {
-
-            // refactor this method
-            _db.Update(entity);
+            _db.Entry(entity).State = EntityState.Modified;
         }
 
         public async Task SaveChangesAsync()
@@ -67,7 +58,6 @@ namespace DAL.Repositories.Abstract.Base
 
         public async Task<TEntity> GetByIdWithIncludeAsync(int id, params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            // refactor this method, add exception
             var query = IncludeProperties(includeProperties);
 
             return await query.FirstOrDefaultAsync(e => e.Id == id);
@@ -75,6 +65,11 @@ namespace DAL.Repositories.Abstract.Base
         public async Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest)
         {
             return await _db.Set<TEntity>().CreatePaginatedResultAsync(pagedRequest);
+        }
+
+        public void Add(TEntity entity)
+        {
+            _db.Set<TEntity>().Add(entity);
         }
 
         private IQueryable<TEntity> IncludeProperties(params Expression<Func<TEntity, object>>[] includeProperties)

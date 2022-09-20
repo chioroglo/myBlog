@@ -9,7 +9,7 @@ namespace Service.Abstract
 
         Task<IEnumerable<TEntity>> GetAll();
 
-        Task<TEntity> GetById(int id);
+        Task<TEntity?> GetById(int id);
         
         Task<bool> Remove(int id,int issuerId);
         

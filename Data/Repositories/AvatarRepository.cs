@@ -1,7 +1,6 @@
 ﻿using DAL.Repositories.Abstract;
 using DAL.Repositories.Abstract.Base;
 using Domain;
-using Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
@@ -13,7 +12,7 @@ namespace DAL.Repositories
 
         }
 
-        public async Task<Avatar> GetByUserId(int userId)
+        public async Task<Avatar?> GetByUserIdAsync(int userId)
         {
             var avatarInfo =  await _db.Avatars.Where(a => a.UserId == userId).FirstOrDefaultAsync();
 

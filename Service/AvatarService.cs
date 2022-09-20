@@ -29,7 +29,7 @@ namespace Service
                 throw new ValidationException("Empty image introduced");
             }
                 
-            if (await _avatarRepository.GetByUserId(userId) != null)
+            if (await _avatarRepository.GetByUserIdAsync(userId) != null)
             {
                 throw new ValidationException("This user already has an avatar!");
             }
@@ -43,7 +43,7 @@ namespace Service
                 Url = filePath
             };
 
-            await _avatarRepository.AddAsync(entity);
+            _avatarRepository.Add(entity);
             await _avatarRepository.SaveChangesAsync();
 
             return await image.ToByteArrayAsync();
@@ -67,7 +67,7 @@ namespace Service
 
             return await RetrieveAvatarFromDiskAsync(path);
         }
-
+        
         private async Task<byte[]> RetrieveAvatarFromDiskAsync(string path)
         {
             byte[] byteImage;
@@ -91,9 +91,8 @@ namespace Service
             var path = avatarInfo.Url;
 
             RemoveAvatarOnDisk(path);
-            
-            await _avatarRepository.RemoveAsync(avatarInfo.Id);
 
+            await _avatarRepository.RemoveAsync(avatarInfo.Id);
             await _avatarRepository.SaveChangesAsync();
         }
 
@@ -105,13 +104,15 @@ namespace Service
             RemoveAvatarOnDisk(path);
             await image.CopyInfPathOnDiskAsync(path);
 
+            _avatarRepository.Update(avatarInfo);
             await _avatarRepository.SaveChangesAsync();
+            
             return await image.ToByteArrayAsync();
         }
 
         private async Task<Avatar> GetAvatarInfoThrowValidationExceptionIfNotFound(int userId)
         {
-            var avatarInfo = await _avatarRepository.GetByUserId(userId);
+            var avatarInfo = await _avatarRepository.GetByUserIdAsync(userId);
 
             if (avatarInfo == null)
             {
@@ -128,6 +129,5 @@ namespace Service
 
             }
         }
-
     }
 }

@@ -22,13 +22,18 @@ namespace Service
             return await _postReactionRepository.GetAllAsync();
         }
 
-        public async Task<PostReaction> GetById(int id)
+        public async Task<PostReaction?> GetById(int id)
         {
             return await _postReactionRepository.GetByIdAsync(id);
         }
 
         public async Task<IEnumerable<PostReaction>> GetByPostId(int postId)
         {
+            if (await PostDoesNotExistAsync(postId))
+            {
+                throw new ValidationException($"{nameof(Post)} of ID: {postId} does not exist");
+            }
+
             return await _postReactionRepository.GetWhereAsync(p => p.PostId == postId);
         }
 
@@ -49,13 +54,18 @@ namespace Service
                 throw new ValidationException($"{nameof(Post)}ID: {entity.PostId} already has found from {nameof(User)}ID: {entity.UserId}");
             }
 
-            await _postReactionRepository.AddAsync(entity);
+            _postReactionRepository.Add(entity);
             await _postReactionRepository.SaveChangesAsync();
         }
 
         public async Task<bool> Remove(int id, int issuerId)
         {
             var reaction = await _postReactionRepository.GetByIdAsync(id);
+
+            if (reaction == null)
+            {
+                throw new ValidationException($"Object ID : {id} of {nameof(PostReaction)} does not exist");
+            }
 
             if (reaction.UserId != issuerId)
             {
@@ -75,12 +85,12 @@ namespace Service
 
             if (post == null)
             {
-                throw new ValidationException($"{nameof(PostReaction)} of ID: {entity.PostId} does not exist");
+                throw new ValidationException($"{nameof(PostReaction)} of ID:{entity.Id} does not exist");
             }
 
             post.ReactionType = entity.ReactionType;
 
-            await _postReactionRepository.UpdateAsync(post);
+            _postReactionRepository.Update(post);
             await _postReactionRepository.SaveChangesAsync();
 
             return true;
