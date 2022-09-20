@@ -3,9 +3,9 @@ using Domain;
 using Domain.Dto.Post;
 using Domain.Models;
 
-namespace Mapping.MappingProfiles.cs
+namespace Mapping.MappingProfiles
 {
-    public  class PostEntityProfile : Profile
+    public class PostEntityProfile : Profile
     {
         public PostEntityProfile()
         {
@@ -14,7 +14,7 @@ namespace Mapping.MappingProfiles.cs
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Content, opt => opt.MapFrom(src => src.Content));
 
-            CreateMap<PostModel,Post>()
+            CreateMap<PostModel, Post>()
                 .ForMember(dst => dst.UserId, opt => opt.MapFrom(src => src.AuthorId))
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Content, opt => opt.MapFrom(src => src.Content));

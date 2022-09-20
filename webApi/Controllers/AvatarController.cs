@@ -1,4 +1,5 @@
 ﻿using API.Controllers.Base;
+using AutoMapper;
 using Domain.Dto.Avatar;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
@@ -9,6 +10,7 @@ namespace API.Controllers
     public class AvatarController : AppBaseController
     {
         private readonly IFileHandlingService _avatarService;
+        private readonly IMapper _mapper;
 
         public AvatarController(IFileHandlingService avatarService)
         {

@@ -2,7 +2,7 @@
 
 namespace Service.Abstract
 {
-    public interface IBaseService<TEntity> where TEntity: class
+    public interface IEntityService<TEntity> where TEntity: class
     {
         Task Add(TEntity entity);
 

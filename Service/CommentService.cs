@@ -8,8 +8,8 @@ namespace Service
 {
     public class CommentService : ICommentService
     {
-        private ICommentRepository _commentRepository;
-        private IPostRepository _postRepository;
+        private readonly ICommentRepository _commentRepository;
+        private readonly IPostRepository _postRepository;
 
 
         public CommentService(ICommentRepository commentRepository,IPostRepository postRepository)

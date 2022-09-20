@@ -2,7 +2,7 @@
 
 namespace Service.Abstract
 {
-    public interface IPostService : IBaseService<Post>
+    public interface IPostService : IEntityService<Post>
     {
 
     }
