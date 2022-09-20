@@ -14,14 +14,21 @@ namespace DAL.DataSeed
                      Password = "qwerty",
                 };
 
-                var _naomi = new User()
+                var _vaflea = new User()
                 {
                     Username = "vaflea",
                     Password = "lovemama123"
                 };
 
+                var _admin = new User()
+                {
+                    Username = "Admin",
+                    Password = "admin"
+                };
+
                 dbContext.Add(_1937nkvd);
-                dbContext.Add(_naomi);
+                dbContext.Add(_vaflea);
+                dbContext.Add(_admin);
 
                 await dbContext.SaveChangesAsync();
             }
