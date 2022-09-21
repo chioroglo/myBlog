@@ -38,7 +38,7 @@ namespace Service
             return user;
         }
 
-        public async Task<bool> Remove(int id, int issuerId)
+        public async Task Remove(int id, int issuerId)
         {
             if (id != issuerId)
             {
@@ -47,16 +47,12 @@ namespace Service
 
             await _userRepository.RemoveAsync(id);
             await _userRepository.SaveChangesAsync();
-
-            return true;
         }
 
-        public async Task<bool> Update(User entity)
+        public async Task Update(User entity)
         {
             _userRepository.Update(entity);            
             await _userRepository.SaveChangesAsync();
-
-            return true;
         }
 
         public async Task<User?> GetByUsername(string username)

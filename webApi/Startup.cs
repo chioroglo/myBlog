@@ -52,7 +52,6 @@ namespace webApi
                 app.UseSwaggerUI();
             }
             app.UseExceptionHandling();
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
 

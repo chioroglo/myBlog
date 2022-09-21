@@ -36,9 +36,16 @@ namespace Service
             return await _commentRepository.GetAllAsync();
         }
 
-        public async Task<Comment?> GetById(int id)
+        public async Task<Comment> GetById(int id)
         {
-            return await _commentRepository.GetByIdWithIncludeAsync(id, e => e.User);
+            var comment =  await _commentRepository.GetByIdWithIncludeAsync(id, e => e.User);
+
+            if (comment == null)
+            {
+                throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
+            }
+
+            return comment;
         }
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostId(int postId)
@@ -48,7 +55,7 @@ namespace Service
         }
 
 
-        public async Task<bool> Remove(int id,int issuerId)
+        public async Task Remove(int id,int issuerId)
         {
             var comment = await _commentRepository.GetByIdAsync(id);
             
@@ -63,12 +70,10 @@ namespace Service
             }
 
             await _commentRepository.RemoveAsync(id);
-            await _commentRepository.SaveChangesAsync();
-            return true;
-            
+            await _commentRepository.SaveChangesAsync();           
         }
 
-        public async Task<bool> Update(Comment entity)
+        public async Task Update(Comment entity)
         {
             var comment = await _commentRepository.GetByIdAsync(entity.Id);
 
@@ -86,7 +91,6 @@ namespace Service
 
             _commentRepository.Update(comment);
             await _commentRepository.SaveChangesAsync();
-            return true;
         }
         
         public async Task<PaginatedResult<Comment>> GetPage(PagedRequest query)

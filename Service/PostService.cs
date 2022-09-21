@@ -22,7 +22,6 @@ namespace Service
                 throw new ValidationException("This title is occupied");
             }
 
-            
             _postRepository.Add(request);
             await _postRepository.SaveChangesAsync();
         }
@@ -46,9 +45,14 @@ namespace Service
             return result;
         }
 
-        public async Task<bool> Remove(int postId,int issuerId)
+        public async Task Remove(int postId,int issuerId)
         {
             var post = await _postRepository.GetByIdAsync(postId);
+
+            if (post == null)
+            {
+                throw new ValidationException($"{nameof(Post)} of ID: {postId} does not exist");
+            }
 
             if (post.UserId != issuerId)
             {
@@ -57,11 +61,9 @@ namespace Service
 
             await _postRepository.RemoveAsync(postId);
             await _postRepository.SaveChangesAsync();
-
-            return true;
         }
 
-        public async Task<bool> Update(Post request)
+        public async Task Update(Post request)
         {
             int postId = request.Id;
 
@@ -82,8 +84,6 @@ namespace Service
 
             _postRepository.Update(post);
             await _postRepository.SaveChangesAsync();
-
-            return true;
         }
 
         public async Task<PaginatedResult<Post>> GetPage(PagedRequest query)

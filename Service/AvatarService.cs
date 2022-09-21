@@ -49,17 +49,6 @@ namespace Service
             return await image.ToByteArrayAsync();
         }
 
-        private string ComposePathForNewAvatar(IFormFile image, int userId)
-        {
-            string directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, _uploadSubDirectoryInWwwRoot, nameof(Avatar));
-
-            string fileName = userId + Path.GetExtension(image.FileName);
-
-            string filePath = Path.Combine(directoryPath, fileName);
-
-            return filePath;
-        }
-
         public async Task<byte[]> GetByUserIdAsync(int userId)
         {
             var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFound(userId);
@@ -67,24 +56,8 @@ namespace Service
 
             return await RetrieveAvatarFromDiskAsync(path);
         }
+
         
-        private async Task<byte[]> RetrieveAvatarFromDiskAsync(string path)
-        {
-            byte[] byteImage;
-
-            using (var fileStream = new FileStream(path, FileMode.Open))
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await fileStream.CopyToAsync(memoryStream);
-
-                    byteImage = memoryStream.ToArray();
-
-                }
-            }
-            return byteImage;
-        }
-
         public async Task Remove(int issuerId)
         {
             var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFound(issuerId);
@@ -109,7 +82,35 @@ namespace Service
             
             return await image.ToByteArrayAsync();
         }
+        
+        private string ComposePathForNewAvatar(IFormFile image, int userId)
+        {
+            string directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, _uploadSubDirectoryInWwwRoot, nameof(Avatar));
 
+            string fileName = userId + Path.GetExtension(image.FileName);
+
+            string filePath = Path.Combine(directoryPath, fileName);
+
+            return filePath;
+        }
+
+        private async Task<byte[]> RetrieveAvatarFromDiskAsync(string path)
+        {
+            byte[] byteImage;
+
+            using (var fileStream = new FileStream(path, FileMode.Open))
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await fileStream.CopyToAsync(memoryStream);
+
+                    byteImage = memoryStream.ToArray();
+
+                }
+            }
+            return byteImage;
+        }
+        
         private async Task<Avatar> GetAvatarInfoThrowValidationExceptionIfNotFound(int userId)
         {
             var avatarInfo = await _avatarRepository.GetByUserIdAsync(userId);

@@ -22,9 +22,16 @@ namespace Service
             return await _postReactionRepository.GetAllAsync();
         }
 
-        public async Task<PostReaction?> GetById(int id)
+        public async Task<PostReaction> GetById(int id)
         {
-            return await _postReactionRepository.GetByIdAsync(id);
+            var reaction = await _postReactionRepository.GetByIdAsync(id);
+
+            if (reaction == null)
+            {
+                throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
+            }
+
+            return reaction;
         }
 
         public async Task<IEnumerable<PostReaction>> GetByPostId(int postId)
@@ -58,7 +65,7 @@ namespace Service
             await _postReactionRepository.SaveChangesAsync();
         }
 
-        public async Task<bool> Remove(int id, int issuerId)
+        public async Task Remove(int id, int issuerId)
         {
             var reaction = await _postReactionRepository.GetByIdAsync(id);
 
@@ -74,10 +81,9 @@ namespace Service
 
             await _postReactionRepository.RemoveAsync(id);
             await _postReactionRepository.SaveChangesAsync();
-            return true;
         }
 
-        public async Task<bool> Update(PostReaction entity)
+        public async Task Update(PostReaction entity)
         {
             var found = await _postReactionRepository.GetWhereAsync(r => r.PostId == entity.PostId && r.UserId == entity.UserId);
 
@@ -92,8 +98,6 @@ namespace Service
 
             _postReactionRepository.Update(post);
             await _postReactionRepository.SaveChangesAsync();
-
-            return true;
         }
 
         private async Task<bool> ExistsSuchReactionAsync(int postId, int userId)
@@ -105,9 +109,9 @@ namespace Service
 
         private async Task<bool> PostDoesNotExistAsync(int postId)
         {
-            var searchRequestForPost = await _postRepository.GetWhereAsync(e => e.Id == postId);
+            var searchRequestForPost = await _postRepository.GetByIdAsync(postId);
 
-            return !searchRequestForPost.Any();
+            return searchRequestForPost == null;
         }
     }
 }
