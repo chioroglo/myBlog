@@ -8,8 +8,8 @@ namespace Service.Abstract
 
         Task<byte[]> Add(IFormFile file, int userId);
 
-        Task Remove(int issuerId);
+        Task RemoveAsync(int issuerId);
 
-        Task<byte[]> Update(IFormFile file, int userId);
+        Task<byte[]> UpdateAsync(IFormFile file, int userId);
     }
 }

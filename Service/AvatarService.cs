@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Service.Abstract;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
+using static Domain.Validation.EntityConfigurationConstants;
 
 namespace Service
 {
@@ -25,18 +27,15 @@ namespace Service
 
         public async Task<byte[]> Add(IFormFile image, int userId)
         {
-
-            if (image.Length == 0)
-            {
-                throw new ValidationException("Empty image introduced");
-            }
                 
             if (await _avatarRepository.GetByUserIdAsync(userId) != null)
             {
                 throw new ValidationException("This user already has an avatar!");
             }
 
-            if(!Directory.Exists(_absoluteDirectoryPath))
+            ValidateImageSize(image);
+
+            if (!Directory.Exists(_absoluteDirectoryPath))
             {
                 Directory.CreateDirectory(_absoluteDirectoryPath);
             }
@@ -67,7 +66,7 @@ namespace Service
         }
 
         
-        public async Task Remove(int issuerId)
+        public async Task RemoveAsync(int issuerId)
         {
             var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFound(issuerId);
             var path = ComposeAbsolutePath(avatarInfo.Url);
@@ -78,8 +77,10 @@ namespace Service
             await _avatarRepository.SaveChangesAsync();
         }
 
-        public async Task<byte[]> Update(IFormFile image, int userId)
+        public async Task<byte[]> UpdateAsync(IFormFile image, int userId)
         {
+            ValidateImageSize(image);
+
             var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFound(userId);
             var path = ComposeAbsolutePath(avatarInfo.Url);
 
@@ -140,6 +141,20 @@ namespace Service
             using (new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, FileOptions.DeleteOnClose))
             {
 
+            }
+        }
+
+        private void ValidateImageSize(IFormFile file)
+        {
+            using (var image = Image.FromStream(file.OpenReadStream()))
+            {
+                if (image.Width > MAX_AVATAR_WIDTH_PX
+                    || image.Width < MIN_AVATAR_WIDTH_PX
+                    || image.Height > MAX_AVATAR_HEIGHT_PX
+                    || image.Width < MIN_AVATAR_HEIGHT_PX)
+                {
+                    throw new ValidationException($"Invalid image size introduced W:{image.Width} H:{image.Height}");
+                }
             }
         }
     }

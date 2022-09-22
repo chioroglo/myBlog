@@ -1,6 +1,7 @@
 ﻿using Domain.Validation.Attributes;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using static Domain.Validation.EntityConfigurationConstants;
 
 namespace Domain.Dto.Avatar
 {
@@ -10,7 +11,7 @@ namespace Domain.Dto.Avatar
 
         [Required(ErrorMessage = "Please select a file.")]
         [DataType(DataType.Upload)]
-        [MaxAvatarFileSize(1024 * 5 * 1024)]
+        [MaxAvatarFileSize(MAX_AVATAR_SIZE_BYTES)]
         [AllowedExtensions(new string[] {".jpg", ".png"})]
         public IFormFile Image { get; set; }
     }

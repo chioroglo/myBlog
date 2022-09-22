@@ -38,7 +38,7 @@ namespace API.Controllers
         public async Task<FileContentResult> UpdateAvatar([FromForm] AvatarDto request)
         {
             request.UserId = GetCurrentUserId();
-            var byteImage = await _avatarService.Update(request.Image, request.UserId);
+            var byteImage = await _avatarService.UpdateAsync(request.Image, request.UserId);
 
             return File(byteImage,"image/jpeg");
         }
@@ -46,7 +46,7 @@ namespace API.Controllers
         [HttpDelete]
         public async Task RemoveAvatar()
         {
-            await _avatarService.Remove(GetCurrentUserId());
+            await _avatarService.RemoveAsync(GetCurrentUserId());
         }
     }
 
