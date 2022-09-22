@@ -15,6 +15,15 @@ namespace API.Controllers
             _avatarService = avatarService;
         }
 
+        [Route("{userId:int}")]
+        [HttpGet]
+        public async Task<FileContentResult> GetAvatar(int userId)
+        {
+            var byteImage = await _avatarService.GetByUserIdAsync(userId);
+
+            return File(byteImage,contentType: "image/jpeg");
+        }
+        
         [HttpPost]
         public async Task<FileContentResult> UploadAvatar([FromForm] AvatarDto request)
         {
@@ -24,16 +33,8 @@ namespace API.Controllers
             return File(byteImage,contentType:"image/jpeg");
         }
 
-        [Route("{userId:int}")]
-        [HttpGet]
-        public async Task<FileContentResult> GetAvatar(int userId)
-        {
-            var byteImage = await _avatarService.GetByUserIdAsync(userId);
 
-            return File(byteImage,contentType: "image/jpeg");
-        }
-
-        [HttpPut()]
+        [HttpPut]
         public async Task<FileContentResult> UpdateAvatar([FromForm] AvatarDto request)
         {
             request.UserId = GetCurrentUserId();
@@ -43,7 +44,7 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        public async Task RemoveAvatarOfCurrentUser()
+        public async Task RemoveAvatar()
         {
             await _avatarService.Remove(GetCurrentUserId());
         }

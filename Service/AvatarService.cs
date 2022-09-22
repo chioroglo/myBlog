@@ -13,12 +13,14 @@ namespace Service
         private readonly IAvatarRepository _avatarRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly string _uploadSubDirectoryInWwwRoot;
+        private readonly string _absoluteDirectoryPath;
 
         public AvatarService(IAvatarRepository avatarRepository, IWebHostEnvironment webHostEnvironment)
         {
             _avatarRepository = avatarRepository;
             _webHostEnvironment = webHostEnvironment;
             _uploadSubDirectoryInWwwRoot = "data";
+            _absoluteDirectoryPath = Path.Combine(_webHostEnvironment.WebRootPath, _uploadSubDirectoryInWwwRoot, nameof(Avatar));
         }
 
         public async Task<byte[]> Add(IFormFile image, int userId)
@@ -34,13 +36,20 @@ namespace Service
                 throw new ValidationException("This user already has an avatar!");
             }
 
-            string filePath = ComposePathForNewAvatar(image, userId);
-            await image.CopyInfPathOnDiskAsync(filePath);
+            if(!Directory.Exists(_absoluteDirectoryPath))
+            {
+                Directory.CreateDirectory(_absoluteDirectoryPath);
+            }
+
+            string relativePath = ComposeRelativePath(image, userId);
+            string absolutePath = ComposeAbsolutePath(relativePath);
+            
+            await image.CopyInfPathOnDiskAsync(absolutePath);
 
             var entity = new Avatar()
             {
                 UserId = userId,
-                Url = filePath
+                Url = relativePath
             };
 
             _avatarRepository.Add(entity);
@@ -61,7 +70,7 @@ namespace Service
         public async Task Remove(int issuerId)
         {
             var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFound(issuerId);
-            var path = avatarInfo.Url;
+            var path = ComposeAbsolutePath(avatarInfo.Url);
 
             RemoveAvatarOnDisk(path);
 
@@ -72,7 +81,7 @@ namespace Service
         public async Task<byte[]> Update(IFormFile image, int userId)
         {
             var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFound(userId);
-            var path = avatarInfo.Url;
+            var path = ComposeAbsolutePath(avatarInfo.Url);
 
             RemoveAvatarOnDisk(path);
             await image.CopyInfPathOnDiskAsync(path);
@@ -83,19 +92,11 @@ namespace Service
             return await image.ToByteArrayAsync();
         }
         
-        private string ComposePathForNewAvatar(IFormFile image, int userId)
+
+        private async Task<byte[]> RetrieveAvatarFromDiskAsync(string relativePath)
         {
-            string directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, _uploadSubDirectoryInWwwRoot, nameof(Avatar));
+            string path = ComposeAbsolutePath(relativePath);
 
-            string fileName = userId + Path.GetExtension(image.FileName);
-
-            string filePath = Path.Combine(directoryPath, fileName);
-
-            return filePath;
-        }
-
-        private async Task<byte[]> RetrieveAvatarFromDiskAsync(string path)
-        {
             byte[] byteImage;
 
             using (var fileStream = new FileStream(path, FileMode.Open))
@@ -105,7 +106,6 @@ namespace Service
                     await fileStream.CopyToAsync(memoryStream);
 
                     byteImage = memoryStream.ToArray();
-
                 }
             }
             return byteImage;
@@ -123,6 +123,18 @@ namespace Service
             return avatarInfo;
         }
 
+        private string ComposeRelativePath(IFormFile image, int userId)
+        {
+            string relativeFilePath = userId + Path.GetExtension(image.FileName);
+
+            return relativeFilePath;
+        }
+
+        private string ComposeAbsolutePath(string relativeUrl)
+        {
+            return Path.Combine(_absoluteDirectoryPath, relativeUrl);
+        }
+        
         private void RemoveAvatarOnDisk(string path)
         {
             using (new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, FileOptions.DeleteOnClose))
