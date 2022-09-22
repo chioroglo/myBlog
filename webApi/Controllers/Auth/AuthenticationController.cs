@@ -20,9 +20,9 @@ namespace API.Controllers.Auth
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<string> Login([FromBody] AuthenticateRequest userData)
+        public async Task<string> Login([FromBody] AuthenticateRequest userData,CancellationToken cancellationToken)
         {
-            var user = await _authenticationService.Authenticate(userData);
+            var user = await _authenticationService.Authenticate(userData,cancellationToken);
 
             var token = await _tokenService.GenerateAccessToken(user);
             return token;

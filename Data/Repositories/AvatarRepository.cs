@@ -12,9 +12,9 @@ namespace DAL.Repositories
 
         }
 
-        public async Task<Avatar?> GetByUserIdAsync(int userId)
+        public async Task<Avatar?> GetByUserIdAsync(int userId,CancellationToken cancellationToken)
         {
-            var avatarInfo =  await _db.Avatars.Where(a => a.UserId == userId).FirstOrDefaultAsync();
+            var avatarInfo =  await _db.Avatars.Where(a => a.UserId == userId).FirstOrDefaultAsync(cancellationToken);
 
             return avatarInfo;
         }

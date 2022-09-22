@@ -19,9 +19,9 @@ namespace webApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserModel>> GetAllUsers()
+        public async Task<IEnumerable<UserModel>> GetAllUsers(CancellationToken cancellationToken)
         {
-            var users = await _userService.GetAll();
+            var users = await _userService.GetAll(cancellationToken);
 
             var userModels = users.Select(e => _mapper.Map<UserModel>(e));
 
@@ -30,36 +30,36 @@ namespace webApi.Controllers
 
         [Route("{id}")]
         [HttpGet]
-        public async Task<UserModel> GetById(int id)
+        public async Task<UserModel> GetById(int id, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetById(id);
+            var user = await _userService.GetById(id,cancellationToken);
 
             return _mapper.Map<UserModel>(user);
         }
 
         [Route("[action]/{username}")]
         [HttpGet]
-        public async Task<UserModel> GetByUsername(string username)
+        public async Task<UserModel> GetByUsername(string username, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetByUsername(username);
+            var user = await _userService.GetByUsername(username,cancellationToken);
 
             return _mapper.Map<UserModel>(user);
         }
 
         [HttpGet("current")]
-        public async Task<UserModel> GetAuthenticatedUser()
+        public async Task<UserModel> GetAuthenticatedUser(CancellationToken cancellationToken)
         {
             var currentId = GetCurrentUserId();
             
-            var user = await _userService.GetById(currentId);
+            var user = await _userService.GetById(currentId,cancellationToken);
 
             return _mapper.Map<UserModel>(user);
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<UserModel>> GetPagedUsers(PagedRequest pagedRequest)
+        public async Task<PaginatedResult<UserModel>> GetPagedUsers(PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
-            var response = await _userService.GetPage(pagedRequest);
+            var response = await _userService.GetPage(pagedRequest,cancellationToken);
 
             return new PaginatedResult<UserModel>()
             {

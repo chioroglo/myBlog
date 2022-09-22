@@ -5,6 +5,6 @@ namespace Service.Abstract.Auth
 {
     public interface IAuthenticationService
     {
-        Task<AuthenticateResponse> Authenticate(AuthenticateRequest userData);
+        Task<AuthenticateResponse> Authenticate(AuthenticateRequest userData,CancellationToken cancellationToken);
     }
 }

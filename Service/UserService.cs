@@ -15,20 +15,20 @@ namespace Service
             _userRepository = userRepository;
         }
 
-        public async Task Add(User entity)
+        public async Task Add(User entity, CancellationToken cancellationToken)
         {
-            _userRepository.Add(entity);
-            await _userRepository.SaveChangesAsync();
+            await _userRepository.AddAsync(entity,cancellationToken);
+            await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken)
         {
-            return await _userRepository.GetAllAsync();
+            return await _userRepository.GetAllAsync(cancellationToken);
         }
 
-        public async Task<User> GetById(int id)
+        public async Task<User> GetById(int id, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id,cancellationToken);
 
             if (user == null)
             {
@@ -38,34 +38,33 @@ namespace Service
             return user;
         }
 
-        public async Task Remove(int id, int issuerId)
+        public async Task Remove(int id, int issuerId, CancellationToken cancellationToken)
         {
             if (id != issuerId)
             {
                 throw new ValidationException($"{nameof(User)} of ID : {issuerId} cannot delete this account!");
             }
 
-            await _userRepository.RemoveAsync(id);
-            await _userRepository.SaveChangesAsync();
+            await _userRepository.RemoveAsync(id,cancellationToken);
+            await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(User entity)
+        public async Task Update(User entity, CancellationToken cancellationToken)
         {
-            _userRepository.Update(entity);            
-            await _userRepository.SaveChangesAsync();
+            _userRepository.Update(entity,cancellationToken);
+            await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<User?> GetByUsername(string username)
+        public async Task<User?> GetByUsername(string username, CancellationToken cancellationToken)
         {
-            var usernameFound = await _userRepository.GetWhereAsync(e => e.Username == username);
+            var usernameFound = await _userRepository.GetWhereAsync(e => e.Username == username,cancellationToken);
 
             return usernameFound.FirstOrDefault();
-
         }
 
-        public Task<PaginatedResult<User>> GetPage(PagedRequest query)
+        public Task<PaginatedResult<User>> GetPage(PagedRequest query, CancellationToken cancellationToken)
         {
-            var pagedUsers = _userRepository.GetPagedData(query);
+            var pagedUsers = _userRepository.GetPagedData(query,cancellationToken);
             
             return pagedUsers;
         }

@@ -15,27 +15,27 @@ namespace Service
             _postRepository = postRepository;
         }
 
-        public async Task Add(Post request)
+        public async Task Add(Post request,CancellationToken cancellationToken)
         {
-            if (await _postRepository.GetByTitleAsync(request.Title) != null)
+            if (await _postRepository.GetByTitleAsync(request.Title,cancellationToken) != null)
             {
                 throw new ValidationException("This title is occupied");
             }
 
-            _postRepository.Add(request);
-            await _postRepository.SaveChangesAsync();
+            await _postRepository.AddAsync(request,cancellationToken);
+            await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Post>> GetAll()
+        public async Task<IEnumerable<Post>> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _postRepository.GetAllAsync();
+            var result = await _postRepository.GetAllAsync(cancellationToken);
             
             return result;
         }
 
-        public async Task<Post> GetById(int id)
+        public async Task<Post> GetById(int id, CancellationToken cancellationToken)
         {
-            var result = await _postRepository.GetByIdAsync(id);
+            var result = await _postRepository.GetByIdAsync(id,cancellationToken);
 
             if (result == null)
             {
@@ -45,9 +45,9 @@ namespace Service
             return result;
         }
 
-        public async Task Remove(int postId,int issuerId)
+        public async Task Remove(int postId,int issuerId, CancellationToken cancellationToken)
         {
-            var post = await _postRepository.GetByIdAsync(postId);
+            var post = await _postRepository.GetByIdAsync(postId,cancellationToken);
 
             if (post == null)
             {
@@ -59,15 +59,15 @@ namespace Service
                 throw new ValidationException($"This {nameof(Post)} does not belong to authorized user");
             }
 
-            await _postRepository.RemoveAsync(postId);
-            await _postRepository.SaveChangesAsync();
+            await _postRepository.RemoveAsync(postId,cancellationToken);
+            await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(Post request)
+        public async Task Update(Post request, CancellationToken cancellationToken)
         {
             int postId = request.Id;
 
-            var post = await _postRepository.GetByIdAsync(postId);
+            var post = await _postRepository.GetByIdAsync(postId,cancellationToken);
 
             if (post == null)
             {
@@ -82,13 +82,13 @@ namespace Service
             post.Title = request.Title;
             post.Content = request.Content;
 
-            _postRepository.Update(post);
-            await _postRepository.SaveChangesAsync();
+            _postRepository.Update(post,cancellationToken);
+            await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<PaginatedResult<Post>> GetPage(PagedRequest query)
+        public async Task<PaginatedResult<Post>> GetPage(PagedRequest query, CancellationToken cancellationToken)
         {
-            var pagedPosts = await _postRepository.GetPagedData(query);
+            var pagedPosts = await _postRepository.GetPagedData(query,cancellationToken);
 
             return pagedPosts;
         }

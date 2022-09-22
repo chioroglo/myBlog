@@ -22,59 +22,59 @@ namespace webApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<PostModel>> GetAll()
+        public async Task<IEnumerable<PostModel>> GetAll(CancellationToken cancellationToken)
         {
-            var posts = await _postsService.GetAll();
+            var posts = await _postsService.GetAll(cancellationToken);
 
             
             return posts.Select(e => _mapper.Map<PostModel>(e));
         }
 
         [HttpGet("{postId:int}")]
-        public async Task<PostModel> Get(int postId)
+        public async Task<PostModel> Get(int postId, CancellationToken cancellationToken)
         {
-            var post = await _postsService.GetById(postId);
+            var post = await _postsService.GetById(postId,cancellationToken);
 
             return _mapper.Map<PostModel>(post);
         }
 
         [HttpPost]
-        public async Task<PostModel> CreatePost(PostDto postContent)
+        public async Task<PostModel> CreatePost(PostDto postContent, CancellationToken cancellationToken)
         {
             var request = _mapper.Map<Post>(postContent);
             request.UserId = GetCurrentUserId();
 
-            await _postsService.Add(request);
+            await _postsService.Add(request,cancellationToken);
 
             request.RegistrationDate = DateTime.UtcNow;
             return _mapper.Map<PostModel>(request);
         }
 
         [HttpPut("{postId:int}")]
-        public async Task<PostModel> UpdatePost(int postId,[FromBody] PostDto post)
+        public async Task<PostModel> UpdatePost(int postId,[FromBody] PostDto post, CancellationToken cancellationToken)
         {
 
             var request = _mapper.Map<Post>(post);
             request.Id = postId;
             request.UserId = GetCurrentUserId();
 
-            await _postsService.Update(request);
+            await _postsService.Update(request,cancellationToken);
 
-            var updatedPost = await _postsService.GetById(postId);
+            var updatedPost = await _postsService.GetById(postId,cancellationToken);
             return _mapper.Map<PostModel>(updatedPost);
         }
 
         [HttpDelete("{postId:int}")]
-        public async Task<IActionResult> Delete(int postId)
+        public async Task<IActionResult> Delete(int postId, CancellationToken cancellationToken)
         {
-            await _postsService.Remove(postId, issuerId: GetCurrentUserId());
+            await _postsService.Remove(postId, issuerId: GetCurrentUserId(),cancellationToken);
             return Ok();
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<PostModel>> GetPagedPosts(PagedRequest pagedRequest)
+        public async Task<PaginatedResult<PostModel>> GetPagedPosts(PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
-            var response = await _postsService.GetPage(pagedRequest);
+            var response = await _postsService.GetPage(pagedRequest,cancellationToken);
 
             return new PaginatedResult<PostModel>()
             {

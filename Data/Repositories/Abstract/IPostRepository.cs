@@ -5,6 +5,6 @@ namespace DAL.Repositories.Abstract
 {
     public interface IPostRepository : IBaseRepository<Post>
     {
-        Task<Post?> GetByTitleAsync(string title);
+        Task<Post?> GetByTitleAsync(string title, CancellationToken cancellationToken);
     }
 }

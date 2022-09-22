@@ -16,26 +16,26 @@ namespace DAL.Repositories.Abstract.Base
             _db = db;
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await _db.Set<TEntity>().ToListAsync();
+            return await _db.Set<TEntity>().ToListAsync(cancellationToken);
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(int id,CancellationToken cancellationToken)
         {
-            var entity = await _db.Set<TEntity>().FindAsync(id);
+            var entity = await _db.Set<TEntity>().FindAsync(id,cancellationToken);
 
             return entity;
         }
 
-        public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await _db.Set<TEntity>().Where(predicate).ToListAsync();
+            return await _db.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken);
         }
 
-        public async Task RemoveAsync(int id)
+        public async Task RemoveAsync(int id, CancellationToken cancellationToken)
         {
-            TEntity? entity = await GetByIdAsync(id);
+            TEntity? entity = await GetByIdAsync(id,cancellationToken);
 
             if (entity == null)
             {
@@ -46,30 +46,30 @@ namespace DAL.Repositories.Abstract.Base
         }
 
 
-        public void Update(TEntity entity)
+        public void Update(TEntity entity,CancellationToken cancellationToken)
         {
             _db.Entry(entity).State = EntityState.Modified;
         }
 
-        public async Task SaveChangesAsync()
+        public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {
-            await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<TEntity> GetByIdWithIncludeAsync(int id, params Expression<Func<TEntity, object>>[] includeProperties)
+        public async Task<TEntity?> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             var query = IncludeProperties(includeProperties);
 
-            return await query.FirstOrDefaultAsync(e => e.Id == id);
+            return await query.FirstOrDefaultAsync(e => e.Id == id,cancellationToken);
         }
-        public async Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest)
+        public async Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
-            return await _db.Set<TEntity>().CreatePaginatedResultAsync(pagedRequest);
+            return await _db.Set<TEntity>().CreatePaginatedResultAsync(pagedRequest,cancellationToken);
         }
 
-        public void Add(TEntity entity)
+        public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
         {
-            _db.Set<TEntity>().Add(entity);
+            await _db.Set<TEntity>().AddAsync(entity,cancellationToken);
         }
 
         private IQueryable<TEntity> IncludeProperties(params Expression<Func<TEntity, object>>[] includeProperties)

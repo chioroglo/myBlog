@@ -36,8 +36,13 @@ namespace API.Middlewares
                         }
                     case AuthenticationException:
                         {
+                            // throw HttpStatusCode.Unauthorized????
                             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                             break;
+                        }
+                    case OperationCanceledException:
+                        {
+                            return;
                         }
                     default:
                         {

@@ -22,18 +22,18 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CommentModel>> GetAll()
+        public async Task<IEnumerable<CommentModel>> GetAll(CancellationToken cancellationToken)
         {
-            var result = await _commentsService.GetAll();
+            var result = await _commentsService.GetAll(cancellationToken);
 
             return result.Select(c => _mapper.Map<CommentModel>(c));
         }
 
         [Route("{commentId:int}")]
         [HttpGet]
-        public async Task<CommentModel> GetById(int commentId)
+        public async Task<CommentModel> GetById(int commentId, CancellationToken cancellationToken)
         {
-            var result = await _commentsService.GetById(commentId);
+            var result = await _commentsService.GetById(commentId,cancellationToken);
 
             CommentModel commentModel = _mapper.Map<CommentModel>(result);
             
@@ -42,22 +42,22 @@ namespace API.Controllers
 
         [Route("[action]/{postId:int}")]
         [HttpGet]
-        public async Task<IEnumerable<CommentModel>> GetByPostId(int postId)
+        public async Task<IEnumerable<CommentModel>> GetByPostId(int postId, CancellationToken cancellationToken)
         {
-            IEnumerable<Comment> comments = await _commentsService.GetCommentsByPostId(postId);
+            IEnumerable<Comment> comments = await _commentsService.GetCommentsByPostId(postId,cancellationToken);
 
             return comments.Select(e => _mapper.Map<CommentModel>(e)).ToList();
         }
 
 
         [HttpPost]
-        public async Task<CommentModel> CreateComment([FromBody] CommentDto request)
+        public async Task<CommentModel> CreateComment([FromBody] CommentDto request, CancellationToken cancellationToken)
         {
             var commentEntity = _mapper.Map<Comment>(request);
 
             commentEntity.UserId = GetCurrentUserId();
 
-            await _commentsService.Add(commentEntity);
+            await _commentsService.Add(commentEntity,cancellationToken);
 
             commentEntity.RegistrationDate = DateTime.UtcNow;
 
@@ -66,32 +66,32 @@ namespace API.Controllers
 
         
         [HttpPut("{commentId:int}")]
-        public async Task<CommentModel> EditComment(int commentId, [FromBody] CommentDto updateRequest)
+        public async Task<CommentModel> EditComment(int commentId, [FromBody] CommentDto updateRequest, CancellationToken cancellationToken)
         {
             var commentEntity = _mapper.Map<Comment>(updateRequest);
 
             commentEntity.Id = commentId;
             commentEntity.UserId = GetCurrentUserId();
 
-            await _commentsService.Update(commentEntity);
+            await _commentsService.Update(commentEntity,cancellationToken);
 
             return _mapper.Map<CommentModel>(commentEntity);
         }
 
         [HttpDelete("{commentId:int}")]
-        public async Task DeleteComment(int commentId)
+        public async Task DeleteComment(int commentId, CancellationToken cancellationToken)
         {
-            var comment = await _commentsService.GetById(commentId);
+            var comment = await _commentsService.GetById(commentId,cancellationToken);
 
             var currentUserId = GetCurrentUserId();
 
-            await _commentsService.Remove(commentId,issuerId: currentUserId);
+            await _commentsService.Remove(commentId,issuerId: currentUserId,cancellationToken);
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<CommentModel>> GetPage(PagedRequest query)
+        public async Task<PaginatedResult<CommentModel>> GetPage(PagedRequest query, CancellationToken cancellationToken)
         {
-            var response = await _commentsService.GetPage(query);
+            var response = await _commentsService.GetPage(query,cancellationToken);
 
             return new PaginatedResult<CommentModel>()
             {

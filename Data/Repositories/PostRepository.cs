@@ -12,9 +12,9 @@ namespace DAL.Repositories
 
         }
 
-        public async Task<Post?> GetByTitleAsync(string title)
+        public async Task<Post?> GetByTitleAsync(string title, CancellationToken cancellationToken)
         {
-            var found = await _db.Posts.Where(e => e.Title == title).FirstOrDefaultAsync(); 
+            var found = await _db.Posts.Where(e => e.Title == title).FirstOrDefaultAsync(cancellationToken); 
 
             return found;
         }

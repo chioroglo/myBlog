@@ -17,14 +17,14 @@ namespace Service
             _postRepository = postRepository;
         }
 
-        public async Task<IEnumerable<PostReaction>> GetAll()
+        public async Task<IEnumerable<PostReaction>> GetAll(CancellationToken cancellationToken)
         {
-            return await _postReactionRepository.GetAllAsync();
+            return await _postReactionRepository.GetAllAsync(cancellationToken);
         }
 
-        public async Task<PostReaction> GetById(int id)
+        public async Task<PostReaction> GetById(int id, CancellationToken cancellationToken)
         {
-            var reaction = await _postReactionRepository.GetByIdAsync(id);
+            var reaction = await _postReactionRepository.GetByIdAsync(id,cancellationToken);
 
             if (reaction == null)
             {
@@ -34,40 +34,40 @@ namespace Service
             return reaction;
         }
 
-        public async Task<IEnumerable<PostReaction>> GetByPostId(int postId)
+        public async Task<IEnumerable<PostReaction>> GetByPostId(int postId,CancellationToken cancellationToken)
         {
-            if (await PostDoesNotExistAsync(postId))
+            if (await PostDoesNotExistAsync(postId,cancellationToken))
             {
                 throw new ValidationException($"{nameof(Post)} of ID: {postId} does not exist");
             }
 
-            return await _postReactionRepository.GetWhereAsync(p => p.PostId == postId);
+            return await _postReactionRepository.GetWhereAsync(p => p.PostId == postId,cancellationToken);
         }
 
-        public async Task<PaginatedResult<PostReaction>> GetPage(PagedRequest query)
+        public async Task<PaginatedResult<PostReaction>> GetPage(PagedRequest query, CancellationToken cancellationToken)
         {
-            return await _postReactionRepository.GetPagedData(query);
+            return await _postReactionRepository.GetPagedData(query,cancellationToken);
         }
         
-        public async Task Add(PostReaction entity)
+        public async Task Add(PostReaction entity, CancellationToken cancellationToken)
         {
-            if (await PostDoesNotExistAsync(entity.PostId))
+            if (await PostDoesNotExistAsync(entity.PostId,cancellationToken))
             {
                 throw new ValidationException($"{nameof(Post)} of ID: {entity.PostId} does not exist");
             }
 
-            if (await ExistsSuchReactionAsync(entity.PostId,entity.UserId))
+            if (await ExistsSuchReactionAsync(entity.PostId,entity.UserId,cancellationToken))
             {
                 throw new ValidationException($"{nameof(Post)}ID: {entity.PostId} already has found from {nameof(User)}ID: {entity.UserId}");
             }
 
-            _postReactionRepository.Add(entity);
-            await _postReactionRepository.SaveChangesAsync();
+            await _postReactionRepository.AddAsync(entity,cancellationToken);
+            await _postReactionRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Remove(int id, int issuerId)
+        public async Task Remove(int id, int issuerId, CancellationToken cancellationToken)
         {
-            var reaction = await _postReactionRepository.GetByIdAsync(id);
+            var reaction = await _postReactionRepository.GetByIdAsync(id,cancellationToken);
 
             if (reaction == null)
             {
@@ -79,13 +79,13 @@ namespace Service
                 throw new ValidationException($"This {nameof(PostReaction)} does not belong to authorized user");
             }
 
-            await _postReactionRepository.RemoveAsync(id);
-            await _postReactionRepository.SaveChangesAsync();
+            await _postReactionRepository.RemoveAsync(id,cancellationToken);
+            await _postReactionRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(PostReaction entity)
+        public async Task Update(PostReaction entity, CancellationToken cancellationToken)
         {
-            var found = await _postReactionRepository.GetWhereAsync(r => r.PostId == entity.PostId && r.UserId == entity.UserId);
+            var found = await _postReactionRepository.GetWhereAsync(r => r.PostId == entity.PostId && r.UserId == entity.UserId,cancellationToken);
 
             var post = found.FirstOrDefault();
 
@@ -96,20 +96,20 @@ namespace Service
 
             post.ReactionType = entity.ReactionType;
 
-            _postReactionRepository.Update(post);
-            await _postReactionRepository.SaveChangesAsync();
+            _postReactionRepository.Update(post,cancellationToken);
+            await _postReactionRepository.SaveChangesAsync(cancellationToken);
         }
 
-        private async Task<bool> ExistsSuchReactionAsync(int postId, int userId)
+        private async Task<bool> ExistsSuchReactionAsync(int postId, int userId, CancellationToken cancellationToken)
         {
-            var requestedPostReactionsPostedByUser = await _postReactionRepository.GetWhereAsync(r => r.PostId == postId && r.UserId == userId);
+            var requestedPostReactionsPostedByUser = await _postReactionRepository.GetWhereAsync(r => r.PostId == postId && r.UserId == userId,cancellationToken);
 
             return requestedPostReactionsPostedByUser.Any();
         }
 
-        private async Task<bool> PostDoesNotExistAsync(int postId)
+        private async Task<bool> PostDoesNotExistAsync(int postId,CancellationToken cancellationToken)
         {
-            var searchRequestForPost = await _postRepository.GetByIdAsync(postId);
+            var searchRequestForPost = await _postRepository.GetByIdAsync(postId,cancellationToken);
 
             return searchRequestForPost == null;
         }

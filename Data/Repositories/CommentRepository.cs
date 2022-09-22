@@ -12,9 +12,9 @@ namespace DAL.Repositories
 
         }
 
-        public async Task<IEnumerable<Comment>> GetByPostIdIncludeUserAsync(int postId)
+        public async Task<IEnumerable<Comment>> GetByPostIdIncludeUserAsync(int postId,CancellationToken cancellationToken)
         {
-            return await _db.Comments.Include(property => property.User).Where(e => e.PostId == postId).ToListAsync();
+            return await _db.Comments.Include(property => property.User).Where(e => e.PostId == postId).ToListAsync(cancellationToken);
         }
     }
 }

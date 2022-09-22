@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Domain.Abstract;
+﻿using Domain.Abstract;
 using Domain.Models.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
@@ -9,17 +8,17 @@ namespace Domain.Extensions
 {
     public static class QueryableExtensions
     {
-        public async static Task<PaginatedResult<TEntity>> CreatePaginatedResultAsync<TEntity>(this IQueryable<TEntity> query,PagedRequest pagedRequest) where TEntity : BaseEntity
+        public async static Task<PaginatedResult<TEntity>> CreatePaginatedResultAsync<TEntity>(this IQueryable<TEntity> query,PagedRequest pagedRequest, CancellationToken cancellationToken) where TEntity : BaseEntity
         {
             query = query.ApplyFilters(pagedRequest);
 
-            var total = await query.CountAsync();
+            var total = await query.CountAsync(cancellationToken);
 
             query = query.Paginate(pagedRequest);
 
-            query = query.Sort(pagedRequest);
+            query = query.Sort(pagedRequest,cancellationToken);
 
-            var listResult = await query.ToListAsync();
+            var listResult = await query.ToListAsync(cancellationToken);
 
             return new PaginatedResult<TEntity>()
             {
@@ -62,11 +61,11 @@ namespace Domain.Extensions
             return entities;
         }
 
-        private static IQueryable<T> Sort<T>(this IQueryable<T> query,PagedRequest pagedRequest)
+        private static IQueryable<T> Sort<T>(this IQueryable<T> query,PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
             if (!string.IsNullOrWhiteSpace(pagedRequest.ColumnNameForSorting))
             {
-                query = query.OrderBy(pagedRequest.ColumnNameForSorting + " " + pagedRequest.SortingDirection);
+                query = query.OrderBy(pagedRequest.ColumnNameForSorting + " " + pagedRequest.SortingDirection,cancellationToken);
             }
 
             return query;

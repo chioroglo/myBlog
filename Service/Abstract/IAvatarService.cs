@@ -4,12 +4,12 @@ namespace Service.Abstract
 {
     public interface IFileHandlingService
     {
-        Task<byte[]> GetByUserIdAsync(int userId);
+        Task<byte[]> GetByUserIdAsync(int userId, CancellationToken cancellationToken);
 
-        Task<byte[]> Add(IFormFile file, int userId);
+        Task<byte[]> Add(IFormFile file, int userId, CancellationToken cancellationToken);
 
-        Task RemoveAsync(int issuerId);
+        Task RemoveAsync(int issuerId, CancellationToken cancellationToken);
 
-        Task<byte[]> UpdateAsync(IFormFile file, int userId);
+        Task<byte[]> UpdateAsync(IFormFile file, int userId, CancellationToken cancellationToken);
     }
 }

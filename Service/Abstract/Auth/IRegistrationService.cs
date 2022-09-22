@@ -5,6 +5,6 @@ namespace Service.Abstract.Auth
 {
     public interface IRegistrationService
     {
-        public Task<UserModel> Register(RegistrationDto registerData);
+        public Task<UserModel> Register(RegistrationDto registerData, CancellationToken cancellationToken);
     }
 }

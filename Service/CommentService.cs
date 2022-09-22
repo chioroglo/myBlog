@@ -18,27 +18,27 @@ namespace Service
             _commentRepository = commentRepository;
         }
 
-        public async Task Add(Comment entity)
+        public async Task Add(Comment entity,CancellationToken cancellationToken)
         {
-            var post = _postRepository.GetByIdAsync(entity.PostId);
+            var post = _postRepository.GetByIdAsync(entity.PostId,cancellationToken);
 
             if (post == null)
             {
                 throw new ValidationException($"{nameof(Post)} of ID: {entity.PostId} does not exist");
             }
 
-            _commentRepository.Add(entity);
-            await _commentRepository.SaveChangesAsync();
+            await _commentRepository.AddAsync(entity,cancellationToken);
+            await _commentRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Comment>> GetAll()
+        public async Task<IEnumerable<Comment>> GetAll(CancellationToken cancellationToken)
         {
-            return await _commentRepository.GetAllAsync();
+            return await _commentRepository.GetAllAsync(cancellationToken);
         }
 
-        public async Task<Comment> GetById(int id)
+        public async Task<Comment> GetById(int id,CancellationToken cancellationToken)
         {
-            var comment =  await _commentRepository.GetByIdWithIncludeAsync(id, e => e.User);
+            var comment =  await _commentRepository.GetByIdWithIncludeAsync(id,cancellationToken, e => e.User);
 
             if (comment == null)
             {
@@ -48,16 +48,16 @@ namespace Service
             return comment;
         }
 
-        public async Task<IEnumerable<Comment>> GetCommentsByPostId(int postId)
+        public async Task<IEnumerable<Comment>> GetCommentsByPostId(int postId,CancellationToken cancellationToken)
         {
-            var comments = await _commentRepository.GetByPostIdIncludeUserAsync(postId);
+            var comments = await _commentRepository.GetByPostIdIncludeUserAsync(postId,cancellationToken);
             return comments;
         }
 
 
-        public async Task Remove(int id,int issuerId)
+        public async Task Remove(int id,int issuerId,CancellationToken cancellationToken)
         {
-            var comment = await _commentRepository.GetByIdAsync(id);
+            var comment = await _commentRepository.GetByIdAsync(id,cancellationToken);
             
             if (comment == null)
             {
@@ -69,13 +69,13 @@ namespace Service
                 throw new ValidationException($"Authorized {nameof(User)} of ID: {issuerId} has no access to this comment");
             }
 
-            await _commentRepository.RemoveAsync(id);
-            await _commentRepository.SaveChangesAsync();           
+            await _commentRepository.RemoveAsync(id,cancellationToken);
+            await _commentRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(Comment entity)
+        public async Task Update(Comment entity,CancellationToken cancellationToken)
         {
-            var comment = await _commentRepository.GetByIdAsync(entity.Id);
+            var comment = await _commentRepository.GetByIdAsync(entity.Id,cancellationToken);
 
             if (comment == null)
             {
@@ -89,13 +89,13 @@ namespace Service
 
             comment.Content = entity.Content;
 
-            _commentRepository.Update(comment);
-            await _commentRepository.SaveChangesAsync();
+            _commentRepository.Update(comment,cancellationToken);
+            await _commentRepository.SaveChangesAsync(cancellationToken);
         }
         
-        public async Task<PaginatedResult<Comment>> GetPage(PagedRequest query)
+        public async Task<PaginatedResult<Comment>> GetPage(PagedRequest query, CancellationToken cancellationToken)
         {
-            var pagedComments = await _commentRepository.GetPagedData(query);
+            var pagedComments = await _commentRepository.GetPagedData(query,cancellationToken);
 
             return pagedComments;
         }
