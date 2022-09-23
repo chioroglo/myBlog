@@ -17,7 +17,7 @@ namespace API.Controllers
 
         [Route("{userId:int}")]
         [HttpGet]
-        public async Task<FileContentResult> GetAvatar(int userId, CancellationToken cancellationToken)
+        public async Task<FileContentResult> GetAvatarByUserId(int userId, CancellationToken cancellationToken)
         {
             var byteImage = await _avatarService.GetByUserIdAsync(userId,cancellationToken);
 

@@ -21,17 +21,8 @@ namespace webApi.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<PostModel>> GetAll(CancellationToken cancellationToken)
-        {
-            var posts = await _postsService.GetAll(cancellationToken);
-
-            
-            return posts.Select(e => _mapper.Map<PostModel>(e));
-        }
-
         [HttpGet("{postId:int}")]
-        public async Task<PostModel> Get(int postId, CancellationToken cancellationToken)
+        public async Task<PostModel> GetById(int postId, CancellationToken cancellationToken)
         {
             var post = await _postsService.GetById(postId,cancellationToken);
 
@@ -51,7 +42,7 @@ namespace webApi.Controllers
         }
 
         [HttpPut("{postId:int}")]
-        public async Task<PostModel> UpdatePost(int postId,[FromBody] PostDto post, CancellationToken cancellationToken)
+        public async Task<PostModel> UpdatePostById(int postId,[FromBody] PostDto post, CancellationToken cancellationToken)
         {
 
             var request = _mapper.Map<Post>(post);
@@ -65,7 +56,7 @@ namespace webApi.Controllers
         }
 
         [HttpDelete("{postId:int}")]
-        public async Task<IActionResult> Delete(int postId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeletePostById(int postId, CancellationToken cancellationToken)
         {
             await _postsService.Remove(postId, issuerId: GetCurrentUserId(),cancellationToken);
             return Ok();

@@ -21,14 +21,6 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<CommentModel>> GetAll(CancellationToken cancellationToken)
-        {
-            var result = await _commentsService.GetAll(cancellationToken);
-
-            return result.Select(c => _mapper.Map<CommentModel>(c));
-        }
-
         [Route("{commentId:int}")]
         [HttpGet]
         public async Task<CommentModel> GetById(int commentId, CancellationToken cancellationToken)
@@ -89,7 +81,7 @@ namespace API.Controllers
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<CommentModel>> GetPage(PagedRequest query, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<CommentModel>> GetPage([FromBody] PagedRequest query, CancellationToken cancellationToken)
         {
             var response = await _commentsService.GetPage(query,cancellationToken);
 

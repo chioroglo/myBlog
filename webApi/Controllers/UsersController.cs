@@ -18,17 +18,7 @@ namespace webApi.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<UserModel>> GetAllUsers(CancellationToken cancellationToken)
-        {
-            var users = await _userService.GetAll(cancellationToken);
-
-            var userModels = users.Select(e => _mapper.Map<UserModel>(e));
-
-            return userModels;
-        }
-
-        [Route("{id}")]
+        [Route("{id:int}")]
         [HttpGet]
         public async Task<UserModel> GetById(int id, CancellationToken cancellationToken)
         {
@@ -37,7 +27,7 @@ namespace webApi.Controllers
             return _mapper.Map<UserModel>(user);
         }
 
-        [Route("[action]/{username}")]
+        [Route("username/{username}")]
         [HttpGet]
         public async Task<UserModel> GetByUsername(string username, CancellationToken cancellationToken)
         {
@@ -55,6 +45,7 @@ namespace webApi.Controllers
 
             return _mapper.Map<UserModel>(user);
         }
+
 
         [HttpPost("paginated-search")]
         public async Task<PaginatedResult<UserModel>> GetPagedUsers(PagedRequest pagedRequest, CancellationToken cancellationToken)

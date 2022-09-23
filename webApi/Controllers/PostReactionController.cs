@@ -19,15 +19,6 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<PostReactionDto>> GetAll(CancellationToken cancellationToken)
-        {
-            var result = await _postReactionService.GetAll(cancellationToken);
-
-            return result.Select(r => _mapper.Map<PostReactionDto>(r));
-        }
-
-
         [Route("{postId:int}")]
         [HttpGet]
         public async Task<IEnumerable<PostReactionDto>> GetByPostId(int postId, CancellationToken cancellationToken)
@@ -63,7 +54,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{postId:int}")]
-        public async Task RemoveReaction(int postId, CancellationToken cancellationToken)
+        public async Task RemoveReactionByPostId(int postId, CancellationToken cancellationToken)
         {
             await _postReactionService.Remove(postId, GetCurrentUserId(),cancellationToken);
         }
