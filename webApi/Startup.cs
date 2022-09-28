@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
-namespace webApi
+namespace API
 {
     public class Startup
     {
@@ -19,6 +19,7 @@ namespace webApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddHttpContextAccessor();
 
             AuthenticationBuilder authenticationBuilder = services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
@@ -41,9 +42,8 @@ namespace webApi
 
         }
 
-        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             // Configure the HTTP request pipeline.
 
             if (env.IsDevelopment())
@@ -51,14 +51,10 @@ namespace webApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseExceptionHandling();
             app.UseStaticFiles();
             app.UseRouting();
-
-            app.Use(async (context, next) =>
-            {
-                await next();
-            });
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -67,8 +63,8 @@ namespace webApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-               // endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/");
             });
+            
         }
     }
 }

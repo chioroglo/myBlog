@@ -10,6 +10,7 @@ namespace API.Extensions
         public static void InitializeServices(this IServiceCollection services)
         {
             services.AddScopedAuthServices();
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<ICommentService, CommentService>();

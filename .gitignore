@@ -4,6 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 webApi/wwwroot/data/avatar
+webApi/Logs
 ###################
 # compiled source #
 ###################

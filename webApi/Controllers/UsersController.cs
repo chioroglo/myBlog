@@ -6,7 +6,7 @@ using Domain.Models;
 using Domain.Models.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
-namespace webApi.Controllers
+namespace API.Controllers
 {
     [Route("api/users")]
     public class UsersController : AppBaseController

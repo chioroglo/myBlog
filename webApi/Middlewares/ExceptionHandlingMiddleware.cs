@@ -10,10 +10,10 @@ namespace API.Middlewares
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
 
-        public ExceptionHandlingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
         {
             _next = next;
-            _logger = loggerFactory.CreateLogger<ExceptionHandlingMiddleware>();
+            _logger = logger;
         }
 
 
@@ -25,7 +25,7 @@ namespace API.Middlewares
             }
             catch(Exception e)
             {
-                _logger.LogError(e, "an Exception has occured");
+                _logger.LogError(e.ToString());
 
                 switch (e)
                 {

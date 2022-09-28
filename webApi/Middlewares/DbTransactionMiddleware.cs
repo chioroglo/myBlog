@@ -24,7 +24,8 @@ namespace API.Middlewares
             {
                 await _next(httpContext);
                 //Commit transaction if all commands succeed, transaction will auto-rollback when disposed if either commands fails
-                await dbContext.Database.CommitTransactionAsync();
+                await transaction.CommitAsync();
+                //await dbContext.Database.CommitTransactionAsync();
             }
 
         }

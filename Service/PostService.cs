@@ -1,8 +1,8 @@
 ﻿using DAL.Repositories.Abstract;
 using Domain;
+using Domain.Exceptions;
 using Domain.Models.Pagination;
 using Service.Abstract;
-using System.ComponentModel.DataAnnotations;
 
 namespace Service
 {
