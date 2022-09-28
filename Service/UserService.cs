@@ -49,9 +49,25 @@ namespace Service
             await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(User entity, CancellationToken cancellationToken)
+        public async Task Update(User request, CancellationToken cancellationToken)
         {
-            _userRepository.Update(entity,cancellationToken);
+
+            var user = await _userRepository.GetByIdAsync(request.Id,cancellationToken);
+
+            if (request.Username != null)
+            {
+                if (await GetByUsername(request.Username, cancellationToken) != null)
+                {
+                    throw new ValidationException($"Username {request.Username} is occupied");
+                }
+
+                user.Username = request.Username;
+            }
+
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+
+            _userRepository.Update(user,cancellationToken);
             await _userRepository.SaveChangesAsync(cancellationToken);
         }
 

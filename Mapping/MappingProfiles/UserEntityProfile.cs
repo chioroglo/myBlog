@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Dto.Account;
+using Domain.Dto.User;
 using Domain.Models;
 
 namespace Mapping.MappingProfiles
@@ -29,6 +30,12 @@ namespace Mapping.MappingProfiles
                     src => src.FirstName == null && src.LastName == null ? string.Empty : $"{src.FirstName} {src.LastName}"
                     ))
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id));
+
+            CreateMap<UserInfoDto,User>().ForMember(dst => dst.Id, opt => opt.Ignore())
+                .ForMember(dst => dst.Username, opt => opt.MapFrom(src => src.Username))
+                .ForMember(dst => dst.FirstName, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.FirstName) ? null : src.FirstName))
+                .ForMember(dst => dst.LastName, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.LastName) ? null : src.LastName))
+                .ForMember(dst => dst.RegistrationDate, opt => opt.NullSubstitute(DateTime.UtcNow));
         }
     }
 }

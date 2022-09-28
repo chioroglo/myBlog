@@ -8,10 +8,6 @@ namespace DAL.Repositories.Abstract.Base
     {
         Task SaveChangesAsync(CancellationToken cancellationToken);
 
-        // cancellation token doesn't work properly
-        // 
-        // https://github.com/dotnet/efcore/issues/12012
-        // https://github.com/dotnet/efcore/issues/22667
         Task<TEntity?> GetByIdAsync(int id,CancellationToken cancellationToken);
 
         Task<TEntity?> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
@@ -19,7 +15,6 @@ namespace DAL.Repositories.Abstract.Base
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 
         Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
-
 
         Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest, CancellationToken cancellationToken);
         
