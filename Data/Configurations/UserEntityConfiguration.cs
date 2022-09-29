@@ -16,16 +16,16 @@ namespace DAL.Configurations
 
             builder.Property(e => e.Username)
                 .IsRequired()
-                .HasMaxLength(USER_USERNAME_MAX_LENGTH);
+                .HasMaxLength(UsernameMaxLength);
 
             builder.HasIndex(e => new { e.Id, e.Username })
                 .IsUnique();
 
             builder.Property(e => e.FirstName)
-                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH);
+                .HasMaxLength(UserFirstAndLastNameMaxLength);
 
             builder.Property(e => e.LastName)
-                .HasMaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH);
+                .HasMaxLength(UserFirstAndLastNameMaxLength);
 
             builder.Property(e => e.Password)
                 .IsRequired();

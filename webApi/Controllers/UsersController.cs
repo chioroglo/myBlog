@@ -62,7 +62,7 @@ namespace API.Controllers
             };
         }
 
-        [HttpPatch("update-profile")]
+        [HttpPatch("update-profile")] // ???
         public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUser([FromBody] UserInfoDto newProfileInfo, CancellationToken cancellationToken)
         {
             var mappedRequest = _mapper.Map<User>(newProfileInfo);

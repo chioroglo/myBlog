@@ -6,16 +6,16 @@ namespace Domain.Dto.User
     public class UserInfoDto
     {
 
-        [MinLength(USER_USERNAME_MIN_LENGTH)]
-        [MaxLength(USER_USERNAME_MAX_LENGTH)]
+        [MinLength(UsernameMinLength)]
+        [MaxLength(UsernameMaxLength)]
         public string? Username { get; set; } 
 
-        [MinLength(USER_FIRSTNAME_LASTNAME_MIN_LENGTH)]
-        [MaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH)]
+        [MinLength(UserFirstAndLastNameMinLength)]
+        [MaxLength(UserFirstAndLastNameMaxLength)]
         public string? FirstName { get; set; }
 
-        [MinLength(USER_FIRSTNAME_LASTNAME_MIN_LENGTH)]
-        [MaxLength(USER_FIRSTNAME_LASTNAME_MAX_LENGTH)]
+        [MinLength(UserFirstAndLastNameMinLength)]
+        [MaxLength(UserFirstAndLastNameMaxLength)]
         public string? LastName { get; set; }
     }
 }

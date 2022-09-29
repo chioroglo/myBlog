@@ -148,10 +148,10 @@ namespace Service
         {
             using (var image = Image.FromStream(file.OpenReadStream()))
             {
-                if (image.Width > MAX_AVATAR_WIDTH_PX
-                    || image.Width < MIN_AVATAR_WIDTH_PX
-                    || image.Height > MAX_AVATAR_HEIGHT_PX
-                    || image.Width < MIN_AVATAR_HEIGHT_PX)
+                if (image.Width > MaxAvatarWidthPx
+                    || image.Width < MinAvatarWidthPx
+                    || image.Height > MaxAvatarHeightPx
+                    || image.Width < MinAvatarHeightPx)
                 {
                     throw new ValidationException($"Invalid image size introduced W:{image.Width} H:{image.Height}");
                 }

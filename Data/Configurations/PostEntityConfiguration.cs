@@ -14,11 +14,11 @@ namespace DAL.Configurations
             builder.ToTable(nameof(Post));
 
             builder.Property(e => e.Content)
-                .HasMaxLength(POST_MAX_LENGTH)
+                .HasMaxLength(PostMaxLength)
                 .IsRequired();
 
             builder.Property(e => e.Title)
-                .HasMaxLength(POST_TITLE_MAX_LENGTH)
+                .HasMaxLength(PostTitleMaxLength)
                 .IsRequired();
 
             builder.HasMany(e => e.Comments)

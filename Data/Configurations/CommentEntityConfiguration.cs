@@ -13,7 +13,7 @@ namespace DAL.Configurations
             builder.ToTable(nameof(Comment));
 
             builder.Property(e => e.Content)
-                .HasMaxLength(COMMENT_MAX_LENGTH)
+                .HasMaxLength(CommentMaxLength)
                 .IsRequired();
         }
     }

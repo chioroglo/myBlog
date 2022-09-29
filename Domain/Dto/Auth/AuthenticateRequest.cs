@@ -6,13 +6,13 @@ namespace Domain.Dto.Auth
     public class AuthenticateRequest
     {
         [Required]
-        [MinLength(USER_USERNAME_MIN_LENGTH)]
-        [MaxLength(USER_USERNAME_MAX_LENGTH)]
+        [MinLength(UsernameMinLength)]
+        [MaxLength(UsernameMaxLength)]
         public string Username { get; set; }
 
         [Required]
-        [MinLength(USER_PASSWORD_MIN_LENGTH)]
-        [MaxLength(USER_PASSWORD_MAX_LENGTH)]
+        [MinLength(UserPasswordMinLength)]
+        [MaxLength(UserPasswordMaxLength)]
         public string Password { get; set; }
     }
 }
