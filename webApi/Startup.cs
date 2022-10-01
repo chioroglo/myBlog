@@ -24,11 +24,12 @@ namespace API
 
             AuthenticationBuilder authenticationBuilder = services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
             authenticationBuilder.LoadConfigurationForJwtBearer(Configuration);
-            
+
+            services.AddCorsWithCustomDefaultPolicy();
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-
+            
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BlogDbContext>(options =>
@@ -54,8 +55,8 @@ namespace API
 
             app.UseExceptionHandling(); //
             app.UseRouting();
-            
-            
+            app.UseCors();
+
             app.UseStaticFiles();
 
             app.UseAuthentication();
