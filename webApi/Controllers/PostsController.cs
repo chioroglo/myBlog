@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<PostModel> CreatePost(PostDto postContent, CancellationToken cancellationToken)
+        public async Task<PostModel> CreatePost([FromBody] PostDto postContent, CancellationToken cancellationToken)
         {
             var request = _mapper.Map<Post>(postContent);
             request.UserId = GetCurrentUserId();
@@ -63,7 +63,7 @@ namespace API.Controllers
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<PostModel>> GetPagedPosts(PagedRequest pagedRequest, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<PostModel>> GetPagedPosts([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
             var response = await _postsService.GetPage(pagedRequest,cancellationToken);
 

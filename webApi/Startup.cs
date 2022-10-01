@@ -52,19 +52,22 @@ namespace API
                 app.UseSwaggerUI();
             }
 
-            app.UseExceptionHandling();
-            app.UseStaticFiles();
+            app.UseExceptionHandling(); //
             app.UseRouting();
+            
+            
+            app.UseStaticFiles();
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseDatabaseTransactions();
+            app.UseDatabaseTransactions(); //
+            
 
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-            
         }
     }
 }

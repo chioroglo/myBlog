@@ -19,8 +19,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        [Route("{postId:int}")]
-        [HttpGet]
+        [HttpGet("{postId:int}")]
         public async Task<IEnumerable<PostReactionDto>> GetByPostId(int postId, CancellationToken cancellationToken)
         {
             var result = await _postReactionService.GetByPostId(postId,cancellationToken);

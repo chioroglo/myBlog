@@ -16,12 +16,11 @@ namespace API.Controllers
 
         public UsersController(IUserService userService, IMapper mapper)
         {
-            _mapper = mapper;
+            _mapper = mapper;   
             _userService = userService;
         }
 
-        [Route("{id:int}")]
-        [HttpGet]
+        [HttpGet("{id:int}")]
         public async Task<UserModel> GetById(int id, CancellationToken cancellationToken)
         {
             var user = await _userService.GetById(id, cancellationToken);
@@ -29,8 +28,7 @@ namespace API.Controllers
             return _mapper.Map<UserModel>(user);
         }
 
-        [Route("username/{username}")]
-        [HttpGet]
+        [HttpGet("username/{username}")]
         public async Task<UserModel> GetByUsername(string username, CancellationToken cancellationToken)
         {
             var user = await _userService.GetByUsername(username, cancellationToken);
@@ -49,7 +47,7 @@ namespace API.Controllers
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<UserModel>> GetPagedUsers(PagedRequest pagedRequest, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<UserModel>> GetPagedUsers([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
             var response = await _userService.GetPage(pagedRequest, cancellationToken);
 
@@ -62,7 +60,7 @@ namespace API.Controllers
             };
         }
 
-        [HttpPatch("update-profile")] // ???
+        [HttpPatch]
         public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUser([FromBody] UserInfoDto newProfileInfo, CancellationToken cancellationToken)
         {
             var mappedRequest = _mapper.Map<User>(newProfileInfo);

@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace API.Controllers.Base
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public abstract class AppBaseController : ControllerBase
     {

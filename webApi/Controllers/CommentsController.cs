@@ -21,8 +21,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        [Route("{commentId:int}")]
-        [HttpGet]
+        [HttpGet("{commentId:int}")]
         public async Task<CommentModel> GetById(int commentId, CancellationToken cancellationToken)
         {
             var result = await _commentsService.GetById(commentId,cancellationToken);
@@ -32,8 +31,7 @@ namespace API.Controllers
             return commentModel;
         }
 
-        [Route("[action]/{postId:int}")]
-        [HttpGet]
+        [HttpGet("[action]/{postId:int}")]
         public async Task<IEnumerable<CommentModel>> GetByPostId(int postId, CancellationToken cancellationToken)
         {
             IEnumerable<Comment> comments = await _commentsService.GetCommentsByPostId(postId,cancellationToken);

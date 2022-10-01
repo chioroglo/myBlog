@@ -8,7 +8,7 @@ namespace API
         public static async Task<int> Main(string[] args)
         {
             var logPath = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
-            AddLoggingFolderInGdc(logPath);
+            AddLoggingFolderInGlobalDiagnosticsContext(logPath);
 
             
             var host = await CreateHostBuilder().Build().SeedData();
@@ -16,7 +16,7 @@ namespace API
             return 0;
         }
 
-        public static void AddLoggingFolderInGdc(string logPath)
+        public static void AddLoggingFolderInGlobalDiagnosticsContext(string logPath)
         {
             if (!Directory.Exists(logPath))
             {
