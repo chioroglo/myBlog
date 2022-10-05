@@ -19,10 +19,10 @@ namespace Service.Auth
             _mapper = mapper;
         }
 
-        public async Task<UserModel> Register(RegistrationDto registerData,CancellationToken cancellationToken)
+        public async Task<UserModel> RegisterAsync(RegistrationDto registerData,CancellationToken cancellationToken)
         {
             
-            if (await NicknameIsOccupied(registerData.Username,cancellationToken))
+            if (await IsNicknameOccupied(registerData.Username,cancellationToken))
             {
                 throw new ValidationException($"Username {registerData.Username} is occupied");
             }
@@ -36,14 +36,14 @@ namespace Service.Auth
 
             await _userService.Add(newUserEntity,cancellationToken);
 
-            var newUserFromDb = await _userService.GetByUsername(registerData.Username,cancellationToken);
+            var newUserFromDb = await _userService.GetByUsernameAsync(registerData.Username,cancellationToken);
 
             return _mapper.Map<UserModel>(newUserFromDb);
         }
 
-        private async Task<bool> NicknameIsOccupied(string username, CancellationToken cancellationToken)
+        private async Task<bool> IsNicknameOccupied(string username, CancellationToken cancellationToken)
         {
-            User? requestOfUserOfProvidedNickname = await _userService.GetByUsername(username,cancellationToken);
+            User? requestOfUserOfProvidedNickname = await _userService.GetByUsernameAsync(username,cancellationToken);
 
             return requestOfUserOfProvidedNickname != null;
         }

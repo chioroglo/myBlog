@@ -20,7 +20,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{postId:int}")]
-        public async Task<IEnumerable<PostReactionDto>> GetByPostId(int postId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PostReactionDto>> GetByPostIdAsync(int postId, CancellationToken cancellationToken)
         {
             var result = await _postReactionService.GetByPostId(postId,cancellationToken);
 
@@ -29,7 +29,8 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task<PostReactionDto> CreateReaction([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
+        public async Task<PostReactionDto> CreateReactionAsync
+            ([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
         {
             dto.UserId = GetCurrentUserId();
 
@@ -41,21 +42,21 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<PostReactionDto> EditReaction([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
+        public async Task<PostReactionDto> EditReactionAsync([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
         {
             dto.UserId = GetCurrentUserId();
 
             var request = _mapper.Map<PostReaction>(dto);
 
-            await _postReactionService.Update(request,cancellationToken);
+            await _postReactionService.UpdateAsync(request,cancellationToken);
 
             return dto;
         }
 
         [HttpDelete("{postId:int}")]
-        public async Task RemoveReactionByPostId(int postId, CancellationToken cancellationToken)
+        public async Task RemoveReactionByPostIdAsync(int postId, CancellationToken cancellationToken)
         {
-            await _postReactionService.Remove(postId, GetCurrentUserId(),cancellationToken);
+            await _postReactionService.RemoveAsync(postId, GetCurrentUserId(),cancellationToken);
         }
     }
 }

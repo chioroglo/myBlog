@@ -21,12 +21,12 @@ namespace Service
             await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _userRepository.GetAllAsync(cancellationToken);
         }
 
-        public async Task<User> GetById(int id, CancellationToken cancellationToken)
+        public async Task<User> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(id,cancellationToken);
 
@@ -38,7 +38,7 @@ namespace Service
             return user;
         }
 
-        public async Task Remove(int id, int issuerId, CancellationToken cancellationToken)
+        public async Task RemoveAsync(int id, int issuerId, CancellationToken cancellationToken)
         {
             if (id != issuerId)
             {
@@ -49,14 +49,14 @@ namespace Service
             await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(User request, CancellationToken cancellationToken)
+        public async Task UpdateAsync(User request, CancellationToken cancellationToken)
         {
 
             var user = await _userRepository.GetByIdAsync(request.Id,cancellationToken);
 
             if (request.Username != null)
             {
-                if (await GetByUsername(request.Username, cancellationToken) != null)
+                if (await GetByUsernameAsync(request.Username, cancellationToken) != null)
                 {
                     throw new ValidationException($"Username {request.Username} is occupied");
                 }
@@ -71,14 +71,14 @@ namespace Service
             await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<User?> GetByUsername(string username, CancellationToken cancellationToken)
+        public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken)
         {
             var usernameFound = await _userRepository.GetWhereAsync(e => e.Username == username,cancellationToken);
 
             return usernameFound.FirstOrDefault();
         }
 
-        public Task<PaginatedResult<User>> GetPage(PagedRequest query, CancellationToken cancellationToken)
+        public Task<PaginatedResult<User>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)
         {
             var pagedUsers = _userRepository.GetPagedData(query,cancellationToken);
             

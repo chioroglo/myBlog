@@ -19,15 +19,15 @@ namespace Service.Auth
         }
 
 
-        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest userData, CancellationToken cancellationToken)
+        public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest userData, CancellationToken cancellationToken)
         {
-            var currentUser = await TryIdentifyUser(userData.Username, userData.Password,cancellationToken)
+            var currentUser = await TryIdentifyUserAsync(userData.Username, userData.Password,cancellationToken)
                 ?? throw new AuthenticationException("Credentials were not valid");
             
             return currentUser;
         }
 
-        private async Task<AuthenticateResponse> TryIdentifyUser(string username, string password, CancellationToken cancellationToken)
+        private async Task<AuthenticateResponse> TryIdentifyUserAsync(string username, string password, CancellationToken cancellationToken)
         {
             var matchingUsers = await _userRepository.GetWhereAsync(u => u.Username == username && u.Password == password,cancellationToken);
 

@@ -16,7 +16,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{userId:int}")]
-        public async Task<FileContentResult> GetAvatarByUserId(int userId, CancellationToken cancellationToken)
+        public async Task<FileContentResult> GetAvatarByUserIdAsync(int userId, CancellationToken cancellationToken)
         {
             var byteImage = await _avatarService.GetByUserIdAsync(userId,cancellationToken);
 
@@ -24,17 +24,17 @@ namespace API.Controllers
         }
         
         [HttpPost]
-        public async Task<FileContentResult> UploadAvatar([FromForm] AvatarDto request, CancellationToken cancellationToken)
+        public async Task<FileContentResult> UploadAvatarAsync([FromForm] AvatarDto request, CancellationToken cancellationToken)
         {
             request.UserId = GetCurrentUserId();
-            var byteImage = await _avatarService.Add(request.Image, request.UserId,cancellationToken);
+            var byteImage = await _avatarService.AddAsync(request.Image, request.UserId,cancellationToken);
 
             return File(byteImage,contentType:"image/jpeg");
         }
             
 
         [HttpPut]
-        public async Task<FileContentResult> UpdateAvatar([FromForm] AvatarDto request, CancellationToken cancellationToken)
+        public async Task<FileContentResult> UpdateAvatarAsync([FromForm] AvatarDto request, CancellationToken cancellationToken)
         {
             request.UserId = GetCurrentUserId();
             var byteImage = await _avatarService.UpdateAsync(request.Image, request.UserId,cancellationToken);
@@ -43,7 +43,7 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        public async Task RemoveAvatar(CancellationToken cancellationToken)
+        public async Task RemoveAvatarAsync(CancellationToken cancellationToken)
         {
             await _avatarService.RemoveAsync(GetCurrentUserId(),cancellationToken);
         }

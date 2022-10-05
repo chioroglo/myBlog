@@ -22,15 +22,15 @@ namespace API.Controllers
         }
 
         [HttpGet("{postId:int}")]
-        public async Task<PostModel> GetById(int postId, CancellationToken cancellationToken)
+        public async Task<PostModel> GetByIdAsync(int postId, CancellationToken cancellationToken)
         {
-            var post = await _postsService.GetById(postId,cancellationToken);
+            var post = await _postsService.GetByIdAsync(postId,cancellationToken);
 
             return _mapper.Map<PostModel>(post);
         }
 
         [HttpPost]
-        public async Task<PostModel> CreatePost([FromBody] PostDto postContent, CancellationToken cancellationToken)
+        public async Task<PostModel> CreatePostAsync([FromBody] PostDto postContent, CancellationToken cancellationToken)
         {
             var request = _mapper.Map<Post>(postContent);
             request.UserId = GetCurrentUserId();
@@ -42,30 +42,30 @@ namespace API.Controllers
         }
 
         [HttpPut("{postId:int}")]
-        public async Task<PostModel> UpdatePostById(int postId,[FromBody] PostDto post, CancellationToken cancellationToken)
+        public async Task<PostModel> UpdatePostByIdAsync(int postId,[FromBody] PostDto post, CancellationToken cancellationToken)
         {
 
             var request = _mapper.Map<Post>(post);
             request.Id = postId;
             request.UserId = GetCurrentUserId();
 
-            await _postsService.Update(request,cancellationToken);
+            await _postsService.UpdateAsync(request,cancellationToken);
 
-            var updatedPost = await _postsService.GetById(postId,cancellationToken);
+            var updatedPost = await _postsService.GetByIdAsync(postId,cancellationToken);
             return _mapper.Map<PostModel>(updatedPost);
         }
 
         [HttpDelete("{postId:int}")]
-        public async Task<IActionResult> DeletePostById(int postId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeletePostByIdAsync(int postId, CancellationToken cancellationToken)
         {
-            await _postsService.Remove(postId, issuerId: GetCurrentUserId(),cancellationToken);
+            await _postsService.RemoveAsync(postId, issuerId: GetCurrentUserId(),cancellationToken);
             return Ok();
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<PostModel>> GetPagedPosts([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<PostModel>> GetPagedPostsAsync([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
-            var response = await _postsService.GetPage(pagedRequest,cancellationToken);
+            var response = await _postsService.GetPageAsync(pagedRequest,cancellationToken);
 
             return new PaginatedResult<PostModel>()
             {

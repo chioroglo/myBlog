@@ -17,12 +17,12 @@ namespace Service
             _postRepository = postRepository;
         }
 
-        public async Task<IEnumerable<PostReaction>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<PostReaction>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _postReactionRepository.GetAllAsync(cancellationToken);
         }
 
-        public async Task<PostReaction> GetById(int id, CancellationToken cancellationToken)
+        public async Task<PostReaction> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var reaction = await _postReactionRepository.GetByIdAsync(id,cancellationToken);
 
@@ -44,7 +44,7 @@ namespace Service
             return await _postReactionRepository.GetWhereAsync(p => p.PostId == postId,cancellationToken);
         }
 
-        public async Task<PaginatedResult<PostReaction>> GetPage(PagedRequest query, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<PostReaction>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)
         {
             return await _postReactionRepository.GetPagedData(query,cancellationToken);
         }
@@ -65,7 +65,7 @@ namespace Service
             await _postReactionRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Remove(int id, int issuerId, CancellationToken cancellationToken)
+        public async Task RemoveAsync(int id, int issuerId, CancellationToken cancellationToken)
         {
             var reaction = await _postReactionRepository.GetByIdAsync(id,cancellationToken);
 
@@ -83,7 +83,7 @@ namespace Service
             await _postReactionRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(PostReaction entity, CancellationToken cancellationToken)
+        public async Task UpdateAsync(PostReaction entity, CancellationToken cancellationToken)
         {
             var found = await _postReactionRepository.GetWhereAsync(r => r.PostId == entity.PostId && r.UserId == entity.UserId,cancellationToken);
 

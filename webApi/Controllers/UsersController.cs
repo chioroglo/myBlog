@@ -21,35 +21,35 @@ namespace API.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<UserModel> GetById(int id, CancellationToken cancellationToken)
+        public async Task<UserModel> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetById(id, cancellationToken);
+            var user = await _userService.GetByIdAsync(id, cancellationToken);
 
             return _mapper.Map<UserModel>(user);
         }
 
         [HttpGet("username/{username}")]
-        public async Task<UserModel> GetByUsername(string username, CancellationToken cancellationToken)
+        public async Task<UserModel> GetByUsernameAsync(string username, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetByUsername(username, cancellationToken);
+            var user = await _userService.GetByUsernameAsync(username, cancellationToken);
 
             return _mapper.Map<UserModel>(user);
         }
 
         [HttpGet("current")]
-        public async Task<UserModel> GetAuthenticatedUser(CancellationToken cancellationToken)
+        public async Task<UserModel> GetAuthenticatedUserAsync(CancellationToken cancellationToken)
         {
             var currentId = GetCurrentUserId();
 
-            var user = await _userService.GetById(currentId, cancellationToken);
+            var user = await _userService.GetByIdAsync(currentId, cancellationToken);
 
             return _mapper.Map<UserModel>(user);
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<UserModel>> GetPagedUsers([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<UserModel>> GetPagedUsersAsync([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
-            var response = await _userService.GetPage(pagedRequest, cancellationToken);
+            var response = await _userService.GetPageAsync(pagedRequest, cancellationToken);
 
             return new PaginatedResult<UserModel>()
             {
@@ -61,15 +61,15 @@ namespace API.Controllers
         }
 
         [HttpPatch]
-        public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUser([FromBody] UserInfoDto newProfileInfo, CancellationToken cancellationToken)
+        public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUserAsync([FromBody] UserInfoDto newProfileInfo, CancellationToken cancellationToken)
         {
             var mappedRequest = _mapper.Map<User>(newProfileInfo);
 
             mappedRequest.Id = GetCurrentUserId();
 
-            await _userService.Update(mappedRequest, cancellationToken);
+            await _userService.UpdateAsync(mappedRequest, cancellationToken);
 
-            var newUser = await _userService.GetById(mappedRequest.Id, cancellationToken);
+            var newUser = await _userService.GetByIdAsync(mappedRequest.Id, cancellationToken);
 
             return _mapper.Map<UserModel>(newUser);
         }

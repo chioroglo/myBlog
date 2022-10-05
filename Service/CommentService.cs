@@ -31,12 +31,12 @@ namespace Service
             await _commentRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Comment>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Comment>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _commentRepository.GetAllAsync(cancellationToken);
         }
 
-        public async Task<Comment> GetById(int id,CancellationToken cancellationToken)
+        public async Task<Comment> GetByIdAsync(int id,CancellationToken cancellationToken)
         {
             var comment =  await _commentRepository.GetByIdWithIncludeAsync(id,cancellationToken, e => e.User);
 
@@ -55,7 +55,7 @@ namespace Service
         }
 
 
-        public async Task Remove(int id,int issuerId,CancellationToken cancellationToken)
+        public async Task RemoveAsync(int id,int issuerId,CancellationToken cancellationToken)
         {
             var comment = await _commentRepository.GetByIdAsync(id,cancellationToken);
             
@@ -73,7 +73,7 @@ namespace Service
             await _commentRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(Comment entity,CancellationToken cancellationToken)
+        public async Task UpdateAsync(Comment entity,CancellationToken cancellationToken)
         {
             var comment = await _commentRepository.GetByIdAsync(entity.Id,cancellationToken);
 
@@ -93,7 +93,7 @@ namespace Service
             await _commentRepository.SaveChangesAsync(cancellationToken);
         }
         
-        public async Task<PaginatedResult<Comment>> GetPage(PagedRequest query, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<Comment>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)
         {
             var pagedComments = await _commentRepository.GetPagedData(query,cancellationToken);
 

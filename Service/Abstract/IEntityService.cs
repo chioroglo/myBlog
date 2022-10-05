@@ -6,14 +6,14 @@ namespace Service.Abstract
     {
         Task Add(TEntity entity, CancellationToken cancellationToken);
 
-        Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellationToken);
+        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 
-        Task<TEntity> GetById(int id, CancellationToken cancellationToken);
+        Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
         
-        Task Remove(int id,int issuerId, CancellationToken cancellationToken);
+        Task RemoveAsync(int id,int issuerId, CancellationToken cancellationToken);
         
-        Task Update(TEntity entity, CancellationToken cancellationToken);
+        Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
 
-        Task<PaginatedResult<TEntity>> GetPage(PagedRequest query, CancellationToken cancellationToken);
+        Task<PaginatedResult<TEntity>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken);
     }
 }

@@ -4,6 +4,6 @@ namespace Service.Abstract.Auth
 {
     public interface ITokenService
     {
-        public Task<string> GenerateAccessToken(AuthenticateResponse userData);
+        public string GenerateAccessToken(AuthenticateResponse userData);
     }
 }

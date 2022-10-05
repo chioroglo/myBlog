@@ -26,14 +26,14 @@ namespace Service
             await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Post>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Post>> GetAllAsync(CancellationToken cancellationToken)
         {
             var result = await _postRepository.GetAllAsync(cancellationToken);
             
             return result;
         }
 
-        public async Task<Post> GetById(int id, CancellationToken cancellationToken)
+        public async Task<Post> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var result = await _postRepository.GetByIdAsync(id,cancellationToken);
 
@@ -45,7 +45,7 @@ namespace Service
             return result;
         }
 
-        public async Task Remove(int postId,int issuerId, CancellationToken cancellationToken)
+        public async Task RemoveAsync(int postId,int issuerId, CancellationToken cancellationToken)
         {
             var post = await _postRepository.GetByIdAsync(postId,cancellationToken);
 
@@ -63,7 +63,7 @@ namespace Service
             await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(Post request, CancellationToken cancellationToken)
+        public async Task UpdateAsync(Post request, CancellationToken cancellationToken)
         {
             int postId = request.Id;
 
@@ -86,7 +86,7 @@ namespace Service
             await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<PaginatedResult<Post>> GetPage(PagedRequest query, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<Post>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)
         {
             var pagedPosts = await _postRepository.GetPagedData(query,cancellationToken);
 

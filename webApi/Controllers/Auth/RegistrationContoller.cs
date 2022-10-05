@@ -19,9 +19,9 @@ namespace API.Controllers.Auth
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<UserModel> Register([FromBody] RegistrationDto registrationData,CancellationToken cancellationToken)
+        public async Task<UserModel> RegisterAsync([FromBody] RegistrationDto registrationData,CancellationToken cancellationToken)
         {
-            UserModel response = await _registrationService.Register(registrationData,cancellationToken);
+            UserModel response = await _registrationService.RegisterAsync(registrationData,cancellationToken);
             return response;
         }
     }

@@ -18,7 +18,7 @@ namespace Service.Auth
             _config = configuration;
         }
 
-        public async Task<string> GenerateAccessToken(AuthenticateResponse userData)
+        public string GenerateAccessToken(AuthenticateResponse userData)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);

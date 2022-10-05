@@ -6,7 +6,7 @@ namespace Service.Abstract
     {
         Task<byte[]> GetByUserIdAsync(int userId, CancellationToken cancellationToken);
 
-        Task<byte[]> Add(IFormFile file, int userId, CancellationToken cancellationToken);
+        Task<byte[]> AddAsync(IFormFile file, int userId, CancellationToken cancellationToken);
 
         Task RemoveAsync(int issuerId, CancellationToken cancellationToken);
 
