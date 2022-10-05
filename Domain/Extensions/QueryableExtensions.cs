@@ -1,4 +1,5 @@
 ﻿using Domain.Abstract;
+using Domain.Exceptions;
 using Domain.Models.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
@@ -10,6 +11,10 @@ namespace Domain.Extensions
     {
         public async static Task<PaginatedResult<TEntity>> CreatePaginatedResultAsync<TEntity>(this IQueryable<TEntity> query,PagedRequest pagedRequest, CancellationToken cancellationToken) where TEntity : BaseEntity
         {
+            if (pagedRequest.PageIndex <= 0 || pagedRequest.PageSize <= 0)
+            {
+                throw new ValidationException($"Negative pagination offsets introduced!  Page No.{pagedRequest.PageIndex} PageSize: {pagedRequest.PageSize}");
+            }
             query = query.ApplyFilters(pagedRequest);
 
             var total = await query.CountAsync(cancellationToken);
@@ -57,7 +62,7 @@ namespace Domain.Extensions
 
         private static IQueryable<T> Paginate<T>(this IQueryable<T> query, PagedRequest pagedRequest)
         {
-            var entities = query.Skip(pagedRequest.PageIndex * pagedRequest.PageSize).Take(pagedRequest.PageSize);
+            var entities = query.Skip((pagedRequest.PageIndex - 1) * pagedRequest.PageSize).Take(pagedRequest.PageSize);
             return entities;
         }
 
