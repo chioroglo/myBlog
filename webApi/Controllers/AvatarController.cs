@@ -5,7 +5,7 @@ using Service.Abstract;
 
 namespace API.Controllers
 {
-    [Route("api/avatar")]
+    [Route("api/avatars")]
     public class AvatarController : AppBaseController
     {
         private readonly IFileHandlingService _avatarService;

@@ -6,6 +6,7 @@ using Domain.Models;
 using Domain.Models.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
+
 namespace API.Controllers
 {
     [Route("api/users")]

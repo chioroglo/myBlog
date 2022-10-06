@@ -3,8 +3,17 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+####################
+# Internal folders #
+####################
+
+
 webApi/wwwroot/data/avatar
 webApi/Logs
+Tests
+
+
+
 ###################
 # compiled source #
 ###################
