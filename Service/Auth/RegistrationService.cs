@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Dto.Account;
-using Domain.Models;
+using Domain.Exceptions;
 using Service.Abstract;
 using Service.Abstract.Auth;
-using System.ComponentModel.DataAnnotations;
 
 namespace Service.Auth
 {
@@ -19,7 +18,7 @@ namespace Service.Auth
             _mapper = mapper;
         }
 
-        public async Task<UserModel> RegisterAsync(RegistrationDto registerData,CancellationToken cancellationToken)
+        public async Task RegisterAsync(RegistrationDto registerData,CancellationToken cancellationToken)
         {
             
             if (await IsNicknameOccupied(registerData.Username,cancellationToken))
@@ -35,10 +34,6 @@ namespace Service.Auth
             User newUserEntity = _mapper.Map<User>(registerData);
 
             await _userService.Add(newUserEntity,cancellationToken);
-
-            var newUserFromDb = await _userService.GetByUsernameAsync(registerData.Username,cancellationToken);
-
-            return _mapper.Map<UserModel>(newUserFromDb);
         }
 
         private async Task<bool> IsNicknameOccupied(string username, CancellationToken cancellationToken)

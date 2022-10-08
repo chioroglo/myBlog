@@ -61,6 +61,7 @@ namespace API.Controllers
             };
         }
 
+        
         [HttpPatch]
         public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUserAsync([FromBody] UserInfoDto newProfileInfo, CancellationToken cancellationToken)
         {

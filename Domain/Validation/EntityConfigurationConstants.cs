@@ -3,8 +3,6 @@
     public static class EntityConfigurationConstants
     {
 
-        // todo rename constants according to convention
-        // https://stackoverflow.com/questions/242534/c-sharp-naming-convention-for-constants
         #region User entity section
         public const int UsernameMinLength = 3;
         public const int UsernameMaxLength = 20;
@@ -12,6 +10,12 @@
         public const int UserFirstAndLastNameMaxLength = 20;
         public const int UserPasswordMinLength = 3;
         public const int UserPasswordMaxLength = 20;
+
+        public const string UserFirstnameAndLastnameRegEx = @"([A-Z][a-z]*)";
+
+        // explanation of this regexp
+        // https://stackoverflow.com/questions/12018245/regular-expression-to-validate-username
+        public const string UsernameRegEx = @"^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
         #endregion
 
         #region Post entity section
@@ -33,6 +37,8 @@
         public const int MaxAvatarSizeBytes = 1024 * 5 * 1024; // 5MB
         #endregion
 
+        #region SQL Expressions
         public const string GetutcdateSqlExpression = "GETUTCDATE()";
+        #endregion
     }
 }

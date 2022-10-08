@@ -5,24 +5,33 @@ namespace Domain.Dto.Account
 {
     public class RegistrationDto
     {
+
+        [Required]
         [MinLength(UsernameMinLength)]
         [MaxLength(UsernameMaxLength)]
-        public string? Username { get; set; }
+        [RegularExpression(UsernameRegEx)]
+        public string Username { get; set; }
 
         [MinLength(UserFirstAndLastNameMinLength)]
         [MaxLength(UserFirstAndLastNameMaxLength)]
+        [RegularExpression(UserFirstnameAndLastnameRegEx)]
         public string? FirstName { get; set; }
 
+
         [MinLength(UserFirstAndLastNameMinLength)]
         [MaxLength(UserFirstAndLastNameMaxLength)]
+        [RegularExpression(UserFirstnameAndLastnameRegEx)]
         public string? LastName { get; set; }
 
-        [MinLength(UserPasswordMinLength)]
-        [MaxLength(UsernameMaxLength)]
-        public string? Password { get; set; }
 
+        [Required]
         [MinLength(UserPasswordMinLength)]
         [MaxLength(UsernameMaxLength)]
-        public string? ConfirmPassword { get; set; }
+        public string Password { get; set; }
+
+        [Required]
+        [MinLength(UserPasswordMinLength)]
+        [MaxLength(UsernameMaxLength)]
+        public string ConfirmPassword { get; set; }
     }
 }
