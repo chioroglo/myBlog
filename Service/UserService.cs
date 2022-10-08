@@ -18,7 +18,6 @@ namespace Service
         public async Task Add(User entity, CancellationToken cancellationToken)
         {
             await _userRepository.AddAsync(entity,cancellationToken);
-            await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken)
@@ -46,7 +45,6 @@ namespace Service
             }
 
             await _userRepository.RemoveAsync(id,cancellationToken);
-            await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task UpdateAsync(User request, CancellationToken cancellationToken)
@@ -68,7 +66,6 @@ namespace Service
             user.LastName = request.LastName;
 
             _userRepository.Update(user,cancellationToken);
-            await _userRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken)

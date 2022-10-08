@@ -23,7 +23,6 @@ namespace Service
             }
 
             await _postRepository.AddAsync(request,cancellationToken);
-            await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<Post>> GetAllAsync(CancellationToken cancellationToken)
@@ -60,7 +59,6 @@ namespace Service
             }
 
             await _postRepository.RemoveAsync(postId,cancellationToken);
-            await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task UpdateAsync(Post request, CancellationToken cancellationToken)
@@ -83,7 +81,7 @@ namespace Service
             post.Content = request.Content;
 
             _postRepository.Update(post,cancellationToken);
-            await _postRepository.SaveChangesAsync(cancellationToken);
+            //await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<PaginatedResult<Post>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)

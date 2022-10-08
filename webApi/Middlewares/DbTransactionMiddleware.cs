@@ -22,10 +22,12 @@ namespace API.Middlewares
 
             using (var transaction = await dbContext.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead))
             {
+                Console.WriteLine("TRANSACTION HAS BEGUN");
                 await _next(httpContext);
+
+                await dbContext.SaveChangesAsync();
                 //Commit transaction if all commands succeed, transaction will auto-rollback when disposed if either commands fails
                 await transaction.CommitAsync();
-                //await dbContext.Database.CommitTransactionAsync();
             }
 
         }

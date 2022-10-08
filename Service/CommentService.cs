@@ -28,7 +28,6 @@ namespace Service
             }
 
             await _commentRepository.AddAsync(entity,cancellationToken);
-            await _commentRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<Comment>> GetAllAsync(CancellationToken cancellationToken)
@@ -70,7 +69,6 @@ namespace Service
             }
 
             await _commentRepository.RemoveAsync(id,cancellationToken);
-            await _commentRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task UpdateAsync(Comment entity,CancellationToken cancellationToken)
@@ -90,7 +88,6 @@ namespace Service
             comment.Content = entity.Content;
 
             _commentRepository.Update(comment,cancellationToken);
-            await _commentRepository.SaveChangesAsync(cancellationToken);
         }
         
         public async Task<PaginatedResult<Comment>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)

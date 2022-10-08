@@ -62,7 +62,6 @@ namespace Service
             }
 
             await _postReactionRepository.AddAsync(entity,cancellationToken);
-            await _postReactionRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task RemoveAsync(int id, int issuerId, CancellationToken cancellationToken)
@@ -80,7 +79,6 @@ namespace Service
             }
 
             await _postReactionRepository.RemoveAsync(id,cancellationToken);
-            await _postReactionRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task UpdateAsync(PostReaction entity, CancellationToken cancellationToken)
@@ -97,7 +95,6 @@ namespace Service
             post.ReactionType = entity.ReactionType;
 
             _postReactionRepository.Update(post,cancellationToken);
-            await _postReactionRepository.SaveChangesAsync(cancellationToken);
         }
 
         private async Task<bool> ExistsSuchReactionAsync(int postId, int userId, CancellationToken cancellationToken)

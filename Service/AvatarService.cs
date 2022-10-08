@@ -52,7 +52,6 @@ namespace Service
             };
 
             await _avatarRepository.AddAsync(entity,cancellationToken);
-            await _avatarRepository.SaveChangesAsync(cancellationToken);
 
             return await image.ToByteArrayAsync();
         }
@@ -74,7 +73,6 @@ namespace Service
             RemoveAvatarOnDisk(path);
 
             await _avatarRepository.RemoveAsync(avatarInfo.Id,cancellationToken);
-            await _avatarRepository.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<byte[]> UpdateAsync(IFormFile image, int userId, CancellationToken cancellationToken)
@@ -88,7 +86,6 @@ namespace Service
             await image.CopyInfPathOnDiskAsync(path);
 
             _avatarRepository.Update(avatarInfo,cancellationToken);
-            await _avatarRepository.SaveChangesAsync(cancellationToken);
             
             return await image.ToByteArrayAsync();
         }

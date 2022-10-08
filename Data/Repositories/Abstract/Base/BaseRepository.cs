@@ -51,11 +51,6 @@ namespace DAL.Repositories.Abstract.Base
             _db.Entry(entity).State = EntityState.Modified;
         }
 
-        public async Task SaveChangesAsync(CancellationToken cancellationToken)
-        {
-            await _db.SaveChangesAsync(cancellationToken);
-        }
-
         public async Task<TEntity?> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             var query = IncludeProperties(includeProperties);
