@@ -22,7 +22,6 @@ namespace API.Middlewares
 
             using (var transaction = await dbContext.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead))
             {
-                Console.WriteLine("TRANSACTION HAS BEGUN");
                 await _next(httpContext);
 
                 await dbContext.SaveChangesAsync();

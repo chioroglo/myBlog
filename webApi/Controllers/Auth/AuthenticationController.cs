@@ -1,4 +1,5 @@
 ﻿using API.Controllers.Base;
+using Domain.Dto.Account;
 using Domain.Dto.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,13 @@ namespace API.Controllers.Auth
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<string> LoginAsync([FromBody] AuthenticateRequest userData,CancellationToken cancellationToken)
+        public async Task<AuthenticateResponse> LoginAsync([FromBody] AuthenticateRequest userData,CancellationToken cancellationToken)
         {
             var user = await _authenticationService.AuthenticateAsync(userData,cancellationToken);
 
-            var token = _tokenService.GenerateAccessToken(user);
-            return token;
+            user.Token =  _tokenService.GenerateAccessToken(user);
+            
+            return user;
         }
 
     }

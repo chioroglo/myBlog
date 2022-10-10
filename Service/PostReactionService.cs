@@ -58,19 +58,19 @@ namespace Service
 
             if (await ExistsSuchReactionAsync(entity.PostId,entity.UserId,cancellationToken))
             {
-                throw new ValidationException($"{nameof(Post)}ID: {entity.PostId} already has found from {nameof(User)}ID: {entity.UserId}");
+                throw new ValidationException($"{nameof(Post)}ID: {entity.PostId} already has found reaction from {nameof(User)}ID: {entity.UserId}");
             }
 
             await _postReactionRepository.AddAsync(entity,cancellationToken);
         }
 
-        public async Task RemoveAsync(int id, int issuerId, CancellationToken cancellationToken)
+        public async Task RemoveAsync(int reactionId, int issuerId, CancellationToken cancellationToken)
         {
-            var reaction = await _postReactionRepository.GetByIdAsync(id,cancellationToken);
+            var reaction = await _postReactionRepository.GetByIdAsync(reactionId,cancellationToken);
 
             if (reaction == null)
             {
-                throw new ValidationException($"Object ID : {id} of {nameof(PostReaction)} does not exist");
+                throw new ValidationException($"Object ID : {reactionId} of {nameof(PostReaction)} does not exist");
             }
 
             if (reaction.UserId != issuerId)
@@ -78,7 +78,7 @@ namespace Service
                 throw new ValidationException($"This {nameof(PostReaction)} does not belong to authorized user");
             }
 
-            await _postReactionRepository.RemoveAsync(id,cancellationToken);
+            await _postReactionRepository.RemoveAsync(reactionId,cancellationToken);
         }
 
         public async Task UpdateAsync(PostReaction entity, CancellationToken cancellationToken)
