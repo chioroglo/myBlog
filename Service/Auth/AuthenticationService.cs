@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
+using Common.Dto.Auth;
 using DAL.Repositories.Abstract;
-using Domain.Dto.Account;
-using Domain.Dto.Auth;
 using Service.Abstract.Auth;
 using System.Security.Authentication;
 

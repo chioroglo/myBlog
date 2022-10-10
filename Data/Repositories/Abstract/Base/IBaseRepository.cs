@@ -1,5 +1,5 @@
-﻿using Domain.Abstract;
-using Domain.Models.Pagination;
+﻿using Common.Models.Pagination;
+using Domain.Abstract;
 using System.Linq.Expressions;
 
 namespace DAL.Repositories.Abstract.Base

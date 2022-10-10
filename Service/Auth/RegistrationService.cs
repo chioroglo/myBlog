@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Common.Dto.Auth;
+using Common.Exceptions;
 using Domain;
-using Domain.Dto.Account;
-using Domain.Exceptions;
 using Service.Abstract;
 using Service.Abstract.Auth;
 

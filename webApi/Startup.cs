@@ -1,7 +1,6 @@
 ﻿using API.Extensions;
 using API.Extensions.Auth;
 using DAL;
-using Mapping;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

@@ -1,0 +1,18 @@
+﻿using System.ComponentModel.DataAnnotations;
+using static Common.Validation.EntityConfigurationConstants;
+
+namespace Common.Dto.Auth
+{
+    public class AuthenticateRequest
+    {
+        [Required]
+        [MinLength(UsernameMinLength)]
+        [MaxLength(UsernameMaxLength)]
+        public string Username { get; set; }
+
+        [Required]
+        [MinLength(UserPasswordMinLength)]
+        [MaxLength(UserPasswordMaxLength)]
+        public string Password { get; set; }
+    }
+}

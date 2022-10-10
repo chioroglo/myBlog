@@ -1,4 +1,4 @@
-﻿using Domain.Models.Pagination;
+﻿using Common.Models.Pagination;
 
 namespace Service.Abstract
 {

@@ -1,5 +1,5 @@
 ﻿using API.Controllers.Base;
-using Domain.Dto.Avatar;
+using Common.Dto.Avatar;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 

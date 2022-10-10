@@ -1,12 +1,12 @@
-﻿using DAL.Repositories.Abstract;
+﻿using DAL.Extensions;
+using DAL.Repositories.Abstract;
 using Domain;
-using Domain.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Service.Abstract;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
-using static Domain.Validation.EntityConfigurationConstants;
+using static Common.Validation.EntityConfigurationConstants;
 
 namespace Service
 {

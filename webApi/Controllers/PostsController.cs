@@ -1,9 +1,9 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
+using Common.Dto.Post;
+using Common.Models;
+using Common.Models.Pagination;
 using Domain;
-using Domain.Dto.Post;
-using Domain.Models;
-using Domain.Models.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
@@ -56,10 +56,9 @@ namespace API.Controllers
         }
 
         [HttpDelete("{postId:int}")]
-        public async Task<IActionResult> DeletePostByIdAsync(int postId, CancellationToken cancellationToken)
+        public async Task DeletePostByIdAsync(int postId, CancellationToken cancellationToken)
         {
             await _postsService.RemoveAsync(postId, issuerId: GetCurrentUserId(),cancellationToken);
-            return Ok();
         }
 
         [HttpPost("paginated-search")]

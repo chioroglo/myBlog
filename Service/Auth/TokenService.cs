@@ -1,4 +1,4 @@
-﻿using Domain.Dto.Account;
+﻿using Common.Dto.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MyBlog.Service.Auth;

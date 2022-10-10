@@ -1,7 +1,7 @@
-﻿using DAL.Repositories.Abstract;
+﻿using Common.Exceptions;
+using Common.Models.Pagination;
+using DAL.Repositories.Abstract;
 using Domain;
-using Domain.Exceptions;
-using Domain.Models.Pagination;
 using Service.Abstract;
 
 namespace Service

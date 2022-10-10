@@ -1,7 +1,7 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
+using Common.Dto.PostReaction;
 using Domain;
-using Domain.Dto.PostReaction;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 

@@ -1,7 +1,7 @@
-﻿using Domain.Abstract;
-using Domain.Exceptions;
-using Domain.Extensions;
-using Domain.Models.Pagination;
+﻿using Common.Exceptions;
+using Common.Models.Pagination;
+using DAL.Extensions;
+using Domain.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

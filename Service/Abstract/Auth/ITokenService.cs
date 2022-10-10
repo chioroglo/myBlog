@@ -1,4 +1,4 @@
-﻿using Domain.Dto.Account;
+﻿using Common.Dto.Auth;
 
 namespace Service.Abstract.Auth
 {

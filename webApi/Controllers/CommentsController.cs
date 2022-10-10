@@ -1,9 +1,9 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
+using Common.Dto.Comment;
+using Common.Models;
+using Common.Models.Pagination;
 using Domain;
-using Domain.Dto.Comment;
-using Domain.Models;
-using Domain.Models.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
