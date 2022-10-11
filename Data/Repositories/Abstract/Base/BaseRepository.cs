@@ -21,7 +21,7 @@ namespace DAL.Repositories.Abstract.Base
             return await _db.Set<TEntity>().ToListAsync(cancellationToken);
         }
 
-        public async Task<TEntity> GetByIdAsync(int id,CancellationToken cancellationToken)
+        public async Task<TEntity?> GetByIdAsync(int id,CancellationToken cancellationToken)
         {
             var entity = await _db.Set<TEntity>().FindAsync(new object[] { id }, cancellationToken);
 
