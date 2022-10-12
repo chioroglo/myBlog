@@ -4,7 +4,7 @@ using Common.Dto.User;
 using Common.Models;
 using Domain;
 
-namespace DAL.MappingProfiles
+namespace Common.MappingProfiles
 {
     public class UserEntityProfile : Profile
     {

@@ -22,11 +22,11 @@ namespace API.Controllers.Auth
         [HttpPost]
         public async Task<AuthenticateResponse> LoginAsync([FromBody] AuthenticateRequest userData,CancellationToken cancellationToken)
         {
-            var user = await _authenticationService.AuthenticateAsync(userData,cancellationToken);
+            var authenticationResponse = await _authenticationService.AuthenticateAsync(userData,cancellationToken);
 
-            user.Token =  _tokenService.GenerateAccessToken(user);
+            authenticationResponse.Token = _tokenService.GenerateAccessToken(authenticationResponse);
             
-            return user;
+            return authenticationResponse;
         }
 
     }

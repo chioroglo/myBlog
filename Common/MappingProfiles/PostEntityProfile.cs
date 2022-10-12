@@ -3,7 +3,7 @@ using Common.Dto.Post;
 using Common.Models;
 using Domain;
 
-namespace DAL.MappingProfiles
+namespace Common.MappingProfiles
 {
     public class PostEntityProfile : Profile
     {

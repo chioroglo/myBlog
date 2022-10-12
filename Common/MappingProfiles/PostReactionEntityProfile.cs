@@ -2,7 +2,7 @@
 using Common.Dto.PostReaction;
 using Domain;
 
-namespace DAL.MappingProfiles
+namespace Common.MappingProfiles
 {
     public class PostReactionEntityProfile : Profile
     {

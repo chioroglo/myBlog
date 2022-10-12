@@ -1,4 +1,4 @@
-﻿namespace DAL
+﻿namespace Common
 {
     public struct MappingAssemblyMarker
     {
