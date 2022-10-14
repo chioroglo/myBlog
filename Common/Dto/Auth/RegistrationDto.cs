@@ -26,7 +26,7 @@ namespace Common.Dto.Auth
 
         [Required]
         [MinLength(UserPasswordMinLength)]
-        [MaxLength(UsernameMaxLength)]
+        [MaxLength(UserPasswordMaxLength)]
         public string Password { get; set; }
 
         [Required]

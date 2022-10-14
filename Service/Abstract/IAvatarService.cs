@@ -2,7 +2,7 @@
 
 namespace Service.Abstract
 {
-    public interface IFileHandlingService
+    public interface IFilePerUserHandlingService
     {
         Task<byte[]> GetByUserIdAsync(int userId, CancellationToken cancellationToken);
 

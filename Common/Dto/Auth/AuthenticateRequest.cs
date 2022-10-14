@@ -8,6 +8,7 @@ namespace Common.Dto.Auth
         [Required]
         [MinLength(UsernameMinLength)]
         [MaxLength(UsernameMaxLength)]
+        [RegularExpression(UsernameRegEx)]
         public string Username { get; set; }
 
         [Required]

@@ -1,16 +1,16 @@
-﻿using DAL.Extensions;
+﻿using Common.Exceptions;
+using DAL.Extensions;
 using DAL.Repositories.Abstract;
 using Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Service.Abstract;
-using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using static Common.Validation.EntityConfigurationConstants;
 
 namespace Service
 {
-    public class AvatarService : IFileHandlingService
+    public class AvatarService : IFilePerUserHandlingService
     {
         private readonly IAvatarRepository _avatarRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -150,7 +150,7 @@ namespace Service
                     || image.Height > MaxAvatarHeightPx
                     || image.Width < MinAvatarHeightPx)
                 {
-                    throw new ValidationException($"Invalid image size introduced W:{image.Width} H:{image.Height}");
+                    throw new ValidationException($"Invalid image size (W:{image.Width} H:{image.Height}) introduced");
                 }
             }
         }
