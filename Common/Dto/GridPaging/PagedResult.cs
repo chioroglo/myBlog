@@ -1,6 +1,6 @@
-﻿namespace Common.Models.Pagination
+﻿namespace Common.Dto.GridPaging
 {
-    public class PaginatedResult<T> where T : class
+    public class PagedResult<T> where T : class
     {
         public int PageIndex { get; set; }
 

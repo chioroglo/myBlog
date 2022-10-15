@@ -1,5 +1,5 @@
-﻿using Common.Exceptions;
-using Common.Models.Pagination;
+﻿using Common.Dto.GridPaging;
+using Common.Exceptions;
 using DAL.Extensions;
 using Domain.Abstract;
 using Microsoft.EntityFrameworkCore;
@@ -57,7 +57,7 @@ namespace DAL.Repositories.Abstract.Base
             return await query.FirstOrDefaultAsync(e => e.Id == id,cancellationToken);
         }
 
-        public async Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest, CancellationToken cancellationToken,params Expression<Func<TEntity, object>>[] includeProperties)
+        public async Task<PagedResult<TEntity>> GetPagedData(PagedRequest pagedRequest, CancellationToken cancellationToken,params Expression<Func<TEntity, object>>[] includeProperties)
         {
             var query = IncludeProperties(includeProperties);
 

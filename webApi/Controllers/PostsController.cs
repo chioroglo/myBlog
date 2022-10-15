@@ -1,8 +1,8 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
+using Common.Dto.GridPaging;
 using Common.Dto.Post;
 using Common.Models;
-using Common.Models.Pagination;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
@@ -62,11 +62,11 @@ namespace API.Controllers
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<PostModel>> GetPagedPostsWithUsersAsync([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
+        public async Task<PagedResult<PostModel>> GetPagedPostsWithUsersAsync([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
             var response = await _postsService.GetPageAsync(pagedRequest,cancellationToken,e => e.User);
 
-            return new PaginatedResult<PostModel>()
+            return new PagedResult<PostModel>()
             {
                 PageIndex = response.PageIndex,
                 PageSize = response.PageSize,

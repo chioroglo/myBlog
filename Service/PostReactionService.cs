@@ -1,5 +1,5 @@
-﻿using Common.Exceptions;
-using Common.Models.Pagination;
+﻿using Common.Dto.GridPaging;
+using Common.Exceptions;
 using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
@@ -45,7 +45,7 @@ namespace Service
             return await _postReactionRepository.GetWhereAsync(p => p.PostId == postId,cancellationToken);
         }
 
-        public async Task<PaginatedResult<PostReaction>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<PostReaction, object>>[] includeProperties)
+        public async Task<PagedResult<PostReaction>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<PostReaction, object>>[] includeProperties)
         {
             return await _postReactionRepository.GetPagedData(query,cancellationToken,includeProperties);
         }

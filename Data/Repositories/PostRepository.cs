@@ -1,5 +1,4 @@
-﻿using Common.Models.Pagination;
-using DAL.Repositories.Abstract;
+﻿using DAL.Repositories.Abstract;
 using DAL.Repositories.Abstract.Base;
 using Domain;
 using Microsoft.EntityFrameworkCore;

@@ -1,5 +1,4 @@
-﻿using Common.Models.Pagination;
-using DAL.Repositories.Abstract.Base;
+﻿using DAL.Repositories.Abstract.Base;
 using Domain;
 
 namespace DAL.Repositories.Abstract

@@ -1,4 +1,4 @@
-﻿namespace Common.Models.Pagination
+﻿namespace Common.Dto.GridPaging
 {
     public class PagedRequest
     {
