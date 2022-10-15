@@ -1,6 +1,6 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
-using Common.Dto.GridPaging;
+using Common.Dto.Paging.OffsetPaging;
 using Common.Dto.User;
 using Common.Models;
 using Domain;
@@ -48,11 +48,11 @@ namespace API.Controllers
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PagedResult<UserModel>> GetPagedUsersAsync([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
+        public async Task<OffsetPagedResult<UserModel>> GetPagedUsersAsync([FromBody] OffsetPagedRequest pagedRequest, CancellationToken cancellationToken)
         {
-            var response = await _userService.GetPageAsync(pagedRequest, cancellationToken);
+            var response = await _userService.GetOffsetPageAsync(pagedRequest, cancellationToken);
 
-            return new PagedResult<UserModel>()
+            return new OffsetPagedResult<UserModel>()
             {
                 PageIndex = response.PageIndex,
                 PageSize = response.PageSize,

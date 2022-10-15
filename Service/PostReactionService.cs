@@ -1,4 +1,4 @@
-﻿using Common.Dto.GridPaging;
+﻿using Common.Dto.Paging.OffsetPaging;
 using Common.Exceptions;
 using DAL.Repositories.Abstract;
 using Domain;
@@ -45,7 +45,7 @@ namespace Service
             return await _postReactionRepository.GetWhereAsync(p => p.PostId == postId,cancellationToken);
         }
 
-        public async Task<PagedResult<PostReaction>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<PostReaction, object>>[] includeProperties)
+        public async Task<OffsetPagedResult<PostReaction>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<PostReaction, object>>[] includeProperties)
         {
             return await _postReactionRepository.GetPagedData(query,cancellationToken,includeProperties);
         }

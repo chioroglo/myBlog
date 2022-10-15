@@ -1,8 +1,8 @@
-﻿namespace Common.Dto.GridPaging
+﻿namespace Common.Dto.Paging.OffsetPaging
 {
-    public class PagedRequest
+    public class OffsetPagedRequest
     {
-        public PagedRequest()
+        public OffsetPagedRequest()
         {
             RequestFilters = new RequestFilters();
         }

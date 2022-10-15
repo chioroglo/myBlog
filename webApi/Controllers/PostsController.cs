@@ -1,6 +1,7 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
-using Common.Dto.GridPaging;
+using Common.Dto.Paging.CursorPaging;
+using Common.Dto.Paging.OffsetPaging;
 using Common.Dto.Post;
 using Common.Models;
 using Domain;
@@ -61,17 +62,32 @@ namespace API.Controllers
             await _postsService.RemoveAsync(postId, issuerId: GetCurrentUserId(),cancellationToken);
         }
 
-        [HttpPost("paginated-search")]
-        public async Task<PagedResult<PostModel>> GetPagedPostsWithUsersAsync([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
+        [HttpPost("paginated-search-offset")]
+        public async Task<OffsetPagedResult<PostModel>> GetOffsetPagedPostsWithUsersAsync([FromBody] OffsetPagedRequest pagedRequest, CancellationToken cancellationToken)
         {
-            var response = await _postsService.GetPageAsync(pagedRequest,cancellationToken,e => e.User);
+            var response = await _postsService.GetOffsetPageAsync(pagedRequest,cancellationToken,e => e.User);
 
-            return new PagedResult<PostModel>()
+            return new OffsetPagedResult<PostModel>()
             {
                 PageIndex = response.PageIndex,
                 PageSize = response.PageSize,
                 Total = response.Total,
                 Items = response.Items.Select(e => _mapper.Map<PostModel>(e)).ToList()
+            };
+        }
+
+        [HttpPost("paginated-search-cursor")]
+        public async Task<CursorPagedResult<PostModel>> GetCursorPagedPostsWithUsersAsync([FromBody] CursorPagedRequest pagedRequest, CancellationToken cancellationToken)
+        {
+            var response = await _postsService.GetCursorPageAsync(pagedRequest, cancellationToken, e => e.User);
+
+            return new CursorPagedResult<PostModel>()
+            {
+                PageSize = response.PageSize,
+                Total = response.Total,
+                Items = response.Items.Select(e => _mapper.Map<PostModel>(e)).ToList(),
+                HeadElementId = response.HeadElementId,
+                TailElementId = response.TailElementId
             };
         }
     }

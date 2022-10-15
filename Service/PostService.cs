@@ -1,4 +1,5 @@
-﻿using Common.Dto.GridPaging;
+﻿using Common.Dto.Paging.CursorPaging;
+using Common.Dto.Paging.OffsetPaging;
 using Common.Exceptions;
 using DAL.Repositories.Abstract;
 using Domain;
@@ -84,7 +85,7 @@ namespace Service
             _postRepository.Update(post,cancellationToken);
         }
 
-        public async Task<PagedResult<Post>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
+        public async Task<OffsetPagedResult<Post>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
         {
             var pagedPosts = await _postRepository.GetPagedData(query,cancellationToken,includeProperties);
 
@@ -96,6 +97,13 @@ namespace Service
             var post = await _postRepository.GetByIdWithIncludeAsync(id, cancellationToken, includeProperties);
 
             return post ?? throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
+        }
+
+        public async Task<CursorPagedResult<Post>> GetCursorPageAsync(CursorPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
+        {
+            var pagedPosts = await _postRepository.GetCursorPagedData(query, cancellationToken, includeProperties);
+
+            return pagedPosts;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Common.Dto.GridPaging;
+﻿using Common.Dto.Paging.OffsetPaging;
 using System.Linq.Expressions;
 
 namespace Service.Abstract
@@ -17,6 +17,7 @@ namespace Service.Abstract
         
         Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
 
-        Task<PagedResult<TEntity>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
+        // pass it down to the specific interfaces in future, use where it is necessary
+        Task<OffsetPagedResult<TEntity>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
     }
 }

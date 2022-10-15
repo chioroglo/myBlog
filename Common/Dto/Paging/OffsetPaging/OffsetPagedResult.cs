@@ -1,6 +1,6 @@
-﻿namespace Common.Dto.GridPaging
+﻿namespace Common.Dto.Paging.OffsetPaging
 {
-    public class PagedResult<T> where T : class
+    public class OffsetPagedResult<T> where T : class
     {
         public int PageIndex { get; set; }
 

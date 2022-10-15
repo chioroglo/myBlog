@@ -1,7 +1,7 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
 using Common.Dto.Comment;
-using Common.Dto.GridPaging;
+using Common.Dto.Paging.OffsetPaging;
 using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -79,11 +79,11 @@ namespace API.Controllers
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PagedResult<CommentModel>> GetPageWithUserAsync([FromBody] PagedRequest query, CancellationToken cancellationToken)
+        public async Task<OffsetPagedResult<CommentModel>> GetPageWithUserAsync([FromBody] OffsetPagedRequest query, CancellationToken cancellationToken)
         {
-            var response = await _commentsService.GetPageAsync(query,cancellationToken,e => e.Post,e => e.User);
+            var response = await _commentsService.GetOffsetPageAsync(query,cancellationToken,e => e.Post,e => e.User);
 
-            return new PagedResult<CommentModel>()
+            return new OffsetPagedResult<CommentModel>()
             {
                 PageIndex = response.PageIndex,
                 PageSize = response.PageSize,

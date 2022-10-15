@@ -1,4 +1,4 @@
-﻿using Common.Dto.GridPaging;
+﻿using Common.Dto.Paging.OffsetPaging;
 using Common.Exceptions;
 using DAL.Repositories.Abstract;
 using Domain;
@@ -76,7 +76,7 @@ namespace Service
             return usernameFound.FirstOrDefault() ?? throw new ValidationException($"{typeof(User)} with name {username} was not found!");
         }
 
-        public Task<PagedResult<User>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<User, object>>[] includeProperties)
+        public Task<OffsetPagedResult<User>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<User, object>>[] includeProperties)
         {
             var pagedUsers = _userRepository.GetPagedData(query,cancellationToken,includeProperties);
             

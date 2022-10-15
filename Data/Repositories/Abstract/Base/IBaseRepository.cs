@@ -1,4 +1,5 @@
-﻿using Common.Dto.GridPaging;
+﻿using Common.Dto.Paging.CursorPaging;
+using Common.Dto.Paging.OffsetPaging;
 using Domain.Abstract;
 using System.Linq.Expressions;
 
@@ -14,8 +15,10 @@ namespace DAL.Repositories.Abstract.Base
 
         Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
 
-        Task<PagedResult<TEntity>> GetPagedData(PagedRequest pagedRequest, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
-        
+        Task<OffsetPagedResult<TEntity>> GetPagedData(OffsetPagedRequest pagedRequest, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
+
+        Task<CursorPagedResult<TEntity>> GetCursorPagedData(CursorPagedRequest pagedRequest, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
+
         Task AddAsync(TEntity entity, CancellationToken cancellationToken);
 
         void Update(TEntity entity, CancellationToken cancellationToken);

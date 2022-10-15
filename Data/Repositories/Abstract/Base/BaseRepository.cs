@@ -1,4 +1,5 @@
-﻿using Common.Dto.GridPaging;
+﻿using Common.Dto.Paging.CursorPaging;
+using Common.Dto.Paging.OffsetPaging;
 using Common.Exceptions;
 using DAL.Extensions;
 using Domain.Abstract;
@@ -57,11 +58,11 @@ namespace DAL.Repositories.Abstract.Base
             return await query.FirstOrDefaultAsync(e => e.Id == id,cancellationToken);
         }
 
-        public async Task<PagedResult<TEntity>> GetPagedData(PagedRequest pagedRequest, CancellationToken cancellationToken,params Expression<Func<TEntity, object>>[] includeProperties)
+        public async Task<OffsetPagedResult<TEntity>> GetPagedData(OffsetPagedRequest pagedRequest, CancellationToken cancellationToken,params Expression<Func<TEntity, object>>[] includeProperties)
         {
             var query = IncludeProperties(includeProperties);
 
-            return await query.CreatePaginatedResultAsync(pagedRequest,cancellationToken);
+            return await query.CreateOffsetPagedResultAsync(pagedRequest,cancellationToken);
         }
 
         public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
@@ -81,5 +82,11 @@ namespace DAL.Repositories.Abstract.Base
             return entities;
         }
 
+        public async Task<CursorPagedResult<TEntity>> GetCursorPagedData(CursorPagedRequest pagedRequest, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            var query = IncludeProperties(includeProperties);
+
+            return await query.CreateCursorPagedResultAsync(pagedRequest, cancellationToken);
+        }
     }
 }

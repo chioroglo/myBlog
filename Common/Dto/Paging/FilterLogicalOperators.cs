@@ -1,4 +1,4 @@
-﻿namespace Common.Dto.GridPaging
+﻿namespace Common.Dto.Paging
 {
     public enum FilterLogicalOperators
     {
