@@ -17,6 +17,15 @@ namespace DAL.Repositories.Abstract.Base
             _db = db;
         }
 
+        /// <summary>
+        /// Use to make a savepoint or update database while request is ongoing
+        /// </summary>
+        /// <returns></returns>
+        public async Task SaveChangesAsync()
+        {
+            await _db.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _db.Set<TEntity>().ToListAsync(cancellationToken);

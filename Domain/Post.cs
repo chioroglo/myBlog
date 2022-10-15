@@ -16,6 +16,8 @@ namespace Domain
 
         public ICollection<PostReaction> Reactions { get; set; }
 
+        public int? TopicId { get; set; }
+
         public Topic? Topic { get; set; }
     }
 }

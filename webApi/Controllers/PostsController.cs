@@ -23,9 +23,9 @@ namespace API.Controllers
         }
 
         [HttpGet("{postId:int}")]
-        public async Task<PostModel> GetByIdWithUsernameAsync(int postId, CancellationToken cancellationToken)
+        public async Task<PostModel> GetByIdWithUsernameAndTopicAsync(int postId, CancellationToken cancellationToken)
         {
-            var post = await _postsService.GetByIdWithIncludeAsync(postId,cancellationToken,e => e.User);
+            var post = await _postsService.GetByIdWithIncludeAsync(postId,cancellationToken,e => e.User,e => e.Topic);
 
             return _mapper.Map<PostModel>(post);
         }
@@ -45,7 +45,7 @@ namespace API.Controllers
         [HttpPut("{postId:int}")]
         public async Task<PostModel> UpdatePostByIdAsync(int postId,[FromBody] PostDto post, CancellationToken cancellationToken)
         {
-
+            // fixme, request does not update topic
             var request = _mapper.Map<Post>(post);
             request.Id = postId;
             request.UserId = GetCurrentUserId();
@@ -77,9 +77,9 @@ namespace API.Controllers
         }
 
         [HttpPost("paginated-search-cursor")]
-        public async Task<CursorPagedResult<PostModel>> GetCursorPagedPostsWithUsersAsync([FromBody] CursorPagedRequest pagedRequest, CancellationToken cancellationToken)
+        public async Task<CursorPagedResult<PostModel>> GetCursorPagedPostsWithUsersAndTopicsAsync([FromBody] CursorPagedRequest pagedRequest, CancellationToken cancellationToken)
         {
-            var response = await _postsService.GetCursorPageAsync(pagedRequest, cancellationToken, e => e.User);
+            var response = await _postsService.GetCursorPageAsync(pagedRequest, cancellationToken, e => e.User,e => e.Topic);
 
             return new CursorPagedResult<PostModel>()
             {

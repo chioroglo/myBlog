@@ -7,6 +7,8 @@ namespace DAL.Repositories.Abstract.Base
 {
     public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {
+        Task SaveChangesAsync();
+
         Task<TEntity?> GetByIdAsync(int id,CancellationToken cancellationToken);
 
         Task<TEntity?> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);

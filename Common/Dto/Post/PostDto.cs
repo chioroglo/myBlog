@@ -9,5 +9,7 @@ namespace Common.Dto.Post
 
         [Required]
         public string Content { get; set; }
+
+        public string Topic { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace DAL.Configurations
 
             builder.HasOne(e => e.Topic)
                 .WithMany(e => e.Posts)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

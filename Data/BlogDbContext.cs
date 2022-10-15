@@ -25,7 +25,9 @@ namespace DAL
 
         public DbSet<Avatar> Avatars { get; set; }
 
-        public DbSet<PostReaction> PostReactions { get; set; } 
+        public DbSet<PostReaction> PostReactions { get; set; }
+        
+        public DbSet<Topic> Topics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

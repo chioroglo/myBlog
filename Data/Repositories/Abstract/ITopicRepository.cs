@@ -3,7 +3,7 @@ using Domain;
 
 namespace DAL.Repositories.Abstract
 {
-    public interface IUserRepository : IBaseRepository<User>
+    public interface ITopicRepository : IBaseRepository<Topic>
     {
 
     }

@@ -44,11 +44,6 @@ namespace Service
 
             return await _postReactionRepository.GetWhereAsync(p => p.PostId == postId,cancellationToken);
         }
-
-        public async Task<OffsetPagedResult<PostReaction>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<PostReaction, object>>[] includeProperties)
-        {
-            return await _postReactionRepository.GetPagedData(query,cancellationToken,includeProperties);
-        }
         
         public async Task Add(PostReaction entity, CancellationToken cancellationToken)
         {

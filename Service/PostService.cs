@@ -11,18 +11,22 @@ namespace Service
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
+        private readonly ITopicRepository _topicRepository;
 
-        public PostService(IPostRepository postRepository)
+        public PostService(IPostRepository postRepository, ITopicRepository topicRepository)
         {
             _postRepository = postRepository;
+            _topicRepository = topicRepository;
         }
 
         public async Task Add(Post request,CancellationToken cancellationToken)
         {
-            if (await _postRepository.GetByTitleAsync(request.Title,cancellationToken) != null)
+            if (await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
             {
                 throw new ValidationException("This title is occupied");
             }
+
+            await CheckIncomingTopicAndAddNewIfDoesNotExist(request,cancellationToken);
 
             await _postRepository.AddAsync(request,cancellationToken);
         }
@@ -71,16 +75,21 @@ namespace Service
 
             if (post == null)
             {
-                throw new ValidationException($"Post of postId {postId} was not found");
+                throw new ValidationException($"{nameof(Post)} of {nameof(Post)}Id {postId} was not found");
             }
 
             if (request.UserId != post.UserId)
             {
-                throw new ValidationException($"Authorized user has no priveleges to edit this post postID:{postId}");
+                throw new ValidationException($"Authorized user has no priveleges to edit this {nameof(Post)} postID:{postId}");
             }
 
             post.Title = request.Title;
             post.Content = request.Content;
+
+            if (request.Topic != null)
+            {
+                await CheckIncomingTopicAndAddNewIfDoesNotExist(request, cancellationToken);
+            }
 
             _postRepository.Update(post,cancellationToken);
         }
@@ -96,7 +105,7 @@ namespace Service
         {
             var post = await _postRepository.GetByIdWithIncludeAsync(id, cancellationToken, includeProperties);
 
-            return post ?? throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
+            return post ?? throw new ValidationException($"{nameof(Post)} of ID: {id} does not exist");
         }
 
         public async Task<CursorPagedResult<Post>> GetCursorPageAsync(CursorPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
@@ -104,6 +113,30 @@ namespace Service
             var pagedPosts = await _postRepository.GetCursorPagedData(query, cancellationToken, includeProperties);
 
             return pagedPosts;
+        }
+
+        private async Task<bool> TopicOfNameDoesNotExist(string name, CancellationToken cancellationToken)
+        {
+            var result = (await _topicRepository.GetWhereAsync(e => e.Name == name, cancellationToken)).ToList();
+
+            return result.Count == 0;
+        }
+
+        private async Task CheckIncomingTopicAndAddNewIfDoesNotExist(Post request, CancellationToken cancellationToken)
+        {
+            if (request.Topic != null)
+            {
+                if (await TopicOfNameDoesNotExist(request.Topic.Name, cancellationToken))
+                {
+                    await _topicRepository.AddAsync(new Topic() { Name = request.Topic.Name }, cancellationToken);
+
+                    await _topicRepository.SaveChangesAsync();
+                };
+
+                var topic = (await _topicRepository.GetWhereAsync(e => e.Name == request.Topic.Name, cancellationToken)).FirstOrDefault();
+
+                request.Topic = topic;
+            }
         }
     }
 }

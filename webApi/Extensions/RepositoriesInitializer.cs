@@ -12,6 +12,7 @@ namespace API.Extensions
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IAvatarRepository, AvatarRepository>();
             services.AddScoped<IPostReactionRepository, PostReactionRepository>();
+            services.AddScoped<ITopicRepository, TopicRepository>();
         }
     }
 }
