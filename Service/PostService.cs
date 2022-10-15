@@ -78,6 +78,11 @@ namespace Service
                 throw new ValidationException($"{nameof(Post)} of {nameof(Post)}Id {postId} was not found");
             }
 
+            if (await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
+            {
+                throw new ValidationException("This title is occupied");
+            }
+
             if (request.UserId != post.UserId)
             {
                 throw new ValidationException($"Authorized user has no priveleges to edit this {nameof(Post)} postID:{postId}");
