@@ -79,9 +79,9 @@ namespace API.Controllers
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<CommentModel>> GetPageAsync([FromBody] PagedRequest query, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<CommentModel>> GetPageWithUserAsync([FromBody] PagedRequest query, CancellationToken cancellationToken)
         {
-            var response = await _commentsService.GetPageAsync(query,cancellationToken);
+            var response = await _commentsService.GetPageAsync(query,cancellationToken,e => e.Post,e => e.User);
 
             return new PaginatedResult<CommentModel>()
             {

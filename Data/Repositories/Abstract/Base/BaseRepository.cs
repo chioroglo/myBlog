@@ -45,7 +45,6 @@ namespace DAL.Repositories.Abstract.Base
             _db.Remove(entity);
         }
 
-
         public void Update(TEntity entity,CancellationToken cancellationToken)
         {
             _db.Entry(entity).State = EntityState.Modified;
@@ -57,9 +56,12 @@ namespace DAL.Repositories.Abstract.Base
 
             return await query.FirstOrDefaultAsync(e => e.Id == id,cancellationToken);
         }
-        public async Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest, CancellationToken cancellationToken)
+
+        public async Task<PaginatedResult<TEntity>> GetPagedData(PagedRequest pagedRequest, CancellationToken cancellationToken,params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            return await _db.Set<TEntity>().CreatePaginatedResultAsync(pagedRequest,cancellationToken);
+            var query = IncludeProperties(includeProperties);
+
+            return await query.CreatePaginatedResultAsync(pagedRequest,cancellationToken);
         }
 
         public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)

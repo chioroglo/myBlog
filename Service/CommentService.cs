@@ -3,6 +3,7 @@ using Common.Models.Pagination;
 using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
+using System.Linq.Expressions;
 
 namespace Service
 {
@@ -49,7 +50,8 @@ namespace Service
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostId(int postId,CancellationToken cancellationToken)
         {
-            var comments = await _commentRepository.GetByPostIdIncludeUserAsync(postId,cancellationToken);
+            var comments = await _commentRepository.GetByPostIdIncludeUserAndPostAsync(postId,cancellationToken);
+
             return comments;
         }
 
@@ -90,9 +92,9 @@ namespace Service
             _commentRepository.Update(comment,cancellationToken);
         }
         
-        public async Task<PaginatedResult<Comment>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<Comment>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties)
         {
-            var pagedComments = await _commentRepository.GetPagedData(query,cancellationToken);
+            var pagedComments = await _commentRepository.GetPagedData(query,cancellationToken,includeProperties);
 
             return pagedComments;
         }

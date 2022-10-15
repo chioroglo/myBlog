@@ -3,6 +3,7 @@ using Common.Models.Pagination;
 using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
+using System.Linq.Expressions;
 
 namespace Service
 {
@@ -81,12 +82,11 @@ namespace Service
             post.Content = request.Content;
 
             _postRepository.Update(post,cancellationToken);
-            //await _postRepository.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<PaginatedResult<Post>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<Post>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
         {
-            var pagedPosts = await _postRepository.GetPagedData(query,cancellationToken);
+            var pagedPosts = await _postRepository.GetPagedData(query,cancellationToken,includeProperties);
 
             return pagedPosts;
         }

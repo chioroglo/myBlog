@@ -62,9 +62,9 @@ namespace API.Controllers
         }
 
         [HttpPost("paginated-search")]
-        public async Task<PaginatedResult<PostModel>> GetPagedPostsAsync([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<PostModel>> GetPagedPostsWithUsersAsync([FromBody] PagedRequest pagedRequest, CancellationToken cancellationToken)
         {
-            var response = await _postsService.GetPageAsync(pagedRequest,cancellationToken);
+            var response = await _postsService.GetPageAsync(pagedRequest,cancellationToken,e => e.User);
 
             return new PaginatedResult<PostModel>()
             {

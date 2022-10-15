@@ -15,7 +15,8 @@ public class CommentEntityProfile : Profile
             .ForMember(e => e.RegistrationDate, opt => opt.MapFrom(e => e.RegistrationDate))
             .ForMember(e => e.AuthorId, opt => opt.MapFrom(e => e.UserId))
             .ForMember(e => e.PostId, opt => opt.MapFrom(e => e.PostId))
-            .ForMember(e => e.AuthorUsername, opt => opt.MapFrom(e => e.User.Username));
+            .ForMember(e => e.AuthorUsername, opt => opt.MapFrom(e => e.User.Username))
+            .ForMember(e => e.PostTitle, opt => opt.MapFrom(e => e.Post.Title));
 
         CreateMap<CommentDto, Comment>()
             .ForMember(e => e.Content, opt => opt.MapFrom(e => e.Content))

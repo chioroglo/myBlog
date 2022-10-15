@@ -3,6 +3,7 @@ using Common.Models.Pagination;
 using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
+using System.Linq.Expressions;
 
 namespace Service
 {
@@ -44,9 +45,9 @@ namespace Service
             return await _postReactionRepository.GetWhereAsync(p => p.PostId == postId,cancellationToken);
         }
 
-        public async Task<PaginatedResult<PostReaction>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<PostReaction>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<PostReaction, object>>[] includeProperties)
         {
-            return await _postReactionRepository.GetPagedData(query,cancellationToken);
+            return await _postReactionRepository.GetPagedData(query,cancellationToken,includeProperties);
         }
         
         public async Task Add(PostReaction entity, CancellationToken cancellationToken)

@@ -1,4 +1,5 @@
 ﻿using Common.Models.Pagination;
+using System.Linq.Expressions;
 
 namespace Service.Abstract
 {
@@ -14,6 +15,6 @@ namespace Service.Abstract
         
         Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
 
-        Task<PaginatedResult<TEntity>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken);
+        Task<PaginatedResult<TEntity>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
     }
 }

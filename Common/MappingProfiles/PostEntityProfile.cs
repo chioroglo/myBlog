@@ -12,7 +12,8 @@ namespace Common.MappingProfiles
             CreateMap<Post, PostModel>()
                 .ForMember(dst => dst.AuthorId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
-                .ForMember(dst => dst.Content, opt => opt.MapFrom(src => src.Content));
+                .ForMember(dst => dst.Content, opt => opt.MapFrom(src => src.Content))
+                .ForMember(dst => dst.AuthorUsername, opt => opt.MapFrom(src => src.User.Username));
 
             CreateMap<PostModel, Post>()
                 .ForMember(dst => dst.UserId, opt => opt.MapFrom(src => src.AuthorId))

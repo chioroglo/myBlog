@@ -3,6 +3,7 @@ using Common.Models.Pagination;
 using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
+using System.Linq.Expressions;
 
 namespace Service
 {
@@ -75,9 +76,9 @@ namespace Service
             return usernameFound.FirstOrDefault();
         }
 
-        public Task<PaginatedResult<User>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken)
+        public Task<PaginatedResult<User>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<User, object>>[] includeProperties)
         {
-            var pagedUsers = _userRepository.GetPagedData(query,cancellationToken);
+            var pagedUsers = _userRepository.GetPagedData(query,cancellationToken,includeProperties);
             
             return pagedUsers;
         }
