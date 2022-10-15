@@ -15,5 +15,7 @@ namespace Domain
         public string Content { get; set; }
 
         public ICollection<PostReaction> Reactions { get; set; }
+
+        public Topic? Topic { get; set; }
     }
 }

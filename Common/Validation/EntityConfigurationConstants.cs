@@ -37,6 +37,11 @@
         public const int MaxAvatarSizeBytes = 1024 * 5 * 1024; // 5MB
         #endregion
 
+        #region Topic entity section
+
+        public const int MaxTopicNameLength = 20;
+        #endregion
+
         #region SQL Expressions
         public const string GetutcdateSqlExpression = "GETUTCDATE()";
         #endregion

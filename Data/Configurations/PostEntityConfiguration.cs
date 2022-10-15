@@ -26,6 +26,10 @@ namespace DAL.Configurations
 
             builder.HasMany(e => e.Reactions)
                 .WithOne(e => e.Post);
+
+            builder.HasOne(e => e.Topic)
+                .WithMany(e => e.Posts)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }
