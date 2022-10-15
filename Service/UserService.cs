@@ -69,11 +69,11 @@ namespace Service
             _userRepository.Update(user,cancellationToken);
         }
 
-        public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken)
+        public async Task<User> GetByUsernameAsync(string username, CancellationToken cancellationToken)
         {
             var usernameFound = await _userRepository.GetWhereAsync(e => e.Username == username,cancellationToken);
 
-            return usernameFound.FirstOrDefault();
+            return usernameFound.FirstOrDefault() ?? throw new ValidationException($"{typeof(User)} with name {username} was not found!");
         }
 
         public Task<PaginatedResult<User>> GetPageAsync(PagedRequest query, CancellationToken cancellationToken, params Expression<Func<User, object>>[] includeProperties)
@@ -81,6 +81,13 @@ namespace Service
             var pagedUsers = _userRepository.GetPagedData(query,cancellationToken,includeProperties);
             
             return pagedUsers;
+        }
+
+        public async Task<User> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<User, object>>[] includeProperties)
+        {
+            var user = await _userRepository.GetByIdWithIncludeAsync(id, cancellationToken, includeProperties);
+
+            return user ?? throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
         }
     }
 }

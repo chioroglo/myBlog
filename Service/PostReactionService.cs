@@ -98,6 +98,12 @@ namespace Service
             _postReactionRepository.Update(post,cancellationToken);
         }
 
+        public async Task<PostReaction> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<PostReaction, object>>[] includeProperties)
+        {
+            var reaction = await _postReactionRepository.GetByIdWithIncludeAsync(id, cancellationToken, includeProperties);
+
+            return reaction ?? throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
+        }
         private async Task<bool> ExistsSuchReactionAsync(int postId, int userId, CancellationToken cancellationToken)
         {
             var requestedPostReactionsPostedByUser = await _postReactionRepository.GetWhereAsync(r => r.PostId == postId && r.UserId == userId,cancellationToken);
@@ -111,5 +117,6 @@ namespace Service
 
             return searchRequestForPost == null;
         }
+
     }
 }

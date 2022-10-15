@@ -98,5 +98,12 @@ namespace Service
 
             return pagedComments;
         }
+
+        public async Task<Comment> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties)
+        {
+            var comment = await _commentRepository.GetByIdWithIncludeAsync(id, cancellationToken, includeProperties);
+
+            return comment ?? throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
+        }
     }
 }
