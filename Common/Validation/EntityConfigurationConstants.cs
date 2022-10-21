@@ -8,7 +8,7 @@
         public const int UsernameMaxLength = 20;
         public const int UserFirstAndLastNameMinLength = 2;
         public const int UserFirstAndLastNameMaxLength = 20;
-        public const int UserPasswordMinLength = 3;
+        public const int UserPasswordMinLength = 6;
         public const int UserPasswordMaxLength = 20;
 
         public const string UserFirstnameAndLastnameRegEx = @"([A-Z][a-z]*)";

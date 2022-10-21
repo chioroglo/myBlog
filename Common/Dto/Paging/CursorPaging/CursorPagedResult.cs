@@ -2,7 +2,6 @@
 {
     public class CursorPagedResult<T> where T: class
     {
-
         public int PageSize { get; set; }
 
         public int Total { get; set; }
