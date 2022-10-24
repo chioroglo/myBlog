@@ -45,7 +45,7 @@ namespace Service
             string fileName = ComposeFileNameWithExtension(image, userId);
             string absolutePath = ComposeAbsolutePath(fileName);
             
-            await image.CopyInfPathOnDiskAsync(absolutePath);
+            await image.CopyInPathOnDiskAsync(absolutePath);
 
             var entity = new Avatar()
             {
@@ -76,7 +76,7 @@ namespace Service
             var fileName = ComposeFileNameWithExtension(image, userId);
 
             RemoveAvatarOnDisk(path);
-            await image.CopyInfPathOnDiskAsync(path);
+            await image.CopyInPathOnDiskAsync(path);
 
 
             avatarInfo.Url = path;
@@ -94,24 +94,6 @@ namespace Service
             RemoveAvatarOnDisk(path);
 
             await _avatarRepository.RemoveAsync(avatarInfo.Id,cancellationToken);
-        }
-
-        private async Task<byte[]> RetrieveAvatarFromDiskAsync(string relativePath, CancellationToken cancellationToken)
-        {
-            string path = ComposeAbsolutePath(relativePath);
-
-            byte[] byteImage;
-
-            using (var fileStream = new FileStream(path, FileMode.Open))
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await fileStream.CopyToAsync(memoryStream,cancellationToken);
-
-                    byteImage = memoryStream.ToArray();
-                }
-            }
-            return byteImage;
         }
         
         private async Task<Avatar> GetAvatarInfoThrowValidationExceptionIfNotFoundAsync(int userId, CancellationToken cancellationToken)

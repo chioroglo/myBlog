@@ -67,7 +67,6 @@ namespace DAL.Extensions
 
         }
 
-
         private static IQueryable<T> PaginateOffset<T>(this IQueryable<T> query, int pageIndex, int pageSize) where T : BaseEntity
         {
             var entities = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
@@ -103,7 +102,6 @@ namespace DAL.Extensions
 
             return query;
         }
-
 
         private static IQueryable<T> ApplyFilters<T>(this IQueryable<T> query, RequestFilters requestFilters)
         {
