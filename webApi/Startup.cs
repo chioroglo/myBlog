@@ -29,7 +29,7 @@ namespace API
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            
+            services.AddHttpContextAccessor();
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BlogDbContext>(options =>
@@ -52,12 +52,13 @@ namespace API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            
+            app.UseStaticFiles();
 
             app.UseExceptionHandling(); //
             app.UseRouting();
             app.UseCors();
 
-            app.UseStaticFiles();
 
             app.UseAuthentication();
             app.UseAuthorization();

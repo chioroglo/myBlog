@@ -16,6 +16,7 @@ namespace Service
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly string _uploadSubDirectoryInWwwRoot;
         private readonly string _absoluteDirectoryPath;
+        private readonly string _relativePathInWwwRoot;
 
         public AvatarService(IAvatarRepository avatarRepository, IWebHostEnvironment webHostEnvironment)
         {
@@ -23,14 +24,15 @@ namespace Service
             _webHostEnvironment = webHostEnvironment;
             _uploadSubDirectoryInWwwRoot = "data";
             _absoluteDirectoryPath = Path.Combine(_webHostEnvironment.WebRootPath, _uploadSubDirectoryInWwwRoot, nameof(Avatar));
+            _relativePathInWwwRoot = Path.Combine(_uploadSubDirectoryInWwwRoot, nameof(Avatar));
         }
 
-        public async Task<byte[]> AddAsync(IFormFile image, int userId,CancellationToken cancellationToken)
+        public async Task<string> AddAsyncAndRetrieveFileName(IFormFile image, int userId,CancellationToken cancellationToken)
         {
                 
             if (await _avatarRepository.GetByUserIdAsync(userId,cancellationToken) != null)
             {
-                throw new ValidationException("This user already has an avatar!");
+                throw new ValidationException("This user already has an avatar uploaded!");
             }
 
             ValidateImageSize(image);
@@ -40,30 +42,49 @@ namespace Service
                 Directory.CreateDirectory(_absoluteDirectoryPath);
             }
 
-            string relativePath = ComposeRelativePath(image, userId);
-            string absolutePath = ComposeAbsolutePath(relativePath);
+            string fileName = ComposeFileNameWithExtension(image, userId);
+            string absolutePath = ComposeAbsolutePath(fileName);
             
             await image.CopyInfPathOnDiskAsync(absolutePath);
 
             var entity = new Avatar()
             {
                 UserId = userId,
-                Url = relativePath
+                Url = fileName
             };
 
             await _avatarRepository.AddAsync(entity,cancellationToken);
 
-            return await image.ToByteArrayAsync();
+            return Path.Combine(_relativePathInWwwRoot,fileName);
         }
 
-        public async Task<byte[]> GetByUserIdAsync(int userId, CancellationToken cancellationToken)
+        public async Task<string> GetFileNameByUserIdAsync(int userId, CancellationToken cancellationToken)
         {
-            var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFoundAsync(userId,cancellationToken);
-            var path = avatarInfo.Url;
+            var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFoundAsync(userId, cancellationToken);
+            
+            var fileName = avatarInfo.Url;
 
-            return await RetrieveAvatarFromDiskAsync(path,cancellationToken);
+            return Path.Combine(_relativePathInWwwRoot, fileName);
         }
+        
+        public async Task<string> UpdateFileAsyncAndRetrieveFileName(IFormFile image, int userId, CancellationToken cancellationToken)
+        {
+            ValidateImageSize(image);
 
+            var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFoundAsync(userId, cancellationToken);
+            var path = ComposeAbsolutePath(avatarInfo.Url);
+            var fileName = ComposeFileNameWithExtension(image, userId);
+
+            RemoveAvatarOnDisk(path);
+            await image.CopyInfPathOnDiskAsync(path);
+
+
+            avatarInfo.Url = path;
+            _avatarRepository.Update(avatarInfo, cancellationToken);
+
+            
+            return Path.Combine(_relativePathInWwwRoot, fileName);
+        }
         
         public async Task RemoveAsync(int issuerId, CancellationToken cancellationToken)
         {
@@ -74,22 +95,6 @@ namespace Service
 
             await _avatarRepository.RemoveAsync(avatarInfo.Id,cancellationToken);
         }
-
-        public async Task<byte[]> UpdateAsync(IFormFile image, int userId, CancellationToken cancellationToken)
-        {
-            ValidateImageSize(image);
-
-            var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFoundAsync(userId,cancellationToken);
-            var path = ComposeAbsolutePath(avatarInfo.Url);
-
-            RemoveAvatarOnDisk(path);
-            await image.CopyInfPathOnDiskAsync(path);
-
-            _avatarRepository.Update(avatarInfo,cancellationToken);
-            
-            return await image.ToByteArrayAsync();
-        }
-        
 
         private async Task<byte[]> RetrieveAvatarFromDiskAsync(string relativePath, CancellationToken cancellationToken)
         {
@@ -121,7 +126,7 @@ namespace Service
             return avatarInfo;
         }
 
-        private string ComposeRelativePath(IFormFile image, int userId)
+        private string ComposeFileNameWithExtension(IFormFile image, int userId)
         {
             string relativeFilePath = userId + Path.GetExtension(image.FileName);
 
@@ -154,5 +159,7 @@ namespace Service
                 }
             }
         }
+
+
     }
 }
