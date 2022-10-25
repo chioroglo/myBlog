@@ -79,7 +79,7 @@ namespace Service
             await image.CopyInPathOnDiskAsync(path);
 
 
-            avatarInfo.Url = path;
+            avatarInfo.Url = fileName;
             _avatarRepository.Update(avatarInfo, cancellationToken);
 
             
