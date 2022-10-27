@@ -60,8 +60,13 @@ namespace Service
 
         public async Task<string> GetFileNameByUserIdAsync(int userId, CancellationToken cancellationToken)
         {
-            var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFoundAsync(userId, cancellationToken);
+            var avatarInfo = await GetAvatarInfoAsync(userId, cancellationToken);
             
+            if (avatarInfo == null)
+            {
+                return "";
+            }
+
             var fileName = avatarInfo.Url;
 
             return Path.Combine(_relativePathInWwwRoot, fileName);
@@ -71,7 +76,13 @@ namespace Service
         {
             ValidateImageSize(image);
 
-            var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFoundAsync(userId, cancellationToken);
+            var avatarInfo = await GetAvatarInfoAsync(userId, cancellationToken);
+
+            if (avatarInfo == null)
+            {
+                return await AddAsyncAndRetrieveFileName(image, userId, cancellationToken);
+            }
+
             var path = ComposeAbsolutePath(avatarInfo.Url);
             var fileName = ComposeFileNameWithExtension(image, userId);
 
@@ -86,9 +97,14 @@ namespace Service
             return Path.Combine(_relativePathInWwwRoot, fileName);
         }
         
-        public async Task RemoveAsync(int issuerId, CancellationToken cancellationToken)
+        public async Task RemoveAsync(int userId, CancellationToken cancellationToken)
         {
-            var avatarInfo = await GetAvatarInfoThrowValidationExceptionIfNotFoundAsync(issuerId,cancellationToken);
+            var avatarInfo = await GetAvatarInfoAsync(userId,cancellationToken);
+            
+            if (avatarInfo == null)
+            {
+                throw new ValidationException($"{nameof(User)} of ID:{userId} has no profile picture to remove");
+            }
             var path = ComposeAbsolutePath(avatarInfo.Url);
 
             RemoveAvatarOnDisk(path);
@@ -96,14 +112,9 @@ namespace Service
             await _avatarRepository.RemoveAsync(avatarInfo.Id,cancellationToken);
         }
         
-        private async Task<Avatar> GetAvatarInfoThrowValidationExceptionIfNotFoundAsync(int userId, CancellationToken cancellationToken)
+        private async Task<Avatar?> GetAvatarInfoAsync(int userId, CancellationToken cancellationToken)
         {
             var avatarInfo = await _avatarRepository.GetByUserIdAsync(userId,cancellationToken);
-
-            if (avatarInfo == null)
-            {
-                throw new ValidationException($"{nameof(Avatar)} of {nameof(User)}ID: {userId} was not found");
-            }
 
             return avatarInfo;
         }

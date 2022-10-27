@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.Dto.Auth;
 using DAL.Repositories.Abstract;
+using MyBlog.Service.Auth;
 using Service.Abstract.Auth;
 using System.Security.Authentication;
 
@@ -20,10 +21,12 @@ namespace Service.Auth
 
         public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest userData, CancellationToken cancellationToken)
         {
-            var currentUser = await TryIdentifyUserAsync(userData.Username, userData.Password,cancellationToken)
+            var response = await TryIdentifyUserAsync(userData.Username, userData.Password,cancellationToken)
                 ?? throw new AuthenticationException("Credentials were not valid");
-            
-            return currentUser;
+
+            response.AuthorizationExpirationDate = DateTime.UtcNow.AddMinutes(TokenClaimNames.SessionTimeInMinutes); 
+
+            return response;
         }
 
         private async Task<AuthenticateResponse> TryIdentifyUserAsync(string username, string password, CancellationToken cancellationToken)

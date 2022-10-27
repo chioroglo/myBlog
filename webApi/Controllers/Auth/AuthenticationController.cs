@@ -23,7 +23,6 @@ namespace API.Controllers.Auth
         public async Task<AuthenticateResponse> LoginAsync([FromBody] AuthenticateRequest userData,CancellationToken cancellationToken)
         {
             var authenticationResponse = await _authenticationService.AuthenticateAsync(userData,cancellationToken);
-
             authenticationResponse.Token = _tokenService.GenerateAccessToken(authenticationResponse);
             
             return authenticationResponse;

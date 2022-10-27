@@ -1,5 +1,6 @@
 ﻿using API.Controllers.Base;
 using Common.Dto.Avatar;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
@@ -17,7 +18,7 @@ namespace API.Controllers
             _uriBuilder = new UriBuilder();
         }
 
-
+        [AllowAnonymous]
         [HttpGet("{userId:int}")]
         public async Task<string> GetAvatarLinkByUserIdAsync(int userId, CancellationToken cancellationToken)
         {

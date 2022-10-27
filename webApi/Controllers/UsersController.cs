@@ -4,6 +4,7 @@ using Common.Dto.Paging.OffsetPaging;
 using Common.Dto.User;
 using Common.Models;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
@@ -21,6 +22,8 @@ namespace API.Controllers
             _userService = userService;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public async Task<UserModel> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
@@ -47,6 +50,8 @@ namespace API.Controllers
             return _mapper.Map<UserModel>(user);
         }
 
+
+        [AllowAnonymous]
         [HttpPost("paginated-search")]
         public async Task<OffsetPagedResult<UserModel>> GetPagedUsersAsync([FromBody] OffsetPagedRequest pagedRequest, CancellationToken cancellationToken)
         {

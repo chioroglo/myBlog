@@ -2,6 +2,7 @@
 using AutoMapper;
 using Common.Dto.PostReaction;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
@@ -19,6 +20,8 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("{postId:int}")]
         public async Task<IEnumerable<PostReactionDto>> GetByPostIdAsync(int postId, CancellationToken cancellationToken)
         {

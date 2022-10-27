@@ -4,6 +4,7 @@ using Common.Dto.Comment;
 using Common.Dto.Paging.OffsetPaging;
 using Common.Models;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
@@ -21,6 +22,8 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("{commentId:int}")]
         public async Task<CommentModel> GetByIdAsync(int commentId, CancellationToken cancellationToken)
         {
@@ -31,6 +34,8 @@ namespace API.Controllers
             return commentModel;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("[action]/{postId:int}")]
         public async Task<IEnumerable<CommentModel>> GetByPostIdAsync(int postId, CancellationToken cancellationToken)
         {

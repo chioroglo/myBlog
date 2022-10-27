@@ -5,6 +5,7 @@ using Common.Dto.Paging.OffsetPaging;
 using Common.Dto.Post;
 using Common.Models;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
@@ -22,6 +23,8 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("{postId:int}")]
         public async Task<PostModel> GetByIdWithUsernameAndTopicAsync(int postId, CancellationToken cancellationToken)
         {
@@ -62,6 +65,8 @@ namespace API.Controllers
             await _postsService.RemoveAsync(postId, issuerId: GetCurrentUserId(),cancellationToken);
         }
 
+
+        [AllowAnonymous]
         [HttpPost("paginated-search-offset")]
         public async Task<OffsetPagedResult<PostModel>> GetOffsetPagedPostsWithUsersAsync([FromBody] OffsetPagedRequest pagedRequest, CancellationToken cancellationToken)
         {
@@ -76,6 +81,8 @@ namespace API.Controllers
             };
         }
 
+
+        [AllowAnonymous]
         [HttpPost("paginated-search-cursor")]
         public async Task<CursorPagedResult<PostModel>> GetCursorPagedPostsWithUsersAndTopicsAsync([FromBody] CursorPagedRequest pagedRequest, CancellationToken cancellationToken)
         {
