@@ -17,7 +17,7 @@ namespace API.Controllers
         private readonly IPostService _postsService;
         private readonly IMapper _mapper;
 
-        public PostsController(IPostService postsService,IMapper mapper)
+        public PostsController(IPostService postsService, IMapper mapper,IUserService userService) : base(userService)
         {
             _postsService = postsService;
             _mapper = mapper;
@@ -48,14 +48,13 @@ namespace API.Controllers
         [HttpPut("{postId:int}")]
         public async Task<PostModel> UpdatePostByIdAsync(int postId,[FromBody] PostDto post, CancellationToken cancellationToken)
         {
-            // fixme, request does not update topic
             var request = _mapper.Map<Post>(post);
             request.Id = postId;
             request.UserId = GetCurrentUserId();
 
             await _postsService.UpdateAsync(request,cancellationToken);
 
-            var updatedPost = await _postsService.GetByIdAsync(postId,cancellationToken);
+            var updatedPost = await _postsService.GetByIdWithIncludeAsync(postId,cancellationToken,u => u.User);
             return _mapper.Map<PostModel>(updatedPost);
         }
 

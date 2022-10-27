@@ -13,13 +13,11 @@ namespace API.Controllers
     [Route("api/users")]
     public class UsersController : AppBaseController
     {
-        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserService userService, IMapper mapper)
+        public UsersController(IUserService userService, IMapper mapper)  : base(userService)
         {
-            _mapper = mapper;   
-            _userService = userService;
+            _mapper = mapper;
         }
 
 
@@ -32,6 +30,7 @@ namespace API.Controllers
             return _mapper.Map<UserModel>(user);
         }
 
+        [AllowAnonymous]
         [HttpGet("username/{username}")]
         public async Task<UserModel> GetByUsernameAsync(string username, CancellationToken cancellationToken)
         {

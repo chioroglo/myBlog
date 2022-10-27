@@ -73,7 +73,7 @@ namespace Service
         {
             var usernameFound = await _userRepository.GetWhereAsync(e => e.Username == username,cancellationToken);
 
-            return usernameFound.FirstOrDefault() ?? throw new ValidationException($"{typeof(User)} with name {username} was not found!");
+            return usernameFound.FirstOrDefault() ?? throw new ValidationException($"{nameof(User)} with name {username} was not found!");
         }
 
         public Task<OffsetPagedResult<User>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<User, object>>[] includeProperties)
@@ -87,7 +87,22 @@ namespace Service
         {
             var user = await _userRepository.GetByIdWithIncludeAsync(id, cancellationToken, includeProperties);
 
-            return user ?? throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
+            return user ?? throw new ValidationException($"{nameof(User)} of ID: {id} does not exist");
+        }
+
+        public async Task UpdateLastActivity(int userId, CancellationToken cancellationToken)
+        {
+            var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+
+            
+            if (user == null)
+            {
+                throw new ValidationException($"{nameof(User)} of ID: {userId} does not exist");
+            }
+
+            user.LastActivity = DateTime.UtcNow;
+
+            _userRepository.Update(user, cancellationToken);
         }
     }
 }

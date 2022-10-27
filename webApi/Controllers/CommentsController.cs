@@ -16,7 +16,7 @@ namespace API.Controllers
         private readonly ICommentService _commentsService;
         private readonly IMapper _mapper;
 
-        public CommentsController(ICommentService commentsService, IMapper mapper)
+        public CommentsController(ICommentService commentsService, IMapper mapper, IUserService userService) : base(userService)
         {
             _commentsService = commentsService;
             _mapper = mapper;

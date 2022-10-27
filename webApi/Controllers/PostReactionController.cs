@@ -14,7 +14,7 @@ namespace API.Controllers
         private readonly IPostReactionService _postReactionService;
         private readonly IMapper _mapper;
 
-        public PostReactionController(IPostReactionService postReactionService, IMapper mapper)
+        public PostReactionController(IPostReactionService postReactionService, IMapper mapper, IUserService userService) : base(userService)
         {
             _postReactionService = postReactionService;
             _mapper = mapper;

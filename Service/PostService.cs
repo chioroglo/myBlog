@@ -26,7 +26,15 @@ namespace Service
                 throw new ValidationException("This title is occupied");
             }
 
-            await CheckIncomingTopicAndAddNewIfDoesNotExist(request,cancellationToken);
+
+            if (request.Topic != null && !String.IsNullOrWhiteSpace(request.Topic.Name))
+            {
+                await CheckIncomingTopicAndAddNewIfDoesNotExist(request, cancellationToken);
+            }
+            else
+            {
+                request.Topic = null;
+            }
 
             await _postRepository.AddAsync(request,cancellationToken);
         }
@@ -91,10 +99,11 @@ namespace Service
             post.Title = request.Title;
             post.Content = request.Content;
 
-            if (request.Topic != null)
+            if (post.Topic != null && !String.IsNullOrWhiteSpace(post.Topic.Name))
             {
-                await CheckIncomingTopicAndAddNewIfDoesNotExist(request, cancellationToken);
+                await CheckIncomingTopicAndAddNewIfDoesNotExist(post, cancellationToken);
             }
+
 
             _postRepository.Update(post,cancellationToken);
         }
@@ -129,8 +138,6 @@ namespace Service
 
         private async Task CheckIncomingTopicAndAddNewIfDoesNotExist(Post request, CancellationToken cancellationToken)
         {
-            if (request.Topic != null)
-            {
                 if (await TopicOfNameDoesNotExist(request.Topic.Name, cancellationToken))
                 {
                     await _topicRepository.AddAsync(new Topic() { Name = request.Topic.Name }, cancellationToken);
@@ -141,7 +148,7 @@ namespace Service
                 var topic = (await _topicRepository.GetWhereAsync(e => e.Name == request.Topic.Name, cancellationToken)).FirstOrDefault();
 
                 request.Topic = topic;
-            }
+            
         }
     }
 }
