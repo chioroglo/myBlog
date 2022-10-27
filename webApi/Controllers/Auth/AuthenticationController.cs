@@ -25,7 +25,7 @@ namespace API.Controllers.Auth
         {
             var authenticationResponse = await _authenticationService.AuthenticateAsync(userData,cancellationToken);
             authenticationResponse.Token = _tokenService.GenerateAccessToken(authenticationResponse);
-            
+
             return authenticationResponse;
         }
 

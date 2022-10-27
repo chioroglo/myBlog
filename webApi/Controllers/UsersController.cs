@@ -56,6 +56,7 @@ namespace API.Controllers
         {
             var response = await _userService.GetOffsetPageAsync(pagedRequest, cancellationToken);
 
+
             return new OffsetPagedResult<UserModel>()
             {
                 PageIndex = response.PageIndex,
@@ -69,7 +70,10 @@ namespace API.Controllers
         [HttpPatch]
         public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUserAsync([FromBody] UserInfoDto newProfileInfo, CancellationToken cancellationToken)
         {
+
             var mappedRequest = _mapper.Map<User>(newProfileInfo);
+
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             mappedRequest.Id = GetCurrentUserId();
 

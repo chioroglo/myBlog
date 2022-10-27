@@ -36,6 +36,7 @@ namespace API.Controllers
             ([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
         {
             dto.UserId = GetCurrentUserId();
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             var request = _mapper.Map<PostReaction>(dto);
 
@@ -47,7 +48,9 @@ namespace API.Controllers
         [HttpPut]
         public async Task<PostReactionDto> EditReactionAsync([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
         {
+            
             dto.UserId = GetCurrentUserId();
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             var request = _mapper.Map<PostReaction>(dto);
 
@@ -59,6 +62,8 @@ namespace API.Controllers
         [HttpDelete("{postId:int}")]
         public async Task RemoveReactionByPostIdAsync(int postId, CancellationToken cancellationToken)
         {
+
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
             await _postReactionService.RemoveAsync(postId, GetCurrentUserId(),cancellationToken);
         }
     }

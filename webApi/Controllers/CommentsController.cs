@@ -52,6 +52,8 @@ namespace API.Controllers
 
             commentEntity.UserId = GetCurrentUserId();
 
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
+
             await _commentsService.Add(commentEntity,cancellationToken);
 
             commentEntity.RegistrationDate = DateTime.UtcNow;
@@ -79,6 +81,8 @@ namespace API.Controllers
             var comment = await _commentsService.GetByIdAsync(commentId,cancellationToken);
 
             var currentUserId = GetCurrentUserId();
+
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             await _commentsService.RemoveAsync(commentId,issuerId: currentUserId,cancellationToken);
         }

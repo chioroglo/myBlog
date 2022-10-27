@@ -37,7 +37,10 @@ namespace API.Controllers
         public async Task<PostModel> CreatePostAsync([FromBody] PostDto postContent, CancellationToken cancellationToken)
         {
             var request = _mapper.Map<Post>(postContent);
+
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
             request.UserId = GetCurrentUserId();
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             await _postsService.Add(request,cancellationToken);
 
@@ -51,6 +54,7 @@ namespace API.Controllers
             var request = _mapper.Map<Post>(post);
             request.Id = postId;
             request.UserId = GetCurrentUserId();
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             await _postsService.UpdateAsync(request,cancellationToken);
 
@@ -61,6 +65,7 @@ namespace API.Controllers
         [HttpDelete("{postId:int}")]
         public async Task DeletePostByIdAsync(int postId, CancellationToken cancellationToken)
         {
+            await UpdateAuthorizedUserLastActivity(cancellationToken);
             await _postsService.RemoveAsync(postId, issuerId: GetCurrentUserId(),cancellationToken);
         }
 

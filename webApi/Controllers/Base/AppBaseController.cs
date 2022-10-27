@@ -25,7 +25,10 @@ namespace API.Controllers.Base
 
         protected async Task UpdateAuthorizedUserLastActivity(CancellationToken cancellationToken)
         {
-            await _userService.UpdateLastActivity(GetCurrentUserId(), cancellationToken);
+            if (HttpContext.User != null)
+            {
+                await _userService.UpdateLastActivity(GetCurrentUserId(), cancellationToken);
+            }
         }
     }
 }
