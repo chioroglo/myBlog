@@ -14,7 +14,8 @@ namespace Common.MappingProfiles
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Content, opt => opt.MapFrom(src => src.Content))
                 .ForMember(dst => dst.AuthorUsername, opt => opt.MapFrom(src => src.User.Username))
-                .ForMember(dst => dst.Topic, opt => opt.MapFrom(src => src.Topic == null ? "" :src.Topic.Name));
+                .ForMember(dst => dst.Topic, opt => opt.MapFrom(src => src.Topic == null ? "" : src.Topic.Name))
+                .ForMember(dst => dst.AmountOfComments, opt => opt.MapFrom(src => src.Comments.Count()));
 
             //CreateMap<PostModel, Post>()
             //    .ForMember(dst => dst.UserId, opt => opt.MapFrom(src => src.AuthorId))

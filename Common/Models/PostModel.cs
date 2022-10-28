@@ -13,5 +13,7 @@ namespace Common.Models
         public string AuthorUsername { get; set; }
 
         public string Topic { get; set; }
+
+        public int AmountOfComments { get; set; }
     }
 }
