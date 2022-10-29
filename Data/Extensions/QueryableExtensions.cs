@@ -50,7 +50,8 @@ namespace DAL.Extensions
 
             var total = await query.CountAsync(cancellationToken);
 
-            query = query.Sort(nameof(BaseEntity.RegistrationDate), pagedRequest.GetNewer ? "ASC" : "DESC", cancellationToken);
+            query = query.Sort(nameof(BaseEntity.Id), pagedRequest.GetNewer ? "ASC" : "DESC", cancellationToken);
+
 
             query = PaginateCursor(query, pagedRequest.PageSize, pagedRequest.PivotElementId,pagedRequest.GetNewer);
 
