@@ -1,4 +1,4 @@
-import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Button, Paper, Tab, Tabs, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { authApi, userApi } from '../../shared/api/http/api';
 import { FilterLogicalOperator } from '../../shared/api/types/paging';
 import { CursorPagedRequest } from '../../shared/api/types/paging/cursorPaging';
 import { UserModel } from '../../shared/api/types/user';
-import { DefaultPageSize, UserIdTokenKeyName } from '../../shared/config';
+import { DefaultPageSize } from '../../shared/config';
 
 const ProfilePage = () => {
     
@@ -61,7 +61,6 @@ const ProfilePage = () => {
             :
             <>
                 <ProfileHeader user={user}/>
-                
                 
                 <Box style={{width:"70vw",margin:"0 auto"}}>
                     <Box>

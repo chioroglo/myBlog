@@ -30,6 +30,7 @@ const PostCard = ({post,width= "100%"}: PostCardProps) => {
             <CardContent>
                 <Typography variant="h5">{post.title}</Typography>
                 {/* todo add redirect to posts of this topic*/}
+                id:{post.id}<br/>
                 {post.topic && <Chip onClick={() => {}} style={{display:"block",width:"fit-content",padding:"5px 5px"}} variant="outlined" label={"#" + post.topic}/>}
                 {post.content}
             </CardContent>
