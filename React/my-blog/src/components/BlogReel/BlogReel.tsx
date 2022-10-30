@@ -1,4 +1,4 @@
-import { Box,  Button,  CircularProgress, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ApplicationState } from '../../redux';
@@ -15,7 +15,7 @@ import { Filter, FilterLogicalOperator, RequestFilters } from '../../shared/api/
 import { FilterMenu } from '../FilterMenu';
 import { DefaultPageSize } from '../../shared/config';
 
-const BlogReel = ({pageSize = DefaultPageSize,reelWidth,pagingConditions: pagingRequestDefault,showFilteringMenu}:BlogReelProps) => {
+const BlogReel = ({pageSize = DefaultPageSize,reelWidth,pagingRequestDefault,showFilteringMenu,availableFilterNames}:BlogReelProps) => {
     
     const isAuthorized: boolean = useSelector<ApplicationState,boolean>(state => state.isAuthorized);
 
@@ -83,7 +83,7 @@ const BlogReel = ({pageSize = DefaultPageSize,reelWidth,pagingConditions: paging
     return (
         <>
 
-        {showFilteringMenu && <FilterMenu width={reelWidth} requestFilters={filters} setFilters={setFilters} availableFilters={["Title","UserId"]}/>}
+        {showFilteringMenu && <FilterMenu width={reelWidth} requestFilters={filters} setFilters={setFilters} availableFilters={availableFilterNames}/>}
         
         {isLoading && posts.length === 0 ?
         <Box style={{margin:"50px auto",width:"fit-content"}}>

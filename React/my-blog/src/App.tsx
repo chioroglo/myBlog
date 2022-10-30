@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import OnlyForUnauthorized from './guards/OnlyForUnauthorized';
 import { RequireAuth } from './guards/RequireAuth';
 import { useAuthorizedUserInfo } from './hooks';
-import { HomePage, Layout, LoginPage, NotFoundPage, PostPage, ProfilePage, RegisterPage, UserPage } from './pages';
+import { HomePage, Layout, LoginPage, NotFoundPage, PostPage, ProfilePage, RegisterPage } from './pages';
 import "./App.css";
 
 

@@ -7,7 +7,7 @@ import { UserIdTokenKeyName } from '../../shared/config';
 import { ProfileHeaderProps } from './ProfileHeaderProps';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScheduleIcon from '@mui/icons-material/Schedule';
-import { transformToDateMonthHourseMinutesString, transformProfileRegistrationDate } from '../../shared/assets';
+import { transformToDateMonthHourseMinutesString, transformToDayMonthYear } from '../../shared/assets';
 
 
 const paperStyle : React.CSSProperties = {
@@ -77,7 +77,7 @@ const ProfileHeader = ({user}: ProfileHeaderProps) => {
                     <Box style={{margin:"0 32px 0 0"}}>
                         <CalendarMonthIcon/>
                         <Typography>
-                            Joined on {transformProfileRegistrationDate(new Date(user.registrationDate))}
+                            Joined on {transformToDayMonthYear(new Date(user.registrationDate))}
                         </Typography>
                     </Box>
 

@@ -11,12 +11,10 @@ namespace Service
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
-        private readonly ITopicRepository _topicRepository;
 
-        public PostService(IPostRepository postRepository, ITopicRepository topicRepository)
+        public PostService(IPostRepository postRepository)
         {
             _postRepository = postRepository;
-            _topicRepository = topicRepository;
         }
 
         public async Task Add(Post request,CancellationToken cancellationToken)
@@ -26,15 +24,6 @@ namespace Service
                 throw new ValidationException("This title is occupied");
             }
 
-
-            if (request.Topic != null && !String.IsNullOrWhiteSpace(request.Topic.Name))
-            {
-                await CheckIncomingTopicAndAddNewIfDoesNotExist(request, cancellationToken);
-            }
-            else
-            {
-                request.Topic = null;
-            }
 
             await _postRepository.AddAsync(request,cancellationToken);
         }
@@ -99,11 +88,6 @@ namespace Service
             post.Title = request.Title;
             post.Content = request.Content;
 
-            if (post.Topic != null && !String.IsNullOrWhiteSpace(post.Topic.Name))
-            {
-                await CheckIncomingTopicAndAddNewIfDoesNotExist(post, cancellationToken);
-            }
-
 
             _postRepository.Update(post,cancellationToken);
         }
@@ -127,28 +111,6 @@ namespace Service
             var pagedPosts = await _postRepository.GetCursorPagedData(query, cancellationToken, includeProperties);
 
             return pagedPosts;
-        }
-
-        private async Task<bool> TopicOfNameDoesNotExist(string name, CancellationToken cancellationToken)
-        {
-            var result = (await _topicRepository.GetWhereAsync(e => e.Name == name, cancellationToken)).ToList();
-
-            return result.Count == 0;
-        }
-
-        private async Task CheckIncomingTopicAndAddNewIfDoesNotExist(Post request, CancellationToken cancellationToken)
-        {
-                if (await TopicOfNameDoesNotExist(request.Topic.Name, cancellationToken))
-                {
-                    await _topicRepository.AddAsync(new Topic() { Name = request.Topic.Name }, cancellationToken);
-
-                    await _topicRepository.SaveChangesAsync();
-                };
-
-                var topic = (await _topicRepository.GetWhereAsync(e => e.Name == request.Topic.Name, cancellationToken)).FirstOrDefault();
-
-                request.Topic = topic;
-            
         }
     }
 }

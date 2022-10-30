@@ -117,7 +117,7 @@ namespace DAL.Extensions
                 }
 
 
-                bool isString = typeof(T).GetProperty(requestFilters.Filters[i].Path).PropertyType == typeof(string);
+                bool isString = typeof(T).GetProperty(requestFilters.Filters[i].Path)?.PropertyType == typeof(string);
 
                 var path = requestFilters.Filters[i].Path + (isString ? "" : $".{nameof(ToString)}()");
 

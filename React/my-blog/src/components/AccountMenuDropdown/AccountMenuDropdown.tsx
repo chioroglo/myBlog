@@ -12,9 +12,8 @@ import { palette } from '../../shared/assets';
 const AccountMenuDropdown = ({icon}: {icon: JSX.Element}) => {
     
     const [anchorEl,setAnchorEl] = useState<null | HTMLElement>(); 
-    const isDropdownOpened = Boolean(anchorEl);
-    
     const [modalOpen,setModalOpen] = useState<boolean>(false);
+    const isDropdownOpened = Boolean(anchorEl);
 
     
     const dispatch = useDispatch();
