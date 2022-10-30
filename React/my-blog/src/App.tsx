@@ -20,7 +20,7 @@ function App() {
           <Route path="me" element={<RequireAuth children={<Navigate to={`/user/${userId}`} ></Navigate>}/>}/>
           <Route path="login" element={<OnlyForUnauthorized children={<LoginPage/>}/>}/>
           <Route path="register" element={<OnlyForUnauthorized children={<RegisterPage/>}/>}/>
-          <Route path="/" element={<RequireAuth children={<HomePage/>}/>}/>
+          <Route path="/" element={<HomePage/>}/>
           <Route path="post/:postId" element={<PostPage/>}/>
           <Route path="user/:userId" element={<ProfilePage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>

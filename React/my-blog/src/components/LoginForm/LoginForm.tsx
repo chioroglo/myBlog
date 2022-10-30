@@ -98,8 +98,7 @@ const LoginForm = () => {
                 .required()
                 .min(PasswordValidationConstraints.MinLength)
                 .max(PasswordValidationConstraints.MaxLength)
-        },
-        )
+        })
         
     });
 

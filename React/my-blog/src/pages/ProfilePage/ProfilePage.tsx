@@ -40,7 +40,7 @@ const ProfilePage = () => {
                 logicalOperator: FilterLogicalOperator.And,
                 filters : [
                     {
-                        path: "userId",
+                        path: "UserId",
                         value: response.id.toString()
                     }
                 ]
@@ -71,7 +71,7 @@ const ProfilePage = () => {
                     </Box>
 
                     <CustomTabPanel index={0} value={visibleTabIndex}>
-                        {pageRequest && <BlogReel reelWidth="100%" userId={user.id} pageSize={DefaultPageSize} pagingConditions={pageRequest}/>}
+                        {pageRequest && <BlogReel reelWidth="100%" pageSize={DefaultPageSize} pagingConditions={pageRequest}/>}
                     </CustomTabPanel>
                     
                     <CustomTabPanel index={1} value={visibleTabIndex}>

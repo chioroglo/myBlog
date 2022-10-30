@@ -6,6 +6,7 @@ using Domain.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using System.Text;
+using System.Reflection;
 
 namespace DAL.Extensions
 {
@@ -105,7 +106,7 @@ namespace DAL.Extensions
         }
 
         private static IQueryable<T> ApplyFilters<T>(this IQueryable<T> query, RequestFilters requestFilters)
-        {
+            {
             var predicate = new StringBuilder();
 
             for (int i = 0; i < requestFilters.Filters.Count; i++)
@@ -114,7 +115,13 @@ namespace DAL.Extensions
                 {
                     predicate.Append($" {requestFilters.LogicalOperator} ");
                 }
-                predicate.Append(requestFilters.Filters[i].Path + $".{nameof(ToString)}()" + $".{nameof(string.Contains)}(@{i})");
+
+
+                bool isString = typeof(T).GetProperty(requestFilters.Filters[i].Path).PropertyType == typeof(string);
+
+                var path = requestFilters.Filters[i].Path + (isString ? "" : $".{nameof(ToString)}()");
+
+                predicate.Append(path + $".{nameof(string.Contains)}(@{i})");
             }
 
             if (requestFilters.Filters.Any())

@@ -1,4 +1,4 @@
-import { Box,  CircularProgress, Paper, Typography } from '@mui/material';
+import { Box,  Button,  CircularProgress, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ApplicationState } from '../../redux';
@@ -10,39 +10,82 @@ import { BlogReelProps } from './BlogReelProps';
 import EditIcon from '@mui/icons-material/Edit';
 import { Waypoint } from 'react-waypoint';
 import { AxiosResponse } from 'axios';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { Filter, FilterLogicalOperator, RequestFilters } from '../../shared/api/types/paging';
+import { FilterMenu } from '../FilterMenu';
+import { DefaultPageSize } from '../../shared/config';
 
-const BlogReel = ({reelWidth,pagingConditions: pagingRequestDefault}:BlogReelProps) => {
+const BlogReel = ({pageSize = DefaultPageSize,reelWidth,pagingConditions: pagingRequestDefault,showFilteringMenu}:BlogReelProps) => {
     
     const isAuthorized: boolean = useSelector<ApplicationState,boolean>(state => state.isAuthorized);
 
     const [isLoading,setLoading] = useState<boolean>(true);
+    const [noMorePosts,setNoMorePosts] = useState<boolean>(false);
     const [posts,setPosts] = useState<PostModel[]>([]);
-    const [pagingRequest,setPagingRequest] = useState<CursorPagedRequest>(pagingRequestDefault);
-
-    const fetchPosts = (pagingRequest: CursorPagedRequest) => postApi.getCursorPagedPosts(pagingRequest).then((result: AxiosResponse<CursorPagedResult<PostModel>>) => result.data);
     
-    const loadMorePosts = (request: CursorPagedRequest) => {
+    
+    const [filters,setFilters] = useState<RequestFilters>(pagingRequestDefault.requestFilters || { filters:[],logicalOperator:FilterLogicalOperator.And });
+    const [pagingRequestConfiguration,setPagingRequestConfiguration] = useState<{pivotElementId?: number,pageSize: number,getNewer: boolean}>({...pagingRequestDefault});
+    
+    const fetchPosts = (pagingRequest: CursorPagedRequest) => postApi.getCursorPagedPosts({...pagingRequest,requestFilters: filters}).then((result: AxiosResponse<CursorPagedResult<PostModel>>) => result.data);
+    
+    const loadMorePosts = (request: CursorPagedRequest): void => {
         setLoading(true);
-        console.log(request);
+        
+        if (noMorePosts) {
+            return;
+        }
+
         fetchPosts(request).then((result) => {
+            
+            if (result.items.length === 0) {
+                setNoMorePosts(true);
+            }
+
             setPosts(posts.concat(result.items));
-            setPagingRequest({...pagingRequest,pivotElementId: result.tailElementId});
+            setPagingRequestConfiguration({...pagingRequestConfiguration,pivotElementId: result.tailElementId});
             setLoading(false);
-            console.log(result.items);
         });
         
     }
 
     
     useEffect(() => {
-        fetchPosts(pagingRequestDefault).then((result) => {
-            loadMorePosts(pagingRequest);
-        });
+        loadMorePosts({...pagingRequestConfiguration,requestFilters: filters});
     },[]);
 
 
 
-    return (isLoading && posts.length === 0 ?
+    useEffect(() => {
+        setNoMorePosts(false);
+        setLoading(true);
+        setPagingRequestConfiguration({
+            pageSize: pageSize,
+            getNewer: false,
+        });
+
+
+        fetchPosts({...pagingRequestConfiguration,pivotElementId: undefined,requestFilters:filters}).then((result) => {
+            
+            if (result.items.length === 0) {
+                setNoMorePosts(true);
+            }
+
+            setPosts(result.items);
+            setPagingRequestConfiguration({...pagingRequestConfiguration,pivotElementId: result.tailElementId});
+            setLoading(false);
+        })
+
+        
+    },[filters]);
+
+
+    return (
+        <>
+
+        {showFilteringMenu && <FilterMenu width={reelWidth} requestFilters={filters} setFilters={setFilters} availableFilters={["Title","UserId"]}/>}
+        
+        {isLoading && posts.length === 0 ?
         <Box style={{margin:"50px auto",width:"fit-content"}}>
             <CircularProgress/>
         </Box>
@@ -57,13 +100,24 @@ const BlogReel = ({reelWidth,pagingConditions: pagingRequestDefault}:BlogReelPro
             :
             <>
                 {posts.map((post) => <PostCard width={reelWidth} key={post.id} post={post}/>)}
-                <Waypoint bottomOffset="-20px" onEnter={() => loadMorePosts(pagingRequest)}></Waypoint>
+                <Waypoint bottomOffset="-20px" onEnter={() => !noMorePosts && loadMorePosts(pagingRequestConfiguration)}></Waypoint>
+                
                 {isLoading && 
                     <Box style={{margin:"50px auto",width:"fit-content"}}>
                         <CircularProgress/>
                     </Box>
                 }
-            </>
+
+                {
+                    noMorePosts && <Box style={{margin:"50px auto",width:"fit-content"}}>
+                        <ArrowUpwardIcon style={{margin:"0 auto",display:"block"}} onClick={() => window.scrollTo({top:0,behavior:"smooth"})}/>
+                        <Typography textAlign={"center"}>Oops.. Looks like there is nothing for you to show<br/>
+                            Press the arrow button to scroll to the top
+                        </Typography>
+                    </Box>
+                }
+            </>}
+        </>
     );
 }
 export {BlogReel};

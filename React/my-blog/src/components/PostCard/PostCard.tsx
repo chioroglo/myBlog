@@ -6,9 +6,13 @@ import * as assets from '../../shared/assets';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from '@mui/icons-material/Comment';
 import { userApi } from '../../shared/api/http/api';
+import { useSelector } from 'react-redux';
+import { ApplicationState } from '../../redux';
 
 const PostCard = ({post,width= "100%"}: PostCardProps) => {
 
+    const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
+    
     const [avatarLink,setAvatarLink] = useState("");
 
     useEffect(() => {
@@ -24,13 +28,12 @@ const PostCard = ({post,width= "100%"}: PostCardProps) => {
             avatar={<Avatar src={avatarLink}>{assets.getFirstCharOfString(post.authorUsername)}</Avatar>}
             action={<IconButton><MoreVertIcon/></IconButton>}
             title={post.authorUsername}
-            subheader={assets.transformProfileLastActivityDate(new Date(post.registrationDate))}/>
+            subheader={assets.transformToDateMonthHourseMinutesString(new Date(post.registrationDate))}/>
             
     
             <CardContent>
                 <Typography variant="h5">{post.title}</Typography>
                 {/* todo add redirect to posts of this topic*/}
-                id:{post.id}<br/>
                 {post.topic && <Chip onClick={() => {}} style={{display:"block",width:"fit-content",padding:"5px 5px"}} variant="outlined" label={"#" + post.topic}/>}
                 {post.content}
             </CardContent>
