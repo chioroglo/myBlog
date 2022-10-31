@@ -103,4 +103,8 @@ export class postApi {
     static getCursorPagedPosts(request: CursorPagedRequest) {
         return instance.post(`/posts/paginated-search-cursor`, request)
     }
+
+    static getReactionsByPost(postId: number) {
+        return instance.get(`/reactions/${postId}`);
+    }
 }

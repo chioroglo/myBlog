@@ -1,14 +1,27 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, Chip, IconButton, Typography } from '@mui/material';
+import {
+    Avatar,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+    Chip,
+    Icon,
+    IconButton,
+    SvgIcon,
+    Typography
+} from '@mui/material';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { PostCardProps } from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as assets from '../../shared/assets';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from '@mui/icons-material/Comment';
-import { userApi } from '../../shared/api/http/api';
+import {postApi, userApi} from '../../shared/api/http/api';
 import { useSelector } from 'react-redux';
 import { ApplicationState } from '../../redux';
 import {palette} from "../../shared/assets";
+import {imagePaths} from "../../shared/assets/reactionIcons";
+import {Image} from "@mui/icons-material";
 
 const PostCard = ({post,width= "100%"}: PostCardProps) => {
 
@@ -19,10 +32,12 @@ const PostCard = ({post,width= "100%"}: PostCardProps) => {
 
     useEffect(() => {
         fetchAvatarUrl(post.authorId);
+        fetchPostReactions(post.id);
     },[]);
 
     const fetchAvatarUrl = (userId: number) => userApi.getAvatarUrlById(userId).then(response => setAvatarLink(response.data));
 
+    const fetchPostReactions = (postId: number) => postApi.getReactionsByPost(postId).then(response => setReactions(response.data));
 
     return(
         <Card elevation={10} style={{width: width,margin:"20px auto"}}>
@@ -43,7 +58,9 @@ const PostCard = ({post,width= "100%"}: PostCardProps) => {
 
             <CardActions>
                 <IconButton aria-label="reaction">
-                    <FavoriteIcon/>
+                    <Icon>
+                        <svg></svg>
+                    </Icon>
                 </IconButton>
 
                 <IconButton aria-label="comments">
