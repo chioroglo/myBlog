@@ -1,4 +1,4 @@
-import { CursorPagedRequest } from "../../shared/api/types/paging/cursorPaging";
+import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
 
 export interface BlogReelProps {
     pageSize: number,

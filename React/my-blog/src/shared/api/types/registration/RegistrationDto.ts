@@ -4,4 +4,4 @@ export interface RegistrationDto {
     "lastName": string | null,
     "password": string,
     "confirmPassword": string
-  }
+}

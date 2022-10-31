@@ -1,7 +1,7 @@
 import React from 'react';
-import { BlogReel } from '../../components/BlogReel';
-import { CursorPagedRequest } from '../../shared/api/types/paging/cursorPaging';
-import { DefaultPageSize } from '../../shared/config';
+import {BlogReel} from '../../components/BlogReel';
+import {CursorPagedRequest} from '../../shared/api/types/paging/cursorPaging';
+import {DefaultPageSize} from '../../shared/config';
 
 const HomePage = () => {
 
@@ -11,7 +11,8 @@ const HomePage = () => {
     }
 
     return (
-        <BlogReel pageSize={0} reelWidth={'50%'} pagingRequestDefault={homePagingConditions} showFilteringMenu availableFilterNames={["Content","Title","Topic"]}></BlogReel>
+        <BlogReel pageSize={0} reelWidth={'50%'} pagingRequestDefault={homePagingConditions} showFilteringMenu
+                  availableFilterNames={["Content", "Title", "Topic"]}></BlogReel>
     );
 };
 

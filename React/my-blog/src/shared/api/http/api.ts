@@ -1,7 +1,7 @@
 import axios, {AxiosError} from "axios";
 
 import {API_URL, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName} from "../../config"
-import {AuthenticateRequest, AuthenticateResponse, ReactionType, RegistrationDto} from "../types"
+import {AuthenticateRequest, AuthenticateResponse, RegistrationDto} from "../types"
 import {CursorPagedRequest} from "../types/paging/cursorPaging";
 import {PostReactionDto} from "../types/postReaction/PostReactionDto";
 
@@ -110,7 +110,7 @@ export class postReactionApi {
     }
 
     static reactToPost(request: PostReactionDto) {
-        return instance.post(`/reactions`,request);
+        return instance.post(`/reactions`, request);
     }
 
     static removeReactionFromPost(postId: number) {

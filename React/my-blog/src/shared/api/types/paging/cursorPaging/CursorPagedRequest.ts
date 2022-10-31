@@ -1,4 +1,4 @@
-import { RequestFilters } from "../RequestFilters";
+import {RequestFilters} from "../RequestFilters";
 
 export interface CursorPagedRequest {
     "pageSize": number,

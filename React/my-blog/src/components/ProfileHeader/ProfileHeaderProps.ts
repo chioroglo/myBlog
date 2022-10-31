@@ -1,6 +1,6 @@
-import { UserModel } from "../../shared/api/types/user";
+import {UserModel} from "../../shared/api/types/user";
 
-export interface ProfileHeaderProps{
+export interface ProfileHeaderProps {
     user: UserModel,
     children?: React.ReactNode
 }

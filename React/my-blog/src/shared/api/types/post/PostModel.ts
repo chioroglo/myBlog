@@ -7,4 +7,4 @@ export interface PostModel {
     "amountOfComments": number,
     "authorUsername": string,
     "topic"?: string
-  }
+}

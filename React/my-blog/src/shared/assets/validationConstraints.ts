@@ -6,7 +6,7 @@ export const UserValidationConstraints = {
 
 export const PasswordValidationConstraints = {
     MinLength: 6,
-    MaxLength : 20
+    MaxLength: 20
 }
 
 export const FirstnameLastnameConstraints = {

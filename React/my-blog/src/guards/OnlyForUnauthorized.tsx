@@ -1,10 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate, useLocation } from 'react-router-dom';
-import { ApplicationState } from '../redux';
+import {useSelector} from 'react-redux';
+import {Navigate, useLocation} from 'react-router-dom';
+import {ApplicationState} from '../redux';
 
-const OnlyForUnauthorized = ({children}: {children: JSX.Element}) => {
-    
+const OnlyForUnauthorized = ({children}: { children: JSX.Element }) => {
+
     const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
     const location = useLocation();
 

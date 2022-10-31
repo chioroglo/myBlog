@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
-import { ApplicationState } from "../redux";
-import { JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName } from "../shared/config";
-import { UserInfoCache } from "../shared/types";
+import {useSelector} from "react-redux";
+import {ApplicationState} from "../redux";
+import {JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName} from "../shared/config";
+import {UserInfoCache} from "../shared/types";
 
-export const useAuthorizedUserInfo = (): UserInfoCache | null => { 
-    const isAuthorized: boolean = useSelector<ApplicationState,boolean>(state => state.isAuthorized);
+export const useAuthorizedUserInfo = (): UserInfoCache | null => {
+    const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
 
     if (isAuthorized) {
         return {
