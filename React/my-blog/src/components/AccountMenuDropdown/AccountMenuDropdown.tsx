@@ -85,4 +85,4 @@ const AccountMenuDropdown = ({icon}: {icon: JSX.Element}) => {
     );
 };
 
-export {AccountMenuDropdown as AccountMenu};
+export {AccountMenuDropdown};

@@ -2,7 +2,7 @@ export * from "./palette";
 
 export * from "./validationConstraints"
 
-export * from "./getFirstCharOfString"
+export * from "./getFirstCharOfStringUpperCase"
 
 export * from "./transformProfileRegistrationDate"
 

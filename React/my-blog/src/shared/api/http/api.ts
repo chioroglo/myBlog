@@ -1,8 +1,9 @@
-import axios, { AxiosError } from "axios";
+import axios, {AxiosError} from "axios";
 
-import { API_URL,JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName } from "../../config"
-import { AuthenticateRequest, AuthenticateResponse, RegistrationDto } from "../types"
-import { CursorPagedRequest, CursorPagedResult } from "../types/paging/cursorPaging";
+import {API_URL, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName} from "../../config"
+import {AuthenticateRequest, AuthenticateResponse, ReactionType, RegistrationDto} from "../types"
+import {CursorPagedRequest} from "../types/paging/cursorPaging";
+import {PostReactionDto} from "../types/postReaction/PostReactionDto";
 
 
 const instance = axios.create({
@@ -11,9 +12,9 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
-    
-        if (config && config.headers)
-            config.headers["Authorization"] = localStorage.getItem(JwtTokenKeyName) || sessionStorage.getItem(JwtTokenKeyName)
+
+    if (config && config.headers)
+        config.headers["Authorization"] = localStorage.getItem(JwtTokenKeyName) || sessionStorage.getItem(JwtTokenKeyName)
             ? `Bearer ${localStorage.getItem(JwtTokenKeyName) ?? sessionStorage.getItem(JwtTokenKeyName)}`
             : undefined
 
@@ -37,7 +38,7 @@ export class userApi {
 }
 
 export class authApi {
-    
+
     static async getCurrent() {
         return await instance.get(`/users/current`);
     }
@@ -49,7 +50,7 @@ export class authApi {
     static logout(): void {
         localStorage.removeItem(JwtTokenKeyName);
         sessionStorage.removeItem(JwtTokenKeyName);
-        
+
         localStorage.removeItem(UserIdTokenKeyName);
         sessionStorage.removeItem(UserIdTokenKeyName);
 
@@ -57,44 +58,41 @@ export class authApi {
         sessionStorage.removeItem(UsernameTokenKeyName);
     }
 
-    static TryAuthenticateAndPayloadInHeaders(credentials: AuthenticateRequest,useLocalStorage: boolean) {
-        return instance.post(`/login`,credentials).then((response) =>
-        {
+    static TryAuthenticateAndPayloadInHeaders(credentials: AuthenticateRequest, useLocalStorage: boolean) {
+        return instance.post(`/login`, credentials).then((response) => {
             const payload = response.data as AuthenticateResponse;
 
-            this.setJwtAndPayloadInStorage(payload,useLocalStorage);
+            this.setJwtAndPayloadInStorage(payload, useLocalStorage);
 
             return response;
         })
-        .catch((reason) => reason as AxiosError);
+            .catch((reason) => reason as AxiosError);
     }
 
     static TryRegister(dto: RegistrationDto) {
-        
-        if (dto.firstName === "")
-        {
+
+        if (dto.firstName === "") {
             dto.firstName = null;
         }
-        
-        if (dto.lastName === "")
-        {
+
+        if (dto.lastName === "") {
             dto.lastName = null;
         }
 
-        return instance.post(`/register`,dto)
-        .then((response) => {
-            return response;
-        })
-        .catch((reason) => reason as AxiosError);
+        return instance.post(`/register`, dto)
+            .then((response) => {
+                return response;
+            })
+            .catch((reason) => reason as AxiosError);
     }
 
-    private static setJwtAndPayloadInStorage (payload: AuthenticateResponse, useLocalStorage: boolean): void {
+    private static setJwtAndPayloadInStorage(payload: AuthenticateResponse, useLocalStorage: boolean): void {
 
         let storage: Storage = useLocalStorage ? localStorage : sessionStorage;
-    
-        storage.setItem(JwtTokenKeyName,payload.token);
-        storage.setItem(UserIdTokenKeyName,payload.id.toString());
-        storage.setItem(UsernameTokenKeyName,payload.username);
+
+        storage.setItem(JwtTokenKeyName, payload.token);
+        storage.setItem(UserIdTokenKeyName, payload.id.toString());
+        storage.setItem(UsernameTokenKeyName, payload.username);
 
     }
 }
@@ -104,7 +102,19 @@ export class postApi {
         return instance.post(`/posts/paginated-search-cursor`, request)
     }
 
+}
+
+export class postReactionApi {
     static getReactionsByPost(postId: number) {
         return instance.get(`/reactions/${postId}`);
     }
+
+    static reactToPost(request: PostReactionDto) {
+        return instance.post(`/reactions`,request);
+    }
+
+    static removeReactionFromPost(postId: number) {
+        return instance.delete(`/reactions/${postId}`);
+    }
+
 }

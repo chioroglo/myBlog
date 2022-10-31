@@ -8,8 +8,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { authApi, userApi } from '../../shared/api/http/api'
 import { Link } from 'react-router-dom';
 import { UserModel } from '../../shared/api/types/user';
-import { AccountMenu } from '../AccountMenuDropdown';
-import { getFirstCharOfString } from '../../shared/assets';
+import { AccountMenuDropdown } from '../AccountMenuDropdown';
+import { getFirstCharOfStringUpperCase } from '../../shared/assets';
 
 
 
@@ -48,7 +48,7 @@ const Header = () => {
                         isAuthorized ?
                         <div>
                             <Typography display={"inline"}>Welcome, {user?.username}!</Typography>
-                            <AccountMenu icon={<Avatar src={avatarLink}>{getFirstCharOfString(user?.username)}</Avatar>}></AccountMenu>
+                            <AccountMenuDropdown icon={<Avatar src={avatarLink}>{getFirstCharOfStringUpperCase(user?.username)}</Avatar>}></AccountMenuDropdown>
                         </div>
                        :
                         <Button variant="contained" component={Link} to="/login">Login</Button>
