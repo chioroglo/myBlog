@@ -8,12 +8,14 @@ import CommentIcon from '@mui/icons-material/Comment';
 import { userApi } from '../../shared/api/http/api';
 import { useSelector } from 'react-redux';
 import { ApplicationState } from '../../redux';
+import {palette} from "../../shared/assets";
 
 const PostCard = ({post,width= "100%"}: PostCardProps) => {
 
     const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
     
     const [avatarLink,setAvatarLink] = useState("");
+    const [reactions,setReactions] = useState([]);
 
     useEffect(() => {
         fetchAvatarUrl(post.authorId);

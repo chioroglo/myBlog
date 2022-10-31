@@ -1,5 +1,4 @@
-﻿using Common.Dto.Paging.OffsetPaging;
-using Common.Exceptions;
+﻿using Common.Exceptions;
 using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
@@ -52,7 +51,7 @@ namespace Service
                 throw new ValidationException($"{nameof(Post)} of ID: {entity.PostId} does not exist");
             }
 
-            if (await ExistsSuchReactionAsync(entity.PostId,entity.UserId,cancellationToken))
+            if (await ExistsReactionOfUserAsync(entity.PostId,entity.UserId,cancellationToken))
             {
                 throw new ValidationException($"{nameof(Post)}ID: {entity.PostId} already has found reaction from {nameof(User)}ID: {entity.UserId}");
             }
@@ -81,16 +80,17 @@ namespace Service
         {
             var found = await _postReactionRepository.GetWhereAsync(r => r.PostId == entity.PostId && r.UserId == entity.UserId,cancellationToken);
 
-            var post = found.FirstOrDefault();
+            var existingReaction = found.FirstOrDefault();
 
-            if (post == null)
+            if (existingReaction == null)
             {
                 throw new ValidationException($"{nameof(PostReaction)} of ID:{entity.Id} does not exist");
             }
 
-            post.ReactionType = entity.ReactionType;
+            existingReaction.ReactionType = entity.ReactionType;
 
-            _postReactionRepository.Update(post,cancellationToken);
+            _postReactionRepository.Update(existingReaction,cancellationToken);
+
         }
 
         public async Task<PostReaction> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<PostReaction, object>>[] includeProperties)
@@ -99,7 +99,27 @@ namespace Service
 
             return reaction ?? throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
         }
-        private async Task<bool> ExistsSuchReactionAsync(int postId, int userId, CancellationToken cancellationToken)
+        
+        public async Task RemoveByPostId(int issuerId,int postId, CancellationToken cancellationToken)
+        {
+            if (await PostDoesNotExistAsync(postId,cancellationToken))
+            {
+                throw new ValidationException($"{nameof(Post)} of ID: {postId} does not exist");
+            }
+
+            if (!await ExistsReactionOfUserAsync(postId,issuerId,cancellationToken))
+            {
+                throw new ValidationException($"{nameof(Post)}ID: {postId} has no reaction from {nameof(User)}ID:{issuerId}");
+            }
+
+            var matchingReactions = await _postReactionRepository.GetWhereAsync(e => e.PostId == postId && e.UserId == issuerId,cancellationToken);
+
+            var postReaction = matchingReactions.FirstOrDefault();
+
+            await _postReactionRepository.RemoveAsync(postReaction.Id, cancellationToken);
+        }
+
+        private async Task<bool> ExistsReactionOfUserAsync(int postId, int userId, CancellationToken cancellationToken)
         {
             var requestedPostReactionsPostedByUser = await _postReactionRepository.GetWhereAsync(r => r.PostId == postId && r.UserId == userId,cancellationToken);
 

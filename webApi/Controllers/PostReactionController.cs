@@ -1,6 +1,7 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
 using Common.Dto.PostReaction;
+using Common.Models;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,48 +24,45 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpGet("{postId:int}")]
-        public async Task<IEnumerable<PostReactionDto>> GetByPostIdAsync(int postId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PostReactionModel>> GetByPostIdAsync(int postId, CancellationToken cancellationToken)
         {
             var result = await _postReactionService.GetByPostId(postId,cancellationToken);
 
-            return result.Select(r => _mapper.Map<PostReactionDto>(r));
+            return result.Select(e => _mapper.Map<PostReactionModel>(e));
         }
 
 
         [HttpPost]
-        public async Task<PostReactionDto> CreateReactionAsync
-            ([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
+        public async Task<PostReactionModel> CreateReactionAsync([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
         {
-            dto.UserId = GetCurrentUserId();
             await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             var request = _mapper.Map<PostReaction>(dto);
+            request.UserId = GetCurrentUserId();
 
             await _postReactionService.Add(request,cancellationToken);
 
-            return dto;
+            return _mapper.Map<PostReactionModel>(dto);
         }
 
         [HttpPut]
-        public async Task<PostReactionDto> EditReactionAsync([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
-        {
-            
-            dto.UserId = GetCurrentUserId();
+        public async Task<PostReactionModel> EditReactionAsync([FromBody] PostReactionDto dto, CancellationToken cancellationToken)
+        {    
             await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             var request = _mapper.Map<PostReaction>(dto);
+            request.UserId = GetCurrentUserId();
 
             await _postReactionService.UpdateAsync(request,cancellationToken);
 
-            return dto;
+            return _mapper.Map<PostReactionModel>(dto);
         }
 
         [HttpDelete("{postId:int}")]
         public async Task RemoveReactionByPostIdAsync(int postId, CancellationToken cancellationToken)
         {
-
             await UpdateAuthorizedUserLastActivity(cancellationToken);
-            await _postReactionService.RemoveAsync(postId, GetCurrentUserId(),cancellationToken);
+            await _postReactionService.RemoveByPostId(GetCurrentUserId(), postId, cancellationToken);
         }
     }
 }
