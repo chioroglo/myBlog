@@ -78,14 +78,15 @@ namespace Service
 
         public async Task UpdateAsync(PostReaction entity, CancellationToken cancellationToken)
         {
+            if (!await ExistsReactionOfUserAsync(entity.PostId,entity.UserId,cancellationToken))
+            {
+                throw new ValidationException($"{nameof(Post)}ID: {entity.PostId} has no reaction from {nameof(User)}ID:{entity.UserId}");
+            }
+            
             var found = await _postReactionRepository.GetWhereAsync(r => r.PostId == entity.PostId && r.UserId == entity.UserId,cancellationToken);
 
             var existingReaction = found.FirstOrDefault();
 
-            if (existingReaction == null)
-            {
-                throw new ValidationException($"{nameof(PostReaction)} of ID:{entity.Id} does not exist");
-            }
 
             existingReaction.ReactionType = entity.ReactionType;
 
