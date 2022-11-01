@@ -17,7 +17,7 @@ namespace Service
             _postRepository = postRepository;
         }
 
-        public async Task Add(Post request,CancellationToken cancellationToken)
+        public async Task<Post> Add(Post request,CancellationToken cancellationToken)
         {
             if (await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
             {
@@ -25,7 +25,7 @@ namespace Service
             }
 
 
-            await _postRepository.AddAsync(request,cancellationToken);
+            return await _postRepository.AddAsync(request,cancellationToken);
         }
 
         public async Task<IEnumerable<Post>> GetAllAsync(CancellationToken cancellationToken)

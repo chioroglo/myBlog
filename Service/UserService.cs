@@ -16,9 +16,9 @@ namespace Service
             _userRepository = userRepository;
         }
 
-        public async Task Add(User entity, CancellationToken cancellationToken)
+        public async Task<User> Add(User entity, CancellationToken cancellationToken)
         {
-            await _userRepository.AddAsync(entity,cancellationToken);
+            return await _userRepository.AddAsync(entity,cancellationToken);
         }
 
         public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken)

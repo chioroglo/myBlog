@@ -19,7 +19,7 @@ namespace Service
             _commentRepository = commentRepository;
         }
 
-        public async Task Add(Comment entity,CancellationToken cancellationToken)
+        public async Task<Comment> Add(Comment entity,CancellationToken cancellationToken)
         {
             var post = _postRepository.GetByIdAsync(entity.PostId,cancellationToken);
 
@@ -28,7 +28,7 @@ namespace Service
                 throw new ValidationException($"{nameof(Post)} of ID: {entity.PostId} does not exist");
             }
 
-            await _commentRepository.AddAsync(entity,cancellationToken);
+            return await _commentRepository.AddAsync(entity,cancellationToken);
         }
 
         public async Task<IEnumerable<Comment>> GetAllAsync(CancellationToken cancellationToken)

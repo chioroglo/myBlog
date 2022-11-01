@@ -74,9 +74,13 @@ namespace DAL.Repositories.Abstract.Base
             return await query.CreateOffsetPagedResultAsync(pagedRequest,cancellationToken);
         }
 
-        public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
+        public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken)
         {
             await _db.Set<TEntity>().AddAsync(entity,cancellationToken);
+
+            await _db.SaveChangesAsync(true, cancellationToken);
+
+            return entity;
         }
 
         private IQueryable<TEntity> IncludeProperties(params Expression<Func<TEntity, object>>[] includeProperties)

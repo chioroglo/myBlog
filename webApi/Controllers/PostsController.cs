@@ -40,12 +40,10 @@ namespace API.Controllers
 
             await UpdateAuthorizedUserLastActivity(cancellationToken);
             request.UserId = GetCurrentUserId();
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
+            
+            var createdPost = await _postsService.Add(request,cancellationToken);
 
-            await _postsService.Add(request,cancellationToken);
-
-            request.RegistrationDate = DateTime.UtcNow;
-            return _mapper.Map<PostModel>(request);
+            return _mapper.Map<PostModel>(createdPost);
         }
 
         [HttpPut("{postId:int}")]

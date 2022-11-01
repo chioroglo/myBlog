@@ -4,7 +4,7 @@ namespace Service.Abstract
 {
     public interface IEntityService<TEntity> where TEntity: class
     {
-        Task Add(TEntity entity, CancellationToken cancellationToken);
+        Task<TEntity> Add(TEntity entity, CancellationToken cancellationToken);
 
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 

@@ -44,7 +44,7 @@ namespace Service
             return await _postReactionRepository.GetWhereAsync(p => p.PostId == postId,cancellationToken);
         }
         
-        public async Task Add(PostReaction entity, CancellationToken cancellationToken)
+        public async Task<PostReaction> Add(PostReaction entity, CancellationToken cancellationToken)
         {
             if (await PostDoesNotExistAsync(entity.PostId,cancellationToken))
             {
@@ -56,7 +56,7 @@ namespace Service
                 throw new ValidationException($"{nameof(Post)}ID: {entity.PostId} already has found reaction from {nameof(User)}ID: {entity.UserId}");
             }
 
-            await _postReactionRepository.AddAsync(entity,cancellationToken);
+            return await _postReactionRepository.AddAsync(entity,cancellationToken);
         }
 
         public async Task RemoveAsync(int reactionId, int issuerId, CancellationToken cancellationToken)
