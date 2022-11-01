@@ -14,7 +14,7 @@ namespace Service.Abstract
         
         Task RemoveAsync(int id,int issuerId, CancellationToken cancellationToken);
         
-        Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
+        Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken);
 
     }
 }

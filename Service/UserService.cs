@@ -48,7 +48,7 @@ namespace Service
             await _userRepository.RemoveAsync(id,cancellationToken);
         }
 
-        public async Task UpdateAsync(User request, CancellationToken cancellationToken)
+        public async Task<User> UpdateAsync(User request, CancellationToken cancellationToken)
         {
 
             var user = await _userRepository.GetByIdAsync(request.Id,cancellationToken);
@@ -66,7 +66,7 @@ namespace Service
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
 
-            _userRepository.Update(user,cancellationToken);
+            return await _userRepository.Update(user,cancellationToken);
         }
 
         public async Task<User> GetByUsernameAsync(string username, CancellationToken cancellationToken)
@@ -102,7 +102,7 @@ namespace Service
 
             user.LastActivity = DateTime.UtcNow;
 
-            _userRepository.Update(user, cancellationToken);
+            await _userRepository.Update(user, cancellationToken);
         }
     }
 }

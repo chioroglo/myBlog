@@ -76,7 +76,7 @@ namespace Service
             await _postReactionRepository.RemoveAsync(reactionId,cancellationToken);
         }
 
-        public async Task UpdateAsync(PostReaction entity, CancellationToken cancellationToken)
+        public async Task<PostReaction> UpdateAsync(PostReaction entity, CancellationToken cancellationToken)
         {
             if (!await ExistsReactionOfUserAsync(entity.PostId,entity.UserId,cancellationToken))
             {
@@ -90,7 +90,7 @@ namespace Service
 
             existingReaction.ReactionType = entity.ReactionType;
 
-            _postReactionRepository.Update(existingReaction,cancellationToken);
+            return await _postReactionRepository.Update(existingReaction,cancellationToken);
 
         }
 

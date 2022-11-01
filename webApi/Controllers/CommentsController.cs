@@ -54,11 +54,9 @@ namespace API.Controllers
 
             await UpdateAuthorizedUserLastActivity(cancellationToken);
 
-            await _commentsService.Add(commentEntity,cancellationToken);
+            var newlyCreatedComment = await _commentsService.Add(commentEntity,cancellationToken);
 
-            commentEntity.RegistrationDate = DateTime.UtcNow;
-
-            return _mapper.Map<CommentModel>(commentEntity);
+            return _mapper.Map<CommentModel>(newlyCreatedComment);
         }
 
         
@@ -70,9 +68,9 @@ namespace API.Controllers
             commentEntity.Id = commentId;
             commentEntity.UserId = GetCurrentUserId();
 
-            await _commentsService.UpdateAsync(commentEntity,cancellationToken);
+            var updatedComment = await _commentsService.UpdateAsync(commentEntity,cancellationToken);
 
-            return _mapper.Map<CommentModel>(commentEntity);
+            return _mapper.Map<CommentModel>(updatedComment);
         }
 
         [HttpDelete("{commentId:int}")]

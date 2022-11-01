@@ -64,7 +64,7 @@ namespace Service
             await _postRepository.RemoveAsync(postId,cancellationToken);
         }
 
-        public async Task UpdateAsync(Post request, CancellationToken cancellationToken)
+        public async Task<Post> UpdateAsync(Post request, CancellationToken cancellationToken)
         {
             int postId = request.Id;
 
@@ -89,7 +89,7 @@ namespace Service
             post.Content = request.Content;
 
 
-            _postRepository.Update(post,cancellationToken);
+            return await _postRepository.Update(post,cancellationToken);
         }
 
         public async Task<OffsetPagedResult<Post>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)

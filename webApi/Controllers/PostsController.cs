@@ -54,9 +54,8 @@ namespace API.Controllers
             request.UserId = GetCurrentUserId();
             await UpdateAuthorizedUserLastActivity(cancellationToken);
 
-            await _postsService.UpdateAsync(request,cancellationToken);
+            var updatedPost = await _postsService.UpdateAsync(request,cancellationToken);
 
-            var updatedPost = await _postsService.GetByIdWithIncludeAsync(postId,cancellationToken,u => u.User);
             return _mapper.Map<PostModel>(updatedPost);
         }
 

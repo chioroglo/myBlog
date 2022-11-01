@@ -56,9 +56,9 @@ namespace API.Controllers
             var request = _mapper.Map<PostReaction>(dto);
             request.UserId = GetCurrentUserId();
 
-            await _postReactionService.UpdateAsync(request,cancellationToken);
+            var editedReaction = await _postReactionService.UpdateAsync(request,cancellationToken);
 
-            return _mapper.Map<PostReactionModel>(dto);
+            return _mapper.Map<PostReactionModel>(editedReaction);
         }
 
         [HttpDelete("{postId:int}")]

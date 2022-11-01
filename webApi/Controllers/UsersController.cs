@@ -77,11 +77,9 @@ namespace API.Controllers
 
             mappedRequest.Id = GetCurrentUserId();
 
-            await _userService.UpdateAsync(mappedRequest, cancellationToken);
+            var updatedUser = await _userService.UpdateAsync(mappedRequest, cancellationToken);
 
-            var newUser = await _userService.GetByIdAsync(mappedRequest.Id, cancellationToken);
-
-            return _mapper.Map<UserModel>(newUser);
+            return _mapper.Map<UserModel>(updatedUser);
         }
 
     }

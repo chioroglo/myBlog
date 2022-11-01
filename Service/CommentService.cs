@@ -73,7 +73,7 @@ namespace Service
             await _commentRepository.RemoveAsync(id,cancellationToken);
         }
 
-        public async Task UpdateAsync(Comment entity,CancellationToken cancellationToken)
+        public async Task<Comment> UpdateAsync(Comment entity,CancellationToken cancellationToken)
         {
             var comment = await _commentRepository.GetByIdAsync(entity.Id,cancellationToken);
 
@@ -89,7 +89,7 @@ namespace Service
 
             comment.Content = entity.Content;
 
-            _commentRepository.Update(comment,cancellationToken);
+            return await _commentRepository.Update(comment,cancellationToken);
         }
         
         public async Task<OffsetPagedResult<Comment>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties)

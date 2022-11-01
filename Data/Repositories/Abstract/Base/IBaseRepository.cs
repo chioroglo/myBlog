@@ -23,7 +23,7 @@ namespace DAL.Repositories.Abstract.Base
 
         Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken);
 
-        void Update(TEntity entity, CancellationToken cancellationToken);
+        Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken);
 
         /// <summary>
         /// This method is async only to retrieve entity of corresponding id asynchronously to ensure it is created
