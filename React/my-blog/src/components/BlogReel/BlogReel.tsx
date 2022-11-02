@@ -20,7 +20,7 @@ const BlogReel = ({
                       reelWidth,
                       pagingRequestDefault,
                       showFilteringMenu,
-                      availableFilterNames
+                      availableFilterNames = []
                   }: BlogReelProps) => {
 
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
@@ -129,7 +129,8 @@ const BlogReel = ({
                             noMorePosts && <Box style={{margin: "50px auto", width: "fit-content"}}>
                                 <ArrowUpwardIcon style={{margin: "0 auto", display: "block"}}
                                                  onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}/>
-                                <Typography textAlign={"center"}>Oops.. Looks like there is nothing for you to show<br/>
+                                <Typography textAlign={"center"}>
+                                    Oops.. Looks like there is nothing for you to show<br/>
                                     Press the arrow button to scroll to the top
                                 </Typography>
                             </Box>

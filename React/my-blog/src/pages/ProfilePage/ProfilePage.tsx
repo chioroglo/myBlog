@@ -89,7 +89,7 @@ const ProfilePage = () => {
                             <CustomTabPanel index={0} value={visibleTabIndex}>
                                 {pageRequest && <BlogReel reelWidth="100%" pageSize={DefaultPageSize}
                                                           pagingRequestDefault={pageRequest}
-                                                          availableFilterNames={[]}/>}
+                                />}
                             </CustomTabPanel>
 
                             <CustomTabPanel index={1} value={visibleTabIndex}>

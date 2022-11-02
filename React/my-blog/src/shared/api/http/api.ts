@@ -118,3 +118,9 @@ export class postReactionApi {
     }
 
 }
+
+export class commentApi {
+    static getCursorPagedComments(request: CursorPagedRequest) {
+        return instance.post(`comments/paginated-search-cursor`, request);
+    }
+}

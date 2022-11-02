@@ -1,4 +1,4 @@
-import {Avatar, Card, CardActions, CardContent, CardHeader, Chip, IconButton, Typography} from '@mui/material';
+import {Avatar, Box, Card, CardActions, CardContent, CardHeader, Chip, IconButton, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {PostCardProps} from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -18,8 +18,17 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import {AxiosResponse} from "axios";
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import {CommentReel} from "../CommentReel";
+import {DefaultPageSize} from "../../shared/config";
+import {FilterLogicalOperator} from "../../shared/api/types/paging";
 
 const PostCard = ({post, width = "100%"}: PostCardProps) => {
+
+    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
+    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
+    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
+    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
+    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
 
     const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
 
@@ -29,6 +38,8 @@ const PostCard = ({post, width = "100%"}: PostCardProps) => {
     const [userReaction, setUserReaction] = useState<{ exists: boolean, type?: ReactionType }>({exists: false});
 
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [commentsOpen,setCommentsOpen] = useState<boolean>(false);
+
 
     const reactionsAndComponentsUnactive = {
         "Love": <FavoriteBorderIcon onClick={() => handleNewReaction(ReactionType.Love)}/>,
@@ -124,6 +135,7 @@ const PostCard = ({post, width = "100%"}: PostCardProps) => {
                     }} style={{display: "block", width: "fit-content", padding: "5px 5px"}} variant="outlined"
                                          label={"#" + post.topic}/>}
                     {post.content}
+
                 </CardContent>
 
 
@@ -140,6 +152,7 @@ const PostCard = ({post, width = "100%"}: PostCardProps) => {
                         {post.amountOfComments}
                     </IconButton>
                 </CardActions>
+
 
             </Card>
         </>
