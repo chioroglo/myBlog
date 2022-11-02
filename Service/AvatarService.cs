@@ -91,7 +91,7 @@ namespace Service
 
 
             avatarInfo.Url = fileName;
-            _avatarRepository.Update(avatarInfo, cancellationToken);
+            await _avatarRepository.Update(avatarInfo, cancellationToken);
 
             
             return Path.Combine(_relativePathInWwwRoot, fileName);

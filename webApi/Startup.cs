@@ -32,10 +32,10 @@ namespace API
             services.AddHttpContextAccessor();
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<BlogDbContext>(options =>
+            services.AddDbContext<BlogDbContext>((options =>
             {
                 options.UseSqlServer(connectionString);
-            });
+            }),ServiceLifetime.Transient);
 
             services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
             services.InitializeRepositories();

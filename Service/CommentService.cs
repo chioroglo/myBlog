@@ -1,4 +1,5 @@
-﻿using Common.Dto.Paging.OffsetPaging;
+﻿using Common.Dto.Paging.CursorPaging;
+using Common.Dto.Paging.OffsetPaging;
 using Common.Exceptions;
 using DAL.Repositories.Abstract;
 using Domain;
@@ -104,6 +105,13 @@ namespace Service
             var comment = await _commentRepository.GetByIdWithIncludeAsync(id, cancellationToken, includeProperties);
 
             return comment ?? throw new ValidationException($"{nameof(Comment)} of ID: {id} does not exist");
+        }
+
+        public async Task<CursorPagedResult<Comment>> GetCursorPageAsync(CursorPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties)
+        {
+            var result = await _commentRepository.GetCursorPagedData(query, cancellationToken, includeProperties);
+
+            return result;
         }
     }
 }

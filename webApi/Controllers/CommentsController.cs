@@ -1,6 +1,7 @@
 ﻿using API.Controllers.Base;
 using AutoMapper;
 using Common.Dto.Comment;
+using Common.Dto.Paging.CursorPaging;
 using Common.Dto.Paging.OffsetPaging;
 using Common.Models;
 using Domain;
@@ -76,28 +77,28 @@ namespace API.Controllers
         [HttpDelete("{commentId:int}")]
         public async Task DeleteCommentAsync(int commentId, CancellationToken cancellationToken)
         {
-            var comment = await _commentsService.GetByIdAsync(commentId,cancellationToken);
-
             var currentUserId = GetCurrentUserId();
 
             await UpdateAuthorizedUserLastActivity(cancellationToken);
 
-            await _commentsService.RemoveAsync(commentId,issuerId: currentUserId,cancellationToken);
+            await _commentsService.RemoveAsync(commentId,currentUserId,cancellationToken);
         }
 
-        [HttpPost("paginated-search")]
-        public async Task<OffsetPagedResult<CommentModel>> GetPageWithUserAsync([FromBody] OffsetPagedRequest query, CancellationToken cancellationToken)
+        [AllowAnonymous]
+        [HttpPost("paginated-search-cursor")]
+        public async Task<CursorPagedResult<CommentModel>> GetPageWithUserAsync([FromBody] CursorPagedRequest query, CancellationToken cancellationToken)
         {
-            var response = await _commentsService.GetOffsetPageAsync(query,cancellationToken,e => e.Post,e => e.User);
+            var result = await _commentsService.GetCursorPageAsync(query, cancellationToken,e => e.User);
 
-            return new OffsetPagedResult<CommentModel>()
+
+            return new CursorPagedResult<CommentModel>()
             {
-                PageIndex = response.PageIndex,
-                PageSize = response.PageSize,
-                Total = response.Total,
-                Items = response.Items.Select(e => _mapper.Map<CommentModel>(e)).ToList()
+                PageSize = result.PageSize,
+                Total = result.Total,
+                Items = result.Items.Select(e => _mapper.Map<CommentModel>(e)).ToList(),
+                HeadElementId = result.HeadElementId,
+                TailElementId = result.TailElementId
             };
-            
         }
     }
 }

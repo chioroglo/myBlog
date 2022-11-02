@@ -1,4 +1,5 @@
-﻿using Common.Dto.Paging.OffsetPaging;
+﻿using Common.Dto.Paging.CursorPaging;
+using Common.Dto.Paging.OffsetPaging;
 using Domain;
 using System.Linq.Expressions;
 
@@ -9,5 +10,7 @@ namespace Service.Abstract
         public Task<IEnumerable<Comment>> GetCommentsByPostId(int postId, CancellationToken cancellationToken);
 
         Task<OffsetPagedResult<Comment>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties);
+
+        Task<CursorPagedResult<Comment>> GetCursorPageAsync(CursorPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties);
     }
 }
