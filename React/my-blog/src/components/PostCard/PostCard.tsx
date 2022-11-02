@@ -1,4 +1,14 @@
-import {Avatar, Box, Card, CardActions, CardContent, CardHeader, Chip, IconButton, Typography} from '@mui/material';
+import {
+    Avatar,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+    Chip,
+    Collapse,
+    IconButton,
+    Typography
+} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {PostCardProps} from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -21,14 +31,31 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import {CommentReel} from "../CommentReel";
 import {DefaultPageSize} from "../../shared/config";
 import {FilterLogicalOperator} from "../../shared/api/types/paging";
+import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
+import {ExpandMoreCard} from './ExpandMoreCard';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const PostCard = ({post, width = "100%"}: PostCardProps) => {
+const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: PostCardProps) => {
 
     /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
     /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
     /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
     /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
     /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
+
+    const commentsPagingRequestDefault: CursorPagedRequest = {
+        pageSize: commentPortionSize,
+        getNewer: false,
+        requestFilters: {
+            logicalOperator: FilterLogicalOperator.And,
+            filters: [
+                {
+                    path: "PostId",
+                    value: post.id.toString()
+                }
+            ]
+        }
+    }
 
     const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
 
@@ -38,7 +65,7 @@ const PostCard = ({post, width = "100%"}: PostCardProps) => {
     const [userReaction, setUserReaction] = useState<{ exists: boolean, type?: ReactionType }>({exists: false});
 
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [commentsOpen,setCommentsOpen] = useState<boolean>(false);
+    const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
 
 
     const reactionsAndComponentsUnactive = {
@@ -112,11 +139,14 @@ const PostCard = ({post, width = "100%"}: PostCardProps) => {
         }
     }
 
+    const handleExpandCommentSection = () => {
+        setCommentsOpen(!commentsOpen);
+    }
 
     return (
         <>
             <AuthorizationRequiredCustomModal modalOpen={modalOpen} setModalOpen={setModalOpen}
-                                              caption={"Please sign up to share your thoughts"}></AuthorizationRequiredCustomModal>
+                                              caption={"Please sign up to share your thoughts"}/>
 
             <Card elevation={10} style={{width: width, margin: "20px auto"}}>
 
@@ -147,13 +177,22 @@ const PostCard = ({post, width = "100%"}: PostCardProps) => {
                             reactionsAndComponentsUnactive["Love"]
                     }
 
-                    <IconButton style={{display: "flex",}} aria-label="comments">
+                    <IconButton onClick={() => setCommentsOpen(true)} style={{display: "flex",}} aria-label="comments">
                         <CommentIcon/>
                         {post.amountOfComments}
                     </IconButton>
+
+                    <ExpandMoreCard expanded={commentsOpen} onClick={() => handleExpandCommentSection()}>
+                        <ExpandMoreIcon/>
+                    </ExpandMoreCard>
+
                 </CardActions>
 
-
+                <Collapse in={commentsOpen} orientation={"vertical"} timeout={"auto"}>
+                    <CardContent>
+                        <CommentReel reelWidth={"100%"} pagingRequestDefault={commentsPagingRequestDefault}/>
+                    </CardContent>
+                </Collapse>
             </Card>
         </>
     )

@@ -33,9 +33,11 @@ namespace DAL.Repositories.Abstract.Base
 
         public async Task<TEntity?> GetByIdAsync(int id,CancellationToken cancellationToken)
         {
-            var entity = await _db.Set<TEntity>().FindAsync(new object[] { id }, cancellationToken);
+            //var entity = await _db.Set<TEntity>().FindAsync(new object[] { id }, cancellationToken);
 
-            return entity;
+            var entity = await _db.Set<TEntity>().Where(x => x.Id == id).ToListAsync(cancellationToken);
+
+            return entity.FirstOrDefault();
         }
 
         public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)

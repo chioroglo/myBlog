@@ -28,8 +28,6 @@ const BlogReel = ({
     const [isLoading, setLoading] = useState<boolean>(true);
     const [noMorePosts, setNoMorePosts] = useState<boolean>(false);
     const [posts, setPosts] = useState<PostModel[]>([]);
-
-
     const [filters, setFilters] = useState<RequestFilters>(pagingRequestDefault.requestFilters || {
         filters: [],
         logicalOperator: FilterLogicalOperator.And
@@ -65,7 +63,6 @@ const BlogReel = ({
     useEffect(() => {
         loadMorePosts({...pagingRequestConfiguration, requestFilters: filters});
     }, []);
-
 
     useEffect(() => {
         setNoMorePosts(false);
@@ -115,7 +112,8 @@ const BlogReel = ({
                     </Box>
                     :
                     <>
-                        {posts.map((post) => <PostCard width={reelWidth} key={post.id} post={post}/>)}
+                        {posts.map((post) => <PostCard width={reelWidth} key={post.id} post={post}
+                                                       commentPortionSize={DefaultPageSize}/>)}
                         <Waypoint bottomOffset="-20px"
                                   onEnter={() => !noMorePosts && loadMorePosts(pagingRequestConfiguration)}></Waypoint>
 

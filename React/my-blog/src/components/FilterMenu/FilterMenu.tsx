@@ -41,7 +41,8 @@ const FilterMenu = ({availableFilters, width, requestFilters, setFilters}: Filte
             <Box style={{paddingBottom: "20px"}}>
                 <Typography>Filtering menu:</Typography>
             </Box>
-            <Box sx={{minWidth: "120px", display: "flex", alignContent: "flex-start"}}>
+
+            <Box sx={{minWidth: "120px", display: "flex", justifyContent: "space-around"}}>
 
                 <Box style={{minWidth: "20%"}}>
                     <InputLabel id="filter-selector">Filter name</InputLabel>

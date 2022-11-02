@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpGet("{postId:int}")]
         public async Task<PostModel> GetByIdWithUsernameAndTopicAndCommentsAsync(int postId, CancellationToken cancellationToken)
         {
-            var post = await _postsService.GetByIdWithIncludeAsync(postId,cancellationToken,e => e.User,e => e.Topic,e => e.Comments);
+            var post = await _postsService.GetByIdWithIncludeAsync(postId,cancellationToken,e => e.User,e => e.Comments);
 
             return _mapper.Map<PostModel>(post);
         }
