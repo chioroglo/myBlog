@@ -95,41 +95,38 @@ const PostReactionBox = ({postId, ...props}: PostReactionBoxProps) => {
 
     const fetchAvatarUrl = (userId: number) => userApi.getAvatarUrlById(userId).then((result: AxiosResponse<string>) => result.data);
 
-    const displayAvatarsByReactions = (reactions: PostReactionModel[]) => {
-        const avatars: string[] = [];
-
-    }
 
     useEffect(() => {
         setIsReactionsLoading(true);
         setAvatarsLoading(true);
 
-        fetchPostReactions(postId).then((result) => {
-            const avatars: string[] = [];
+        fetchPostReactions(postId).then(async (result) => {
+            let avatars: string[] = [];
+
             const groupLength: number = result.length < DefaultAvatarGroupMaxLength ? result.length : DefaultAvatarGroupMaxLength;
 
             for (let i = 0; i < groupLength; i++) {
-                fetchAvatarUrl(result[i].userId).then((link) =>
-                {
-                    console.log(result[i]);
-                    if (link && result[i].userId !== (user?.id || 0))
-                    {
-                        avatars.push(link);
-                    };
-                });
-            };
+                const link: string = await fetchAvatarUrl(result[i].userId).then((link) => link);
 
+                if (result[i].userId !== (user?.id || 0)) {
+                    avatars.push(link);
+                }
+            }
+
+            console.log(avatars);
+            return avatars;
+        }).then(avatars => {
             setAvatarUrls(avatars);
 
             if (isAuthorized && user) {
                 fetchAvatarUrl(user?.id).then(result => setUserAvatar(result));
             }
+
+            setIsReactionsLoading(false);
+            setAvatarsLoading(false);
         });
 
-
-        setIsReactionsLoading(false);
-        setAvatarsLoading(false);
-    }, []);
+    }, [isAuthorized]);
 
     return (
         <>
@@ -157,7 +154,7 @@ const PostReactionBox = ({postId, ...props}: PostReactionBoxProps) => {
                     </Box>
 
                     {
-                        (isAvatarsLoading && isReactionsLoading) ?
+                        (isAvatarsLoading || isReactionsLoading) ?
                             <AvatarGroup>
                                 { [...new Array(DefaultAvatarGroupMaxLength)].map((value, index) => <Avatar key={index}/>)}
                             </AvatarGroup>
