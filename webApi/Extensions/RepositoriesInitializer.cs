@@ -7,11 +7,11 @@ namespace API.Extensions
     {
         public static void InitializeRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IPostRepository, PostRepository>();
-            services.AddScoped<ICommentRepository, CommentRepository>();
-            services.AddScoped<IAvatarRepository, AvatarRepository>();
-            services.AddScoped<IPostReactionRepository, PostReactionRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<IPostReactionRepository, PostReactionRepository>();
+            services.AddTransient<IAvatarRepository, AvatarRepository>();
         }
     }
 }

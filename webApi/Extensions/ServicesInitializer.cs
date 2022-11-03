@@ -11,18 +11,18 @@ namespace API.Extensions
         {
             services.AddScopedAuthServices();
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPostService, PostService>();
-            services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IFilePerUserHandlingService, AvatarService>();
-            services.AddScoped<IPostReactionService, PostReactionService>();
+            services.AddTransient<IPostService, PostService>();
+            services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IFilePerUserHandlingService, AvatarService>();
+            services.AddTransient<IPostReactionService, PostReactionService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         private static void AddScopedAuthServices(this IServiceCollection services)
         {
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IRegistrationService, RegistrationService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IRegistrationService, RegistrationService>();
         }
     }
 }
