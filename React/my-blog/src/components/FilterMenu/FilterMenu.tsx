@@ -35,7 +35,7 @@ const FilterMenu = ({availableFilters, width, requestFilters, setFilters}: Filte
     }
 
     return (
-        <Paper style={{width: width, margin: "0 auto", minHeight: "50px", padding: "20px"}}>
+        <Paper style={{minWidth:"500px",width: width, margin: "0 auto", minHeight: "50px", padding: "20px"}}>
 
 
             <Box style={{paddingBottom: "20px"}}>
@@ -44,7 +44,7 @@ const FilterMenu = ({availableFilters, width, requestFilters, setFilters}: Filte
 
             <Box sx={{minWidth: "120px", display: "flex", justifyContent: "space-around"}}>
 
-                <Box style={{minWidth: "20%"}}>
+                <Box style={{maxWidth: "20%"}}>
                     <InputLabel id="filter-selector">Filter name</InputLabel>
                     <Select sx={{minWidth: "150px"}} value={filterDropdown}
                             onChange={(e) => setFilterDropdown(e.target.value)}>

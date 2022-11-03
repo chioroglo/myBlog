@@ -21,15 +21,9 @@ import {FilterLogicalOperator} from "../../shared/api/types/paging";
 import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
 import {ExpandMoreCard} from './ExpandMoreCard';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {PostReactionBox} from "../PostReactionButton";
+import {PostReactionBox} from "../PostReaction";
 
 const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: PostCardProps) => {
-
-    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
-    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
-    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
-    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
-    /* TODO MAKE POSSIBILITY TO ADD MORE REACTIONS */
 
     const commentsPagingRequestDefault: CursorPagedRequest = {
         pageSize: commentPortionSize,

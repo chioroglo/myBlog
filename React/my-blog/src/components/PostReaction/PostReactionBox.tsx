@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, AvatarGroup, Box, IconButton} from "@mui/material";
+import {Avatar, AvatarGroup, Box, IconButton, Popover, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import {ApplicationState} from "../../redux";
 import {useAuthorizedUserInfo} from "../../hooks";
@@ -17,8 +17,8 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import AuthorizationRequiredCustomModal from "../CustomModal/AuthorizationRequiredCustomModal";
 import {DefaultAvatarGroupMaxLength} from "../../shared/config";
 
+const PostReactionBox = ({postId}: PostReactionBoxProps) => {
 
-const PostReactionBox = ({postId, ...props}: PostReactionBoxProps) => {
 
     const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
     const user = useAuthorizedUserInfo();
@@ -29,6 +29,14 @@ const PostReactionBox = ({postId, ...props}: PostReactionBoxProps) => {
     const [userAvatar, setUserAvatar] = useState<string>("");
     const [isAvatarsLoading, setAvatarsLoading] = useState<boolean>(true);
     const [isReactionsLoading, setIsReactionsLoading] = useState<boolean>(true);
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+
+    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+
+    const handlePopoverClose = () => setAnchorEl(null);
+
+    const open = Boolean(anchorEl);
 
     const fetchPostReactions = (postId: number) => postReactionApi.getReactionsByPost(postId).then((result: AxiosResponse<PostReactionModel[]>) => {
         setReactions(result.data);
@@ -63,6 +71,7 @@ const PostReactionBox = ({postId, ...props}: PostReactionBoxProps) => {
         } else {
             postReactionApi.reactToPost({postId: postId, reactionType: type}).then(() => {
                 setUserReaction({exists: true, type: type});
+                setReactions([...reactions, {postId: postId, userId: user?.id || 0, reactionType: type}])
             });
         }
     }
@@ -76,6 +85,7 @@ const PostReactionBox = ({postId, ...props}: PostReactionBoxProps) => {
         if (userReaction.exists) {
             postReactionApi.removeReactionFromPost(postId).then(() => {
                 setUserReaction({exists: false});
+                setReactions(reactions.filter(reaction => reaction.userId !== user?.id))
             });
         }
     }
@@ -113,7 +123,6 @@ const PostReactionBox = ({postId, ...props}: PostReactionBoxProps) => {
                 }
             }
 
-            console.log(avatars);
             return avatars;
         }).then(avatars => {
             setAvatarUrls(avatars);
@@ -130,14 +139,15 @@ const PostReactionBox = ({postId, ...props}: PostReactionBoxProps) => {
 
     return (
         <>
-            <AuthorizationRequiredCustomModal modalOpen={modalOpen} setModalOpen={setModalOpen} caption={"Please sign up to share your thoughts"}/>
+            <AuthorizationRequiredCustomModal modalOpen={modalOpen} setModalOpen={setModalOpen}
+                                              caption={"Please sign up to share your thoughts"}/>
 
             {
                 !isReactionsLoading
                 &&
                 <Box style={{display: "flex", flexDirection: "row"}}>
 
-                    <Box>
+                    <Box onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
                         {
                             (userReaction.exists && userReaction.type)
                                 ?
@@ -147,28 +157,54 @@ const PostReactionBox = ({postId, ...props}: PostReactionBoxProps) => {
                         }
                     </Box>
 
-                    <Box style={{margin: "auto 0"}}>
-                        {reactionsAndComponentsUnactive[ReactionType.Like - 1]}
-                        {reactionsAndComponentsUnactive[ReactionType.Dislike - 1]}
-                        {reactionsAndComponentsUnactive[ReactionType.Love - 1]}
-                    </Box>
+                    <Popover sx={{pointerEvents:"none"}} open={open} anchorEl={anchorEl} anchorOrigin={{vertical: "center", horizontal: "center"}}
+                             transformOrigin={{vertical: "center", horizontal: "center"}}
+                             PaperProps={{onMouseEnter: handlePopoverOpen, onMouseLeave: handlePopoverClose,sx:{pointerEvents:"auto"} }}>
 
-                    {
-                        (isAvatarsLoading || isReactionsLoading) ?
-                            <AvatarGroup>
-                                { [...new Array(DefaultAvatarGroupMaxLength)].map((value, index) => <Avatar key={index}/>)}
-                            </AvatarGroup>
-                            :
-                            <AvatarGroup max={DefaultAvatarGroupMaxLength} total={userReaction.exists ? reactions.length : reactions.length - 1}>
-                                {userReaction.exists && <Avatar alt={""} key={userAvatar} src={userAvatar}/>}
-                                {avatarUrls.map((link) => <Avatar alt={""} key={link} src={link}/>)}
-                            </AvatarGroup>
-                    }
+                        <Box style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            backgroundColor: "rgba(0,0,0,0.1)",
+                            borderRadius: "5px",
+                            padding: "1px 20px"
+                        }}>
+
+
+                            <Box style={{margin: "auto 0"}}>
+                                {userReaction.type === ReactionType.Like ? reactionsAndComponentsActive[ReactionType.Like - 1] : reactionsAndComponentsUnactive[ReactionType.Like - 1]}
+                                {userReaction.type === ReactionType.Dislike ? reactionsAndComponentsActive[ReactionType.Dislike - 1] : reactionsAndComponentsUnactive[ReactionType.Dislike - 1]}
+                                {userReaction.type === ReactionType.Love ? reactionsAndComponentsActive[ReactionType.Love - 1] : reactionsAndComponentsUnactive[ReactionType.Love - 1]}
+                            </Box>
+
+                            <Typography fontSize={"smaller"}>{
+                                reactions.length === 0
+                                    ?
+                                    "There are no reactions yet."
+                                    :
+                                    `${reactions.length} people reacted`
+                            }
+                            </Typography>
+                            {
+                                (isAvatarsLoading || isReactionsLoading)
+                                    ?
+                                    <AvatarGroup>
+                                        {[...new Array(DefaultAvatarGroupMaxLength)].map((value, index) => <Avatar
+                                            key={index}/>)}
+                                    </AvatarGroup>
+                                    :
+                                    <AvatarGroup max={DefaultAvatarGroupMaxLength} total={reactions.length}>
+                                        {userReaction.exists &&
+                                            <Avatar style={{border: "none"}} key={userAvatar} src={userAvatar}/>}
+                                        {avatarUrls.map((link) => <Avatar style={{border: "none"}} key={link}
+                                                                          src={link}/>)}
+                                    </AvatarGroup>
+                            }
+                        </Box>
+                    </Popover>
                 </Box>
             }
         </>
-    )
-
+    );
 };
 
 export {PostReactionBox};
