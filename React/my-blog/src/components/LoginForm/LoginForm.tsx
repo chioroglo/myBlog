@@ -68,7 +68,6 @@ const LoginForm = () => {
         onSubmit: async (values, formikHelpers) => {
             setLoading(true);
             const request = await authApi.TryAuthenticateAndPayloadInHeaders(values as AuthenticateRequest, values.rememberMe);
-            console.log(request);
 
             if (request.status !== 200) {
                 const errorMessage = (JSON.parse(((request as AxiosError).request as XMLHttpRequest).responseText) as ErrorResponse).Message;

@@ -65,7 +65,6 @@ const RegistrationForm = () => {
 
             setLoading(true);
             const request = await authApi.TryRegister(values as RegistrationDto);
-            console.log(values);
 
             if (request.status !== 200) {
                 const errorMessage = (JSON.parse(((request as AxiosError).request as XMLHttpRequest).responseText) as ErrorResponse).Message;

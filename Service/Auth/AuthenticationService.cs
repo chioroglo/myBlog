@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Common.Dto.Auth;
 using DAL.Repositories.Abstract;
-using MyBlog.Service.Auth;
 using Service.Abstract.Auth;
 using System.Security.Authentication;
+using Common;
 
 namespace Service.Auth
 {

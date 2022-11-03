@@ -44,7 +44,6 @@ namespace API.Controllers
             return _uriBuilder.ToString();
         }
             
-
         [HttpPut]
         public async Task<string> UpdateAvatarAsync([FromForm] AvatarDto request, CancellationToken cancellationToken)
         {

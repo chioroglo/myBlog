@@ -27,7 +27,6 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault}: CommentReelProp
         setLoading(true);
         fetchComments(pagingRequest).then((result) => {
 
-            console.log(result);
             setComments([...comments, ...result.items]);
             setPagingRequest({...pagingRequest, pivotElementId: result.tailElementId});
 
@@ -64,7 +63,7 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault}: CommentReelProp
                             }
                             {
                                 isLoading &&
-                                <Box style={{margin: "0 auto", width: "fit-content"}}>
+                                <Box style={{margin: "0 auto", width: reelWidth}}>
                                     <CircularProgress/>
                                 </Box>
                             }

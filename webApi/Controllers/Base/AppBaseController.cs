@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Service.Auth;
 using Service.Abstract;
 using System.Security.Claims;
+using Common;
 
 namespace API.Controllers.Base
 {

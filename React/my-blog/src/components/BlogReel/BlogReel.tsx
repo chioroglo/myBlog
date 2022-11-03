@@ -1,4 +1,4 @@
-import {Box, CircularProgress, Typography} from '@mui/material';
+import {Box, CircularProgress, IconButton, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from '../../redux';
@@ -40,12 +40,12 @@ const BlogReel = ({
     }).then((result: AxiosResponse<CursorPagedResult<PostModel>>) => result.data);
 
     const loadMorePosts = (request: CursorPagedRequest): void => {
-        setLoading(true);
 
         if (noMorePosts) {
             return;
         }
 
+        setLoading(true);
         fetchPosts(request).then((result) => {
 
             if (result.items.length === 0) {
@@ -94,7 +94,6 @@ const BlogReel = ({
 
     return (
         <>
-
             {showFilteringMenu && <FilterMenu width={reelWidth} requestFilters={filters} setFilters={setFilters}
                                               availableFilters={availableFilterNames}/>}
 
@@ -114,7 +113,7 @@ const BlogReel = ({
                     <>
                         {posts.map((post) => <PostCard width={reelWidth} key={post.id} post={post}
                                                        commentPortionSize={DefaultPageSize}/>)}
-                        <Waypoint bottomOffset="-20px"
+                        <Waypoint bottomOffset="-700px"
                                   onEnter={() => !noMorePosts && loadMorePosts(pagingRequestConfiguration)}></Waypoint>
 
                         {isLoading &&
@@ -125,8 +124,10 @@ const BlogReel = ({
 
                         {
                             noMorePosts && <Box style={{margin: "50px auto", width: "fit-content"}}>
-                                <ArrowUpwardIcon style={{margin: "0 auto", display: "block"}}
-                                                 onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}/>
+
+                                <IconButton children={<ArrowUpwardIcon fontSize={"large"}/>}
+                                            style={{margin: "0 auto", display: "block"}}
+                                            onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}/>
                                 <Typography textAlign={"center"}>
                                     Oops.. Looks like there is nothing for you to show<br/>
                                     Press the arrow button to scroll to the top

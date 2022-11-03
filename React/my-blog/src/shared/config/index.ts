@@ -7,3 +7,5 @@ export const UserIdTokenKeyName = "userId"
 export const UsernameTokenKeyName = "username"
 
 export const DefaultPageSize = 5
+
+export const DefaultAvatarGroupMaxLength = 3

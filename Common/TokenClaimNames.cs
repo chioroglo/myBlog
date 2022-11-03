@@ -1,4 +1,4 @@
-﻿namespace MyBlog.Service.Auth
+﻿namespace Common
 {
     public static class TokenClaimNames
     {

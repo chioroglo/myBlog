@@ -1,1 +1,1 @@
-export * from "./PostReactionButton";
+export * from "./PostReactionBox";

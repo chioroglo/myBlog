@@ -14,6 +14,8 @@ import {getFirstCharOfStringUpperCase} from '../../shared/assets';
 
 const Header = () => {
 
+
+    /* REWRITE IT USING useAuthorizedUserInfo HOOK */
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
     const [user, setUser] = useState<UserModel>();
     const [avatarLink, setAvatarLink] = useState<string>("");

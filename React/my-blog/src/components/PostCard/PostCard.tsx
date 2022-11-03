@@ -14,26 +14,14 @@ import {PostCardProps} from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as assets from '../../shared/assets';
 import CommentIcon from '@mui/icons-material/Comment';
-import {postReactionApi, userApi} from '../../shared/api/http/api';
-import {useSelector} from 'react-redux';
-import {ApplicationState} from '../../redux';
-import {useAuthorizedUserInfo} from "../../hooks";
-import {PostReactionModel} from "../../shared/api/types/postReaction/PostReactionModel";
-import AuthorizationRequiredCustomModal from "../CustomModal/AuthorizationRequiredCustomModal";
-import {ReactionType} from "../../shared/api/types";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import {AxiosResponse} from "axios";
-import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import { userApi} from '../../shared/api/http/api';
 import {CommentReel} from "../CommentReel";
 import {DefaultPageSize} from "../../shared/config";
 import {FilterLogicalOperator} from "../../shared/api/types/paging";
 import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
 import {ExpandMoreCard} from './ExpandMoreCard';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {PostReactionBox} from "../PostReactionButton";
 
 const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: PostCardProps) => {
 
@@ -57,96 +45,21 @@ const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: 
         }
     }
 
-    const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
-
-    const user = useAuthorizedUserInfo();
     const [avatarLink, setAvatarLink] = useState("");
-    const [reactions, setReactions] = useState<PostReactionModel[]>([]);
-    const [userReaction, setUserReaction] = useState<{ exists: boolean, type?: ReactionType }>({exists: false});
-
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
 
+    const fetchAvatarUrl = (userId: number) => userApi.getAvatarUrlById(userId).then(response => setAvatarLink(response.data));
 
-    const reactionsAndComponentsUnactive = {
-        "Love": <FavoriteBorderIcon onClick={() => handleNewReaction(ReactionType.Love)}/>,
-        "Like": <ThumbUpOutlinedIcon onClick={() => handleNewReaction(ReactionType.Like)}/>,
-        "Dislike": <ThumbDownOutlinedIcon onClick={() => handleNewReaction(ReactionType.Dislike)}/>
-    }
-
-    const reactionsAndComponentsActive = {
-        "Love": <FavoriteIcon color={"error"} onClick={() => handleRemoveReaction()}/>,
-        "Like": <ThumbUpIcon color={"warning"} onClick={() => handleRemoveReaction()}/>,
-        "Dislike": <ThumbDownIcon color={"warning"} onClick={() => handleRemoveReaction()}/>
+    const handleExpandCommentSection = () => {
+        setCommentsOpen(!commentsOpen);
     }
 
     useEffect(() => {
         fetchAvatarUrl(post.authorId);
     }, []);
 
-    useEffect(() => {
-        fetchPostReactions(post.id);
-    }, [isAuthorized])
-
-    const fetchAvatarUrl = (userId: number) => userApi.getAvatarUrlById(userId).then(response => setAvatarLink(response.data));
-
-    const fetchPostReactions = (postId: number) => postReactionApi.getReactionsByPost(postId).then((result: AxiosResponse<PostReactionModel[]>) => {
-        setReactions(result.data);
-
-        if (isAuthorized) {
-            const reactionsFilteredByUserId = result.data.filter((val) => val.userId === user?.id)
-
-            if (reactionsFilteredByUserId.length === 1) {
-                setUserReaction({exists: true, type: reactionsFilteredByUserId[0].reactionType});
-            } else {
-                setUserReaction({exists: false});
-            }
-        } else {
-            setUserReaction({exists: false});
-        }
-    });
-
-
-    const handleNewReaction = (type: ReactionType) => {
-        if (!isAuthorized) {
-            setModalOpen(true);
-            return;
-        }
-
-        if (userReaction.exists) {
-            postReactionApi.removeReactionFromPost(post.id).then(() => {
-                postReactionApi.reactToPost({postId: post.id, reactionType: type}).then(() => {
-                    setUserReaction({exists: true, type: type});
-                });
-            })
-        } else {
-            postReactionApi.reactToPost({postId: post.id, reactionType: type}).then(() => {
-                setUserReaction({exists: true, type: type});
-            });
-        }
-    }
-
-    const handleRemoveReaction = () => {
-        if (!isAuthorized) {
-            setModalOpen(true);
-            return;
-        }
-
-        if (userReaction.exists) {
-            postReactionApi.removeReactionFromPost(post.id).then(() => {
-                setUserReaction({exists: false})
-            });
-        }
-    }
-
-    const handleExpandCommentSection = () => {
-        setCommentsOpen(!commentsOpen);
-    }
-
     return (
         <>
-            <AuthorizationRequiredCustomModal modalOpen={modalOpen} setModalOpen={setModalOpen}
-                                              caption={"Please sign up to share your thoughts"}/>
 
             <Card elevation={10} style={{width: width, margin: "20px auto"}}>
 
@@ -161,23 +74,17 @@ const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: 
                 <CardContent>
                     <Typography variant="h5">{post.title}</Typography>
                     {/* todo add redirect to posts of this topic*/}
-                    {post.topic && <Chip onClick={() => {
-                    }} style={{display: "block", width: "fit-content", padding: "5px 5px"}} variant="outlined"
-                                         label={"#" + post.topic}/>}
+                    {post.topic && <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}} onClick={() => {}} variant="outlined" color={"primary"} label={"#" + post.topic}/>}
                     {post.content}
 
                 </CardContent>
 
 
                 <CardActions>
-                    {
-                        userReaction.exists ?
-                            reactionsAndComponentsActive["Love"]
-                            :
-                            reactionsAndComponentsUnactive["Love"]
-                    }
 
-                    <IconButton onClick={() => setCommentsOpen(true)} style={{display: "flex",}} aria-label="comments">
+                    <PostReactionBox postId={post.id}/>
+
+                    <IconButton onClick={() => setCommentsOpen(true)} style={{display: "flex"}} aria-label="comments">
                         <CommentIcon/>
                         {post.amountOfComments}
                     </IconButton>
