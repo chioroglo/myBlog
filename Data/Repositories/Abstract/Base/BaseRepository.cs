@@ -42,7 +42,7 @@ namespace DAL.Repositories.Abstract.Base
 
         public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await _db.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken);
+            return await _db.Set<TEntity>().Where(predicate).OrderByDescending(x => x.Id).ToListAsync(cancellationToken);
         }
 
         public async Task RemoveAsync(int id, CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ namespace DAL.Repositories.Abstract.Base
             }
 
             _db.Remove(entity);
-            await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<TEntity> Update(TEntity entity,CancellationToken cancellationToken)

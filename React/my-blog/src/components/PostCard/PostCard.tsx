@@ -14,7 +14,7 @@ import {PostCardProps} from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as assets from '../../shared/assets';
 import CommentIcon from '@mui/icons-material/Comment';
-import { userApi} from '../../shared/api/http/api';
+import {userApi} from '../../shared/api/http/api';
 import {CommentReel} from "../CommentReel";
 import {DefaultPageSize} from "../../shared/config";
 import {FilterLogicalOperator} from "../../shared/api/types/paging";
@@ -74,7 +74,9 @@ const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: 
                 <CardContent>
                     <Typography variant="h5">{post.title}</Typography>
                     {/* todo add redirect to posts of this topic*/}
-                    {post.topic && <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}} onClick={() => {}} variant="outlined" color={"primary"} label={"#" + post.topic}/>}
+                    {post.topic &&
+                        <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}} onClick={() => {
+                        }} variant="outlined" color={"primary"} label={"#" + post.topic}/>}
                     {post.content}
 
                 </CardContent>
