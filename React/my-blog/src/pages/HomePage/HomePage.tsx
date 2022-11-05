@@ -11,8 +11,8 @@ const HomePage = () => {
     }
 
     return (
-        <BlogReel pageSize={0} reelWidth={'50%'} pagingRequestDefault={homePagingConditions} showFilteringMenu
-                  availableFilterNames={["Content", "Title", "Topic"]}></BlogReel>
+        <BlogReel reelWidth={'50%'} pagingRequestDefault={homePagingConditions} showFilteringMenu
+                  availableFilterNames={["Content", "Title", "Topic"]}/>
     );
 };
 

@@ -18,6 +18,7 @@ const CustomModal = ({
             </DialogTitle>
 
             {children}
+
         </Dialog>
     );
 };

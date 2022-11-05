@@ -99,9 +99,12 @@ export class authApi {
 
 export class postApi {
     static getCursorPagedPosts(request: CursorPagedRequest) {
-        return instance.post(`/posts/paginated-search-cursor`, request)
+        return instance.post(`/posts/paginated-search-cursor`, request);
     }
 
+    static getPostById(id: number) {
+        return instance.get(`/posts/${id}`);
+    }
 }
 
 export class postReactionApi {

@@ -41,6 +41,7 @@ const BlogReel = ({
 
     const loadMorePosts = (request: CursorPagedRequest): void => {
 
+
         if (noMorePosts) {
             return;
         }
@@ -61,6 +62,8 @@ const BlogReel = ({
 
 
     useEffect(() => {
+        console.log(pagingRequestConfiguration);
+        console.log(filters);
         loadMorePosts({...pagingRequestConfiguration, requestFilters: filters});
     }, []);
 
@@ -112,7 +115,7 @@ const BlogReel = ({
                     :
                     <>
                         {posts.map((post) => <PostCard width={reelWidth} key={post.id} post={post}
-                                                       commentPortionSize={DefaultPageSize}/>)}
+                                                       commentPortionSize={pageSize}/>)}
                         <Waypoint bottomOffset="-700px"
                                   onEnter={() => !noMorePosts && loadMorePosts(pagingRequestConfiguration)}></Waypoint>
 

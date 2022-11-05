@@ -93,6 +93,7 @@ const RegistrationForm = () => {
             ,
             confirmPassword:
                 Yup.string()
+                    .required("Please confirm your password")
                     .oneOf([Yup.ref("password")], "Passwords are not the same")
             ,
             firstName:

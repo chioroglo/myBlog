@@ -35,7 +35,7 @@ const FilterMenu = ({availableFilters, width, requestFilters, setFilters}: Filte
     }
 
     return (
-        <Paper style={{minWidth:"500px",width: width, margin: "0 auto", minHeight: "50px", padding: "20px"}}>
+        <Paper style={{minWidth: "500px", width: width, margin: "0 auto", minHeight: "50px", padding: "20px"}}>
 
 
             <Box style={{paddingBottom: "20px"}}>

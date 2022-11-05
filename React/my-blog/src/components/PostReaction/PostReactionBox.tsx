@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, AvatarGroup, Box, IconButton, Popover, Typography} from "@mui/material";
+import {Avatar, AvatarGroup, Box, IconButton, Popper, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import {ApplicationState} from "../../redux";
 import {useAuthorizedUserInfo} from "../../hooks";
@@ -15,7 +15,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import AuthorizationRequiredCustomModal from "../CustomModal/AuthorizationRequiredCustomModal";
-import {DefaultAvatarGroupMaxLength} from "../../shared/config";
+import {DefaultAvatarGroupMaxLength, PopupsLifetimeDelayMs} from "../../shared/config";
 
 const PostReactionBox = ({postId}: PostReactionBoxProps) => {
 
@@ -32,9 +32,19 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
 
-    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+    const handlePopupOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
 
-    const handlePopoverClose = () => setAnchorEl(null);
+        setTimeout(() => {
+            if (anchorEl) {
+                handlePopupClose();
+            }
+        }, PopupsLifetimeDelayMs)
+    }
+
+    const handlePopupClose = () => {
+        setAnchorEl(null);
+    }
 
     const open = Boolean(anchorEl);
 
@@ -147,7 +157,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
                 &&
                 <Box style={{display: "flex", flexDirection: "row"}}>
 
-                    <Box onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
+                    <Box onMouseEnter={handlePopupOpen}>
                         {
                             (userReaction.exists && userReaction.type)
                                 ?
@@ -157,14 +167,13 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
                         }
                     </Box>
 
-                    <Popover sx={{pointerEvents:"none"}} open={open} anchorEl={anchorEl} anchorOrigin={{vertical: "center", horizontal: "center"}}
-                             transformOrigin={{vertical: "center", horizontal: "center"}}
-                             PaperProps={{onMouseEnter: handlePopoverOpen, onMouseLeave: handlePopoverClose,sx:{pointerEvents:"auto"} }}>
+                    <Popper sx={{boxShadow: "4px 6px 40px 0px rgba(0,0,0,0.75)", borderRadius: "20px"}} open={open}
+                            anchorEl={anchorEl} placement={"top"} onMouseLeave={handlePopupClose}>
 
                         <Box style={{
                             display: "flex",
                             flexDirection: "column",
-                            backgroundColor: "rgba(0,0,0,0.1)",
+                            backgroundColor: "#FFFFFF",
                             borderRadius: "5px",
                             padding: "1px 20px"
                         }}>
@@ -200,7 +209,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
                                     </AvatarGroup>
                             }
                         </Box>
-                    </Popover>
+                    </Popper>
                 </Box>
             }
         </>
