@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 import {ApplicationState} from '../../redux';
 import {postApi} from '../../shared/api/http/api';
 import {CursorPagedRequest, CursorPagedResult} from '../../shared/api/types/paging/cursorPaging';
-import {PostModel} from '../../shared/api/types/post';
+import {PostDto, PostModel} from '../../shared/api/types/post';
 import {PostCard} from '../PostCard';
 import {BlogReelProps} from './BlogReelProps';
 import EditIcon from '@mui/icons-material/Edit';
@@ -14,16 +14,21 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {FilterLogicalOperator, RequestFilters} from '../../shared/api/types/paging';
 import {FilterMenu} from '../FilterMenu';
 import {DefaultPageSize} from '../../shared/config';
+import {PostForm} from "../PostForm";
+import {useAuthorizedUserInfo} from "../../hooks";
 
 const BlogReel = ({
                       pageSize = DefaultPageSize,
                       reelWidth,
                       pagingRequestDefault,
                       showFilteringMenu,
-                      availableFilterNames = []
+                      availableFilterNames = [],
+                      showAddPostForm = false
                   }: BlogReelProps) => {
 
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
+
+    const user = useAuthorizedUserInfo();
 
     const [isLoading, setLoading] = useState<boolean>(true);
     const [noMorePosts, setNoMorePosts] = useState<boolean>(false);
@@ -60,10 +65,17 @@ const BlogReel = ({
 
     }
 
+    const handleNewPost = (post: PostDto) => {
+        if (isAuthorized && user) {
+            postApi.addPost(post).then((result: AxiosResponse<PostModel>) => {
+                result.data.authorUsername = user.username;
+                result.data.authorId = user.id;
+                setPosts([result.data, ...posts])
+            });
+        }
+    }
 
     useEffect(() => {
-        console.log(pagingRequestConfiguration);
-        console.log(filters);
         loadMorePosts({...pagingRequestConfiguration, requestFilters: filters});
     }, []);
 
@@ -99,6 +111,8 @@ const BlogReel = ({
         <>
             {showFilteringMenu && <FilterMenu width={reelWidth} requestFilters={filters} setFilters={setFilters}
                                               availableFilters={availableFilterNames}/>}
+
+            {showAddPostForm && isAuthorized && <PostForm caption={"New post"} callback={handleNewPost} width="50%"/>}
 
             {isLoading && posts.length === 0 ?
                 <Box style={{margin: "50px auto", width: "fit-content"}}>

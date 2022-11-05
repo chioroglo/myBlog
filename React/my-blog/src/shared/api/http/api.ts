@@ -3,6 +3,7 @@ import axios, {AxiosError} from "axios";
 import {API_URL, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName} from "../../config"
 import {AuthenticateRequest, AuthenticateResponse, RegistrationDto} from "../types"
 import {CursorPagedRequest} from "../types/paging/cursorPaging";
+import {PostDto} from "../types/post";
 import {PostReactionDto} from "../types/postReaction/PostReactionDto";
 
 
@@ -104,6 +105,10 @@ export class postApi {
 
     static getPostById(id: number) {
         return instance.get(`/posts/${id}`);
+    }
+
+    static addPost(post: PostDto) {
+        return instance.post(`/posts`, post)
     }
 }
 

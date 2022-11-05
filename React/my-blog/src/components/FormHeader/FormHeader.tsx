@@ -6,7 +6,7 @@ import {palette} from '../../shared/assets';
 
 const FormHeader = ({iconColor, caption, icon}: FormHeaderProps) => {
     return (
-        <div>
+        <div style={{justifyContent: "center", display: "flex", flexDirection: "column"}}>
             <Avatar style={{margin: "0 auto", padding: "10px", backgroundColor: iconColor}} variant="circular">
                 {icon}
             </Avatar>

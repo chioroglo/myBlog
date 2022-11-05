@@ -5,5 +5,6 @@ export interface BlogReelProps {
     reelWidth: string,
     pagingRequestDefault: CursorPagedRequest,
     showFilteringMenu?: boolean,
-    availableFilterNames?: string[]
+    availableFilterNames?: string[],
+    showAddPostForm?: boolean
 }

@@ -11,7 +11,7 @@ const HomePage = () => {
     }
 
     return (
-        <BlogReel reelWidth={'50%'} pagingRequestDefault={homePagingConditions} showFilteringMenu
+        <BlogReel showAddPostForm={true} reelWidth={'50%'} pagingRequestDefault={homePagingConditions} showFilteringMenu
                   availableFilterNames={["Content", "Title", "Topic"]}/>
     );
 };

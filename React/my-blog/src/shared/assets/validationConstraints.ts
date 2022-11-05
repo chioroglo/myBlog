@@ -14,3 +14,9 @@ export const FirstnameLastnameConstraints = {
     MinLength: 2,
     MaxLength: 20
 }
+
+export const PostValidationConstraints = {
+    TitleMaxLength: 30,
+    ContentMaxLength: 10000,
+    TopicMaxLength: 30
+}

@@ -146,7 +146,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
     }, [isAuthorized]);
 
     return (
-            <>
+        <>
             <AuthorizationRequiredCustomModal modalOpen={modalOpen} setModalOpen={setModalOpen}
                                               caption={"Please sign up to share your thoughts"}/>
 
@@ -212,7 +212,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
                     </ClickAwayListener>
                 </Box>
             }
-            </>
+        </>
     );
 };
 

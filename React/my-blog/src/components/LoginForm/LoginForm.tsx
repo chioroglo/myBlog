@@ -4,10 +4,9 @@ import {useFormik} from 'formik';
 import React, {useState} from 'react';
 import {authApi} from '../../shared/api/http/api';
 import {AuthenticateRequest, ErrorResponse} from '../../shared/api/types';
-import {palette} from '../../shared/assets';
-import {PasswordValidationConstraints, UserValidationConstraints} from '../../shared/assets/validationConstraints';
-import {FormHeader} from '../FormHeader/FormHeader';
-import {AuthenticationForm} from './authenticationForm';
+import {palette, PasswordValidationConstraints, UserValidationConstraints} from '../../shared/assets';
+import {FormHeader} from '../FormHeader';
+import {AuthenticationForm} from './AuthenticationForm';
 import * as Yup from 'yup';
 import {CustomSnackbar} from '../CustomSnackbar';
 import {AxiosError} from 'axios';
@@ -131,6 +130,7 @@ const LoginForm = () => {
 
                         <FormControlLabel name="rememberMe" style={checkboxStyle} onChange={formik.handleChange}
                                           label="Remember me?" control={<Checkbox/>}/>
+
                         <Button variant="outlined" style={buttonStyle} type="submit">Log in</Button>
 
                         <Link style={{

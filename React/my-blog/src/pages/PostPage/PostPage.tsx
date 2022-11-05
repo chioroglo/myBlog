@@ -42,13 +42,14 @@ const PostPage = () => {
                     </Box>
                     :
                     (hasError
-                            ? <Box style={{margin:"15% auto"}}>
-                                <Typography variant={"h2"} style={{textAlign:"center"}}>
+                            ? <Box style={{margin: "15% auto"}}>
+                                <Typography variant={"h2"} style={{textAlign: "center"}}>
                                     No post of id {postId} was found on the server
                                 </Typography>
 
-                                <CancelIcon style={{margin:"0 auto",display:"block",width:"100px",height:"100px"}}/>
-                                </Box>
+                                <CancelIcon
+                                    style={{margin: "0 auto", display: "block", width: "100px", height: "100px"}}/>
+                            </Box>
 
                             :
                             post && <PostCard post={post} width={"80%"} commentPortionSize={DefaultPageSize}/>
