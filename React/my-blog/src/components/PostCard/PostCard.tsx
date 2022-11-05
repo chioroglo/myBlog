@@ -21,7 +21,8 @@ import {FilterLogicalOperator} from "../../shared/api/types/paging";
 import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
 import {ExpandMoreCard} from './ExpandMoreCard';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {PostReactionBox} from "../PostReaction";
+import {PostReactionBox} from "../PostReactionBox";
+import {Link} from 'react-router-dom';
 
 const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: PostCardProps) => {
 
@@ -58,11 +59,15 @@ const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: 
             <Card elevation={10} style={{width: width, margin: "20px auto"}}>
 
                 <CardHeader
-                    avatar={<Avatar
-                        src={avatarLink}>{assets.getFirstCharOfStringUpperCase(post.authorUsername)}</Avatar>}
+                    avatar={<Avatar src={avatarLink}>
+                        {assets.getFirstCharOfStringUpperCase(post.authorUsername)}
+                    </Avatar>}
                     action={<IconButton><MoreVertIcon/></IconButton>}
-                    title={post.authorUsername}
-                    subheader={assets.transformToDateMonthHourseMinutesString(new Date(post.registrationDate))}/>
+                    title={<Link to={`/user/${post.authorId}`}>{post.authorUsername}</Link>}
+                    subheader={
+                        <Link
+                            to={`/post/${post.id}`}>{assets.transformToDateMonthHourseMinutesString(new Date(post.registrationDate))}
+                        </Link>}/>
 
 
                 <CardContent>

@@ -32,7 +32,6 @@ const PostPage = () => {
         }
     }, []);
 
-    // @ts-ignore
     return (
         <>
             {

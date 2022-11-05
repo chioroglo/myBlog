@@ -112,7 +112,7 @@ export class postReactionApi {
         return instance.get(`/reactions/${postId}`);
     }
 
-    static reactToPost(request: PostReactionDto) {
+    static addReactionToPost(request: PostReactionDto) {
         return instance.post(`/reactions`, request);
     }
 
