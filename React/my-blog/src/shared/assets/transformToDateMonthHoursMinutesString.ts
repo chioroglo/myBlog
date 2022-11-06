@@ -1,4 +1,4 @@
-export const transformToDateMonthHourseMinutesString = (date: Date) => {
+export const transformToDateMonthHoursMinutesString = (date: Date) => {
 
 
     const appendZeroInFrontIfHasOneDigit = (num: number): string => {

@@ -52,7 +52,7 @@ const PostPage = () => {
                             </Box>
 
                             :
-                            post && <PostCard post={post} width={"80%"} commentPortionSize={DefaultPageSize}/>
+                            post && <PostCard initialPost={post} width={"80%"} commentPortionSize={DefaultPageSize}/>
                     )
             }
         </>

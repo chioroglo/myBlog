@@ -8,6 +8,6 @@ export const UsernameTokenKeyName = "username"
 
 export const DefaultPageSize = 5
 
-export const DefaultAvatarGroupMaxLength = 3
+export const DefaultAvatarGroupMaxLength = 5
 
 export const PopupsLifetimeDelayMs = 3000;

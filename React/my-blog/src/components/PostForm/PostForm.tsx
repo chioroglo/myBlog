@@ -3,12 +3,23 @@ import {useFormik} from "formik";
 import {PostDto} from "../../shared/api/types/post";
 import * as Yup from 'yup';
 import {palette, PostValidationConstraints} from "../../shared/assets";
-import {AlertColor, Box, Button, CircularProgress, FormControl, FormHelperText, Paper, TextField} from '@mui/material';
+import {
+    AlertColor,
+    Box,
+    Button,
+    CircularProgress,
+    FormControl,
+    FormHelperText,
+    IconButton,
+    Paper,
+    TextField
+} from '@mui/material';
 import {PostFormProps} from "./PostFormProps";
 import {FormHeader} from '../FormHeader';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import {CustomSnackbar} from "../CustomSnackbar";
 import {AxiosError} from "axios";
+import CloseIcon from '@mui/icons-material/Close';
 
 const textFieldStyle: React.CSSProperties = {
     padding: "0 0 20px 0"
@@ -19,7 +30,14 @@ const errorTextStyle: React.CSSProperties = {
     fontStyle: "italic"
 }
 
-const PostForm = ({caption = "Form", callback, width = "100%"}: PostFormProps) => { // TODO update to actual type of axios API call
+const PostForm = ({
+                      initialPost = {content: "", title: "", topic: ""},
+                      formCloseHandler,
+                      caption = "Form",
+                      formActionCallback,
+                      width = "100%"
+                  }: PostFormProps) =>
+ {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
@@ -31,13 +49,13 @@ const PostForm = ({caption = "Form", callback, width = "100%"}: PostFormProps) =
 
     const formik = useFormik<PostDto>({
             initialValues: {
-                title: "",
-                content: "",
-                topic: ""
+                title: initialPost.title,
+                content: initialPost.content,
+                topic: initialPost.topic
             },
-            onSubmit: async (values,formikHelpers) => {
+            onSubmit: async (values, formikHelpers) => {
                 setLoading(true);
-                callback(values).then((result) => {
+                formActionCallback(values).then((result) => {
                     if (result.status !== 200 && result instanceof AxiosError) {
                         setSnackbarCaption(result.response?.data.Message);
                         setSnackbarAlertType("error");
@@ -128,6 +146,11 @@ const PostForm = ({caption = "Form", callback, width = "100%"}: PostFormProps) =
                                                                 closeHandler={closeSnackbar}/>
                             }
                         </form>
+                        <Box>
+                            <IconButton onClick={formCloseHandler}>
+                                <CloseIcon/>
+                            </IconButton>
+                        </Box>
                     </Paper>
             }
         </>

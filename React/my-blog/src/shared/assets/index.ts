@@ -6,4 +6,4 @@ export * from "./getFirstCharOfStringUpperCase"
 
 export * from "./transformProfileRegistrationDate"
 
-export * from "./transformProfileLastActivityString"
+export * from "./transformToDateMonthHoursMinutesString"

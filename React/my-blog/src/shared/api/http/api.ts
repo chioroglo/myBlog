@@ -110,6 +110,10 @@ export class postApi {
     static addPost(post: PostDto) {
         return instance.post<PostModel>(`/posts`, post);
     }
+
+    static editPost(postId: number, post: PostDto) {
+        return instance.put<PostModel>(`/posts/${postId}`, post);
+    }
 }
 
 export class postReactionApi {

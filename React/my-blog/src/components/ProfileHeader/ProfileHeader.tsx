@@ -7,7 +7,7 @@ import {UserIdTokenKeyName} from '../../shared/config';
 import {ProfileHeaderProps} from './ProfileHeaderProps';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScheduleIcon from '@mui/icons-material/Schedule';
-import {transformToDateMonthHourseMinutesString, transformToDayMonthYear} from '../../shared/assets';
+import {transformToDateMonthHoursMinutesString, transformToDayMonthYear} from '../../shared/assets';
 
 
 const paperStyle: React.CSSProperties = {
@@ -95,7 +95,7 @@ const ProfileHeader = ({user}: ProfileHeaderProps) => {
                     <Box>
                         <ScheduleIcon/>
                         <Typography>
-                            Last activity {transformToDateMonthHourseMinutesString(new Date(user.lastActivity))}
+                            Last activity {transformToDateMonthHoursMinutesString(new Date(user.lastActivity))}
                         </Typography>
                     </Box>
 

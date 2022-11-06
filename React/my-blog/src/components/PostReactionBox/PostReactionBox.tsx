@@ -170,11 +170,13 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
                                 anchorEl={anchorEl} placement={"left"} onMouseLeave={handlePopupClose}>
 
                             <Box style={{
+                                width: "200px",
                                 display: "flex",
                                 flexDirection: "column",
                                 backgroundColor: "#FFFFFF",
                                 borderRadius: "5px",
-                                padding: "1px 20px"
+                                padding: "1px 20px",
+                                justifyContent: "space-around"
                             }}>
 
 

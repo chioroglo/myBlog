@@ -1,4 +1,4 @@
-import {Box, CircularProgress, IconButton, Typography} from '@mui/material';
+import {Box, Button, CircularProgress, IconButton, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from '../../redux';
@@ -32,6 +32,7 @@ const BlogReel = ({
 
     const user = useAuthorizedUserInfo();
 
+    const [formVisible, setFormVisible] = useState<boolean>(showAddPostForm);
     const [isLoading, setLoading] = useState<boolean>(true);
     const [noMorePosts, setNoMorePosts] = useState<boolean>(false);
     const [posts, setPosts] = useState<PostModel[]>([]);
@@ -116,7 +117,15 @@ const BlogReel = ({
             {showFilteringMenu && <FilterMenu width={reelWidth} requestFilters={filters} setFilters={setFilters}
                                               availableFilters={availableFilterNames}/>}
 
-            {showAddPostForm && isAuthorized && <PostForm caption={"New post"} callback={handleNewPost} width="50%"/>}
+            {isAuthorized &&
+                (formVisible ?
+                    <PostForm formCloseHandler={() => setFormVisible(false)} caption={"New post"}
+                              formActionCallback={handleNewPost} width="50%"/>
+                    :
+                    <Box style={{margin: "20px 0", display: "flex", justifyContent: "space-around"}}>
+                        <Button variant={"contained"} onClick={() => setFormVisible(true)}>Add new post</Button>
+                    </Box>)
+            }
 
             {isLoading && posts.length === 0 ?
                 <Box style={{margin: "50px auto", width: "fit-content"}}>
@@ -132,7 +141,7 @@ const BlogReel = ({
                     </Box>
                     :
                     <>
-                        {posts.map((post) => <PostCard width={reelWidth} key={post.id} post={post}
+                        {posts.map((post) => <PostCard width={reelWidth} key={post.id} initialPost={post}
                                                        commentPortionSize={pageSize}/>)}
                         <Waypoint bottomOffset="-700px"
                                   onEnter={() => !noMorePosts && loadMorePosts(pagingRequestConfiguration)}></Waypoint>

@@ -7,6 +7,8 @@ import {
     Chip,
     Collapse,
     IconButton,
+    Menu,
+    MenuItem,
     Typography
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
@@ -14,7 +16,7 @@ import {PostCardProps} from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as assets from '../../shared/assets';
 import CommentIcon from '@mui/icons-material/Comment';
-import {userApi} from '../../shared/api/http/api';
+import {postApi, userApi} from '../../shared/api/http/api';
 import {CommentReel} from "../CommentReel";
 import {DefaultPageSize} from "../../shared/config";
 import {FilterLogicalOperator} from "../../shared/api/types/paging";
@@ -23,8 +25,17 @@ import {ExpandMoreCard} from './ExpandMoreCard';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {PostReactionBox} from "../PostReactionBox";
 import {Link} from 'react-router-dom';
+import {PostForm} from '../PostForm';
+import {AxiosResponse} from 'axios';
+import {PostDto, PostModel} from '../../shared/api/types/post';
+import {useAuthorizedUserInfo} from "../../hooks";
+import {useSelector} from "react-redux";
+import {ApplicationState} from '../../redux';
 
-const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: PostCardProps) => {
+const PostCard = ({initialPost, width = "100%", commentPortionSize = DefaultPageSize}: PostCardProps) => {
+
+    const [post, setPost] = useState<PostModel>(initialPost);
+    const [editPostMode, setEditPostMode] = useState<boolean>(false);
 
     const commentsPagingRequestDefault: CursorPagedRequest = {
         pageSize: commentPortionSize,
@@ -40,6 +51,16 @@ const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: 
         }
     }
 
+    const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
+    const user = useAuthorizedUserInfo();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleOpenMenu = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
+
+    const handleCloseMenu = () => setAnchorEl(null);
+
+
     const [avatarLink, setAvatarLink] = useState("");
     const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
 
@@ -49,61 +70,96 @@ const PostCard = ({post, width = "100%", commentPortionSize = DefaultPageSize}: 
         setCommentsOpen(!commentsOpen);
     }
 
+    const handleEditPost = async (newPost: PostDto): Promise<AxiosResponse<PostModel>> => {
+        return postApi.editPost(post.id, newPost).then((result: AxiosResponse<PostModel>) => {
+            if (result.status === 200 && user) {
+                result.data.authorUsername = user?.username;
+                result.data.authorId = user?.id;
+                setPost(result.data);
+            }
+            handleCloseMenu();
+            setEditPostMode(false);
+            return result;
+        }).catch((result) => result);
+    }
+
     useEffect(() => {
         fetchAvatarUrl(post.authorId);
     }, []);
 
     return (
         <>
+            {
+                isAuthorized && editPostMode ?
+                    <PostForm initialPost={post} width={"50%"} caption={"Edit post"} formActionCallback={handleEditPost}
+                              formCloseHandler={() => {
+                                  handleCloseMenu();
+                                  setEditPostMode(false);
+                              }}/>
+                    :
+                    <Card elevation={10} style={{width: width, margin: "20px auto"}}>
+                        <>
+                            {
+                                isAuthorized &&
+                                <Menu anchorEl={anchorEl} open={open} onClose={handleCloseMenu}>
+                                    <MenuItem onClick={() => setEditPostMode(true)}>Edit post</MenuItem>
+                                    <MenuItem onClick={() => console.log("remove")}>Remove post</MenuItem>
+                                    <MenuItem onClick={handleCloseMenu}>Close</MenuItem>
+                                </Menu>
+                            }
+                            <CardHeader
+                                avatar={<Avatar src={avatarLink}>
+                                    {assets.getFirstCharOfStringUpperCase(post.authorUsername)}
+                                </Avatar>}
+                                action={isAuthorized && user?.id === post.authorId ?
+                                    <IconButton onClick={handleOpenMenu}><MoreVertIcon/></IconButton> : <></>}
+                                title={<Link to={`/user/${post.authorId}`}>{post.authorUsername}</Link>}
+                                subheader={
+                                    <Link
+                                        to={`/post/${post.id}`}>{assets.transformToDateMonthHoursMinutesString(new Date(post.registrationDate))}
+                                    </Link>}/>
 
-            <Card elevation={10} style={{width: width, margin: "20px auto"}}>
 
-                <CardHeader
-                    avatar={<Avatar src={avatarLink}>
-                        {assets.getFirstCharOfStringUpperCase(post.authorUsername)}
-                    </Avatar>}
-                    action={<IconButton><MoreVertIcon/></IconButton>}
-                    title={<Link to={`/user/${post.authorId}`}>{post.authorUsername}</Link>}
-                    subheader={
-                        <Link
-                            to={`/post/${post.id}`}>{assets.transformToDateMonthHourseMinutesString(new Date(post.registrationDate))}
-                        </Link>}/>
+                            <CardContent>
+                                <Typography variant="h5">{post.title}</Typography>
+                                {/* todo add redirect to posts of this topic*/}
+                                {post.topic &&
+                                    <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}}
+                                          onClick={() => {
+                                          }} variant="outlined" color={"primary"} label={"#" + post.topic}/>}
+                                {post.content}
 
-
-                <CardContent>
-                    <Typography variant="h5">{post.title}</Typography>
-                    {/* todo add redirect to posts of this topic*/}
-                    {post.topic &&
-                        <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}} onClick={() => {
-                        }} variant="outlined" color={"primary"} label={"#" + post.topic}/>}
-                    {post.content}
-
-                </CardContent>
+                            </CardContent>
 
 
-                <CardActions>
+                            <CardActions>
 
-                    <PostReactionBox postId={post.id}/>
+                                <PostReactionBox postId={post.id}/>
 
-                    <IconButton onClick={() => setCommentsOpen(true)} style={{display: "flex"}} aria-label="comments">
-                        <CommentIcon/>
-                        {post.amountOfComments}
-                    </IconButton>
+                                <IconButton onClick={() => setCommentsOpen(true)} style={{display: "flex"}}
+                                            aria-label="comments">
+                                    <CommentIcon/>
+                                    {post.amountOfComments}
+                                </IconButton>
 
-                    <ExpandMoreCard expanded={commentsOpen} onClick={() => handleExpandCommentSection()}>
-                        <ExpandMoreIcon/>
-                    </ExpandMoreCard>
+                                <ExpandMoreCard expanded={commentsOpen} onClick={() => handleExpandCommentSection()}>
+                                    <ExpandMoreIcon/>
+                                </ExpandMoreCard>
 
-                </CardActions>
+                            </CardActions>
 
-                <Collapse in={commentsOpen} orientation={"vertical"} timeout={"auto"}>
-                    <CardContent>
-                        <CommentReel reelWidth={"100%"} pagingRequestDefault={commentsPagingRequestDefault}/>
-                    </CardContent>
-                </Collapse>
-            </Card>
+                            <Collapse in={commentsOpen} orientation={"vertical"} timeout={"auto"}>
+                                <CardContent>
+                                    <CommentReel reelWidth={"100%"}
+                                                 pagingRequestDefault={commentsPagingRequestDefault}/>
+                                </CardContent>
+                            </Collapse>
+                        </>
+                    </Card>
+            }
         </>
     )
+
 };
 
 export {PostCard};
