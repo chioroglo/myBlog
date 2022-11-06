@@ -26,6 +26,8 @@ const BlogReel = ({
                       showAddPostForm = false
                   }: BlogReelProps) => {
 
+    /* TODO ADD SYNCHRONIZATION BETWEEN QUERY STRING IN BROWSER AND FILTERS AND PARSING THEM WHILE LOADING PAGE */
+
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
 
     const user = useAuthorizedUserInfo();
@@ -65,14 +67,16 @@ const BlogReel = ({
 
     }
 
-    const handleNewPost = (post: PostDto) => {
-        if (isAuthorized && user) {
-            postApi.addPost(post).then((result: AxiosResponse<PostModel>) => {
-                result.data.authorUsername = user.username;
-                result.data.authorId = user.id;
-                setPosts([result.data, ...posts])
-            });
-        }
+    const handleNewPost = async (post: PostDto): Promise<AxiosResponse<PostModel>> => {
+        return postApi.addPost(post).then((result: AxiosResponse<PostModel>) => {
+            if (result.status === 200 && user) {
+                result.data.authorUsername = user?.username;
+                result.data.authorId = user?.id;
+                setPosts([result.data, ...posts]);
+            }
+
+            return result;
+        }).catch((result) => result);
     }
 
     useEffect(() => {
