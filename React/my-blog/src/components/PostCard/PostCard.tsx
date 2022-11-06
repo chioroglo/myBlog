@@ -31,11 +31,13 @@ import {PostDto, PostModel} from '../../shared/api/types/post';
 import {useAuthorizedUserInfo} from "../../hooks";
 import {useSelector} from "react-redux";
 import {ApplicationState} from '../../redux';
+import {ConfirmActionCustomModal} from "../CustomModal";
 
-const PostCard = ({initialPost, width = "100%", commentPortionSize = DefaultPageSize}: PostCardProps) => {
+const PostCard = ({initialPost, width = "100%", commentPortionSize = DefaultPageSize,disappearPostCallback}: PostCardProps) => {
 
     const [post, setPost] = useState<PostModel>(initialPost);
     const [editPostMode, setEditPostMode] = useState<boolean>(false);
+    const [confirmDeleteDialogOpen,setConfirmDeleteDialogOpen] = useState<boolean>(false);
 
     const commentsPagingRequestDefault: CursorPagedRequest = {
         pageSize: commentPortionSize,
@@ -83,6 +85,17 @@ const PostCard = ({initialPost, width = "100%", commentPortionSize = DefaultPage
         }).catch((result) => result);
     }
 
+    const handleDeletePost = (postId : number) => {
+        postApi.removePostId(postId).then((result) => {
+            if (result.status === 200 && user) {
+                disappearPostCallback();
+            } else {
+                console.log("FAILURE");
+                console.log(result);
+            }
+        })
+    }
+
     useEffect(() => {
         fetchAvatarUrl(post.authorId);
     }, []);
@@ -99,11 +112,16 @@ const PostCard = ({initialPost, width = "100%", commentPortionSize = DefaultPage
                     :
                     <Card elevation={10} style={{width: width, margin: "20px auto"}}>
                         <>
+
+                            {
+                                isAuthorized && confirmDeleteDialogOpen &&
+                                <ConfirmActionCustomModal actionCallback={() => handleDeletePost(post.id)} title={"Delete post"} caption={"Are you sure you want to delete this post"} modalOpen={confirmDeleteDialogOpen} setModalOpen={setConfirmDeleteDialogOpen}/>
+                            }
                             {
                                 isAuthorized &&
                                 <Menu anchorEl={anchorEl} open={open} onClose={handleCloseMenu}>
                                     <MenuItem onClick={() => setEditPostMode(true)}>Edit post</MenuItem>
-                                    <MenuItem onClick={() => console.log("remove")}>Remove post</MenuItem>
+                                    <MenuItem onClick={() => setConfirmDeleteDialogOpen(true)}>Remove post</MenuItem>
                                     <MenuItem onClick={handleCloseMenu}>Close</MenuItem>
                                 </Menu>
                             }

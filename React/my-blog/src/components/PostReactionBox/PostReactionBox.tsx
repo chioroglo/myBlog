@@ -14,7 +14,7 @@ import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import AuthorizationRequiredCustomModal from "../CustomModal/AuthorizationRequiredCustomModal";
+import AuthorizationRequiredCustomModal from "../CustomModal/AuthorizationRequiredCustomModal/AuthorizationRequiredCustomModal";
 import {DefaultAvatarGroupMaxLength} from "../../shared/config";
 
 const PostReactionBox = ({postId}: PostReactionBoxProps) => {

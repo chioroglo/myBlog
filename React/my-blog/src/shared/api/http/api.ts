@@ -114,6 +114,10 @@ export class postApi {
     static editPost(postId: number, post: PostDto) {
         return instance.put<PostModel>(`/posts/${postId}`, post);
     }
+
+    static removePostId(postId: number) {
+        return instance.delete(`/posts/${postId}`);
+    }
 }
 
 export class postReactionApi {

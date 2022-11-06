@@ -36,8 +36,7 @@ const PostForm = ({
                       caption = "Form",
                       formActionCallback,
                       width = "100%"
-                  }: PostFormProps) =>
- {
+                  }: PostFormProps) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);

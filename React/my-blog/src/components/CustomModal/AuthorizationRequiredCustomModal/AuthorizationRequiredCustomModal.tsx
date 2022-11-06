@@ -1,14 +1,12 @@
 import React from 'react';
 import {Box, Button, DialogActions, DialogContentText, Typography} from "@mui/material";
-import {CustomModal} from "./CustomModal";
+import {CustomModal} from "../CustomModal";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {useNavigate} from "react-router-dom";
+import {AuthorizationRequiredCustomModalProps} from "./AuthorizationRequiredCustomModalProps";
 
-const AuthorizationRequiredCustomModal = ({
-                                              modalOpen,
-                                              setModalOpen,
-                                              caption
-                                          }: { modalOpen: boolean, setModalOpen: React.Dispatch<React.SetStateAction<boolean>>, caption: string }) => {
+const AuthorizationRequiredCustomModal = ({modalOpen,setModalOpen,caption}: AuthorizationRequiredCustomModalProps) =>
+{
 
     const navigate = useNavigate();
 

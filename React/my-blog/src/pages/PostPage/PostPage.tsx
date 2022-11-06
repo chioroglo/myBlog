@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {Navigate, useParams} from 'react-router-dom';
 import {PostCard} from '../../components/PostCard';
 import {DefaultPageSize} from '../../shared/config';
 import {postApi} from "../../shared/api/http/api";
@@ -15,9 +15,10 @@ const PostPage = () => {
     const [hasError, setError] = useState<boolean>(false);
     const [isLoading, setLoading] = useState<boolean>();
 
+    const handleDeletePostAndRedirectToHomePage = () => <Navigate to={`/`}/>
+
     useEffect(() => {
         setLoading(true);
-
 
         if (typeof postId === "string") {
             postApi.getPostById(parseInt(postId) || 0).then((result: AxiosResponse<PostModel>) => {
@@ -52,7 +53,7 @@ const PostPage = () => {
                             </Box>
 
                             :
-                            post && <PostCard initialPost={post} width={"80%"} commentPortionSize={DefaultPageSize}/>
+                            post && <PostCard initialPost={post} width={"80%"} commentPortionSize={DefaultPageSize} disappearPostCallback={handleDeletePostAndRedirectToHomePage}/>
                     )
             }
         </>

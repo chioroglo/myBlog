@@ -80,6 +80,10 @@ const BlogReel = ({
         }).catch((result) => result);
     }
 
+    const handleDeletePost = (postId: number) => {
+        setPosts(posts.filter((value) => value.id !== postId));
+    }
+
     useEffect(() => {
         loadMorePosts({...pagingRequestConfiguration, requestFilters: filters});
     }, []);
@@ -142,7 +146,8 @@ const BlogReel = ({
                     :
                     <>
                         {posts.map((post) => <PostCard width={reelWidth} key={post.id} initialPost={post}
-                                                       commentPortionSize={pageSize}/>)}
+                                                       commentPortionSize={pageSize}
+                                                       disappearPostCallback={() => handleDeletePost(post.id)}/>)}
                         <Waypoint bottomOffset="-700px"
                                   onEnter={() => !noMorePosts && loadMorePosts(pagingRequestConfiguration)}></Waypoint>
 
