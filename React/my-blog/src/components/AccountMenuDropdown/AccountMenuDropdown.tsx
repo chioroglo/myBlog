@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import {authApi} from '../../shared/api/http/api';
 import {ReduxActionTypes} from '../../redux';
 import {useDispatch} from 'react-redux';
-import {LogoutCustomModal} from '../CustomModal';
+import {ConfirmActionCustomModal} from '../CustomModal';
 import {Link} from 'react-router-dom';
 import {palette} from '../../shared/assets';
 
@@ -35,7 +35,9 @@ const AccountMenuDropdown = ({icon}: { icon: JSX.Element }) => {
 
     return (
         <>
-            <LogoutCustomModal modalOpen={modalOpen} setModalOpen={setModalOpen} logoutHandler={handleLogout}/>
+            <ConfirmActionCustomModal actionCallback={handleLogout} title={"Logout"}
+                                      caption={"Are you sure you want to log out?"} modalOpen={modalOpen}
+                                      setModalOpen={setModalOpen}/>
 
             <Tooltip title="Account settings">
                 <IconButton

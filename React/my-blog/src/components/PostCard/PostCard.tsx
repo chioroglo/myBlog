@@ -33,11 +33,16 @@ import {useSelector} from "react-redux";
 import {ApplicationState} from '../../redux';
 import {ConfirmActionCustomModal} from "../CustomModal";
 
-const PostCard = ({initialPost, width = "100%", commentPortionSize = DefaultPageSize,disappearPostCallback}: PostCardProps) => {
+const PostCard = ({
+                      initialPost,
+                      width = "100%",
+                      commentPortionSize = DefaultPageSize,
+                      disappearPostCallback
+                  }: PostCardProps) => {
 
     const [post, setPost] = useState<PostModel>(initialPost);
     const [editPostMode, setEditPostMode] = useState<boolean>(false);
-    const [confirmDeleteDialogOpen,setConfirmDeleteDialogOpen] = useState<boolean>(false);
+    const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState<boolean>(false);
 
     const commentsPagingRequestDefault: CursorPagedRequest = {
         pageSize: commentPortionSize,
@@ -85,7 +90,7 @@ const PostCard = ({initialPost, width = "100%", commentPortionSize = DefaultPage
         }).catch((result) => result);
     }
 
-    const handleDeletePost = (postId : number) => {
+    const handleDeletePost = (postId: number) => {
         postApi.removePostId(postId).then((result) => {
             if (result.status === 200 && user) {
                 disappearPostCallback();
@@ -115,7 +120,11 @@ const PostCard = ({initialPost, width = "100%", commentPortionSize = DefaultPage
 
                             {
                                 isAuthorized && confirmDeleteDialogOpen &&
-                                <ConfirmActionCustomModal actionCallback={() => handleDeletePost(post.id)} title={"Delete post"} caption={"Are you sure you want to delete this post"} modalOpen={confirmDeleteDialogOpen} setModalOpen={setConfirmDeleteDialogOpen}/>
+                                <ConfirmActionCustomModal actionCallback={() => handleDeletePost(post.id)}
+                                                          title={"Delete post"}
+                                                          caption={"Are you sure you want to delete this post"}
+                                                          modalOpen={confirmDeleteDialogOpen}
+                                                          setModalOpen={setConfirmDeleteDialogOpen}/>
                             }
                             {
                                 isAuthorized &&

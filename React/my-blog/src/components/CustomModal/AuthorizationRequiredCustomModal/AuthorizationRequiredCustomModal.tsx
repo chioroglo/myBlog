@@ -5,8 +5,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {useNavigate} from "react-router-dom";
 import {AuthorizationRequiredCustomModalProps} from "./AuthorizationRequiredCustomModalProps";
 
-const AuthorizationRequiredCustomModal = ({modalOpen,setModalOpen,caption}: AuthorizationRequiredCustomModalProps) =>
-{
+const AuthorizationRequiredCustomModal = ({
+                                              modalOpen,
+                                              setModalOpen,
+                                              caption
+                                          }: AuthorizationRequiredCustomModalProps) => {
 
     const navigate = useNavigate();
 

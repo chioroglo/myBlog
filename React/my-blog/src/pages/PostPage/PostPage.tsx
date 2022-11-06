@@ -53,7 +53,8 @@ const PostPage = () => {
                             </Box>
 
                             :
-                            post && <PostCard initialPost={post} width={"80%"} commentPortionSize={DefaultPageSize} disappearPostCallback={handleDeletePostAndRedirectToHomePage}/>
+                            post && <PostCard initialPost={post} width={"80%"} commentPortionSize={DefaultPageSize}
+                                              disappearPostCallback={handleDeletePostAndRedirectToHomePage}/>
                     )
             }
         </>
