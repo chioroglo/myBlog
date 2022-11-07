@@ -121,7 +121,7 @@ const BlogReel = ({
             {showFilteringMenu && <FilterMenu width={reelWidth} requestFilters={filters} setFilters={setFilters}
                                               availableFilters={availableFilterNames}/>}
 
-            {isAuthorized &&
+            {isAuthorized && showAddPostForm &&
                 (formVisible ?
                     <PostForm formCloseHandler={() => setFormVisible(false)} caption={"New post"}
                               formActionCallback={handleNewPost} width="50%"/>

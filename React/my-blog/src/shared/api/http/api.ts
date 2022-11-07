@@ -133,6 +133,10 @@ export class postReactionApi {
         return instance.delete(`/reactions/${postId}`);
     }
 
+    static updateReactionOnPost(request: PostReactionDto) {
+        return instance.put(`/reactions`);
+    }
+
 }
 
 export class commentApi {

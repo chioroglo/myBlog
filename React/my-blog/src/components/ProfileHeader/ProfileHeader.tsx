@@ -8,6 +8,7 @@ import {ProfileHeaderProps} from './ProfileHeaderProps';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import {transformToDateMonthHoursMinutesString, transformToDayMonthYear} from '../../shared/assets';
+import {useAuthorizedUserInfo} from "../../hooks";
 
 
 const paperStyle: React.CSSProperties = {
@@ -40,8 +41,10 @@ const ProfileHeader = ({user}: ProfileHeaderProps) => {
 
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
 
+    const authorizedUser = useAuthorizedUserInfo();
+
     const isUserOnHisProfilePage = (): boolean => {
-        return isAuthorized && (user.id.toString() === localStorage.getItem(UserIdTokenKeyName) || user.id.toString() === sessionStorage.getItem(UserIdTokenKeyName));
+        return isAuthorized && (authorizedUser?.id === user.id);
     };
 
     const [avatarLink, setAvatarLink] = useState<string>("");

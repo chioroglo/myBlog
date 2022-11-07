@@ -5,5 +5,6 @@ export const palette = {
     SUNRISE: "#F8D49A",
     MAGENTA: "#D100D1",
     WHITE: "#FFFFFF",
-    JET: "#343434"
+    JET: "#343434",
+    BAYERN_BLUE: "#0066b2"
 }

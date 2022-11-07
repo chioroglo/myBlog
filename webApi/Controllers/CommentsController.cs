@@ -28,7 +28,8 @@ namespace API.Controllers
         [HttpGet("{commentId:int}")]
         public async Task<CommentModel> GetByIdAsync(int commentId, CancellationToken cancellationToken)
         {
-            var result = await _commentsService.GetByIdAsync(commentId,cancellationToken);
+            var result =
+                await _commentsService.GetByIdWithIncludeAsync(commentId, cancellationToken, e => e.User, e => e.Post);
 
             CommentModel commentModel = _mapper.Map<CommentModel>(result);
             
@@ -88,7 +89,7 @@ namespace API.Controllers
         [HttpPost("paginated-search-cursor")]
         public async Task<CursorPagedResult<CommentModel>> GetPageWithUserAsync([FromBody] CursorPagedRequest query, CancellationToken cancellationToken)
         {
-            var result = await _commentsService.GetCursorPageAsync(query, cancellationToken,e => e.User);
+            var result = await _commentsService.GetCursorPageAsync(query, cancellationToken,e => e.User,e => e.Post);
 
 
             return new CursorPagedResult<CommentModel>()
