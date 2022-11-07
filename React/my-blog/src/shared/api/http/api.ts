@@ -5,6 +5,7 @@ import {AuthenticateRequest, AuthenticateResponse, RegistrationDto} from "../typ
 import {CursorPagedRequest} from "../types/paging/cursorPaging";
 import {PostDto, PostModel} from "../types/post";
 import {PostReactionDto} from "../types/postReaction/PostReactionDto";
+import {CommentDto} from "../types/comment";
 
 
 const instance = axios.create({
@@ -142,5 +143,9 @@ export class postReactionApi {
 export class commentApi {
     static getCursorPagedComments(request: CursorPagedRequest) {
         return instance.post(`comments/paginated-search-cursor`, request);
+    }
+
+    static addComment(request: CommentDto) {
+        return instance.post(`/comments`,request);
     }
 }

@@ -74,7 +74,7 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault}: CommentReelProp
                                         <ArrowDownwardIcon fontSize={"large"}/>
                                     </IconButton>
                                     <Typography style={{margin: "auto 0"}}>Please,push the arrow to load more
-                                        posts</Typography>
+                                        comments</Typography>
                                 </div>
                             }
                         </>

@@ -20,6 +20,7 @@ import {DefaultAvatarGroupMaxLength} from "../../shared/config";
 
 const PostReactionBox = ({postId}: PostReactionBoxProps) => {
 
+    /* TODO REFACTOR UPDATING REACTION*/
 
     const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
     const user = useAuthorizedUserInfo();
@@ -35,10 +36,6 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
 
     const handlePopupOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
-        //
-        // setTimeout(() => {
-        //     handlePopupClose();
-        // }, PopupsLifetimeDelayMs)
     }
 
     const handlePopupClose = () => {

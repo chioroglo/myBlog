@@ -52,7 +52,7 @@ const PostForm = ({
                 content: initialPost.content,
                 topic: initialPost.topic
             },
-            onSubmit: async (values, formikHelpers) => {
+            onSubmit: (values, formikHelpers) => {
                 setLoading(true);
                 formActionCallback(values).then((result) => {
                     if (result.status !== 200 && result instanceof AxiosError) {
@@ -64,8 +64,8 @@ const PostForm = ({
                         formikHelpers.resetForm();
                     }
                 }).then(() => {
-                    openSnackbar();
                     setLoading(false);
+                    openSnackbar();
                 });
             },
             validationSchema: Yup.object({
@@ -86,6 +86,7 @@ const PostForm = ({
             {
                 loading
                     ?
+                    /* todo decompose centered loader in separate component */
                     <Box style={{margin: "50px auto", width: "fit-content"}}>
                         <CircularProgress/>
                     </Box>
@@ -145,6 +146,8 @@ const PostForm = ({
                                                                 closeHandler={closeSnackbar}/>
                             }
                         </form>
+
+
                         <Box>
                             <IconButton onClick={formCloseHandler}>
                                 <CloseIcon/>

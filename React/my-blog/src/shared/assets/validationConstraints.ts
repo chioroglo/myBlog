@@ -20,3 +20,7 @@ export const PostValidationConstraints = {
     ContentMaxLength: 10000,
     TopicMaxLength: 30
 }
+
+export const CommentValidationConstraints = {
+    ContentMaxLength: 1000
+}

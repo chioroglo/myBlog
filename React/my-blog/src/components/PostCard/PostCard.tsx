@@ -1,5 +1,7 @@
 import {
     Avatar,
+    Box,
+    Button,
     Card,
     CardActions,
     CardContent,
@@ -16,7 +18,7 @@ import {PostCardProps} from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as assets from '../../shared/assets';
 import CommentIcon from '@mui/icons-material/Comment';
-import {postApi, userApi} from '../../shared/api/http/api';
+import {commentApi, postApi, userApi} from '../../shared/api/http/api';
 import {CommentReel} from "../CommentReel";
 import {DefaultPageSize} from "../../shared/config";
 import {FilterLogicalOperator} from "../../shared/api/types/paging";
@@ -32,6 +34,8 @@ import {useAuthorizedUserInfo} from "../../hooks";
 import {useSelector} from "react-redux";
 import {ApplicationState} from '../../redux';
 import {ConfirmActionCustomModal} from "../CustomModal";
+import {CommentForm} from "../CommentForm";
+import {CommentDto, CommentModel} from '../../shared/api/types/comment';
 
 const PostCard = ({
                       initialPost,
@@ -43,6 +47,7 @@ const PostCard = ({
     const [post, setPost] = useState<PostModel>(initialPost);
     const [editPostMode, setEditPostMode] = useState<boolean>(false);
     const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState<boolean>(false);
+    const [newCommentFormEnabled, setNewCommentForm] = useState<boolean>(true);
 
     const commentsPagingRequestDefault: CursorPagedRequest = {
         pageSize: commentPortionSize,
@@ -67,6 +72,9 @@ const PostCard = ({
 
     const handleCloseMenu = () => setAnchorEl(null);
 
+    const handleOpenNewCommentForm = () => setNewCommentForm(true);
+
+    const handleCloseNewCommentForm = () => setNewCommentForm(false);
 
     const [avatarLink, setAvatarLink] = useState("");
     const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
@@ -77,11 +85,13 @@ const PostCard = ({
         setCommentsOpen(!commentsOpen);
     }
 
+
     const handleEditPost = async (newPost: PostDto): Promise<AxiosResponse<PostModel>> => {
         return postApi.editPost(post.id, newPost).then((result: AxiosResponse<PostModel>) => {
             if (result.status === 200 && user) {
                 result.data.authorUsername = user?.username;
                 result.data.authorId = user?.id;
+                /* TODO after update this method does not update amount of comments resolve on backend */
                 setPost(result.data);
             }
             handleCloseMenu();
@@ -94,11 +104,15 @@ const PostCard = ({
         postApi.removePostId(postId).then((result) => {
             if (result.status === 200 && user) {
                 disappearPostCallback();
-            } else {
-                console.log("FAILURE");
-                console.log(result);
             }
         })
+    }
+
+    const handleAddNewComment = async (comment: CommentDto) => {
+        return commentApi.addComment(comment).then((result: AxiosResponse<CommentModel>) => {
+            console.log(result);
+            return result;
+        }).catch(result => result)
     }
 
     useEffect(() => {
@@ -148,14 +162,30 @@ const PostCard = ({
 
 
                             <CardContent>
-                                <Typography variant="h5">{post.title}</Typography>
-                                {/* todo add redirect to posts of this topic*/}
-                                {post.topic &&
-                                    <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}}
-                                          onClick={() => {
-                                          }} variant="outlined" color={"primary"} label={"#" + post.topic}/>}
-                                {post.content}
+                                <>
+                                    <Typography variant="h5">{post.title}</Typography>
+                                    {/* todo add redirect to posts of this topic*/}
+                                    {post.topic &&
+                                        <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}}
+                                              onClick={() => {
+                                              }} variant="outlined" color={"primary"} label={"#" + post.topic}/>}
+                                    {post.content}
 
+                                    {
+                                        isAuthorized &&
+                                        (newCommentFormEnabled
+                                            ?
+                                            <CommentForm caption={"New comment"} width={"100%"}
+                                                         formActionCallback={handleAddNewComment}
+                                                         formCloseHandler={handleCloseNewCommentForm} post={post}/>
+                                            :
+                                            <Box style={{margin: "0", display: "flex", justifyContent: "flex-start"}}>
+                                                <Button variant={"outlined"} onClick={handleOpenNewCommentForm}>Add new
+                                                    comment</Button>
+                                            </Box>)
+
+                                    }
+                                </>
                             </CardContent>
 
 

@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from '../../redux';
 import {userApi} from '../../shared/api/http/api';
-import {UserIdTokenKeyName} from '../../shared/config';
 import {ProfileHeaderProps} from './ProfileHeaderProps';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScheduleIcon from '@mui/icons-material/Schedule';
