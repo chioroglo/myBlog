@@ -20,8 +20,6 @@ import {DefaultAvatarGroupMaxLength} from "../../shared/config";
 
 const PostReactionBox = ({postId}: PostReactionBoxProps) => {
 
-    /* TODO REFACTOR UPDATING REACTION*/
-
     const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
     const user = useAuthorizedUserInfo();
     const [reactions, setReactions] = useState<PostReactionModel[]>([]);
@@ -68,17 +66,20 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
             return;
         }
 
-        if (userReaction.exists) {
-            postReactionApi.removeReactionFromPost(postId).then(() => {
+        if (user) {
+            if (userReaction.exists) {
+
+                postReactionApi.updateReactionOnPost({postId: postId, reactionType: type}).then(() => {
+                    setUserReaction({exists: true, type: type});
+                    setReactions([...reactions, {postId: postId, userId: user.id, reactionType: type}]);
+                });
+            } else {
+
                 postReactionApi.addReactionToPost({postId: postId, reactionType: type}).then(() => {
                     setUserReaction({exists: true, type: type});
+                    setReactions([...reactions, {postId: postId, userId: user.id, reactionType: type}])
                 });
-            })
-        } else {
-            postReactionApi.addReactionToPost({postId: postId, reactionType: type}).then(() => {
-                setUserReaction({exists: true, type: type});
-                setReactions([...reactions, {postId: postId, userId: user?.id || 0, reactionType: type}])
-            });
+            }
         }
     }
 
@@ -88,10 +89,10 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
             return;
         }
 
-        if (userReaction.exists) {
+        if (userReaction.exists && user) {
             postReactionApi.removeReactionFromPost(postId).then(() => {
                 setUserReaction({exists: false});
-                setReactions(reactions.filter(reaction => reaction.userId !== user?.id))
+                setReactions(reactions.filter(reaction => reaction.userId !== user.id))
             });
         }
     }

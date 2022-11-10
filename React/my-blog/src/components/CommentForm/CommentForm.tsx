@@ -1,16 +1,6 @@
 import React, {useState} from 'react';
 import {CommentFormProps} from "./CommentFormProps";
-import {
-    AlertColor,
-    Box,
-    Button,
-    CircularProgress,
-    FormControl,
-    FormHelperText,
-    IconButton,
-    Paper,
-    TextField
-} from "@mui/material";
+import {Box, Button, CircularProgress, FormControl, FormHelperText, IconButton, Paper, TextField} from "@mui/material";
 import {useFormik} from "formik";
 import {CommentDto} from '../../shared/api/types/comment';
 import {AxiosError} from "axios";

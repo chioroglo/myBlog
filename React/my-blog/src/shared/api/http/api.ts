@@ -135,7 +135,7 @@ export class postReactionApi {
     }
 
     static updateReactionOnPost(request: PostReactionDto) {
-        return instance.put(`/reactions`);
+        return instance.put(`/reactions`, request);
     }
 
 }
