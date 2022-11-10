@@ -12,9 +12,9 @@ import {
 } from '../../shared/assets';
 import {FormHeader} from '../FormHeader';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import {CustomSnackbar} from '../CustomSnackbar';
 import {AxiosError} from 'axios';
 import {WholePageLoader} from '../WholePageLoader';
+import {useNotifier} from '../../hooks';
 
 
 const textFieldStyle: React.CSSProperties = {
@@ -44,14 +44,9 @@ const errorTextStyle: React.CSSProperties = {
 
 const RegistrationForm = () => {
 
-    const [isSnackbarOpened, setIsSnackbarOpened] = useState(false);
-    const [registrationSuccessful, setRegistrationSuccess] = useState(false);
-    const [registrationFailureMessage, setRegistrationFailureMessage] = useState("Unknown error");
     const [loading, setLoading] = useState(false);
 
-    const closeSnackbar = () => setIsSnackbarOpened(false);
-
-    const openSnackbar = () => setIsSnackbarOpened(true);
+    const notifyUser = useNotifier();
 
     const formik = useFormik<RegistrationDto>({
         initialValues: {
@@ -68,14 +63,12 @@ const RegistrationForm = () => {
 
             if (request.status !== 200) {
                 const errorMessage = (JSON.parse(((request as AxiosError).request as XMLHttpRequest).responseText) as ErrorResponse).Message;
-                setRegistrationFailureMessage(errorMessage);
-                setRegistrationSuccess(false);
+                notifyUser(errorMessage, "error");
             } else {
-                setRegistrationSuccess(true);
+                notifyUser("Registered successfull!", "success");
             }
 
             setLoading(false);
-            openSnackbar();
         },
         validationSchema: Yup.object({
             username:
@@ -180,15 +173,6 @@ const RegistrationForm = () => {
                             <Button style={buttonStyle} type="submit">Register</Button>
 
                         </Paper>
-                        {
-                            registrationSuccessful
-                                ?
-                                <CustomSnackbar closeHandler={closeSnackbar} isOpen={isSnackbarOpened}
-                                                alertMessage="Registration successful" alertType="success"/>
-                                :
-                                <CustomSnackbar closeHandler={closeSnackbar} isOpen={isSnackbarOpened}
-                                                alertMessage={registrationFailureMessage} alertType="error"/>
-                        }
                     </form>
             }
         </>

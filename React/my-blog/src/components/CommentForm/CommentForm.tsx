@@ -18,8 +18,8 @@ import * as Yup from "yup";
 import {CommentValidationConstraints, palette} from "../../shared/assets";
 import {FormHeader} from '../FormHeader';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import {CustomSnackbar} from "../CustomSnackbar";
 import CloseIcon from "@mui/icons-material/Close";
+import {useNotifier} from '../../hooks';
 
 
 const textFieldStyle: React.CSSProperties = {
@@ -42,12 +42,8 @@ const CommentForm = ({
                      }: CommentFormProps) => {
 
     const [loading, setLoading] = useState<boolean>();
-    const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
-    const [snackbarCaption, setSnackbarCaption] = useState<string>("Unknown error");
-    const [snackbarAlertType, setSnackbarAlertType] = useState<AlertColor>();
 
-    const openSnackbar = () => setSnackbarOpen(true);
-    const closeSnackbar = () => setSnackbarOpen(false);
+    const notifyUser = useNotifier();
 
 
     const formik = useFormik<CommentDto>({
@@ -60,17 +56,13 @@ const CommentForm = ({
 
             formActionCallback(values).then((result) => {
                 if (result.status !== 200 && result instanceof AxiosError) {
-                    setSnackbarCaption(result.response?.data.Message);
-                    setSnackbarAlertType("error");
+                    notifyUser(result.response?.data.Message, "error");
                 } else {
-                    console.log(result);
-                    setSnackbarCaption("Comment was successfully handled!");
-                    setSnackbarAlertType("success");
+                    notifyUser("Comment was successfully handled!", "success");
                     formikHelpers.resetForm();
                 }
             }).then(() => {
                 setLoading(false);
-                openSnackbar();
             });
         },
         validationSchema: Yup.object({
@@ -106,8 +98,7 @@ const CommentForm = ({
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "space-around"
-                        }}
-                              onSubmit={formik.handleSubmit}>
+                        }} onSubmit={formik.handleSubmit}>
 
                             <FormControl>
                                 <FormHelperText>
@@ -122,12 +113,6 @@ const CommentForm = ({
                             </FormControl>
 
                             <Button type={"submit"}>Submit</Button>
-
-                            {
-                                snackbarOpen && <CustomSnackbar alertType={snackbarAlertType} isOpen={snackbarOpen}
-                                                                alertMessage={snackbarCaption}
-                                                                closeHandler={closeSnackbar}/>
-                            }
                         </form>
 
                         <Box>

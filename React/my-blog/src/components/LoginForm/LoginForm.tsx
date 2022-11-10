@@ -8,12 +8,12 @@ import {palette, PasswordValidationConstraints, UserValidationConstraints} from 
 import {FormHeader} from '../FormHeader';
 import {AuthenticationForm} from './AuthenticationForm';
 import * as Yup from 'yup';
-import {CustomSnackbar} from '../CustomSnackbar';
 import {AxiosError} from 'axios';
 import {WholePageLoader} from '../WholePageLoader';
 import {useDispatch} from 'react-redux';
 import {ReduxActionTypes} from '../../redux';
 import {Link} from 'react-router-dom';
+import {useNotifier} from '../../hooks';
 
 const textFieldStyle: React.CSSProperties = {
     maxWidth: "400px",
@@ -50,13 +50,8 @@ const LoginForm = () => {
         dispatch({type: ReduxActionTypes.AuthorizationState, payload: state})
     }
 
-    const [isSnackbarOpened, setIsSnackbarOpened] = useState(false);
-    const [authorizationSuccessful, setAuthorizationSuccess] = useState(false);
-    const [authorizationFailureMessage, setAuthorizationFailureMessage] = useState("Unknown error");
     const [loading, setLoading] = useState(false);
-
-    const closeSnackbar = () => setIsSnackbarOpened(false);
-    const openSnackbar = () => setIsSnackbarOpened(true);
+    const displayNotification = useNotifier();
 
     const formik = useFormik<AuthenticationForm>({
         initialValues: {
@@ -70,15 +65,12 @@ const LoginForm = () => {
 
             if (request.status !== 200) {
                 const errorMessage = (JSON.parse(((request as AxiosError).request as XMLHttpRequest).responseText) as ErrorResponse).Message;
-                setAuthorizationFailureMessage(errorMessage);
-                setAuthorizationSuccess(false);
+                displayNotification(errorMessage, "error");
             } else {
-                setAuthorizationSuccess(true);
                 changeAuthorizedStateOfApplication(true);
+                displayNotification("Authorization successfull", "success");
             }
-
             setLoading(false);
-            openSnackbar();
         },
         validationSchema: Yup.object({
             username:
@@ -140,15 +132,6 @@ const LoginForm = () => {
                             color: palette.JET
                         }} to="/register">Do not have an account? Click here</Link>
                     </Paper>
-                    {
-                        authorizationSuccessful
-                            ?
-                            <CustomSnackbar closeHandler={closeSnackbar} isOpen={isSnackbarOpened}
-                                            alertMessage="Authorization successful" alertType="success"/>
-                            :
-                            <CustomSnackbar closeHandler={closeSnackbar} isOpen={isSnackbarOpened}
-                                            alertMessage={authorizationFailureMessage} alertType="error"/>
-                    }
                 </form>
             }
         </>

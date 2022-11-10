@@ -4,16 +4,15 @@ import React, {SyntheticEvent} from 'react';
 interface SnackbarProps {
     isOpen: boolean,
     alertMessage: string,
-    alertType?: AlertColor,
+    alertType: AlertColor,
     closeHandler: () => void
 }
 
 
-// todo: wrap application in snackbar provider, name: <SnackbarNotificationProvider/>
 const CustomSnackbar = ({
                             isOpen = false,
                             alertMessage = "Snackbar",
-                            alertType = "info",
+                            alertType,
                             closeHandler
                         }: SnackbarProps) => {
 
@@ -23,7 +22,7 @@ const CustomSnackbar = ({
 
     return (
 
-        <Snackbar transitionDuration={3000} onClose={onClose} open={isOpen} autoHideDuration={3000}
+        <Snackbar transitionDuration={1000} onClose={onClose} open={isOpen} autoHideDuration={3000}
                   message={alertMessage}>
             <Alert sx={{width: "100%"}} severity={alertType}>{alertMessage}</Alert>
         </Snackbar>

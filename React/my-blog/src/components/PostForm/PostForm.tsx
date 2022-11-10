@@ -3,23 +3,13 @@ import {useFormik} from "formik";
 import {PostDto} from "../../shared/api/types/post";
 import * as Yup from 'yup';
 import {palette, PostValidationConstraints} from "../../shared/assets";
-import {
-    AlertColor,
-    Box,
-    Button,
-    CircularProgress,
-    FormControl,
-    FormHelperText,
-    IconButton,
-    Paper,
-    TextField
-} from '@mui/material';
+import {Box, Button, CircularProgress, FormControl, FormHelperText, IconButton, Paper, TextField} from '@mui/material';
 import {PostFormProps} from "./PostFormProps";
 import {FormHeader} from '../FormHeader';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import {CustomSnackbar} from "../CustomSnackbar";
 import {AxiosError} from "axios";
 import CloseIcon from '@mui/icons-material/Close';
+import {useNotifier} from "../../hooks";
 
 const textFieldStyle: React.CSSProperties = {
     padding: "0 0 20px 0"
@@ -39,12 +29,8 @@ const PostForm = ({
                   }: PostFormProps) => {
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
-    const [snackbarCaption, setSnackbarCaption] = useState<string>("Unknown error");
-    const [snackbarAlertType, setSnackbarAlertType] = useState<AlertColor>();
+    const notifyUser = useNotifier();
 
-    const openSnackbar = () => setSnackbarOpen(true);
-    const closeSnackbar = () => setSnackbarOpen(false);
 
     const formik = useFormik<PostDto>({
             initialValues: {
@@ -56,16 +42,13 @@ const PostForm = ({
                 setLoading(true);
                 formActionCallback(values).then((result) => {
                     if (result.status !== 200 && result instanceof AxiosError) {
-                        setSnackbarCaption(result.response?.data.Message);
-                        setSnackbarAlertType("error");
+                        notifyUser(result.response?.data.Message, "error");
                     } else {
-                        setSnackbarCaption("Post was successfully handled!");
-                        setSnackbarAlertType("success");
+                        notifyUser("Post was successfully handled", "success");
                         formikHelpers.resetForm();
                     }
                 }).then(() => {
                     setLoading(false);
-                    openSnackbar();
                 });
             },
             validationSchema: Yup.object({
@@ -141,11 +124,6 @@ const PostForm = ({
                             </FormControl>
 
                             <Button type={"submit"}>Submit</Button>
-                            {
-                                snackbarOpen && <CustomSnackbar alertType={snackbarAlertType} isOpen={snackbarOpen}
-                                                                alertMessage={snackbarCaption}
-                                                                closeHandler={closeSnackbar}/>
-                            }
                         </form>
 
 

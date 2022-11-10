@@ -14,14 +14,14 @@ import {AxiosResponse} from 'axios';
 import {ConfirmActionCustomModal} from "../CustomModal";
 import {CommentForm} from "../CommentForm";
 
-const CommentCard = ({width = "100%", initialComment, disappearCommentCallback,post}: CommentCardProps) => {
+const CommentCard = ({width = "100%", initialComment, disappearCommentCallback, post}: CommentCardProps) => {
 
-    const [comment,setComment] = useState<CommentModel>(initialComment);
+    const [comment, setComment] = useState<CommentModel>(initialComment);
     const isAuthorized = useSelector<ApplicationState>(e => e.isAuthorized);
     const user = useAuthorizedUserInfo();
     const [avatarLink, setAvatarLink] = useState("");
     const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState<boolean>(false);
-    const [editPostModeEnabled,setEditPostMode] = useState<boolean>(false);
+    const [editPostModeEnabled, setEditPostMode] = useState<boolean>(false);
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -38,10 +38,10 @@ const CommentCard = ({width = "100%", initialComment, disappearCommentCallback,p
     const handleCloseEditWindow = () => setEditPostMode(false);
 
     const handleEditComment = async (commentDto: CommentDto): Promise<AxiosResponse<CommentModel>> => {
-        return commentApi.editComment(comment.id,commentDto).then((result: AxiosResponse<CommentModel>) => {
+        return commentApi.editComment(comment.id, commentDto).then((result: AxiosResponse<CommentModel>) => {
             if (result.status === 200 && user) {
                 console.log(result.data);
-                setComment({...comment,content:result.data.content});
+                setComment({...comment, content: result.data.content});
                 handleCloseEditWindow();
             }
             closeMenu();

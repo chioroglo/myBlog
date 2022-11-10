@@ -15,7 +15,7 @@ import {FilterLogicalOperator, RequestFilters} from '../../shared/api/types/pagi
 import {FilterMenu} from '../FilterMenu';
 import {DefaultPageSize} from '../../shared/config';
 import {PostForm} from "../PostForm";
-import {useAuthorizedUserInfo} from "../../hooks";
+import {useAuthorizedUserInfo, useNotifier} from "../../hooks";
 
 const BlogReel = ({
                       pageSize = DefaultPageSize,
@@ -27,6 +27,8 @@ const BlogReel = ({
                   }: BlogReelProps) => {
 
     /* TODO ADD SYNCHRONIZATION BETWEEN QUERY STRING IN BROWSER AND FILTERS AND PARSING THEM WHILE LOADING PAGE */
+
+    const notifyUser = useNotifier();
 
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
 
@@ -159,7 +161,6 @@ const BlogReel = ({
 
                         {
                             noMorePosts && <Box style={{margin: "50px auto", width: "fit-content"}}>
-
                                 <IconButton children={<ArrowUpwardIcon fontSize={"large"}/>}
                                             style={{margin: "0 auto", display: "block"}}
                                             onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}/>
