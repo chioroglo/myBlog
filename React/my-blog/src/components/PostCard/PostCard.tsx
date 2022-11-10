@@ -1,7 +1,5 @@
 import {
     Avatar,
-    Box,
-    Button,
     Card,
     CardActions,
     CardContent,
@@ -18,7 +16,7 @@ import {PostCardProps} from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as assets from '../../shared/assets';
 import CommentIcon from '@mui/icons-material/Comment';
-import {commentApi, postApi, userApi} from '../../shared/api/http/api';
+import {postApi, userApi} from '../../shared/api/http/api';
 import {CommentReel} from "../CommentReel";
 import {DefaultPageSize} from "../../shared/config";
 import {FilterLogicalOperator} from "../../shared/api/types/paging";
@@ -34,8 +32,6 @@ import {useAuthorizedUserInfo} from "../../hooks";
 import {useSelector} from "react-redux";
 import {ApplicationState} from '../../redux';
 import {ConfirmActionCustomModal} from "../CustomModal";
-import {CommentForm} from "../CommentForm";
-import {CommentDto, CommentModel} from '../../shared/api/types/comment';
 
 const PostCard = ({
                       initialPost,
@@ -47,7 +43,6 @@ const PostCard = ({
     const [post, setPost] = useState<PostModel>(initialPost);
     const [editPostMode, setEditPostMode] = useState<boolean>(false);
     const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState<boolean>(false);
-    const [newCommentFormEnabled, setNewCommentForm] = useState<boolean>(true);
 
     const commentsPagingRequestDefault: CursorPagedRequest = {
         pageSize: commentPortionSize,
@@ -72,9 +67,6 @@ const PostCard = ({
 
     const handleCloseMenu = () => setAnchorEl(null);
 
-    const handleOpenNewCommentForm = () => setNewCommentForm(true);
-
-    const handleCloseNewCommentForm = () => setNewCommentForm(false);
 
     const [avatarLink, setAvatarLink] = useState("");
     const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
@@ -108,12 +100,6 @@ const PostCard = ({
         })
     }
 
-    const handleAddNewComment = async (comment: CommentDto) => {
-        return commentApi.addComment(comment).then((result: AxiosResponse<CommentModel>) => {
-            console.log(result);
-            return result;
-        }).catch(result => result)
-    }
 
     useEffect(() => {
         fetchAvatarUrl(post.authorId);
@@ -171,20 +157,6 @@ const PostCard = ({
                                               }} variant="outlined" color={"primary"} label={"#" + post.topic}/>}
                                     {post.content}
 
-                                    {
-                                        isAuthorized &&
-                                        (newCommentFormEnabled
-                                            ?
-                                            <CommentForm caption={"New comment"} width={"100%"}
-                                                         formActionCallback={handleAddNewComment}
-                                                         formCloseHandler={handleCloseNewCommentForm} post={post}/>
-                                            :
-                                            <Box style={{margin: "0", display: "flex", justifyContent: "flex-start"}}>
-                                                <Button variant={"outlined"} onClick={handleOpenNewCommentForm}>Add new
-                                                    comment</Button>
-                                            </Box>)
-
-                                    }
                                 </>
                             </CardContent>
 
@@ -208,7 +180,7 @@ const PostCard = ({
                             <Collapse in={commentsOpen} orientation={"vertical"} timeout={"auto"}>
                                 <CardContent>
                                     <CommentReel reelWidth={"100%"}
-                                                 pagingRequestDefault={commentsPagingRequestDefault}/>
+                                                 pagingRequestDefault={commentsPagingRequestDefault} post={post}/>
                                 </CardContent>
                             </Collapse>
                         </>

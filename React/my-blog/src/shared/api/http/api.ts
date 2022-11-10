@@ -146,6 +146,6 @@ export class commentApi {
     }
 
     static addComment(request: CommentDto) {
-        return instance.post(`/comments`,request);
+        return instance.post(`/comments`, request);
     }
 }

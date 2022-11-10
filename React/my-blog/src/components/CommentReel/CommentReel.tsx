@@ -1,26 +1,41 @@
 import React, {useEffect, useState} from 'react';
 import {CommentReelProps} from "./CommentReelProps";
-import {CommentModel} from "../../shared/api/types/comment";
+import {CommentDto, CommentModel} from "../../shared/api/types/comment";
 import {CursorPagedRequest, CursorPagedResult} from "../../shared/api/types/paging/cursorPaging";
 import {commentApi} from "../../shared/api/http/api";
 import {AxiosResponse} from "axios";
-import {Box, CircularProgress, IconButton, Typography} from '@mui/material';
+import {Box, Button, CircularProgress, IconButton, Typography} from '@mui/material';
 import {CommentCard} from "../CommentCard/CommentCard";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import {useSelector} from 'react-redux';
+import {ApplicationState} from "../../redux";
+import {useAuthorizedUserInfo} from "../../hooks";
+import EditIcon from "@mui/icons-material/Edit";
+import {CommentForm} from "../CommentForm";
 
-const CommentReel = ({reelWidth = "100%", pagingRequestDefault}: CommentReelProps) => {
+
+const CommentReel = ({reelWidth = "100%", pagingRequestDefault, post}: CommentReelProps) => {
+
+    const isAuthorized = useSelector<ApplicationState>(s => s.isAuthorized);
+
+    const user = useAuthorizedUserInfo();
 
     const [comments, setComments] = useState<CommentModel[]>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
     const [pagingRequest, setPagingRequest] = useState<CursorPagedRequest>(pagingRequestDefault);
     const [noMoreComments, setNoMoreComments] = useState<boolean>(false);
+    const [newCommentFormEnabled, setNewCommentForm] = useState<boolean>(true);
 
+
+    const handleOpenNewCommentForm = () => setNewCommentForm(true);
+
+    const handleCloseNewCommentForm = () => setNewCommentForm(false);
 
     const fetchComments = (pagingRequest: CursorPagedRequest) =>
         commentApi.getCursorPagedComments(pagingRequest).then((result: AxiosResponse<CursorPagedResult<CommentModel>>) => result.data);
 
 
-    const loadMorePosts = () => {
+    const loadMoreComments = () => {
         if (noMoreComments) {
             return;
         }
@@ -39,12 +54,37 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault}: CommentReelProp
     }
 
     useEffect(() => {
-        loadMorePosts();
+        loadMoreComments();
     }, []);
+
+    const handleAddNewComment = async (comment: CommentDto) => {
+        setLoading(true);
+        return commentApi.addComment(comment).then((result: AxiosResponse<CommentModel>) => {
+            if (result.status === 200 && user) {
+                result.data.authorUsername = user?.username;
+                result.data.authorId = user?.id;
+
+                if (post) {
+                    result.data.postTitle = post.title;
+                }
+
+                setComments([result.data,...comments]);
+            }
+            setLoading(false);
+            return result;
+        }).catch(result => result);
+    }
 
 
     return (
         <>
+            {isAuthorized && post && (newCommentFormEnabled ?
+                <CommentForm caption="New Comment" formActionCallback={handleAddNewComment} formCloseHandler={handleCloseNewCommentForm} post={post}/>
+                :
+                <Box width={"100%"} style={{margin:"0 auto",width:"fit-content"}}>
+                    <Button variant="outlined" onClick={handleOpenNewCommentForm}>Add new comment</Button>
+                </Box>
+            )}
             {isLoading && comments.length === 0
                 ?
                 <Box style={{margin: "0 auto", width: "fit-content"}}>
@@ -54,7 +94,13 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault}: CommentReelProp
                 <div>
                     {comments.length === 0
                         ?
-                        <div>there is no comments</div>
+                        // TODO wrap this is separate component, this code is duplicated also in BlogReel.tsx <EmptyReelPlate>
+                        <Box width={reelWidth} style={{margin: "0 auto"}}>
+                            <Typography textAlign={"center"} variant="h5">
+                                <EditIcon sx={{width: "100px", height: "100px", display: "block", margin: "0 auto"}}/>
+                                Unfortunately,this reel is empty
+                            </Typography>
+                        </Box>
                         :
                         <>
                             {
@@ -70,7 +116,7 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault}: CommentReelProp
                             {
                                 !noMoreComments &&
                                 <div style={{display: "flex", alignItems: "flex-start"}}>
-                                    <IconButton onClick={() => loadMorePosts()}>
+                                    <IconButton onClick={() => loadMoreComments()}>
                                         <ArrowDownwardIcon fontSize={"large"}/>
                                     </IconButton>
                                     <Typography style={{margin: "auto 0"}}>Please,push the arrow to load more
@@ -79,9 +125,9 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault}: CommentReelProp
                             }
                         </>
                     }
-                </div>}
-        </>
-    )
+                </div>
+            }
+        </>)
 };
 
 export {CommentReel};

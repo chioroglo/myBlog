@@ -63,6 +63,7 @@ const CommentForm = ({
                     setSnackbarCaption(result.response?.data.Message);
                     setSnackbarAlertType("error");
                 } else {
+                    console.log(result);
                     setSnackbarCaption("Comment was successfully handled!");
                     setSnackbarAlertType("success");
                     formikHelpers.resetForm();
