@@ -34,11 +34,16 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault, post}: CommentRe
     const fetchComments = (pagingRequest: CursorPagedRequest) =>
         commentApi.getCursorPagedComments(pagingRequest).then((result: AxiosResponse<CursorPagedResult<CommentModel>>) => result.data);
 
+    const handleDeleteComment = (commentToDeleteId: number) => {
+        setComments(comments.filter((comment) => comment.id !== commentToDeleteId))
+    };
+
 
     const loadMoreComments = () => {
         if (noMoreComments) {
             return;
         }
+
         setLoading(true);
         fetchComments(pagingRequest).then((result) => {
 
@@ -68,7 +73,7 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault, post}: CommentRe
                     result.data.postTitle = post.title;
                 }
 
-                setComments([result.data,...comments]);
+                setComments([result.data, ...comments]);
             }
             setLoading(false);
             return result;
@@ -79,11 +84,12 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault, post}: CommentRe
     return (
         <>
             {isAuthorized && post && (newCommentFormEnabled ?
-                <CommentForm caption="New Comment" formActionCallback={handleAddNewComment} formCloseHandler={handleCloseNewCommentForm} post={post}/>
-                :
-                <Box width={"100%"} style={{margin:"0 auto",width:"fit-content"}}>
-                    <Button variant="outlined" onClick={handleOpenNewCommentForm}>Add new comment</Button>
-                </Box>
+                    <CommentForm caption="New Comment" formActionCallback={handleAddNewComment}
+                                 formCloseHandler={handleCloseNewCommentForm} post={post}/>
+                    :
+                    <Box width={"100%"} style={{margin: "0 auto", width: "fit-content"}}>
+                        <Button variant="outlined" onClick={handleOpenNewCommentForm}>Add new comment</Button>
+                    </Box>
             )}
             {isLoading && comments.length === 0
                 ?
@@ -104,8 +110,9 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault, post}: CommentRe
                         :
                         <>
                             {
-                                comments.map((comment) => <CommentCard key={comment.id} comment={comment}
-                                                                       width={"100%"}/>)
+                                comments.map((comment) => <CommentCard key={comment.id} initialComment={comment}
+                                                                       width={"100%"}
+                                                                       disappearCommentCallback={() => handleDeleteComment(comment.id)}/>)
                             }
                             {
                                 isLoading &&

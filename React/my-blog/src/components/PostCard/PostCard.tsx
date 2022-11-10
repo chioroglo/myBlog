@@ -60,6 +60,8 @@ const PostCard = ({
 
     const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
     const user = useAuthorizedUserInfo();
+
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -73,9 +75,7 @@ const PostCard = ({
 
     const fetchAvatarUrl = (userId: number) => userApi.getAvatarUrlById(userId).then(response => setAvatarLink(response.data));
 
-    const handleExpandCommentSection = () => {
-        setCommentsOpen(!commentsOpen);
-    }
+    const handleExpandCommentSection = () => setCommentsOpen(!commentsOpen);
 
 
     const handleEditPost = async (newPost: PostDto): Promise<AxiosResponse<PostModel>> => {

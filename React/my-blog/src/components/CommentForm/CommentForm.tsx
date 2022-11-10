@@ -52,7 +52,7 @@ const CommentForm = ({
 
     const formik = useFormik<CommentDto>({
         initialValues: {
-            postId: post.id,
+            postId: post?.id || initialComment?.postId,
             content: initialComment.content
         },
         onSubmit: async (values, formikHelpers) => {

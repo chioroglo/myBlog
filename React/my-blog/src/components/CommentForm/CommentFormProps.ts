@@ -6,7 +6,7 @@ import {PostModel} from "../../shared/api/types/post";
 export interface CommentFormProps {
     formActionCallback: (comment: CommentDto) => Promise<AxiosResponse<CommentModel>>,
     formCloseHandler: () => void,
-    post: PostModel
+    post?: PostModel
     width?: string,
     caption?: string,
     initialComment?: CommentDto,

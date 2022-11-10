@@ -148,4 +148,12 @@ export class commentApi {
     static addComment(request: CommentDto) {
         return instance.post(`/comments`, request);
     }
+
+    static editComment(commentId: number, request: CommentDto) {
+        return instance.put(`/comments/${commentId}`, request);
+    }
+
+    static removeComment(commentId: number) {
+        return instance.delete(`/comments/${commentId}`);
+    }
 }

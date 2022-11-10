@@ -76,6 +76,7 @@ const PostForm = ({
                     .required()
                     .max(PostValidationConstraints.ContentMaxLength),
                 topic: Yup.string()
+                    .nullable()
                     .optional()
                     .max(PostValidationConstraints.TopicMaxLength)
             })
@@ -86,7 +87,7 @@ const PostForm = ({
             {
                 loading
                     ?
-                    /* todo decompose centered loader in separate component */
+                    /* TODO decompose centered loader in separate component */
                     <Box style={{margin: "50px auto", width: "fit-content"}}>
                         <CircularProgress/>
                     </Box>

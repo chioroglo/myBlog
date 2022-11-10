@@ -9,6 +9,7 @@ interface SnackbarProps {
 }
 
 
+// todo: wrap application in snackbar provider, name: <SnackbarNotificationProvider/>
 const CustomSnackbar = ({
                             isOpen = false,
                             alertMessage = "Snackbar",
