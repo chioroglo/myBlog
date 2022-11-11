@@ -8,12 +8,14 @@ import {useDispatch} from 'react-redux';
 import {ConfirmActionCustomModal} from '../CustomModal';
 import {Link} from 'react-router-dom';
 import {palette} from '../../shared/assets';
+import { useNotifier } from '../../hooks';
 
 const AccountMenuDropdown = ({icon}: { icon: JSX.Element }) => {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const isDropdownOpened = Boolean(anchorEl);
+    const notifyUser = useNotifier();
 
 
     const dispatch = useDispatch();
@@ -24,6 +26,7 @@ const AccountMenuDropdown = ({icon}: { icon: JSX.Element }) => {
 
     const handleLogout = () => {
         authApi.logout();
+        notifyUser("Logged out successfully","success");
         changeAuthorizedStateOfApplication(false);
     }
 

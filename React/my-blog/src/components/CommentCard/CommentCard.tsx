@@ -40,7 +40,6 @@ const CommentCard = ({width = "100%", initialComment, disappearCommentCallback, 
     const handleEditComment = async (commentDto: CommentDto): Promise<AxiosResponse<CommentModel>> => {
         return commentApi.editComment(comment.id, commentDto).then((result: AxiosResponse<CommentModel>) => {
             if (result.status === 200 && user) {
-                console.log(result.data);
                 setComment({...comment, content: result.data.content});
                 handleCloseEditWindow();
             }

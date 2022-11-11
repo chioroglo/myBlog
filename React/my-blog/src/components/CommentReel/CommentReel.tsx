@@ -12,6 +12,7 @@ import {ApplicationState} from "../../redux";
 import {useAuthorizedUserInfo} from "../../hooks";
 import EditIcon from "@mui/icons-material/Edit";
 import {CommentForm} from "../CommentForm";
+import { EmptyReelPlate } from '../EmptyReelPlate';
 
 
 const CommentReel = ({reelWidth = "100%", pagingRequestDefault, post}: CommentReelProps) => {
@@ -100,13 +101,7 @@ const CommentReel = ({reelWidth = "100%", pagingRequestDefault, post}: CommentRe
                 <div>
                     {comments.length === 0
                         ?
-                        // TODO wrap this is separate component, this code is duplicated also in BlogReel.tsx <EmptyReelPlate>
-                        <Box width={reelWidth} style={{margin: "0 auto"}}>
-                            <Typography textAlign={"center"} variant="h5">
-                                <EditIcon sx={{width: "100px", height: "100px", display: "block", margin: "0 auto"}}/>
-                                Unfortunately,this reel is empty
-                            </Typography>
-                        </Box>
+                        <EmptyReelPlate width={reelWidth}/>
                         :
                         <>
                             {

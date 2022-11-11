@@ -28,7 +28,7 @@ import {Link} from 'react-router-dom';
 import {PostForm} from '../PostForm';
 import {AxiosResponse} from 'axios';
 import {PostDto, PostModel} from '../../shared/api/types/post';
-import {useAuthorizedUserInfo} from "../../hooks";
+import {useAuthorizedUserInfo, useNotifier} from "../../hooks";
 import {useSelector} from "react-redux";
 import {ApplicationState} from '../../redux';
 import {ConfirmActionCustomModal} from "../CustomModal";
@@ -69,6 +69,7 @@ const PostCard = ({
 
     const handleCloseMenu = () => setAnchorEl(null);
 
+    const notifyUser = useNotifier();
 
     const [avatarLink, setAvatarLink] = useState("");
     const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
@@ -81,10 +82,7 @@ const PostCard = ({
     const handleEditPost = async (newPost: PostDto): Promise<AxiosResponse<PostModel>> => {
         return postApi.editPost(post.id, newPost).then((result: AxiosResponse<PostModel>) => {
             if (result.status === 200 && user) {
-                result.data.authorUsername = user?.username;
-                result.data.authorId = user?.id;
-                /* TODO after update this method does not update amount of comments resolve on backend */
-                setPost(result.data);
+                setPost({...post, content: result.data.content});
             }
             handleCloseMenu();
             setEditPostMode(false);
@@ -96,7 +94,11 @@ const PostCard = ({
         postApi.removePostId(postId).then((result) => {
             if (result.status === 200 && user) {
                 disappearPostCallback();
+                notifyUser("Post was successfully deleted", "success");
+            } else {
+                notifyUser("Error occurred", "error");
             }
+
         })
     }
 

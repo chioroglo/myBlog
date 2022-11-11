@@ -15,7 +15,8 @@ import {FilterLogicalOperator, RequestFilters} from '../../shared/api/types/pagi
 import {FilterMenu} from '../FilterMenu';
 import {DefaultPageSize} from '../../shared/config';
 import {PostForm} from "../PostForm";
-import {useAuthorizedUserInfo, useNotifier} from "../../hooks";
+import {useAuthorizedUserInfo} from "../../hooks";
+import {EmptyReelPlate} from "../EmptyReelPlate";
 
 const BlogReel = ({
                       pageSize = DefaultPageSize,
@@ -27,8 +28,6 @@ const BlogReel = ({
                   }: BlogReelProps) => {
 
     /* TODO ADD SYNCHRONIZATION BETWEEN QUERY STRING IN BROWSER AND FILTERS AND PARSING THEM WHILE LOADING PAGE */
-
-    const notifyUser = useNotifier();
 
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
 
@@ -139,12 +138,7 @@ const BlogReel = ({
                 </Box>
                 :
                 posts.length === 0 ?
-                    <Box width={reelWidth} style={{margin: "0 auto"}}>
-                        <Typography textAlign={"center"} variant="h5">
-                            <EditIcon sx={{width: "100px", height: "100px", display: "block", margin: "0 auto"}}/>
-                            Unfortunately,this reel is empty
-                        </Typography>
-                    </Box>
+                    <EmptyReelPlate width={reelWidth}/>
                     :
                     <>
                         {posts.map((post) => <PostCard width={reelWidth} key={post.id} initialPost={post}
