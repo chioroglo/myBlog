@@ -10,9 +10,8 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from "../../redux";
 import {useAuthorizedUserInfo} from "../../hooks";
-import EditIcon from "@mui/icons-material/Edit";
 import {CommentForm} from "../CommentForm";
-import { EmptyReelPlate } from '../EmptyReelPlate';
+import {EmptyReelPlate} from '../EmptyReelPlate';
 
 
 const CommentReel = ({reelWidth = "100%", pagingRequestDefault, post}: CommentReelProps) => {

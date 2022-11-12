@@ -82,7 +82,7 @@ const PostCard = ({
     const handleEditPost = async (newPost: PostDto): Promise<AxiosResponse<PostModel>> => {
         return postApi.editPost(post.id, newPost).then((result: AxiosResponse<PostModel>) => {
             if (result.status === 200 && user) {
-                setPost({...post, content: result.data.content});
+                setPost({...post, content: result.data.content, title: result.data.title, topic: result.data.topic});
             }
             handleCloseMenu();
             setEditPostMode(false);

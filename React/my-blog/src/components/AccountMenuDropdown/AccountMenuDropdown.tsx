@@ -8,7 +8,7 @@ import {useDispatch} from 'react-redux';
 import {ConfirmActionCustomModal} from '../CustomModal';
 import {Link} from 'react-router-dom';
 import {palette} from '../../shared/assets';
-import { useNotifier } from '../../hooks';
+import {useNotifier} from '../../hooks';
 
 const AccountMenuDropdown = ({icon}: { icon: JSX.Element }) => {
 
@@ -26,7 +26,7 @@ const AccountMenuDropdown = ({icon}: { icon: JSX.Element }) => {
 
     const handleLogout = () => {
         authApi.logout();
-        notifyUser("Logged out successfully","success");
+        notifyUser("Logged out successfully", "success");
         changeAuthorizedStateOfApplication(false);
     }
 

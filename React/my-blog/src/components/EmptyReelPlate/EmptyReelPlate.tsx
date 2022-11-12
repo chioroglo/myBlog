@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Typography} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-const EmptyReelPlate = ({width}:{width:string}) => {
+const EmptyReelPlate = ({width}: { width: string }) => {
     return (
         <Box width={width} style={{margin: "0 auto"}}>
             <Typography textAlign={"center"} variant="h5">

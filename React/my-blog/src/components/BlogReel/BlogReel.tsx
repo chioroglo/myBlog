@@ -3,11 +3,14 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from '../../redux';
 import {postApi} from '../../shared/api/http/api';
-import {CursorPagedRequest, CursorPagedResult} from '../../shared/api/types/paging/cursorPaging';
+import {
+    CursorPagedRequest,
+    CursorPagedResult,
+    PagingRequestConfiguration
+} from '../../shared/api/types/paging/cursorPaging';
 import {PostDto, PostModel} from '../../shared/api/types/post';
 import {PostCard} from '../PostCard';
 import {BlogReelProps} from './BlogReelProps';
-import EditIcon from '@mui/icons-material/Edit';
 import {Waypoint} from 'react-waypoint';
 import {AxiosResponse} from 'axios';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -21,7 +24,14 @@ import {EmptyReelPlate} from "../EmptyReelPlate";
 const BlogReel = ({
                       pageSize = DefaultPageSize,
                       reelWidth,
-                      pagingRequestDefault,
+                      pagingRequestDefault = {
+                          requestFilters: {
+                              logicalOperator: FilterLogicalOperator.Or,
+                              filters: []
+                          },
+                          pageSize: pageSize,
+                          getNewer: false
+                      },
                       showFilteringMenu,
                       availableFilterNames = [],
                       showAddPostForm = false
@@ -30,28 +40,25 @@ const BlogReel = ({
     /* TODO ADD SYNCHRONIZATION BETWEEN QUERY STRING IN BROWSER AND FILTERS AND PARSING THEM WHILE LOADING PAGE */
 
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
-
     const user = useAuthorizedUserInfo();
 
     const [formVisible, setFormVisible] = useState<boolean>(showAddPostForm);
     const [isLoading, setLoading] = useState<boolean>(true);
     const [noMorePosts, setNoMorePosts] = useState<boolean>(false);
     const [posts, setPosts] = useState<PostModel[]>([]);
-    const [filters, setFilters] = useState<RequestFilters>(pagingRequestDefault.requestFilters || {
-        filters: [],
-        logicalOperator: FilterLogicalOperator.And
+
+    const [filters, setFilters] = useState<RequestFilters>(pagingRequestDefault.requestFilters);
+    const [pagingRequestConfiguration, setPagingRequestConfiguration] = useState<PagingRequestConfiguration>({
+        pageSize: pageSize,
+        getNewer: pagingRequestDefault.getNewer,
+        pivotElementId: pagingRequestDefault.pivotElementId
     });
-    const [pagingRequestConfiguration, setPagingRequestConfiguration] = useState<{ pivotElementId?: number, pageSize: number, getNewer: boolean }>({...pagingRequestDefault});
 
-    const fetchPosts = (pagingRequest: CursorPagedRequest) => postApi.getCursorPagedPosts({
-        ...pagingRequest,
-        requestFilters: filters
-    }).then((result: AxiosResponse<CursorPagedResult<PostModel>>) => result.data);
+    const fetchPosts = (pagingRequest: CursorPagedRequest) => postApi.getCursorPagedPosts(pagingRequest).then((result: AxiosResponse<CursorPagedResult<PostModel>>) => result.data);
 
-    const loadMorePosts = (request: CursorPagedRequest): void => {
+    const loadMorePosts = (request: CursorPagedRequest, cleanPosts: boolean): void => {
 
-
-        if (noMorePosts) {
+        if (noMorePosts && cleanPosts !== true) {
             return;
         }
 
@@ -62,12 +69,31 @@ const BlogReel = ({
                 setNoMorePosts(true);
             }
 
-            setPosts(posts.concat(result.items));
-            setPagingRequestConfiguration({...pagingRequestConfiguration, pivotElementId: result.tailElementId});
+            if (cleanPosts) {
+                setPosts(result.items);
+            } else {
+                setPosts(posts.concat(result.items));
+            }
+
             setLoading(false);
+            setPagingRequestConfiguration({...request, pivotElementId: result.tailElementId});
         });
 
     }
+
+
+    useEffect(() => {
+        setNoMorePosts(false);
+
+        let request = {
+            ...pagingRequestConfiguration,
+            pivotElementId: undefined,
+            requestFilters: filters
+        };
+
+        loadMorePosts(request, true);
+    }, [filters]);
+
 
     const handleNewPost = async (post: PostDto): Promise<AxiosResponse<PostModel>> => {
         return postApi.addPost(post).then((result: AxiosResponse<PostModel>) => {
@@ -81,41 +107,7 @@ const BlogReel = ({
         }).catch((result) => result);
     }
 
-    const handleDeletePost = (postId: number) => {
-        setPosts(posts.filter((value) => value.id !== postId));
-    }
-
-    useEffect(() => {
-        loadMorePosts({...pagingRequestConfiguration, requestFilters: filters});
-    }, []);
-
-    useEffect(() => {
-        setNoMorePosts(false);
-        setLoading(true);
-        setPagingRequestConfiguration({
-            pageSize: pageSize,
-            getNewer: false,
-        });
-
-
-        fetchPosts({
-            ...pagingRequestConfiguration,
-            pivotElementId: undefined,
-            requestFilters: filters
-        }).then((result) => {
-
-            if (result.items.length === 0) {
-                setNoMorePosts(true);
-            }
-
-            setPosts(result.items);
-            setPagingRequestConfiguration({...pagingRequestConfiguration, pivotElementId: result.tailElementId});
-            setLoading(false);
-        })
-
-
-    }, [filters]);
-
+    const handleDeletePost = (postId: number) => setPosts(posts.filter((value) => value.id !== postId));
 
     return (
         <>
@@ -145,7 +137,10 @@ const BlogReel = ({
                                                        commentPortionSize={pageSize}
                                                        disappearPostCallback={() => handleDeletePost(post.id)}/>)}
                         <Waypoint bottomOffset="-700px"
-                                  onEnter={() => !noMorePosts && loadMorePosts(pagingRequestConfiguration)}></Waypoint>
+                                  onEnter={() => !noMorePosts && loadMorePosts({
+                                      ...pagingRequestConfiguration,
+                                      requestFilters: filters
+                                  }, false)}></Waypoint>
 
                         {isLoading &&
                             <Box style={{margin: "50px auto", width: "fit-content"}}>

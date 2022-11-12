@@ -4,5 +4,5 @@ export interface CursorPagedRequest {
     "pageSize": number,
     "pivotElementId"?: number,
     "getNewer": boolean,
-    "requestFilters"?: RequestFilters
+    "requestFilters": RequestFilters
 }
