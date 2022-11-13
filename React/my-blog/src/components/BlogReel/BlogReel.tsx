@@ -37,8 +37,6 @@ const BlogReel = ({
                       showAddPostForm = false
                   }: BlogReelProps) => {
 
-    /* TODO ADD SYNCHRONIZATION BETWEEN QUERY STRING IN BROWSER AND FILTERS AND PARSING THEM WHILE LOADING PAGE */
-
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
     const user = useAuthorizedUserInfo();
 

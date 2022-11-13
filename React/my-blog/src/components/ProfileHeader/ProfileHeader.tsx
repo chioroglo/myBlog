@@ -6,7 +6,11 @@ import {userApi} from '../../shared/api/http/api';
 import {ProfileHeaderProps} from './ProfileHeaderProps';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScheduleIcon from '@mui/icons-material/Schedule';
-import {transformToDateMonthHoursMinutesString, transformToDayMonthYear} from '../../shared/assets';
+import {
+    getFirstCharOfStringUpperCase,
+    transformToDateMonthHoursMinutesString,
+    transformToDayMonthYear
+} from '../../shared/assets';
 import {useAuthorizedUserInfo} from "../../hooks";
 
 
@@ -65,7 +69,8 @@ const ProfileHeader = ({user}: ProfileHeaderProps) => {
                 alignItems: "center"
             }}>
                 <div>
-                    <Avatar style={avatarStyle} src={avatarLink}/>
+                    <Avatar style={avatarStyle} src={avatarLink}
+                            sx={{fontSize: "128px"}}>{getFirstCharOfStringUpperCase(user.username)}</Avatar>
                 </div>
 
                 <div>

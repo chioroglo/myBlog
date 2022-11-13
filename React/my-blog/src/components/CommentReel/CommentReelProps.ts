@@ -3,6 +3,6 @@ import {PostModel} from "../../shared/api/types/post";
 
 export interface CommentReelProps {
     reelWidth: string,
-    pagingRequestDefault: CursorPagedRequest,
+    pagingRequestDefault?: CursorPagedRequest,
     post?: PostModel
 }

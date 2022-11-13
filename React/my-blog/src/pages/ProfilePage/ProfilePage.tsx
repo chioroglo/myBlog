@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {BlogReel} from '../../components/BlogReel';
+import {CommentReel} from '../../components/CommentReel';
 import {CustomTabPanel} from '../../components/CustomTabPanel';
 import {ProfileHeader} from '../../components/ProfileHeader';
 import {WholePageLoader} from '../../components/WholePageLoader';
@@ -29,7 +30,8 @@ const ProfilePage = () => {
 
     const [visibleTabIndex, setVisibleTabIndex] = useState<number>(0);
 
-    let [pageRequest, setPageRequest] = useState<CursorPagedRequest>();
+    const [pageRequestPostReel, setPageRequestPostReel] = useState<CursorPagedRequest>();
+    const [pageRequestCommentReel,setPageRequestCommentReel] = useState<CursorPagedRequest>();
 
     const fetchUser = () => userApi.getUserById(parseInt(userId || "0")).then(response => {
         setUser(response.data);
@@ -50,12 +52,26 @@ const ProfilePage = () => {
 
         fetchUser().then((response) => {
 
-            setPageRequest({
+            setPageRequestPostReel({
                 requestFilters: {
                     logicalOperator: FilterLogicalOperator.And,
                     filters: [
                         {
                             path: "UserId",
+                            value: response.id.toString()
+                        }
+                    ]
+                },
+                pageSize: DefaultPageSize,
+                getNewer: false
+            });
+
+            setPageRequestCommentReel({
+                requestFilters: {
+                    logicalOperator: FilterLogicalOperator.And,
+                    filters: [
+                        {
+                            path:"UserId",
                             value: response.id.toString()
                         }
                     ]
@@ -87,13 +103,13 @@ const ProfilePage = () => {
                             </Box>
 
                             <CustomTabPanel index={0} value={visibleTabIndex}>
-                                {pageRequest && <BlogReel reelWidth="100%" pageSize={DefaultPageSize}
-                                                          pagingRequestDefault={pageRequest}
+                                {pageRequestPostReel && <BlogReel reelWidth="100%" pageSize={DefaultPageSize}
+                                                          pagingRequestDefault={pageRequestPostReel}
                                 />}
                             </CustomTabPanel>
 
                             <CustomTabPanel index={1} value={visibleTabIndex}>
-                                Comments
+                                {<CommentReel reelWidth="100%" pagingRequestDefault={pageRequestCommentReel}></CommentReel>}
                             </CustomTabPanel>
                         </Box>
 

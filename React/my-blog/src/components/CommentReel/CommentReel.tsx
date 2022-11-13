@@ -12,9 +12,11 @@ import {ApplicationState} from "../../redux";
 import {useAuthorizedUserInfo} from "../../hooks";
 import {CommentForm} from "../CommentForm";
 import {EmptyReelPlate} from '../EmptyReelPlate';
+import {FilterLogicalOperator} from "../../shared/api/types/paging";
+import {DefaultPageSize} from "../../shared/config";
 
 
-const CommentReel = ({reelWidth = "100%", pagingRequestDefault, post}: CommentReelProps) => {
+const CommentReel = ({reelWidth = "100%", pagingRequestDefault = {requestFilters: {logicalOperator: FilterLogicalOperator.Or, filters: []}, pageSize: DefaultPageSize, getNewer: false}, post}: CommentReelProps) => {
 
     const isAuthorized = useSelector<ApplicationState>(s => s.isAuthorized);
 

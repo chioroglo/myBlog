@@ -204,6 +204,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
                                         <AvatarGroup max={DefaultAvatarGroupMaxLength} total={reactions.length}>
                                             {userReaction.exists &&
                                                 <Avatar style={{border: "none"}} key={userAvatar} src={userAvatar}/>}
+
                                             {avatarUrls.map((link) => <Avatar style={{border: "none"}} key={link}
                                                                               src={link}/>)}
                                         </AvatarGroup>
