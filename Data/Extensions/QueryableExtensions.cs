@@ -119,9 +119,18 @@ namespace DAL.Extensions
 
                 bool isString = typeof(T).GetProperty(requestFilters.Filters[i].Path)?.PropertyType == typeof(string);
 
-                var path = requestFilters.Filters[i].Path + (isString ? "" : $".{nameof(ToString)}()");
 
-                predicate.Append(path + $".{nameof(string.Contains)}(@{i})");
+                if (isString)
+                {
+                    predicate.Append(requestFilters.Filters[i].Path + $".{nameof(string.Contains)}(@{i})");
+                }
+                else
+                {
+                    predicate.Append(requestFilters.Filters[i].Path + $" == (@{i})");
+                }
+
+                //var path = requestFilters.Filters[i].Path + (isString ? "" : $".{nameof(ToString)}()");
+                
             }
 
             if (requestFilters.Filters.Any())
