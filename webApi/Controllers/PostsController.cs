@@ -71,6 +71,7 @@ namespace API.Controllers
         [HttpPost("paginated-search-offset")]
         public async Task<OffsetPagedResult<PostModel>> GetOffsetPagedPostsWithUsersAsync([FromBody] OffsetPagedRequest pagedRequest, CancellationToken cancellationToken)
         {
+
             var response = await _postsService.GetOffsetPageAsync(pagedRequest,cancellationToken,e => e.User);
 
             return new OffsetPagedResult<PostModel>()

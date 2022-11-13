@@ -6,6 +6,7 @@ import {CursorPagedRequest} from "../types/paging/cursorPaging";
 import {PostDto, PostModel} from "../types/post";
 import {PostReactionDto} from "../types/postReaction/PostReactionDto";
 import {CommentDto} from "../types/comment";
+import {UserInfoDto} from "../types/user";
 
 
 const instance = axios.create({
@@ -23,10 +24,8 @@ instance.interceptors.request.use((config) => {
     return config;
 })
 
-export class axiosDebugApi {
-    static getInstance() {
-        return instance;
-    }
+export class avatarApi {
+
 }
 
 export class userApi {
@@ -36,6 +35,10 @@ export class userApi {
 
     static getUserById(userId: number) {
         return instance.get(`/users/${userId}`)
+    }
+
+    static editProfileOfAuthorizedUser(dto: UserInfoDto) {
+        return instance.patch(`/users/`, dto);
     }
 }
 

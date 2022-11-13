@@ -1,4 +1,4 @@
-export const UserValidationConstraints = {
+export const UsernameValidationConstraints = {
     Regexp: /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
     MaxLength: 20,
     MinLength: 3

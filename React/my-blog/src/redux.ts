@@ -1,5 +1,7 @@
 import {AlertColor} from "@mui/material"
 
+
+/* TODO ADD USER INFO IN REDUX STATE AND SYNCHRONIZE BETWEEN LOCALSTORAGE & SESSIONSTORAGE */
 export interface ApplicationState {
     isAuthorized: boolean,
     isCurrentlyNotifying: boolean,
@@ -9,6 +11,7 @@ export interface ApplicationState {
 
 export const ReduxActionTypes = {
     AuthorizationState: "SET_IS_AUTHORIZED",
+    User: "SET_USER",
     ChangeNotification: "SET_NOTIFICATION_PAYLOAD",
     DisplayNotification: "SET_VISIBILITY_OF_NOTIFICATION"
 }

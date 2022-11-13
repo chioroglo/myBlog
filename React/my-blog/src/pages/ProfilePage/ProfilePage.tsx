@@ -18,6 +18,7 @@ const ProfilePage = () => {
 
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
 
+
     const [isLoading, setLoading] = useState<boolean>(false);
     const {userId} = useParams();
     const [user, setUser] = useState<UserModel>({
@@ -31,7 +32,7 @@ const ProfilePage = () => {
     const [visibleTabIndex, setVisibleTabIndex] = useState<number>(0);
 
     const [pageRequestPostReel, setPageRequestPostReel] = useState<CursorPagedRequest>();
-    const [pageRequestCommentReel,setPageRequestCommentReel] = useState<CursorPagedRequest>();
+    const [pageRequestCommentReel, setPageRequestCommentReel] = useState<CursorPagedRequest>();
 
     const fetchUser = () => userApi.getUserById(parseInt(userId || "0")).then(response => {
         setUser(response.data);
@@ -71,7 +72,7 @@ const ProfilePage = () => {
                     logicalOperator: FilterLogicalOperator.And,
                     filters: [
                         {
-                            path:"UserId",
+                            path: "UserId",
                             value: response.id.toString()
                         }
                     ]
@@ -92,7 +93,7 @@ const ProfilePage = () => {
                     <WholePageLoader/>
                     :
                     <>
-                        <ProfileHeader user={user}/>
+                        <ProfileHeader setUser={setUser} user={user}/>
 
                         <Box style={{width: "70vw", margin: "0 auto"}}>
                             <Box>
@@ -104,12 +105,13 @@ const ProfilePage = () => {
 
                             <CustomTabPanel index={0} value={visibleTabIndex}>
                                 {pageRequestPostReel && <BlogReel reelWidth="100%" pageSize={DefaultPageSize}
-                                                          pagingRequestDefault={pageRequestPostReel}
+                                                                  pagingRequestDefault={pageRequestPostReel}
                                 />}
                             </CustomTabPanel>
 
                             <CustomTabPanel index={1} value={visibleTabIndex}>
-                                {<CommentReel reelWidth="100%" pagingRequestDefault={pageRequestCommentReel}></CommentReel>}
+                                {<CommentReel reelWidth="100%"
+                                              pagingRequestDefault={pageRequestCommentReel}></CommentReel>}
                             </CustomTabPanel>
                         </Box>
 

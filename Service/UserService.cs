@@ -55,7 +55,7 @@ namespace Service
 
             if (request.Username != null)
             {
-                if (await GetByUsernameAsync(request.Username, cancellationToken) != null)
+                if ((await _userRepository.GetWhereAsync(user => user.Username == request.Username,cancellationToken)).ToList().Any())
                 {
                     throw new ValidationException($"Username {request.Username} is occupied");
                 }

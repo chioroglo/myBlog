@@ -10,7 +10,8 @@ const CustomModal = ({
                          children
                      }: CustomModalProps) => {
     return (
-        <Dialog PaperProps={{elevation: 4, sx: {width: "400px"}}} open={modalOpen} onClose={() => setModalOpen(false)}
+        <Dialog PaperProps={{elevation: 4, sx: {minWidth: "400px", width: "fit-content", height: "fit-content"}}}
+                open={modalOpen} onClose={() => setModalOpen(false)}
                 aria-labelledby="alert-dialog-title" aria-describedby='alert-dialog-description'>
 
             <DialogTitle id="alert-dialog-title">

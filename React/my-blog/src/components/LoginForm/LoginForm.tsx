@@ -4,7 +4,7 @@ import {useFormik} from 'formik';
 import React, {useState} from 'react';
 import {authApi} from '../../shared/api/http/api';
 import {AuthenticateRequest, ErrorResponse} from '../../shared/api/types';
-import {palette, PasswordValidationConstraints, UserValidationConstraints} from '../../shared/assets';
+import {palette, PasswordValidationConstraints, UsernameValidationConstraints} from '../../shared/assets';
 import {FormHeader} from '../FormHeader';
 import {AuthenticationForm} from './AuthenticationForm';
 import * as Yup from 'yup';
@@ -76,9 +76,9 @@ const LoginForm = () => {
             username:
                 Yup.string()
                     .required()
-                    .min(UserValidationConstraints.MinLength)
-                    .max(UserValidationConstraints.MaxLength)
-                    .matches(UserValidationConstraints.Regexp, "Username should not begin or end with _")
+                    .min(UsernameValidationConstraints.MinLength)
+                    .max(UsernameValidationConstraints.MaxLength)
+                    .matches(UsernameValidationConstraints.Regexp, "Username should not begin or end with _")
             ,
             password:
                 Yup.string()

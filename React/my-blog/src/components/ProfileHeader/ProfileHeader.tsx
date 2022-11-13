@@ -12,6 +12,7 @@ import {
     transformToDayMonthYear
 } from '../../shared/assets';
 import {useAuthorizedUserInfo} from "../../hooks";
+import {EditProfileCustomModal} from "../CustomModal";
 
 
 const paperStyle: React.CSSProperties = {
@@ -40,7 +41,7 @@ const avatarStyle: React.CSSProperties = {
 
 const internalMarginOfDialog: string = "0 32px";
 
-const ProfileHeader = ({user}: ProfileHeaderProps) => {
+const ProfileHeader = ({user, setUser}: ProfileHeaderProps) => {
 
     const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
 
@@ -49,6 +50,9 @@ const ProfileHeader = ({user}: ProfileHeaderProps) => {
     const isUserOnHisProfilePage = (): boolean => {
         return isAuthorized && (authorizedUser?.id === user.id);
     };
+
+
+    const [editProfileModalOpen, setEditProfileModalOpen] = useState<boolean>(false);
 
     const [avatarLink, setAvatarLink] = useState<string>("");
 
@@ -59,57 +63,65 @@ const ProfileHeader = ({user}: ProfileHeaderProps) => {
     }, []);
 
     return (
-        <Paper style={paperStyle}>
-            <Paper elevation={0} style={paperBackgroundStyle}/>
+        <>
 
-            <Box style={{
-                margin: internalMarginOfDialog,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center"
-            }}>
-                <div>
-                    <Avatar style={avatarStyle} src={avatarLink}
-                            sx={{fontSize: "128px"}}>{getFirstCharOfStringUpperCase(user.username)}</Avatar>
-                </div>
+            <EditProfileCustomModal modalOpen={editProfileModalOpen} setModalOpen={setEditProfileModalOpen} user={user}
+                                    setUser={setUser}/>
 
-                <div>
-                    {isUserOnHisProfilePage() && <Button variant="outlined">Edit profile</Button>}
-                </div>
-            </Box>
+            <Paper style={paperStyle}>
+                <Paper elevation={0} style={paperBackgroundStyle}/>
 
-            <Box style={{
-                margin: internalMarginOfDialog,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "self-start",
-                flexDirection: "column"
-            }}>
+                <Box style={{
+                    margin: internalMarginOfDialog,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}>
+                    <div>
+                        <Avatar style={avatarStyle} src={avatarLink}
+                                sx={{fontSize: "128px"}}>{getFirstCharOfStringUpperCase(user.username)}</Avatar>
+                    </div>
 
-                <Typography variant="h2">{`${user.username} | №${user.id}`}</Typography>
+                    <div>
+                        {isUserOnHisProfilePage() &&
+                            <Button variant="outlined" onClick={() => setEditProfileModalOpen(true)}>Edit
+                                profile</Button>}
+                    </div>
+                </Box>
 
-                {user.fullName.length !== 0 && <Typography variant="h6">Name: {user.fullName}</Typography>}
+                <Box style={{
+                    margin: internalMarginOfDialog,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "self-start",
+                    flexDirection: "column"
+                }}>
 
-                <Box style={{margin: "32px 0 0 0", display: "flex"}}>
+                    <Typography variant="h2">{`${user.username} | №${user.id}`}</Typography>
 
-                    <Box style={{margin: "0 32px 0 0"}}>
-                        <CalendarMonthIcon/>
-                        <Typography>
-                            Joined on {transformToDayMonthYear(new Date(user.registrationDate))}
-                        </Typography>
-                    </Box>
+                    {user.fullName.length !== 0 && <Typography variant="h6">Name: {user.fullName}</Typography>}
 
-                    <Box>
-                        <ScheduleIcon/>
-                        <Typography>
-                            Last activity {transformToDateMonthHoursMinutesString(new Date(user.lastActivity))}
-                        </Typography>
+                    <Box style={{margin: "32px 0 0 0", display: "flex"}}>
+
+                        <Box style={{margin: "0 32px 0 0"}}>
+                            <CalendarMonthIcon/>
+                            <Typography>
+                                Joined on {transformToDayMonthYear(new Date(user.registrationDate))}
+                            </Typography>
+                        </Box>
+
+                        <Box>
+                            <ScheduleIcon/>
+                            <Typography>
+                                Last activity {transformToDateMonthHoursMinutesString(new Date(user.lastActivity))}
+                            </Typography>
+                        </Box>
+
                     </Box>
 
                 </Box>
-
-            </Box>
-        </Paper>
+            </Paper>
+        </>
     );
 };
 

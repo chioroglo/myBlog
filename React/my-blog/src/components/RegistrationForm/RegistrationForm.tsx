@@ -8,7 +8,7 @@ import {
     FirstnameLastnameConstraints,
     palette,
     PasswordValidationConstraints,
-    UserValidationConstraints
+    UsernameValidationConstraints
 } from '../../shared/assets';
 import {FormHeader} from '../FormHeader';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -74,9 +74,9 @@ const RegistrationForm = () => {
             username:
                 Yup.string()
                     .required()
-                    .min(UserValidationConstraints.MinLength)
-                    .max(UserValidationConstraints.MaxLength)
-                    .matches(UserValidationConstraints.Regexp, "Username should not begin or end with _")
+                    .min(UsernameValidationConstraints.MinLength)
+                    .max(UsernameValidationConstraints.MaxLength)
+                    .matches(UsernameValidationConstraints.Regexp, "Username should not begin or end with _")
             ,
             password:
                 Yup.string()
@@ -120,7 +120,7 @@ const RegistrationForm = () => {
                                 <Input onChange={formik.handleChange} value={formik.values.username} name="username"/>
                                 <FormHelperText>
                                     Contains
-                                    from {UserValidationConstraints.MinLength} to {UserValidationConstraints.MaxLength} characters<br/>
+                                    from {UsernameValidationConstraints.MinLength} to {UsernameValidationConstraints.MaxLength} characters<br/>
                                     {formik.touched.username && formik.errors.username && (
                                         <span style={errorTextStyle}>{formik.errors.username}</span>)}
                                 </FormHelperText>
