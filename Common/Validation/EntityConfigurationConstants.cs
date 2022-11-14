@@ -29,10 +29,10 @@
 
         #region Avatar entity section
         public const double MinAvatarWidthPx = 128d;
-        public const double MaxAvatarWidthPx = 320d;
+        public const double MaxAvatarWidthPx = 512d;
 
         public const double MinAvatarHeightPx = 128d;
-        public const double MaxAvatarHeightPx = 320d;
+        public const double MaxAvatarHeightPx = 512d;
 
         public const int MaxAvatarSizeBytes = 1024 * 5 * 1024; // 5MB
         #endregion

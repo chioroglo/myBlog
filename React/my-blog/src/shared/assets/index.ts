@@ -13,3 +13,5 @@ export * from "./getFirstCharOfStringUpperCase"
 export * from "./transformProfileRegistrationDate"
 
 export * from "./transformToDateMonthHoursMinutesString"
+
+export * from "./FileReaderReadyStates"

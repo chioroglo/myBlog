@@ -26,6 +26,20 @@ instance.interceptors.request.use((config) => {
 
 export class avatarApi {
 
+    static RemoveAvatarForAuthorizedUser() {
+        return instance.delete(`/avatars/`);
+    }
+
+    static UploadNewAvatarForAuthorizedUser(image: File) {
+        const formData = new FormData();
+        formData.append("image", image);
+
+        return instance.post(`/avatars`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    }
 }
 
 export class userApi {
