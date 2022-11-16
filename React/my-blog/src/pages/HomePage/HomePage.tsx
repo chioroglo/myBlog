@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {useSearchParams} from 'react-router-dom';
 import {BlogReel} from '../../components/BlogReel';
 import {CursorPagedRequest} from '../../shared/api/types/paging/cursorPaging';
@@ -11,11 +11,12 @@ const HomePage = () => {
 
     const availableFilterNames: PostFilterNames[] = [PostFilterNames.Content, PostFilterNames.Title, PostFilterNames.Topic];
 
-    const homePagingConditions: CursorPagedRequest = {
+    const [homePagingConditions,setHomePagingConditions] = useState<CursorPagedRequest>({
         pageSize: DefaultPageSize,
         getNewer: false,
         requestFilters: fetchFiltersFromUrlSearchParams(searchParams, availableFilterNames)
-    }
+    });
+
     return (
         <BlogReel showAddPostForm={true} reelWidth={'50%'} pagingRequestDefault={homePagingConditions} showFilteringMenu
                   availableFilterNames={availableFilterNames}/>

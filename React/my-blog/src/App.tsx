@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes, useNavigate} from 'react-router-dom';
 import OnlyForUnauthorized from './guards/OnlyForUnauthorized';
 import {RequireAuth} from './guards/RequireAuth';
 import {HomePage, Layout, LoginPage, NotFoundPage, PostPage, ProfilePage, RegisterPage} from './pages';

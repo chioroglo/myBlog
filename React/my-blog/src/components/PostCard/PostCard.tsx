@@ -24,7 +24,7 @@ import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
 import {ExpandMoreCard} from './ExpandMoreCard';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {PostReactionBox} from "../PostReactionBox";
-import {Link} from 'react-router-dom';
+import {Link, Navigate, useSearchParams} from 'react-router-dom';
 import {PostForm} from '../PostForm';
 import {AxiosResponse} from 'axios';
 import {PostDto, PostModel} from '../../shared/api/types/post';
@@ -33,6 +33,7 @@ import {ApplicationState} from '../../redux';
 import {ConfirmActionCustomModal} from "../CustomModal";
 import {UserInfoCache} from "../../shared/types";
 import {useNotifier} from '../../hooks';
+import {PostFilterNames} from "../../shared/assets";
 
 const PostCard = ({
                       initialPost,
@@ -153,11 +154,11 @@ const PostCard = ({
                             <CardContent>
                                 <>
                                     <Typography variant="h5">{post.title}</Typography>
-                                    {/* todo add redirect to posts of this topic*/}
                                     {post.topic &&
-                                        <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}}
-                                              onClick={() => {
-                                              }} variant="outlined" color={"primary"} label={"#" + post.topic}/>}
+                                        <Link reloadDocument to={{pathname:`/`,search:`?${PostFilterNames.Topic}=${post.topic}`}}>
+                                            <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}} variant="outlined" color={"primary"} label={"#" + post.topic}/>
+                                        </Link>
+                                    }
                                     {post.content}
 
                                 </>
