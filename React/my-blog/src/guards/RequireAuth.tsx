@@ -2,13 +2,15 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Navigate, useLocation} from 'react-router-dom';
 import {ApplicationState} from '../redux';
+import {UserInfoCache} from '../shared/types';
 
 const RequireAuth = ({children}: { children: JSX.Element }) => {
 
-    const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
     const location = useLocation();
 
-    if (isAuthorized) {
+    const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
+
+    if (user) {
         return children
     } else {
         return <Navigate to="/login" state {...{from: location}} replace/>

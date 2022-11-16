@@ -32,7 +32,7 @@ namespace API.Controllers
         }
         
         [HttpPost]
-        public async Task<string> UploadAvataAndReturnLinkAsync([FromForm] AvatarDto request, CancellationToken cancellationToken)
+        public async Task<string> UploadAvatarAndReturnLinkAsync([FromForm] AvatarDto request, CancellationToken cancellationToken)
         {
             SupplyWithApplicationUrl(_uriBuilder);
             request.UserId = GetCurrentUserId();

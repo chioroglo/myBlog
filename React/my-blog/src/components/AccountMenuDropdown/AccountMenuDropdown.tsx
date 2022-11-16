@@ -20,14 +20,15 @@ const AccountMenuDropdown = ({icon}: { icon: JSX.Element }) => {
 
     const dispatch = useDispatch();
 
-    const changeAuthorizedStateOfApplication = (state: boolean) => {
-        dispatch({type: ReduxActionTypes.AuthorizationState, payload: state})
+
+    const deleteUserFromRedux = () => {
+        dispatch({type: ReduxActionTypes.ChangeUser, payload: null});
     }
 
     const handleLogout = () => {
         authApi.logout();
+        deleteUserFromRedux();
         notifyUser("Logged out successfully", "success");
-        changeAuthorizedStateOfApplication(false);
     }
 
     const openLogoutModal = () => setModalOpen(true);

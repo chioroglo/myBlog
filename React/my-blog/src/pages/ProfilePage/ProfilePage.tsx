@@ -1,13 +1,11 @@
 import {Box, Tab, Tabs} from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {BlogReel} from '../../components/BlogReel';
 import {CommentReel} from '../../components/CommentReel';
 import {CustomTabPanel} from '../../components/CustomTabPanel';
 import {ProfileHeader} from '../../components/ProfileHeader';
 import {WholePageLoader} from '../../components/WholePageLoader';
-import {ApplicationState} from '../../redux';
 import {userApi} from '../../shared/api/http/api';
 import {FilterLogicalOperator} from '../../shared/api/types/paging';
 import {CursorPagedRequest} from '../../shared/api/types/paging/cursorPaging';
@@ -15,8 +13,6 @@ import {UserModel} from '../../shared/api/types/user';
 import {DefaultPageSize} from '../../shared/config';
 
 const ProfilePage = () => {
-
-    const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
 
 
     const [isLoading, setLoading] = useState<boolean>(false);

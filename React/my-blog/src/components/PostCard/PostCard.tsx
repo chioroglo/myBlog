@@ -28,10 +28,11 @@ import {Link} from 'react-router-dom';
 import {PostForm} from '../PostForm';
 import {AxiosResponse} from 'axios';
 import {PostDto, PostModel} from '../../shared/api/types/post';
-import {useAuthorizedUserInfo, useNotifier} from "../../hooks";
 import {useSelector} from "react-redux";
 import {ApplicationState} from '../../redux';
 import {ConfirmActionCustomModal} from "../CustomModal";
+import {UserInfoCache} from "../../shared/types";
+import {useNotifier} from '../../hooks';
 
 const PostCard = ({
                       initialPost,
@@ -58,8 +59,7 @@ const PostCard = ({
         }
     }
 
-    const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
-    const user = useAuthorizedUserInfo();
+    const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
 
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -110,7 +110,7 @@ const PostCard = ({
     return (
         <>
             {
-                isAuthorized && editPostMode ?
+                user && editPostMode ?
                     <PostForm initialPost={post} width={"50%"} caption={"Edit post"} formActionCallback={handleEditPost}
                               formCloseHandler={() => {
                                   handleCloseMenu();
@@ -121,7 +121,7 @@ const PostCard = ({
                         <>
 
                             {
-                                isAuthorized && confirmDeleteDialogOpen &&
+                                user && confirmDeleteDialogOpen &&
                                 <ConfirmActionCustomModal actionCallback={() => handleDeletePost(post.id)}
                                                           title={"Delete post"}
                                                           caption={"Are you sure you want to delete this post"}
@@ -129,7 +129,7 @@ const PostCard = ({
                                                           setModalOpen={setConfirmDeleteDialogOpen}/>
                             }
                             {
-                                isAuthorized &&
+                                user &&
                                 <Menu anchorEl={anchorEl} open={open} onClose={handleCloseMenu}>
                                     <MenuItem onClick={() => setEditPostMode(true)}>Edit post</MenuItem>
                                     <MenuItem onClick={() => setConfirmDeleteDialogOpen(true)}>Remove post</MenuItem>
@@ -140,7 +140,7 @@ const PostCard = ({
                                 avatar={<Avatar src={avatarLink}>
                                     {assets.getFirstCharOfStringUpperCase(post.authorUsername)}
                                 </Avatar>}
-                                action={isAuthorized && user?.id === post.authorId ?
+                                action={user && user?.id === post.authorId ?
                                     <IconButton onClick={handleOpenMenu}><MoreVertIcon/></IconButton> : <></>}
                                 title={<Link to={`/user/${post.authorId}`}>{post.authorUsername}</Link>}
                                 subheader={

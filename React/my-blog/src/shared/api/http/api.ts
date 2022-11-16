@@ -1,12 +1,12 @@
-import axios, {AxiosError} from "axios";
+import axios, {AxiosError, AxiosResponse} from "axios";
 
-import {API_URL, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName} from "../../config"
+import {API_URL, AvatarTokenKeyName, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName} from "../../config"
 import {AuthenticateRequest, AuthenticateResponse, RegistrationDto} from "../types"
 import {CursorPagedRequest} from "../types/paging/cursorPaging";
 import {PostDto, PostModel} from "../types/post";
 import {PostReactionDto} from "../types/postReaction/PostReactionDto";
 import {CommentDto} from "../types/comment";
-import {UserInfoDto} from "../types/user";
+import {UserInfoDto, UserModel} from "../types/user";
 
 
 const instance = axios.create({
@@ -51,7 +51,7 @@ export class userApi {
         return instance.get(`/users/${userId}`)
     }
 
-    static editProfileOfAuthorizedUser(dto: UserInfoDto) {
+    static editProfileOfAuthorizedUser(dto: UserInfoDto): Promise<AxiosResponse<UserModel>> {
         return instance.patch(`/users/`, dto);
     }
 }
@@ -60,10 +60,6 @@ export class authApi {
 
     static async getCurrent() {
         return await instance.get(`/users/current`);
-    }
-
-    static isAuthorized(): boolean {
-        return localStorage.getItem(JwtTokenKeyName) !== null || sessionStorage.getItem(JwtTokenKeyName) !== null
     }
 
     static logout(): void {
@@ -75,17 +71,19 @@ export class authApi {
 
         localStorage.removeItem(UsernameTokenKeyName);
         sessionStorage.removeItem(UsernameTokenKeyName);
+
+        localStorage.removeItem(AvatarTokenKeyName);
+        sessionStorage.removeItem(AvatarTokenKeyName);
     }
 
     static TryAuthenticateAndPayloadInHeaders(credentials: AuthenticateRequest, useLocalStorage: boolean) {
-        return instance.post(`/login`, credentials).then((response) => {
-            const payload = response.data as AuthenticateResponse;
+        return instance.post(`/login`, credentials).then((response: AxiosResponse<AuthenticateResponse>) => {
+            const payload = response.data;
 
             this.setJwtAndPayloadInStorage(payload, useLocalStorage);
 
             return response;
-        })
-            .catch((reason) => reason as AxiosError);
+        }).catch((reason) => reason);
     }
 
     static TryRegister(dto: RegistrationDto) {
@@ -109,10 +107,17 @@ export class authApi {
 
         let storage: Storage = useLocalStorage ? localStorage : sessionStorage;
 
-        storage.setItem(JwtTokenKeyName, payload.token);
-        storage.setItem(UserIdTokenKeyName, payload.id.toString());
-        storage.setItem(UsernameTokenKeyName, payload.username);
+        this.fetchAvatarUrlAndSetInStorage(payload.id, storage).then(() => {
+            storage.setItem(JwtTokenKeyName, payload.token);
+            storage.setItem(UserIdTokenKeyName, payload.id.toString());
+            storage.setItem(UsernameTokenKeyName, payload.username);
+        });
+    }
 
+    private static fetchAvatarUrlAndSetInStorage(userId: number, storage: Storage) {
+        return userApi.getAvatarUrlById(userId).then((result: AxiosResponse<string>) => {
+            storage.setItem(AvatarTokenKeyName, result.data);
+        });
     }
 }
 

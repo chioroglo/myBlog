@@ -2,18 +2,19 @@ import {AssignmentInd,} from '@mui/icons-material';
 import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Paper} from '@mui/material';
 import {useFormik} from 'formik';
 import React, {useState} from 'react';
-import {authApi} from '../../shared/api/http/api';
-import {AuthenticateRequest, ErrorResponse} from '../../shared/api/types';
+import {authApi, userApi} from '../../shared/api/http/api';
+import {ErrorResponse} from '../../shared/api/types';
 import {palette, PasswordValidationConstraints, UsernameValidationConstraints} from '../../shared/assets';
 import {FormHeader} from '../FormHeader';
 import {AuthenticationForm} from './AuthenticationForm';
 import * as Yup from 'yup';
-import {AxiosError} from 'axios';
+import {AxiosError, AxiosResponse} from 'axios';
 import {WholePageLoader} from '../WholePageLoader';
 import {useDispatch} from 'react-redux';
 import {ReduxActionTypes} from '../../redux';
 import {Link} from 'react-router-dom';
 import {useNotifier} from '../../hooks';
+import {UserInfoCache} from "../../shared/types";
 
 const textFieldStyle: React.CSSProperties = {
     maxWidth: "400px",
@@ -46,9 +47,12 @@ const errorTextStyle: React.CSSProperties = {
 const LoginForm = () => {
 
     const dispatch = useDispatch();
-    const changeAuthorizedStateOfApplication = (state: boolean) => {
-        dispatch({type: ReduxActionTypes.AuthorizationState, payload: state})
+
+    const setUser = (user: UserInfoCache) => {
+        dispatch({type: ReduxActionTypes.ChangeUser, payload: user});
     }
+
+    const fetchAvatarUrl = (userId: number) => userApi.getAvatarUrlById(userId).then((result: AxiosResponse<string>) => result.data);
 
     const [loading, setLoading] = useState(false);
     const displayNotification = useNotifier();
@@ -61,14 +65,17 @@ const LoginForm = () => {
         },
         onSubmit: async (values, formikHelpers) => {
             setLoading(true);
-            const request = await authApi.TryAuthenticateAndPayloadInHeaders(values as AuthenticateRequest, values.rememberMe);
+            const result = await authApi.TryAuthenticateAndPayloadInHeaders({...values}, values.rememberMe);
 
-            if (request.status !== 200) {
-                const errorMessage = (JSON.parse(((request as AxiosError).request as XMLHttpRequest).responseText) as ErrorResponse).Message;
+            if (result.status !== 200 && result instanceof AxiosError<ErrorResponse>) {
+                const errorMessage = result.response?.data.Message;
                 displayNotification(errorMessage, "error");
             } else {
-                changeAuthorizedStateOfApplication(true);
-                displayNotification("Authorization successfull", "success");
+                fetchAvatarUrl(result.data.id).then((resultOfAvatarFetching) => {
+                    setUser(new UserInfoCache(result.data.id, result.data.username, resultOfAvatarFetching));
+
+                    displayNotification("Authorization successfull", "success");
+                })
             }
             setLoading(false);
         },

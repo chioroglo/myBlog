@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {Avatar, AvatarGroup, Box, ClickAwayListener, IconButton, Popper, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import {ApplicationState} from "../../redux";
-import {useAuthorizedUserInfo} from "../../hooks";
 import {PostReactionModel} from "../../shared/api/types/postReaction/PostReactionModel";
 import {PostReactionBoxProps} from "./PostReactionBoxProps";
 import {postReactionApi, userApi} from "../../shared/api/http/api";
@@ -17,11 +16,11 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import AuthorizationRequiredCustomModal
     from "../CustomModal/AuthorizationRequiredCustomModal/AuthorizationRequiredCustomModal";
 import {DefaultAvatarGroupMaxLength} from "../../shared/config";
+import {UserInfoCache} from "../../shared/types";
 
 const PostReactionBox = ({postId}: PostReactionBoxProps) => {
 
-    const isAuthorized = useSelector<ApplicationState>(state => state.isAuthorized);
-    const user = useAuthorizedUserInfo();
+    const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
     const [reactions, setReactions] = useState<PostReactionModel[]>([]);
     const [userReaction, setUserReaction] = useState<{ exists: boolean, type?: ReactionType }>({exists: false});
     const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -45,7 +44,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
     const fetchPostReactions = (postId: number) => postReactionApi.getReactionsByPost(postId).then((result: AxiosResponse<PostReactionModel[]>) => {
         setReactions(result.data);
 
-        if (isAuthorized) {
+        if (user) {
             const reactionsFilteredByUserId = result.data.filter((val) => val.userId === user?.id)
 
             if (reactionsFilteredByUserId.length === 1) {
@@ -61,7 +60,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
     });
 
     const handleNewReaction = (type: ReactionType) => {
-        if (!isAuthorized) {
+        if (!user) {
             setModalOpen(true);
             return;
         }
@@ -84,7 +83,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
     }
 
     const handleRemoveReaction = () => {
-        if (!isAuthorized) {
+        if (!user) {
             setModalOpen(true);
             return;
         }
@@ -134,7 +133,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
         }).then(avatars => {
             setAvatarUrls(avatars);
 
-            if (isAuthorized && user) {
+            if (user && user) {
                 fetchAvatarUrl(user?.id).then(result => setUserAvatar(result));
             }
 
@@ -142,7 +141,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
             setAvatarsLoading(false);
         });
 
-    }, [isAuthorized]);
+    }, [user]);
 
     return (
         <>

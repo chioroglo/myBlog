@@ -11,7 +11,7 @@ namespace Common.Dto.Avatar
 
         [Required(ErrorMessage = "Please select a file.")]
         [DataType(DataType.Upload)]
-        [MaxAvatarFileSize(MaxAvatarSizeBytes)]
+        [MaxFileSize(MaxAvatarSizeBytes)]
         [AllowedExtensions(new string[] { ".jpg", ".png" })]
         public IFormFile Image { get; set; }
     }

@@ -1,5 +1,11 @@
-import {AuthenticateResponse} from "../api/types";
+export class UserInfoCache {
+    id: number
+    username: string
+    avatar: string
 
-export interface UserInfoCache extends AuthenticateResponse {
-
+    constructor(id: number, username: string, avatar: string) {
+        this.id = id;
+        this.avatar = avatar;
+        this.username = username;
+    }
 };

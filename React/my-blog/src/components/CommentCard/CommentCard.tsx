@@ -7,18 +7,17 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {PostMentioningInline} from "../PostMentioningInline";
 import {UserMentioningInline} from "../UserMentioningInline";
 import {useSelector} from "react-redux";
-import {useAuthorizedUserInfo} from "../../hooks";
 import {ApplicationState} from '../../redux';
 import {CommentDto, CommentModel} from '../../shared/api/types/comment';
 import {AxiosResponse} from 'axios';
 import {ConfirmActionCustomModal} from "../CustomModal";
 import {CommentForm} from "../CommentForm";
+import {UserInfoCache} from "../../shared/types";
 
 const CommentCard = ({width = "100%", initialComment, disappearCommentCallback, post}: CommentCardProps) => {
 
     const [comment, setComment] = useState<CommentModel>(initialComment);
-    const isAuthorized = useSelector<ApplicationState>(e => e.isAuthorized);
-    const user = useAuthorizedUserInfo();
+    const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
     const [avatarLink, setAvatarLink] = useState("");
     const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState<boolean>(false);
     const [editPostModeEnabled, setEditPostMode] = useState<boolean>(false);
@@ -73,7 +72,7 @@ const CommentCard = ({width = "100%", initialComment, disappearCommentCallback, 
                     <Card elevation={10} style={{width: width, margin: "20px auto", minHeight: "fit-content"}}>
                         <>
                             {
-                                isAuthorized &&
+                                user &&
                                 <Menu anchorEl={anchorEl} open={open} onClose={closeMenu}>
                                     <MenuItem onClick={openEditWindow}>Edit comment</MenuItem>
                                     <MenuItem onClick={openDeleteCommentDialog}>Remove comment</MenuItem>
@@ -82,7 +81,7 @@ const CommentCard = ({width = "100%", initialComment, disappearCommentCallback, 
                             }
 
                             {
-                                isAuthorized && confirmDeleteDialogOpen &&
+                                user && confirmDeleteDialogOpen &&
                                 <ConfirmActionCustomModal actionCallback={() => handleDeleteComment(comment.id)}
                                                           caption={"Are you sure you want to delete this comment?"}
                                                           modalOpen={confirmDeleteDialogOpen}
@@ -99,7 +98,7 @@ const CommentCard = ({width = "100%", initialComment, disappearCommentCallback, 
                                         <span style={{fontStyle: "italic"}}>{` replied to `}</span>
                                         <PostMentioningInline postId={comment.postId} postTitle={comment.postTitle}/>
                                     </Typography>}
-                                action={isAuthorized && user?.id === comment.authorId ?
+                                action={user && user?.id === comment.authorId ?
                                     <IconButton onClick={handleOpenMenu}><MoreVertIcon/></IconButton> : <></>}
                                 subheader={transformToDateMonthHoursMinutesString(new Date(comment.registrationDate))}/>
 

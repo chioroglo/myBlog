@@ -5,29 +5,38 @@ import {BrowserRouter} from 'react-router-dom';
 import {createStore} from 'redux';
 import App from './App';
 import {ApplicationState, CustomNotificationPayload, ReduxActionTypes} from './redux';
-import {JwtTokenKeyName} from './shared/config';
+import {AvatarTokenKeyName, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName} from './shared/config';
+import {UserInfoCache} from "./shared/types";
+
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 
+const storageContainsPayload = (): boolean => localStorage.getItem(JwtTokenKeyName) !== null || sessionStorage.getItem(JwtTokenKeyName) !== null;
 
-const defaultState: ApplicationState = {
-    isAuthorized: localStorage.getItem(JwtTokenKeyName) !== null || sessionStorage.getItem(JwtTokenKeyName) !== null,
-    isCurrentlyNotifying: false,
-    notificationText: '',
-    notificationSeverity: 'info'
+const fetchUserInfoFromStorage = (): (UserInfoCache | null) => {
+    if (storageContainsPayload()) {
+        return {
+            id: parseInt(localStorage.getItem(UserIdTokenKeyName) || sessionStorage.getItem(UserIdTokenKeyName) || "0"),
+            username: localStorage.getItem(UsernameTokenKeyName) || sessionStorage.getItem(UsernameTokenKeyName) || "",
+            avatar: localStorage.getItem(AvatarTokenKeyName) || sessionStorage.getItem(AvatarTokenKeyName) || ""
+        }
+    } else {
+        return null;
+    }
 }
 
-const reducer = (state = defaultState, action: { type: string, payload: boolean | CustomNotificationPayload }) => {
+const defaultState: ApplicationState = {
+    isCurrentlyNotifying: false,
+    notificationText: '',
+    notificationSeverity: 'info',
+    user: fetchUserInfoFromStorage()
+}
+
+const reducer = (state = defaultState, action: { type: string, payload: boolean | CustomNotificationPayload | UserInfoCache }) => {
     switch (action.type) {
 
-        case ReduxActionTypes.AuthorizationState: {
-            if (typeof action.payload === "boolean") {
-                return {...state, isAuthorized: action.payload};
-            }
-            return state
-        }
         case ReduxActionTypes.ChangeNotification: {
             if (action.payload instanceof CustomNotificationPayload) {
                 return {
@@ -42,6 +51,16 @@ const reducer = (state = defaultState, action: { type: string, payload: boolean 
         case ReduxActionTypes.DisplayNotification: {
             if (typeof action.payload === "boolean") {
                 return {...state, isCurrentlyNotifying: action.payload}
+            }
+            return state;
+        }
+
+        case ReduxActionTypes.ChangeUser: {
+            if (action.payload instanceof UserInfoCache) {
+                console.log("new user written")
+                return {...state, user: action.payload, isAuthorized: true}
+            } else if (action.payload === null) {
+                return {...state, user: null, isAuthorized: false}
             }
             return state;
         }

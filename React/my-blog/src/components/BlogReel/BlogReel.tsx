@@ -18,8 +18,8 @@ import {FilterLogicalOperator, RequestFilters} from '../../shared/api/types/pagi
 import {FilterMenu} from '../FilterMenu';
 import {DefaultPageSize} from '../../shared/config';
 import {PostForm} from "../PostForm";
-import {useAuthorizedUserInfo} from "../../hooks";
 import {EmptyReelPlate} from "../EmptyReelPlate";
+import {UserInfoCache} from "../../shared/types";
 
 const BlogReel = ({
                       pageSize = DefaultPageSize,
@@ -37,8 +37,7 @@ const BlogReel = ({
                       showAddPostForm = false
                   }: BlogReelProps) => {
 
-    const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
-    const user = useAuthorizedUserInfo();
+    const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
 
     const [formVisible, setFormVisible] = useState<boolean>(showAddPostForm);
     const [isLoading, setLoading] = useState<boolean>(true);
@@ -112,7 +111,7 @@ const BlogReel = ({
             {showFilteringMenu && <FilterMenu width={reelWidth} requestFilters={filters} setFilters={setFilters}
                                               availableFilters={availableFilterNames}/>}
 
-            {isAuthorized && showAddPostForm &&
+            {user && showAddPostForm &&
                 (formVisible ?
                     <PostForm formCloseHandler={() => setFormVisible(false)} caption={"New post"}
                               formActionCallback={handleNewPost} width="50%"/>

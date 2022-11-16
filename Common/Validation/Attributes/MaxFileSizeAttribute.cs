@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Common.Validation.Attributes
 {
-    public class MaxAvatarFileSizeAttribute : ValidationAttribute
+    public class MaxFileSizeAttribute : ValidationAttribute
     {
         private readonly int _maxFileSizeBytes;
-        private const double _1MbSizeBytes = 1048576.0;
+        private const double _1KbSizeBytes = 1024;
 
-        public MaxAvatarFileSizeAttribute(int maxFileSize)
+        public MaxFileSizeAttribute(int maxFileSize)
         {
             _maxFileSizeBytes = maxFileSize;
         }
@@ -21,7 +21,7 @@ namespace Common.Validation.Attributes
             {
                 if (file.Length > _maxFileSizeBytes)
                 {
-                    return new ValidationResult($"Maximum allowed file size is {_maxFileSizeBytes / _1MbSizeBytes} MB");
+                    return new ValidationResult($"Maximum allowed file size is {_maxFileSizeBytes / _1KbSizeBytes} KB");
                 }
             }
             return ValidationResult.Success;

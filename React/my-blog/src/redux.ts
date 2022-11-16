@@ -1,17 +1,16 @@
 import {AlertColor} from "@mui/material"
+import {UserInfoCache} from "./shared/types";
 
 
-/* TODO ADD USER INFO IN REDUX STATE AND SYNCHRONIZE BETWEEN LOCALSTORAGE & SESSIONSTORAGE */
 export interface ApplicationState {
-    isAuthorized: boolean,
     isCurrentlyNotifying: boolean,
     notificationText: string,
-    notificationSeverity: AlertColor
+    notificationSeverity: AlertColor,
+    user: UserInfoCache | null
 }
 
 export const ReduxActionTypes = {
-    AuthorizationState: "SET_IS_AUTHORIZED",
-    User: "SET_USER",
+    ChangeUser: "SET_USER",
     ChangeNotification: "SET_NOTIFICATION_PAYLOAD",
     DisplayNotification: "SET_VISIBILITY_OF_NOTIFICATION"
 }

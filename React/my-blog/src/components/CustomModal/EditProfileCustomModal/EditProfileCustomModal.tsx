@@ -14,18 +14,20 @@ import {
 } from "@mui/material";
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import {UserInfoDto} from "../../../shared/api/types/user";
+import {UserInfoDto, UserModel} from "../../../shared/api/types/user";
 import {FirstnameLastnameConstraints, palette, UsernameValidationConstraints} from "../../../shared/assets";
 import {FormHeader} from '../../FormHeader';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {avatarApi, userApi} from '../../../shared/api/http/api';
-import {useSelector} from 'react-redux';
-import {ApplicationState} from "../../../redux";
 import {AxiosError, AxiosResponse} from "axios";
 import {useNotifier} from '../../../hooks';
 import {ErrorResponse} from "../../../shared/api/types";
 import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import {ApplicationState, ReduxActionTypes} from '../../../redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {UserInfoCache} from '../../../shared/types';
+import {MaxAvatarSizeBytes} from "../../../shared/config";
 
 
 const textFieldStyle: React.CSSProperties = {
@@ -45,8 +47,24 @@ const errorTextStyle: React.CSSProperties = {
 const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditProfileCustomModalProps) => {
 
 
-    /* TODO FIX UPDATING GLOBAL STATE WHILE CHANGING USER  */
-    const isAuthorized = useSelector<ApplicationState>(s => s.isAuthorized);
+    const reduxUser = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
+
+    const dispatch = useDispatch();
+
+    const setReduxUserInfo = (userInfo: UserModel) => {
+        console.log(userInfo);
+        const cache = new UserInfoCache(userInfo.id, userInfo.username, reduxUser?.avatar || "");
+        console.log(cache);
+        dispatch({type: ReduxActionTypes.ChangeUser, user: cache})
+    }
+
+    const setReduxAvatar = (avatar: string) => {
+        if (reduxUser) {
+            const cache = new UserInfoCache(reduxUser.id, reduxUser.username, avatar);
+
+            dispatch({type: ReduxActionTypes.ChangeUser, user: cache});
+        }
+    }
 
     const notifyUser = useNotifier();
 
@@ -70,11 +88,15 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
 
             userApi.editProfileOfAuthorizedUser(values).then((response) => {
                 setUser({
-                    ...user,
+                    ...response.data,
                     lastActivity: new Date(),
                     fullName: `${values.firstName} ${values.lastName}`,
                     username: values.username || user.username
                 });
+
+                setReduxUserInfo({...response.data});
+
+
                 notifyUser("User information was successfully updated", "success")
                 setModalOpen(false);
                 formikHelpers.resetForm();
@@ -98,6 +120,7 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                 .min(FirstnameLastnameConstraints.MinLength)
                 .max(FirstnameLastnameConstraints.MaxLength)
                 .nullable()
+
         })
     });
 
@@ -112,7 +135,13 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
     const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
 
         if (e.target.files) {
-            let file = e.target.files[0];
+            let file: File = e.target.files[0];
+
+            if(file.size > MaxAvatarSizeBytes)
+            {
+                notifyUser(`Maximum avatar size is ${MaxAvatarSizeBytes}. Please pick smaller one`,"warning");
+                return;
+            }
 
             setAvatarFile(file);
         }
@@ -124,17 +153,14 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
         if (avatarFile) {
             await avatarApi.RemoveAvatarForAuthorizedUser();
 
-            const response = await avatarApi.UploadNewAvatarForAuthorizedUser(avatarFile);
-
-
-            /*
-            avatarApi.RemoveAvatarForAuthorizedUser()
-                .then(() => avatarApi.UploadNewAvatarForAuthorizedUser(avatarFile).then((response) => {
-                        notifyUser("Avatar was successfully changed","success");
-            })).catch((result: AxiosError<ErrorResponse>) => {
-               notifyUser(result.response?.data.Message || "Unknown error","error");
+            avatarApi.UploadNewAvatarForAuthorizedUser(avatarFile).then((response) => {
+                console.log(response);
+                notifyUser("Avatar was successfully loaded","success");
+                setReduxAvatar(response.data);
+            }).catch((response: AxiosResponse<ErrorResponse>) => {
+                notifyUser(response.data.Message,"error");
             });
-            */
+
         } else {
             notifyUser("Please select image.", "info");
         }
@@ -164,6 +190,9 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                     <Avatar sx={{minHeight: "128px", minWidth: "128px", width: "2vw", height: "2vw"}}
                             style={{margin: "0 auto"}} src={avatarPreview?.toString()}></Avatar>
 
+                    <input ref={inputRef} name={"avatar"} multiple accept={"image/png,image/jpeg"} id={"contained-button-file"}
+                           type={"file"} onChange={handleFile}/>
+
                     <Button onClick={handleUpload} color={"primary"} variant={"contained"}
                             startIcon={<UploadFileRoundedIcon/>}>Upload new avatar</Button>
 
@@ -171,8 +200,6 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                             startIcon={<CancelRoundedIcon/>}>Remove Avatar</Button>
 
 
-                    <input ref={inputRef} name={"avatar"} accept={"image/*"} id={"contained-button-file"}
-                           type={"file"} onChange={handleFile}/>
                 </Box>
 
                 <form style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}

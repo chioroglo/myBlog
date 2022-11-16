@@ -2,14 +2,16 @@ import React from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import OnlyForUnauthorized from './guards/OnlyForUnauthorized';
 import {RequireAuth} from './guards/RequireAuth';
-import {useAuthorizedUserInfo} from './hooks';
 import {HomePage, Layout, LoginPage, NotFoundPage, PostPage, ProfilePage, RegisterPage} from './pages';
 import "./App.css";
+import {UserInfoCache} from "./shared/types";
+import {useSelector} from 'react-redux';
+import {ApplicationState} from './redux';
 
 
 function App() {
 
-    const user = useAuthorizedUserInfo()
+    const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
     const userId = user ? user.id : 0;
 
     return (

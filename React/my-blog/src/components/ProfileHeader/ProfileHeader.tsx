@@ -11,8 +11,8 @@ import {
     transformToDateMonthHoursMinutesString,
     transformToDayMonthYear
 } from '../../shared/assets';
-import {useAuthorizedUserInfo} from "../../hooks";
 import {EditProfileCustomModal} from "../CustomModal";
+import {UserInfoCache} from "../../shared/types";
 
 
 const paperStyle: React.CSSProperties = {
@@ -43,12 +43,11 @@ const internalMarginOfDialog: string = "0 32px";
 
 const ProfileHeader = ({user, setUser}: ProfileHeaderProps) => {
 
-    const isAuthorized: boolean = useSelector<ApplicationState, boolean>(state => state.isAuthorized);
 
-    const authorizedUser = useAuthorizedUserInfo();
+    const authorizedUser = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
 
     const isUserOnHisProfilePage = (): boolean => {
-        return isAuthorized && (authorizedUser?.id === user.id);
+        return user && (authorizedUser?.id === user.id);
     };
 
 

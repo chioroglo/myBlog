@@ -34,7 +34,7 @@
         public const double MinAvatarHeightPx = 128d;
         public const double MaxAvatarHeightPx = 512d;
 
-        public const int MaxAvatarSizeBytes = 1024 * 5 * 1024; // 5MB
+        public const int MaxAvatarSizeBytes = 1024 * 15; // 15KB
         #endregion
 
         #region Topic entity section

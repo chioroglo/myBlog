@@ -9,11 +9,11 @@ import {CommentCard} from "../CommentCard/CommentCard";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from "../../redux";
-import {useAuthorizedUserInfo} from "../../hooks";
 import {CommentForm} from "../CommentForm";
 import {EmptyReelPlate} from '../EmptyReelPlate';
 import {FilterLogicalOperator} from "../../shared/api/types/paging";
 import {DefaultPageSize} from "../../shared/config";
+import {UserInfoCache} from "../../shared/types";
 
 
 const CommentReel = ({
@@ -27,9 +27,8 @@ const CommentReel = ({
                          post
                      }: CommentReelProps) => {
 
-    const isAuthorized = useSelector<ApplicationState>(s => s.isAuthorized);
 
-    const user = useAuthorizedUserInfo();
+    const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
 
     const [comments, setComments] = useState<CommentModel[]>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
@@ -94,7 +93,7 @@ const CommentReel = ({
 
     return (
         <>
-            {isAuthorized && post && (newCommentFormEnabled ?
+            {user && post && (newCommentFormEnabled ?
                     <CommentForm caption="New Comment" formActionCallback={handleAddNewComment}
                                  formCloseHandler={handleCloseNewCommentForm} post={post}/>
                     :
@@ -126,6 +125,7 @@ const CommentReel = ({
                                 </Box>
                             }
                             {
+                                /* TODO add infinite scroll variant of pagination to this reel */
                                 !noMoreComments &&
                                 <div style={{display: "flex", alignItems: "flex-start"}}>
                                     <IconButton onClick={() => loadMoreComments()}>
