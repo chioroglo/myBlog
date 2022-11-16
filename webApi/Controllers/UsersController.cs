@@ -50,23 +50,6 @@ namespace API.Controllers
         }
 
 
-        [AllowAnonymous]
-        [HttpPost("paginated-search")]
-        public async Task<OffsetPagedResult<UserModel>> GetPagedUsersAsync([FromBody] OffsetPagedRequest pagedRequest, CancellationToken cancellationToken)
-        {
-            var response = await _userService.GetOffsetPageAsync(pagedRequest, cancellationToken);
-
-
-            return new OffsetPagedResult<UserModel>()
-            {
-                PageIndex = response.PageIndex,
-                PageSize = response.PageSize,
-                Total = response.Total,
-                Items = response.Items.Select(e => _mapper.Map<UserModel>(e)).ToList()
-            };
-        }
-
-        
         [HttpPatch]
         public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUserAsync([FromBody] UserInfoDto newProfileInfo, CancellationToken cancellationToken)
         {

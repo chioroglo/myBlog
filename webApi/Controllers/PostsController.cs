@@ -66,24 +66,6 @@ namespace API.Controllers
             await _postsService.RemoveAsync(postId, issuerId: GetCurrentUserId(),cancellationToken);
         }
 
-
-        [AllowAnonymous]
-        [HttpPost("paginated-search-offset")]
-        public async Task<OffsetPagedResult<PostModel>> GetOffsetPagedPostsWithUsersAsync([FromBody] OffsetPagedRequest pagedRequest, CancellationToken cancellationToken)
-        {
-
-            var response = await _postsService.GetOffsetPageAsync(pagedRequest,cancellationToken,e => e.User);
-
-            return new OffsetPagedResult<PostModel>()
-            {
-                PageIndex = response.PageIndex,
-                PageSize = response.PageSize,
-                Total = response.Total,
-                Items = response.Items.Select(e => _mapper.Map<PostModel>(e)).ToList()
-            };
-        }
-
-
         [AllowAnonymous]
         [HttpPost("paginated-search-cursor")]
         public async Task<CursorPagedResult<PostModel>> GetCursorPagedPostsWithUsersTopicsAndCommentsAsync([FromBody] CursorPagedRequest pagedRequest, CancellationToken cancellationToken)
