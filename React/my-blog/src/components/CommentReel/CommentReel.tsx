@@ -14,6 +14,8 @@ import {EmptyReelPlate} from '../EmptyReelPlate';
 import {FilterLogicalOperator} from "../../shared/api/types/paging";
 import {DefaultPageSize} from "../../shared/config";
 import {UserInfoCache} from "../../shared/types";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import {Waypoint} from "react-waypoint";
 
 
 const CommentReel = ({
@@ -24,7 +26,8 @@ const CommentReel = ({
                                  filters: []
                              }, pageSize: DefaultPageSize, getNewer: false
                          },
-                         post
+                         post,
+                         enableInfiniteScroll = false
                      }: CommentReelProps) => {
 
 
@@ -113,27 +116,39 @@ const CommentReel = ({
                         <EmptyReelPlate width={reelWidth}/>
                         :
                         <>
-                            {
-                                comments.map((comment) => <CommentCard key={comment.id} initialComment={comment}
-                                                                       width={"100%"}
-                                                                       disappearCommentCallback={() => handleDeleteComment(comment.id)}/>)
-                            }
+                            {comments.map((comment) => <CommentCard key={comment.id} initialComment={comment} width={"100%"} disappearCommentCallback={() => handleDeleteComment(comment.id)}/>)}
+
+                            {enableInfiniteScroll && <Waypoint bottomOffset="-700px" onEnter={() => !noMoreComments && loadMoreComments()}/>}
+
                             {
                                 isLoading &&
                                 <Box style={{margin: "0 auto", width: reelWidth}}>
                                     <CircularProgress/>
                                 </Box>
                             }
+
                             {
-                                /* TODO add infinite scroll variant of pagination to this reel */
-                                !noMoreComments &&
+                                enableInfiniteScroll
+                                    ?
+                                    (noMoreComments && <Box style={{margin: "50px auto", width: "fit-content"}}>
+                                            <IconButton children={<ArrowUpwardIcon fontSize={"large"}/>}
+                                                        style={{margin: "0 auto", display: "block"}}
+                                                        onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}/>
+                                            <Typography textAlign={"center"}>
+                                                Oops.. Looks like there is nothing for you to show<br/>
+                                                Press the arrow button to scroll to the top
+                                            </Typography>
+                                        </Box>
+                                    )
+                                :
+                                    (!noMoreComments &&
                                 <div style={{display: "flex", alignItems: "flex-start"}}>
                                     <IconButton onClick={() => loadMoreComments()}>
                                         <ArrowDownwardIcon fontSize={"large"}/>
                                     </IconButton>
                                     <Typography style={{margin: "auto 0"}}>Please,push the arrow to load more
                                         comments</Typography>
-                                </div>
+                                </div>)
                             }
                         </>
                     }

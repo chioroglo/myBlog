@@ -38,7 +38,8 @@ const PostCard = ({
                       initialPost,
                       width = "100%",
                       commentPortionSize = DefaultPageSize,
-                      disappearPostCallback
+                      disappearPostCallback,
+                      enableCommentInfiniteScroll = false
                   }: PostCardProps) => {
 
     const [post, setPost] = useState<PostModel>(initialPost);
@@ -181,8 +182,7 @@ const PostCard = ({
 
                             <Collapse in={commentsOpen} orientation={"vertical"} timeout={"auto"}>
                                 <CardContent>
-                                    <CommentReel reelWidth={"100%"}
-                                                 pagingRequestDefault={commentsPagingRequestDefault} post={post}/>
+                                    <CommentReel enableInfiniteScroll={enableCommentInfiniteScroll} reelWidth={"100%"} pagingRequestDefault={commentsPagingRequestDefault} post={post}/>
                                 </CardContent>
                             </Collapse>
                         </>

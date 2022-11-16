@@ -27,6 +27,22 @@ const fetchUserInfoFromStorage = (): (UserInfoCache | null) => {
     }
 }
 
+const updateUserCacheInBrowserStorage = (cache: UserInfoCache) => {
+
+    if (localStorage.getItem(JwtTokenKeyName)) {
+
+        localStorage.setItem(UserIdTokenKeyName, cache.id.toString());
+        localStorage.setItem(UsernameTokenKeyName, cache.username);
+        localStorage.setItem(AvatarTokenKeyName, cache.avatar);
+
+    } else {
+        sessionStorage.setItem(UserIdTokenKeyName, cache.id.toString());
+        sessionStorage.setItem(UsernameTokenKeyName, cache.username);
+        sessionStorage.setItem(AvatarTokenKeyName, cache.avatar)
+    }
+
+}
+
 const defaultState: ApplicationState = {
     isCurrentlyNotifying: false,
     notificationText: '',
@@ -57,7 +73,8 @@ const reducer = (state = defaultState, action: { type: string, payload: boolean 
 
         case ReduxActionTypes.ChangeUser: {
             if (action.payload instanceof UserInfoCache) {
-                console.log("new user written")
+
+                updateUserCacheInBrowserStorage(action.payload);
                 return {...state, user: action.payload, isAuthorized: true}
             } else if (action.payload === null) {
                 return {...state, user: null, isAuthorized: false}

@@ -1,5 +1,5 @@
 import {Avatar, Box, Button, Toolbar, Typography} from '@mui/material';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from '../../redux';
 import {CustomNavbar} from '../CustomNavbar/CustomNavbar';
@@ -12,8 +12,11 @@ import {UserInfoCache} from "../../shared/types";
 
 const Header = () => {
 
-
     const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
+    
+
+    useEffect(() => {
+    }, [user]);
 
     return (
         <CustomNavbar>

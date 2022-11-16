@@ -4,5 +4,6 @@ export interface PostCardProps {
     initialPost: PostModel,
     disappearPostCallback: () => void,
     width: string,
-    commentPortionSize: number
+    commentPortionSize: number,
+    enableCommentInfiniteScroll?: boolean
 }

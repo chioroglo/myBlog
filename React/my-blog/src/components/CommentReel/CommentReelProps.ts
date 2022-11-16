@@ -4,5 +4,6 @@ import {PostModel} from "../../shared/api/types/post";
 export interface CommentReelProps {
     reelWidth: string,
     pagingRequestDefault?: CursorPagedRequest,
-    post?: PostModel
+    post?: PostModel,
+    enableInfiniteScroll?: boolean
 }

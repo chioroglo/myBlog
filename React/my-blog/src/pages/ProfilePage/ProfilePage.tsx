@@ -106,7 +106,7 @@ const ProfilePage = () => {
                             </CustomTabPanel>
 
                             <CustomTabPanel index={1} value={visibleTabIndex}>
-                                {<CommentReel reelWidth="100%"
+                                {<CommentReel enableInfiniteScroll reelWidth="100%"
                                               pagingRequestDefault={pageRequestCommentReel}></CommentReel>}
                             </CustomTabPanel>
                         </Box>

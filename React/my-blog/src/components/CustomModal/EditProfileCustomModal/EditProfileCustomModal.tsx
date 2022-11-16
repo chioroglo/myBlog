@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {CustomModal} from '../CustomModal';
 import {EditProfileCustomModalProps} from "./EditProfileCustomModalProps";
 import {
@@ -15,7 +15,12 @@ import {
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import {UserInfoDto, UserModel} from "../../../shared/api/types/user";
-import {FirstnameLastnameConstraints, palette, UsernameValidationConstraints} from "../../../shared/assets";
+import {
+    FirstnameLastnameConstraints,
+    getFirstCharOfStringUpperCase,
+    palette,
+    UsernameValidationConstraints
+} from "../../../shared/assets";
 import {FormHeader} from '../../FormHeader';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {avatarApi, userApi} from '../../../shared/api/http/api';
@@ -52,17 +57,15 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
     const dispatch = useDispatch();
 
     const setReduxUserInfo = (userInfo: UserModel) => {
-        console.log(userInfo);
         const cache = new UserInfoCache(userInfo.id, userInfo.username, reduxUser?.avatar || "");
-        console.log(cache);
-        dispatch({type: ReduxActionTypes.ChangeUser, user: cache})
+        dispatch({type: ReduxActionTypes.ChangeUser, payload: cache})
     }
 
     const setReduxAvatar = (avatar: string) => {
         if (reduxUser) {
             const cache = new UserInfoCache(reduxUser.id, reduxUser.username, avatar);
 
-            dispatch({type: ReduxActionTypes.ChangeUser, user: cache});
+            dispatch({type: ReduxActionTypes.ChangeUser, payload: cache});
         }
     }
 
@@ -126,20 +129,19 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
 
     const fetchAvatarUrl = (userId: number) => userApi.getAvatarUrlById(userId).then((result: AxiosResponse<string>) => result.data);
 
-
-    const [avatarPreview, setAvatarPreview] = useState<String | ArrayBuffer | null>("");
+    const [avatarPreview, setAvatarPreview] = useState<string>("");
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
-    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+
 
         if (e.target.files) {
             let file: File = e.target.files[0];
 
-            if(file.size > MaxAvatarSizeBytes)
-            {
-                notifyUser(`Maximum avatar size is ${MaxAvatarSizeBytes}. Please pick smaller one`,"warning");
+            if (file.size > MaxAvatarSizeBytes) {
+                notifyUser(`Maximum avatar size is ${MaxAvatarSizeBytes}. Please pick smaller one`, "warning");
+                e.target.value = "";
                 return;
             }
 
@@ -154,11 +156,11 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
             await avatarApi.RemoveAvatarForAuthorizedUser();
 
             avatarApi.UploadNewAvatarForAuthorizedUser(avatarFile).then((response) => {
-                console.log(response);
-                notifyUser("Avatar was successfully loaded","success");
+                console.log(response.data);
+                notifyUser("Avatar was successfully loaded", "success");
                 setReduxAvatar(response.data);
             }).catch((response: AxiosResponse<ErrorResponse>) => {
-                notifyUser(response.data.Message,"error");
+                notifyUser(response.data.Message, "error");
             });
 
         } else {
@@ -167,9 +169,11 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
         ;
     }
 
-    const handleDeleteAvatar = (e: any) => {
+    const handleDeleteAvatar = () => {
         avatarApi.RemoveAvatarForAuthorizedUser().then((response) => {
             notifyUser("Avatar was successfully removed", "success");
+            setAvatarPreview("");
+            setReduxAvatar("");
         }).catch((result: AxiosError<ErrorResponse>) => {
             notifyUser(result.response?.data.Message || "Unknown error", "error");
         });
@@ -180,6 +184,14 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
     }, []);
 
 
+    useEffect(() => {
+        if (avatarFile) {
+            const avatarPreviewUrl = URL.createObjectURL(avatarFile);
+
+            setAvatarPreview(avatarPreviewUrl);
+        }
+    }, [avatarFile]);
+
     return (
         <CustomModal modalOpen={modalOpen} setModalOpen={setModalOpen}>
             <DialogContent>
@@ -187,10 +199,11 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                 <Box style={{minHeight: "100px"}} display={"flex"} textAlign={"center"} justifyContent={"space-around"}
                      flexDirection={"column"}>
 
-                    <Avatar sx={{minHeight: "128px", minWidth: "128px", width: "2vw", height: "2vw"}}
-                            style={{margin: "0 auto"}} src={avatarPreview?.toString()}></Avatar>
+                    <Avatar sx={{minHeight: "128px", minWidth: "128px", width: "2vw", height: "2vw",fontSize:"64px"}}
+                            style={{margin: "0 auto"}}
+                            src={avatarPreview?.toString()}>{getFirstCharOfStringUpperCase(user.username)}</Avatar>
 
-                    <input ref={inputRef} name={"avatar"} multiple accept={"image/png,image/jpeg"} id={"contained-button-file"}
+                    <input name={"avatar"} multiple accept={"image/png,image/jpeg"} id={"contained-button-file"}
                            type={"file"} onChange={handleFile}/>
 
                     <Button onClick={handleUpload} color={"primary"} variant={"contained"}
