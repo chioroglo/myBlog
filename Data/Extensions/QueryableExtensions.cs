@@ -12,33 +12,6 @@ namespace DAL.Extensions
 {
     public static class QueryableExtensions
     {
-        public async static Task<OffsetPagedResult<TEntity>> CreateOffsetPagedResultAsync<TEntity>(this IQueryable<TEntity> query, OffsetPagedRequest pagedRequest, CancellationToken cancellationToken)
-            where TEntity : BaseEntity
-        {
-            if (pagedRequest.PageIndex <= 0 || pagedRequest.PageSize <= 0)
-            {
-                throw new ValidationException($"Negative pagination offsets introduced!  Page No.{pagedRequest.PageIndex} PageSize: {pagedRequest.PageSize}");
-            }
-            query = query.ApplyFilters(pagedRequest.RequestFilters);
-
-            var total = await query.CountAsync(cancellationToken);
-
-            query = query.Sort(pagedRequest.ColumnNameForSorting, pagedRequest.SortingDirection, cancellationToken);
-
-            query = query.PaginateOffset(pagedRequest.PageIndex,pagedRequest.PageSize);
-
-
-            var listResult = await query.ToListAsync(cancellationToken);
-
-            return new OffsetPagedResult<TEntity>()
-            {
-                Items = listResult,
-                PageSize = pagedRequest.PageSize,
-                PageIndex = pagedRequest.PageIndex,
-                Total = total
-            };
-        }
-
         public async static Task<CursorPagedResult<TEntity>> CreateCursorPagedResultAsync<TEntity>(this IQueryable<TEntity> query,CursorPagedRequest pagedRequest, CancellationToken cancellationToken)
             where TEntity : BaseEntity
         {
@@ -52,7 +25,6 @@ namespace DAL.Extensions
             var total = await query.CountAsync(cancellationToken);
 
             query = query.Sort(nameof(BaseEntity.Id), pagedRequest.GetNewer ? "ASC" : "DESC", cancellationToken);
-
 
             query = PaginateCursor(query, pagedRequest.PageSize, pagedRequest.PivotElementId,pagedRequest.GetNewer);
 
@@ -68,13 +40,7 @@ namespace DAL.Extensions
             };
 
         }
-
-        private static IQueryable<T> PaginateOffset<T>(this IQueryable<T> query, int pageIndex, int pageSize) where T : BaseEntity
-        {
-            var entities = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
-            return entities;
-        }
-
+        
         private static IQueryable<T> PaginateCursor<T>(this IQueryable<T> query,int pageSize, int? pivotElementId, bool getNewer) where T : BaseEntity
         {
             if (pivotElementId != null)
@@ -128,8 +94,6 @@ namespace DAL.Extensions
                 {
                     predicate.Append(requestFilters.Filters[i].Path + $" == (@{i})");
                 }
-
-                //var path = requestFilters.Filters[i].Path + (isString ? "" : $".{nameof(ToString)}()");
                 
             }
 
@@ -139,8 +103,7 @@ namespace DAL.Extensions
 
                 query = query.Where(predicate.ToString(), propertyValues);
             }
-
-            Console.WriteLine(predicate.ToString());
+            
             return query;
         }
     }

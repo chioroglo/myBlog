@@ -16,9 +16,7 @@ namespace DAL.Repositories.Abstract.Base
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 
         Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
-
-        Task<OffsetPagedResult<TEntity>> GetPagedData(OffsetPagedRequest pagedRequest, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
-
+        
         Task<CursorPagedResult<TEntity>> GetCursorPagedData(CursorPagedRequest pagedRequest, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
 
         Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken);

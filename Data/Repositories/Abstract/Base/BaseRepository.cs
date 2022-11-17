@@ -33,8 +33,6 @@ namespace DAL.Repositories.Abstract.Base
 
         public async Task<TEntity?> GetByIdAsync(int id,CancellationToken cancellationToken)
         {
-            //var entity = await _db.Set<TEntity>().FindAsync(new object[] { id }, cancellationToken);
-
             var entity = await _db.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
             return entity;
@@ -70,23 +68,13 @@ namespace DAL.Repositories.Abstract.Base
         /// <summary>
         /// This method is used to return data from webApi, so it is called as no tracking comparing to GetById
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <param name="includeProperties"></param>
-        /// <returns></returns>
         public async Task<TEntity?> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             var query = IncludeProperties(includeProperties);
 
             return await query.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id,cancellationToken);
         }
-
-        public async Task<OffsetPagedResult<TEntity>> GetPagedData(OffsetPagedRequest pagedRequest, CancellationToken cancellationToken,params Expression<Func<TEntity, object>>[] includeProperties)
-        {
-            var query = IncludeProperties(includeProperties);
-
-            return await query.CreateOffsetPagedResultAsync(pagedRequest,cancellationToken);
-        }
+        
 
         public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken)
         {

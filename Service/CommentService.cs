@@ -92,13 +92,6 @@ namespace Service
 
             return await _commentRepository.Update(comment,cancellationToken);
         }
-        
-        public async Task<OffsetPagedResult<Comment>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties)
-        {
-            var pagedComments = await _commentRepository.GetPagedData(query,cancellationToken,includeProperties);
-
-            return pagedComments;
-        }
 
         public async Task<Comment> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties)
         {

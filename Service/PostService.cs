@@ -93,13 +93,6 @@ namespace Service
             return await _postRepository.Update(post,cancellationToken);
         }
 
-        public async Task<OffsetPagedResult<Post>> GetOffsetPageAsync(OffsetPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
-        {
-            var pagedPosts = await _postRepository.GetPagedData(query,cancellationToken,includeProperties);
-
-            return pagedPosts;
-        }
-
         public async Task<Post> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
         {
             var post = await _postRepository.GetByIdWithIncludeAsync(id, cancellationToken, includeProperties);
