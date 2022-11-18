@@ -155,8 +155,7 @@ const PostCard = ({
                                 <>
                                     <Typography variant="h5">{post.title}</Typography>
                                     {post.topic &&
-                                        <Link reloadDocument
-                                              to={{pathname: `/`, search: `?${PostFilterNames.Topic}=${post.topic}`}}>
+                                        <Link to={{pathname: `/topic/${post.topic}`}}>
                                             <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}}
                                                   variant="outlined" color={"primary"} label={"#" + post.topic}/>
                                         </Link>

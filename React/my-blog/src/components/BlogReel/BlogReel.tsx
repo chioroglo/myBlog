@@ -78,7 +78,6 @@ const BlogReel = ({
 
     }
 
-
     useEffect(() => {
         setNoMorePosts(false);
 

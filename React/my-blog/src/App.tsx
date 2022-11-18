@@ -2,7 +2,7 @@ import React from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import OnlyForUnauthorized from './guards/OnlyForUnauthorized';
 import {RequireAuth} from './guards/RequireAuth';
-import {HomePage, Layout, LoginPage, NotFoundPage, PostPage, ProfilePage, RegisterPage} from './pages';
+import {HomePage, Layout, LoginPage, NotFoundPage, PostPage, ProfilePage, RegisterPage, TopicPage} from './pages';
 import "./App.css";
 import {UserInfoCache} from "./shared/types";
 import {useSelector} from 'react-redux';
@@ -14,6 +14,7 @@ function App() {
     const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
     const userId = user ? user.id : 0;
 
+
     return (
         <div className="App">
             <Routes>
@@ -23,6 +24,7 @@ function App() {
                     <Route path="register" element={<OnlyForUnauthorized children={<RegisterPage/>}/>}/>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="post/:postId" element={<PostPage/>}/>
+                    <Route path="/topic/:topicName" element={<TopicPage/>}/>
                     <Route path="user/:userId" element={<ProfilePage/>}/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Route>

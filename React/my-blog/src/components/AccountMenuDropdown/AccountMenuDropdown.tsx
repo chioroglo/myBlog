@@ -1,11 +1,11 @@
-import {Logout, Settings} from '@mui/icons-material';
+import {Logout} from '@mui/icons-material';
 import {IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import React, {useState} from 'react';
 import {authApi} from '../../shared/api/http/api';
 import {ReduxActionTypes} from '../../redux';
 import {useDispatch} from 'react-redux';
-import {ConfirmActionCustomModal, EditProfileCustomModal} from '../CustomModal';
+import {ConfirmActionCustomModal} from '../CustomModal';
 import {Link} from 'react-router-dom';
 import {palette} from '../../shared/assets';
 import {useNotifier} from '../../hooks';
@@ -18,8 +18,6 @@ const AccountMenuDropdown = ({icon}: { icon: JSX.Element }) => {
     const notifyUser = useNotifier();
 
     const dispatch = useDispatch();
-
-
 
 
     const deleteUserFromRedux = () => {

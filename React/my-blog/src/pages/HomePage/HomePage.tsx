@@ -17,6 +17,7 @@ const HomePage = () => {
         requestFilters: fetchFiltersFromUrlSearchParams(searchParams, availableFilterNames)
     });
 
+
     return (
         <BlogReel showAddPostForm={true} reelWidth={'50%'} pagingRequestDefault={homePagingConditions} showFilteringMenu
                   availableFilterNames={availableFilterNames}/>

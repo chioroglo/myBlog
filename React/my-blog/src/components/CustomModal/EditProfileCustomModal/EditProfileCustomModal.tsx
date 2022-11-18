@@ -219,7 +219,7 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
 
                     </Box>
 
-                    <Box style={{justifyContent:"space-around",display:"flex",flexDirection:"column"}}>
+                    <Box style={{justifyContent: "space-around", display: "flex", flexDirection: "column"}}>
 
                         <FormHeader iconColor={palette.BAYERN_BLUE} caption={"Edit profile information"}
                                     icon={<AccountBoxIcon/>}/>

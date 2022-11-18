@@ -1,3 +1,5 @@
+
+// TODO MAKE FUNCTION TRANSFORM UTC TO USERS LOCAL
 export const transformToDateMonthHoursMinutesString = (date: Date) => {
 
 

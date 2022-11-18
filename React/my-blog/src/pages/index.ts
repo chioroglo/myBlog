@@ -5,3 +5,4 @@ export * from "./ProfilePage/ProfilePage";
 export * from "./RegisterPage/RegisterPage";
 export * from "./NotFoundPage/NotFoundPage"
 export * from "./Layout/Layout"
+export * from "./TopicPage/TopicPage";

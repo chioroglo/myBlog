@@ -16,7 +16,7 @@ import {Filter, FilterLogicalOperator} from '../../shared/api/types/paging';
 import {FilterMenuProps} from './FilterMenuProps';
 import {useSearchParams} from "react-router-dom";
 import {requestFiltersToBrowserQueryString} from "../../shared/assets/requestFiltersToBrowserQueryString";
-
+import SearchIcon from '@mui/icons-material/Search';
 
 const FilterMenu = ({availableFilters, width, requestFilters, setFilters}: FilterMenuProps) => {
 
@@ -93,7 +93,10 @@ const FilterMenu = ({availableFilters, width, requestFilters, setFilters}: Filte
 
 
             <Box style={{paddingBottom: "20px"}}>
-                <Typography>Filtering menu:</Typography>
+                <Typography style={{fontSize: "36px"}}>
+                    <SearchIcon fontSize={"large"}/>
+                    Search
+                </Typography>
             </Box>
 
             <Box sx={{padding: "20px", minWidth: "120px", display: "flex", justifyContent: "space-around"}}>
