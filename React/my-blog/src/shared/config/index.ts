@@ -12,4 +12,4 @@ export const DefaultPageSize = 5
 
 export const DefaultAvatarGroupMaxLength = 5
 
-export const MaxAvatarSizeBytes = 15 * 1024; // 15KB synchronized with backend formal restrictions
+export const MaxAvatarSizeBytes = 100 * 1024; // 100KB synchronized with backend formal restrictions

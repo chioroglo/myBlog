@@ -123,11 +123,11 @@ const FilterMenu = ({availableFilters, width, requestFilters, setFilters}: Filte
                         requestFilters.filters.length > 1
                             ?
                             <>
-                                <InputLabel id="filter-intersection">Filter causes separately</InputLabel>
+                                <InputLabel id="filter-intersection">Search separately</InputLabel>
                                 <FormControlLabel style={{margin: 0, display: "flex", justifyContent: "center"}}
                                                   control={<Switch checked={doCombineFiltersWithOrOperator}
                                                                    onChange={handleChangeOfLogicalOperator}/>}
-                                                  label={""}/>
+                                                  label=""/>
                             </>
                             :
                             <></>

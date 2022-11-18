@@ -91,14 +91,14 @@ const RegistrationForm = () => {
             ,
             firstName:
                 Yup.string()
-                    .matches(FirstnameLastnameConstraints.Regexp, "First name shall begin with capital letter")
+                    .matches(FirstnameLastnameConstraints.Regexp, "First name shall begin with capital letter and not contain numbers")
                     .min(FirstnameLastnameConstraints.MinLength)
                     .max(FirstnameLastnameConstraints.MaxLength)
                     .nullable()
             ,
             lastName:
                 Yup.string()
-                    .matches(FirstnameLastnameConstraints.Regexp, "Last name shall begin with capital letter")
+                    .matches(FirstnameLastnameConstraints.Regexp, "Last name shall begin with capital letter and not contain numbers")
                     .min(FirstnameLastnameConstraints.MinLength)
                     .max(FirstnameLastnameConstraints.MaxLength)
                     .nullable()
@@ -131,9 +131,8 @@ const RegistrationForm = () => {
                                 <InputLabel htmlFor="firstName">First name</InputLabel>
                                 <Input onChange={formik.handleChange} value={formik.values.firstName} name="firstName"/>
                                 <FormHelperText>
-                                    Optional
                                     {formik.touched.firstName && formik.errors.firstName && (
-                                        <span style={errorTextStyle}>{formik.errors.firstName}</span>)}
+                                        <span style={errorTextStyle}>{formik.errors.firstName}</span>) || "Optional"}
                                 </FormHelperText>
                             </FormControl>
 
@@ -141,9 +140,9 @@ const RegistrationForm = () => {
                                 <InputLabel htmlFor="lastName">Last name</InputLabel>
                                 <Input onChange={formik.handleChange} value={formik.values.lastName} name="lastName"/>
                                 <FormHelperText>
-                                    Optional
+
                                     {formik.touched.lastName && formik.errors.lastName && (
-                                        <span style={errorTextStyle}>{formik.errors.lastName}</span>)}
+                                        <span style={errorTextStyle}>{formik.errors.lastName}</span>) || "Optional"}
                                 </FormHelperText>
                             </FormControl>
 

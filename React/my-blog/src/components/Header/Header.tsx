@@ -13,7 +13,7 @@ import {UserInfoCache} from "../../shared/types";
 const Header = () => {
 
     const user = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
-    
+
 
     useEffect(() => {
     }, [user]);

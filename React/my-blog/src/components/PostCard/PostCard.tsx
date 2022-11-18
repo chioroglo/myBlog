@@ -15,6 +15,7 @@ import React, {useEffect, useState} from 'react';
 import {PostCardProps} from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as assets from '../../shared/assets';
+import {PostFilterNames} from '../../shared/assets';
 import CommentIcon from '@mui/icons-material/Comment';
 import {postApi, userApi} from '../../shared/api/http/api';
 import {CommentReel} from "../CommentReel";
@@ -24,7 +25,7 @@ import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
 import {ExpandMoreCard} from './ExpandMoreCard';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {PostReactionBox} from "../PostReactionBox";
-import {Link, Navigate, useSearchParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {PostForm} from '../PostForm';
 import {AxiosResponse} from 'axios';
 import {PostDto, PostModel} from '../../shared/api/types/post';
@@ -33,7 +34,6 @@ import {ApplicationState} from '../../redux';
 import {ConfirmActionCustomModal} from "../CustomModal";
 import {UserInfoCache} from "../../shared/types";
 import {useNotifier} from '../../hooks';
-import {PostFilterNames} from "../../shared/assets";
 
 const PostCard = ({
                       initialPost,
@@ -155,8 +155,10 @@ const PostCard = ({
                                 <>
                                     <Typography variant="h5">{post.title}</Typography>
                                     {post.topic &&
-                                        <Link reloadDocument to={{pathname:`/`,search:`?${PostFilterNames.Topic}=${post.topic}`}}>
-                                            <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}} variant="outlined" color={"primary"} label={"#" + post.topic}/>
+                                        <Link reloadDocument
+                                              to={{pathname: `/`, search: `?${PostFilterNames.Topic}=${post.topic}`}}>
+                                            <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}}
+                                                  variant="outlined" color={"primary"} label={"#" + post.topic}/>
                                         </Link>
                                     }
                                     {post.content}
@@ -183,7 +185,8 @@ const PostCard = ({
 
                             <Collapse in={commentsOpen} orientation={"vertical"} timeout={"auto"}>
                                 <CardContent>
-                                    <CommentReel enableInfiniteScroll={enableCommentInfiniteScroll} reelWidth={"100%"} pagingRequestDefault={commentsPagingRequestDefault} post={post}/>
+                                    <CommentReel enableInfiniteScroll={enableCommentInfiniteScroll} reelWidth={"100%"}
+                                                 pagingRequestDefault={commentsPagingRequestDefault} post={post}/>
                                 </CardContent>
                             </Collapse>
                         </>

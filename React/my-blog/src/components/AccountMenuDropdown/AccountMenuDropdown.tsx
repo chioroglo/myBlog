@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import {authApi} from '../../shared/api/http/api';
 import {ReduxActionTypes} from '../../redux';
 import {useDispatch} from 'react-redux';
-import {ConfirmActionCustomModal} from '../CustomModal';
+import {ConfirmActionCustomModal, EditProfileCustomModal} from '../CustomModal';
 import {Link} from 'react-router-dom';
 import {palette} from '../../shared/assets';
 import {useNotifier} from '../../hooks';
@@ -17,8 +17,9 @@ const AccountMenuDropdown = ({icon}: { icon: JSX.Element }) => {
     const isDropdownOpened = Boolean(anchorEl);
     const notifyUser = useNotifier();
 
-
     const dispatch = useDispatch();
+
+
 
 
     const deleteUserFromRedux = () => {
@@ -75,13 +76,6 @@ const AccountMenuDropdown = ({icon}: { icon: JSX.Element }) => {
                         <Typography style={{textDecoration: "none", color: palette.JET}}>Personal page</Typography>
                     </MenuItem>
                 </Link>
-
-                <MenuItem>
-                    <ListItemIcon>
-                        <Settings/>
-                    </ListItemIcon>
-                    Settings
-                </MenuItem>
 
                 <MenuItem onClick={openLogoutModal}>
                     <ListItemIcon>

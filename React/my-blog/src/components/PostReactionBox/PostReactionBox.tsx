@@ -70,7 +70,11 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
 
                 postReactionApi.updateReactionOnPost({postId: postId, reactionType: type}).then(() => {
                     setUserReaction({exists: true, type: type});
-                    setReactions([...reactions, {postId: postId, userId: user.id, reactionType: type}]);
+                    setReactions([...reactions.filter(reaction => reaction.userId !== user.id), {
+                        postId: postId,
+                        userId: user.id,
+                        reactionType: type
+                    }]);
                 });
             } else {
 

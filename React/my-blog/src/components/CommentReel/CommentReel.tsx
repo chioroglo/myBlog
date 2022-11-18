@@ -116,9 +116,12 @@ const CommentReel = ({
                         <EmptyReelPlate width={reelWidth}/>
                         :
                         <>
-                            {comments.map((comment) => <CommentCard key={comment.id} initialComment={comment} width={"100%"} disappearCommentCallback={() => handleDeleteComment(comment.id)}/>)}
+                            {comments.map((comment) => <CommentCard key={comment.id} initialComment={comment}
+                                                                    width={"100%"}
+                                                                    disappearCommentCallback={() => handleDeleteComment(comment.id)}/>)}
 
-                            {enableInfiniteScroll && <Waypoint bottomOffset="-700px" onEnter={() => !noMoreComments && loadMoreComments()}/>}
+                            {enableInfiniteScroll &&
+                                <Waypoint bottomOffset="-700px" onEnter={() => !noMoreComments && loadMoreComments()}/>}
 
                             {
                                 isLoading &&
@@ -140,15 +143,15 @@ const CommentReel = ({
                                             </Typography>
                                         </Box>
                                     )
-                                :
+                                    :
                                     (!noMoreComments &&
-                                <div style={{display: "flex", alignItems: "flex-start"}}>
-                                    <IconButton onClick={() => loadMoreComments()}>
-                                        <ArrowDownwardIcon fontSize={"large"}/>
-                                    </IconButton>
-                                    <Typography style={{margin: "auto 0"}}>Please,push the arrow to load more
-                                        comments</Typography>
-                                </div>)
+                                        <div style={{display: "flex", alignItems: "flex-start"}}>
+                                            <IconButton onClick={() => loadMoreComments()}>
+                                                <ArrowDownwardIcon fontSize={"large"}/>
+                                            </IconButton>
+                                            <Typography style={{margin: "auto 0"}}>Please,push the arrow to load more
+                                                comments</Typography>
+                                        </div>)
                             }
                         </>
                     }

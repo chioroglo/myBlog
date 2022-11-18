@@ -140,7 +140,7 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
             let file: File = e.target.files[0];
 
             if (file.size > MaxAvatarSizeBytes) {
-                notifyUser(`Maximum avatar size is ${MaxAvatarSizeBytes}. Please pick smaller one`, "warning");
+                notifyUser(`Maximum avatar size is ${MaxAvatarSizeBytes / 1024}Kb. Please pick smaller one`, "warning");
                 e.target.value = "";
                 return;
             }
@@ -150,7 +150,6 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
     }
 
     const handleUpload = async () => {
-        console.log(avatarFile);
 
         if (avatarFile) {
             await avatarApi.RemoveAvatarForAuthorizedUser();
@@ -159,8 +158,8 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                 console.log(response.data);
                 notifyUser("Avatar was successfully loaded", "success");
                 setReduxAvatar(response.data);
-            }).catch((response: AxiosResponse<ErrorResponse>) => {
-                notifyUser(response.data.Message, "error");
+            }).catch((error: AxiosError<ErrorResponse>) => {
+                notifyUser(error.response?.data.Message || "Error occurred while uploading avatar", "error");
             });
 
         } else {
@@ -194,65 +193,71 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
 
     return (
         <CustomModal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-            <DialogContent>
+            <form style={{margin: "0 auto", display: "flex", flexDirection: "column", justifyContent: "space-between"}}
+                  onSubmit={formik.handleSubmit}>
 
-                <Box style={{minHeight: "100px"}} display={"flex"} textAlign={"center"} justifyContent={"space-around"}
-                     flexDirection={"column"}>
+                <DialogContent>
 
-                    <Avatar sx={{minHeight: "128px", minWidth: "128px", width: "2vw", height: "2vw",fontSize:"64px"}}
+                    <Box style={{minHeight: "100px"}} display={"flex"} textAlign={"center"}
+                         justifyContent={"space-around"}
+                         flexDirection={"column"}>
+
+                        <Avatar
+                            sx={{minHeight: "128px", minWidth: "128px", width: "2vw", height: "2vw", fontSize: "64px"}}
                             style={{margin: "0 auto"}}
                             src={avatarPreview?.toString()}>{getFirstCharOfStringUpperCase(user.username)}</Avatar>
 
-                    <input name={"avatar"} multiple accept={"image/png,image/jpeg"} id={"contained-button-file"}
-                           type={"file"} onChange={handleFile}/>
+                        <input name={"avatar"} multiple accept={"image/png,image/jpeg"} id={"contained-button-file"}
+                               type={"file"} onChange={handleFile}/>
 
-                    <Button onClick={handleUpload} color={"primary"} variant={"contained"}
-                            startIcon={<UploadFileRoundedIcon/>}>Upload new avatar</Button>
+                        <Button onClick={handleUpload} color={"primary"} variant={"contained"}
+                                startIcon={<UploadFileRoundedIcon/>}>Upload new avatar</Button>
 
-                    <Button onClick={handleDeleteAvatar} color={"error"} variant={"contained"}
-                            startIcon={<CancelRoundedIcon/>}>Remove Avatar</Button>
+                        <Button onClick={handleDeleteAvatar} color={"error"} variant={"contained"}
+                                startIcon={<CancelRoundedIcon/>}>Remove Avatar</Button>
 
 
-                </Box>
+                    </Box>
 
-                <form style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}
-                      onSubmit={formik.handleSubmit}>
-                    <FormHeader iconColor={palette.BAYERN_BLUE} caption={"Edit profile information"}
-                                icon={<AccountBoxIcon/>}/>
+                    <Box style={{justifyContent:"space-around",display:"flex",flexDirection:"column"}}>
 
-                    <FormControl style={textFieldStyle}>
-                        <InputLabel htmlFor="username">Username</InputLabel>
-                        <Input onChange={formik.handleChange} value={formik.values.username} name="username"/>
-                        <FormHelperText>
-                            {formik.touched.username && formik.errors.username && (
-                                <span style={errorTextStyle}>{formik.errors.username}</span>)}
-                        </FormHelperText>
-                    </FormControl>
+                        <FormHeader iconColor={palette.BAYERN_BLUE} caption={"Edit profile information"}
+                                    icon={<AccountBoxIcon/>}/>
 
-                    <FormControl style={textFieldStyle}>
-                        <InputLabel htmlFor="firstName">First name</InputLabel>
-                        <Input onChange={formik.handleChange} value={formik.values.firstName} name="firstName"/>
-                        <FormHelperText>
-                            {formik.touched.firstName && formik.errors.firstName && (
-                                <span style={errorTextStyle}>{formik.errors.firstName}</span>)}
-                        </FormHelperText>
-                    </FormControl>
+                        <FormControl style={textFieldStyle}>
+                            <InputLabel htmlFor="username">Username</InputLabel>
+                            <Input onChange={formik.handleChange} value={formik.values.username} name="username"/>
+                            <FormHelperText>
+                                {formik.touched.username && formik.errors.username && (
+                                    <span style={errorTextStyle}>{formik.errors.username}</span>)}
+                            </FormHelperText>
+                        </FormControl>
 
-                    <FormControl style={textFieldStyle}>
-                        <InputLabel htmlFor="lastName">Last name</InputLabel>
-                        <Input onChange={formik.handleChange} value={formik.values.lastName} name="lastName"/>
-                        <FormHelperText>
-                            {formik.touched.lastName && formik.errors.lastName && (
-                                <span style={errorTextStyle}>{formik.errors.lastName}</span>)}
-                        </FormHelperText>
-                    </FormControl>
-                </form>
-            </DialogContent>
+                        <FormControl style={textFieldStyle}>
+                            <InputLabel htmlFor="firstName">First name</InputLabel>
+                            <Input onChange={formik.handleChange} value={formik.values.firstName} name="firstName"/>
+                            <FormHelperText>
+                                {formik.touched.firstName && formik.errors.firstName && (
+                                    <span style={errorTextStyle}>{formik.errors.firstName}</span>)}
+                            </FormHelperText>
+                        </FormControl>
 
-            <DialogActions>
-                <Button onClick={() => formik.handleSubmit()}>Update</Button>
-                <Button onClick={() => setModalOpen(false)}>Go back</Button>
-            </DialogActions>
+                        <FormControl style={textFieldStyle}>
+                            <InputLabel htmlFor="lastName">Last name</InputLabel>
+                            <Input onChange={formik.handleChange} value={formik.values.lastName} name="lastName"/>
+                            <FormHelperText>
+                                {formik.touched.lastName && formik.errors.lastName && (
+                                    <span style={errorTextStyle}>{formik.errors.lastName}</span>)}
+                            </FormHelperText>
+                        </FormControl>
+                    </Box>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button type={"submit"}>Update</Button>
+                    <Button onClick={() => setModalOpen(false)}>Go back</Button>
+                </DialogActions>
+            </form>
         </CustomModal>
     );
 };

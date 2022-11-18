@@ -10,7 +10,7 @@ export const PasswordValidationConstraints = {
 }
 
 export const FirstnameLastnameConstraints = {
-    Regexp: /([A-Z][a-z]*)/,
+    Regexp: /^([A-Z][a-z]*$)/,
     MinLength: 2,
     MaxLength: 20
 }
