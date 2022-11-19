@@ -31,7 +31,7 @@ namespace DAL.Configurations
                 .IsRequired();
 
             builder.Property(e => e.LastActivity)
-                .HasDefaultValueSql("GETUTCDATE()")
+                .HasDefaultValueSql(GetutcdateSqlExpression)
                 .IsRequired();
 
             builder.HasMany(e => e.Posts)

@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
 
-        public DateTime RegistrationDate { get; set; }
+        public string RegistrationDate { get; set; }
     }
 }

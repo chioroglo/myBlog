@@ -4,7 +4,7 @@ import {fetchFiltersFromUrlSearchParams, PostFilterNames} from "../../shared/ass
 import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
 import {DefaultPageSize} from "../../shared/config";
 import {Navigate, useParams, useSearchParams} from 'react-router-dom';
-import { Typography } from '@mui/material';
+import {Typography} from '@mui/material';
 
 const TopicPage = () => {
 
@@ -26,8 +26,8 @@ const TopicPage = () => {
 
     return (
         <>
-            <Typography style={{textAlign:"center",fontSize: "36px"}}>
-                Welcome to topic <span style={{fontStyle:"italic"}}>{topicName}</span>
+            <Typography style={{textAlign: "center", fontSize: "36px"}}>
+                Welcome to topic <span style={{fontStyle: "italic"}}>{topicName}</span>
             </Typography>
             {
                 topicName ?

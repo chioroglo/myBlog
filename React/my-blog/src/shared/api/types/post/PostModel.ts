@@ -1,6 +1,6 @@
 export interface PostModel {
     "id": number,
-    "registrationDate": Date,
+    "registrationDate": string,
     "title": string,
     "content": string,
     "authorId": number,

@@ -8,6 +8,6 @@ namespace Common.Models
 
         public string FullName { get; set; }
 
-        public DateTime LastActivity { get; set; }
+        public string LastActivity { get; set; }
     }
 }

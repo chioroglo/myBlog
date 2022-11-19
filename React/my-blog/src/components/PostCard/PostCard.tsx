@@ -15,7 +15,6 @@ import React, {useEffect, useState} from 'react';
 import {PostCardProps} from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as assets from '../../shared/assets';
-import {PostFilterNames} from '../../shared/assets';
 import CommentIcon from '@mui/icons-material/Comment';
 import {postApi, userApi} from '../../shared/api/http/api';
 import {CommentReel} from "../CommentReel";
@@ -147,7 +146,7 @@ const PostCard = ({
                                 title={<Link to={`/user/${post.authorId}`}>{post.authorUsername}</Link>}
                                 subheader={
                                     <Link
-                                        to={`/post/${post.id}`}>{assets.transformToDateMonthHoursMinutesString(new Date(post.registrationDate))}
+                                        to={`/post/${post.id}`}>{assets.transformUtcStringToDateMonthHoursMinutesString(post.registrationDate)}
                                     </Link>}/>
 
 

@@ -19,13 +19,13 @@ const ProfilePage = () => {
 
     const isAuthorized = useSelector<ApplicationState, UserInfoCache | null>(state => state.user);
 
-
     const [isLoading, setLoading] = useState<boolean>(false);
     const {userId} = useParams();
+    //TODO make user nullable and do not load page while user is undefined,it causes unnecessary requests
     const [user, setUser] = useState<UserModel>({
         id: 0,
-        registrationDate: new Date(),
-        lastActivity: new Date(),
+        registrationDate: new Date().toUTCString(),
+        lastActivity: new Date().toUTCString(),
         username: "",
         fullName: ""
     });

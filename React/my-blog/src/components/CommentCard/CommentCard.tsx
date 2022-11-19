@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {CommentCardProps} from "./CommentCardProps";
-import {getFirstCharOfStringUpperCase, transformToDateMonthHoursMinutesString} from "../../shared/assets";
+import {getFirstCharOfStringUpperCase, transformUtcStringToDateMonthHoursMinutesString} from "../../shared/assets";
 import {Avatar, Box, Card, CardContent, CardHeader, IconButton, Menu, MenuItem, Typography} from '@mui/material';
 import {commentApi, userApi} from "../../shared/api/http/api";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -100,7 +100,7 @@ const CommentCard = ({width = "100%", initialComment, disappearCommentCallback, 
                                     </Typography>}
                                 action={user && user?.id === comment.authorId ?
                                     <IconButton onClick={handleOpenMenu}><MoreVertIcon/></IconButton> : <></>}
-                                subheader={transformToDateMonthHoursMinutesString(new Date(comment.registrationDate))}/>
+                                subheader={transformUtcStringToDateMonthHoursMinutesString(comment.registrationDate)}/>
 
                             <CardContent style={{display: "block"}}>
                                 <Box style={{wordWrap: "break-word"}}>

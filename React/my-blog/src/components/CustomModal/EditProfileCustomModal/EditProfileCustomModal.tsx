@@ -92,7 +92,7 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
             userApi.editProfileOfAuthorizedUser(values).then((response) => {
                 setUser({
                     ...response.data,
-                    lastActivity: new Date(),
+                    lastActivity: new Date().toUTCString(),
                     fullName: `${values.firstName} ${values.lastName}`,
                     username: values.username || user.username
                 });

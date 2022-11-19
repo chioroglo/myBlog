@@ -8,8 +8,8 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import {
     getFirstCharOfStringUpperCase,
-    transformToDateMonthHoursMinutesString,
-    transformToDayMonthYear
+    transformUtcStringToDateMonthHoursMinutesString,
+    transformUtcToLocalDatetime
 } from '../../shared/assets';
 import {EditProfileCustomModal} from "../CustomModal";
 import {UserInfoCache} from "../../shared/types";
@@ -105,14 +105,14 @@ const ProfileHeader = ({user, setUser}: ProfileHeaderProps) => {
                         <Box style={{margin: "0 32px 0 0"}}>
                             <CalendarMonthIcon/>
                             <Typography>
-                                Joined on {transformToDayMonthYear(new Date(user.registrationDate))}
+                                Joined on {transformUtcToLocalDatetime(user.registrationDate)}
                             </Typography>
                         </Box>
 
                         <Box>
                             <ScheduleIcon/>
                             <Typography>
-                                Last activity {transformToDateMonthHoursMinutesString(new Date(user.lastActivity))}
+                                Last activity {transformUtcStringToDateMonthHoursMinutesString(user.lastActivity)}
                             </Typography>
                         </Box>
 

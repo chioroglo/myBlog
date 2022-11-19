@@ -10,8 +10,8 @@ export * from "./validationConstraints"
 
 export * from "./getFirstCharOfStringUpperCase"
 
-export * from "./transformProfileRegistrationDate"
+export * from "./transformUtcToLocalDatetime"
 
-export * from "./transformToDateMonthHoursMinutesString"
+export * from "./transformUtcToLocalDateMonthHoursMinutesString"
 
 export * from "./FileReaderReadyStates"

@@ -1,7 +1,7 @@
 export interface UserModel {
     "id": number,
-    "registrationDate": Date,
     "username": string,
     "fullName": string,
-    "lastActivity": Date
+    "registrationDate": string,
+    "lastActivity": string
 }

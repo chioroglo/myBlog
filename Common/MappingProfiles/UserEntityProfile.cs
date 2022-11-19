@@ -25,11 +25,15 @@ namespace Common.MappingProfiles
 
             CreateMap<User, UserModel>()
                 .ForMember(
-                dst => dst.FullName,
-                opt => opt.MapFrom(
-                    src => src.FirstName == null && src.LastName == null ? string.Empty : $"{src.FirstName} {src.LastName}"
+                    dst => dst.FullName,
+                    opt => opt.MapFrom(
+                        src => src.FirstName == null && src.LastName == null
+                            ? string.Empty
+                            : $"{src.FirstName} {src.LastName}"
                     ))
-                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id));
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dst => dst.RegistrationDate, opt => opt.MapFrom(src => src.RegistrationDate.ToString("u")));
+
 
             CreateMap<UserInfoDto, User>().ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.Username, opt => opt.MapFrom(src => src.Username))
