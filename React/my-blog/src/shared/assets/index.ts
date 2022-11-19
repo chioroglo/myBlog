@@ -10,7 +10,7 @@ export * from "./validationConstraints"
 
 export * from "./getFirstCharOfStringUpperCase"
 
-export * from "./transformUtcToLocalDatetime"
+export * from "./transformUtcToLocalDate"
 
 export * from "./transformUtcToLocalDateMonthHoursMinutesString"
 

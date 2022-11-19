@@ -9,7 +9,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import {
     getFirstCharOfStringUpperCase,
     transformUtcStringToDateMonthHoursMinutesString,
-    transformUtcToLocalDatetime
+    transformUtcToLocalDate
 } from '../../shared/assets';
 import {EditProfileCustomModal} from "../CustomModal";
 import {UserInfoCache} from "../../shared/types";
@@ -105,7 +105,7 @@ const ProfileHeader = ({user, setUser}: ProfileHeaderProps) => {
                         <Box style={{margin: "0 32px 0 0"}}>
                             <CalendarMonthIcon/>
                             <Typography>
-                                Joined on {transformUtcToLocalDatetime(user.registrationDate)}
+                                Joined on {transformUtcToLocalDate(user.registrationDate)}
                             </Typography>
                         </Box>
 
