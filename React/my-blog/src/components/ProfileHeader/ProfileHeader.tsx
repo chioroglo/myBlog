@@ -1,4 +1,4 @@
-import {Avatar, Box, Button, Paper, Typography} from '@mui/material';
+import {Avatar, Box, Button, CircularProgress, Paper, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from '../../redux';
@@ -47,7 +47,12 @@ const ProfileHeader = ({user, setUser}: ProfileHeaderProps) => {
     const authorizedUser = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
 
     const isUserOnHisProfilePage = (): boolean => {
-        return user && (authorizedUser?.id === user.id);
+        if (user) {
+            return user && (authorizedUser?.id === user.id);
+        } else {
+            return false;
+        }
+
     };
 
 
@@ -58,69 +63,71 @@ const ProfileHeader = ({user, setUser}: ProfileHeaderProps) => {
     const fetchAvatarUrl = (userId: number) => userApi.getAvatarUrlById(userId).then(response => setAvatarLink(response.data));
 
     useEffect(() => {
-        fetchAvatarUrl(user.id);
+        if (user) {
+            fetchAvatarUrl(user.id);
+        }
     }, []);
 
     return (
-        <>
+            <>
+                <EditProfileCustomModal modalOpen={editProfileModalOpen} setModalOpen={setEditProfileModalOpen}
+                                        user={user}
+                                        setUser={setUser}/>
 
-            <EditProfileCustomModal modalOpen={editProfileModalOpen} setModalOpen={setEditProfileModalOpen} user={user}
-                                    setUser={setUser}/>
+                <Paper style={paperStyle}>
+                    <Paper elevation={0} style={paperBackgroundStyle}/>
 
-            <Paper style={paperStyle}>
-                <Paper elevation={0} style={paperBackgroundStyle}/>
+                    <Box style={{
+                        margin: internalMarginOfDialog,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                    }}>
+                        <div>
+                            <Avatar style={avatarStyle} src={avatarLink}
+                                    sx={{fontSize: "128px"}}>{getFirstCharOfStringUpperCase(user.username)}</Avatar>
+                        </div>
 
-                <Box style={{
-                    margin: internalMarginOfDialog,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                }}>
-                    <div>
-                        <Avatar style={avatarStyle} src={avatarLink}
-                                sx={{fontSize: "128px"}}>{getFirstCharOfStringUpperCase(user.username)}</Avatar>
-                    </div>
+                        <div>
+                            {isUserOnHisProfilePage() &&
+                                <Button variant="outlined" onClick={() => setEditProfileModalOpen(true)}>Edit
+                                    profile</Button>}
+                        </div>
+                    </Box>
 
-                    <div>
-                        {isUserOnHisProfilePage() &&
-                            <Button variant="outlined" onClick={() => setEditProfileModalOpen(true)}>Edit
-                                profile</Button>}
-                    </div>
-                </Box>
+                    <Box style={{
+                        margin: internalMarginOfDialog,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "self-start",
+                        flexDirection: "column"
+                    }}>
 
-                <Box style={{
-                    margin: internalMarginOfDialog,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "self-start",
-                    flexDirection: "column"
-                }}>
+                        <Typography variant="h2">{user.username}</Typography>
 
-                    <Typography variant="h2">{`${user.username} | №${user.id}`}</Typography>
+                        {user.fullName.length !== 0 && <Typography variant="h6">Name: {user.fullName}</Typography>}
 
-                    {user.fullName.length !== 0 && <Typography variant="h6">Name: {user.fullName}</Typography>}
+                        <Box style={{margin: "32px 0 0 0", display: "flex"}}>
 
-                    <Box style={{margin: "32px 0 0 0", display: "flex"}}>
+                            <Box style={{margin: "0 32px 0 0"}}>
+                                <CalendarMonthIcon/>
+                                <Typography>
+                                    Joined on {transformUtcToLocalDate(user.registrationDate)}
+                                </Typography>
+                            </Box>
 
-                        <Box style={{margin: "0 32px 0 0"}}>
-                            <CalendarMonthIcon/>
-                            <Typography>
-                                Joined on {transformUtcToLocalDate(user.registrationDate)}
-                            </Typography>
-                        </Box>
+                            <Box>
+                                <ScheduleIcon/>
+                                <Typography>
+                                    Last activity {transformUtcStringToDateMonthHoursMinutesString(user.lastActivity)}
+                                </Typography>
+                            </Box>
 
-                        <Box>
-                            <ScheduleIcon/>
-                            <Typography>
-                                Last activity {transformUtcStringToDateMonthHoursMinutesString(user.lastActivity)}
-                            </Typography>
                         </Box>
 
                     </Box>
-
-                </Box>
-            </Paper>
-        </>
+                </Paper>
+            </>
     );
 };
 

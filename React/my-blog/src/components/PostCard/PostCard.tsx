@@ -146,7 +146,8 @@ const PostCard = ({
                                 title={<Link to={`/user/${post.authorId}`}>{post.authorUsername}</Link>}
                                 subheader={
                                     <Link
-                                        to={`/post/${post.id}`}>Posted at {assets.transformUtcStringToDateMonthHoursMinutesString(post.registrationDate)}
+                                        to={`/post/${post.id}`}>Posted
+                                        at {assets.transformUtcStringToDateMonthHoursMinutesString(post.registrationDate)}
                                     </Link>}/>
 
 

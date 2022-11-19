@@ -3,5 +3,5 @@ import {CustomModalProps} from "../CustomModalProps";
 
 export interface EditProfileCustomModalProps extends CustomModalProps {
     user: UserModel,
-    setUser: React.Dispatch<React.SetStateAction<UserModel>>,
+    setUser: React.Dispatch<React.SetStateAction<UserModel | undefined>>,
 }

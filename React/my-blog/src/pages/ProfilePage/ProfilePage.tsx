@@ -1,4 +1,4 @@
-import {Box, Tab, Tabs} from '@mui/material';
+import {Box, Tab, Tabs, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
@@ -14,31 +14,30 @@ import {CursorPagedRequest} from '../../shared/api/types/paging/cursorPaging';
 import {UserModel} from '../../shared/api/types/user';
 import {DefaultPageSize} from '../../shared/config';
 import {UserInfoCache} from "../../shared/types";
+import {AxiosError, AxiosResponse} from "axios";
+import {ErrorResponse} from "../../shared/api/types";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const ProfilePage = () => {
 
     const isAuthorized = useSelector<ApplicationState, UserInfoCache | null>(state => state.user);
 
-    const [isLoading, setLoading] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState<boolean>(true);
     const {userId} = useParams();
-    //TODO make user nullable and do not load page while user is undefined,it causes unnecessary requests
-    const [user, setUser] = useState<UserModel>({
-        id: 0,
-        registrationDate: new Date().toUTCString(),
-        lastActivity: new Date().toUTCString(),
-        username: "",
-        fullName: ""
-    });
-
     const [visibleTabIndex, setVisibleTabIndex] = useState<number>(0);
 
     const [pageRequestPostReel, setPageRequestPostReel] = useState<CursorPagedRequest>();
     const [pageRequestCommentReel, setPageRequestCommentReel] = useState<CursorPagedRequest>();
 
+
+    const [hasError,setHasError] = useState<boolean>(false);
+    const [errorText,setErrorText] = useState<string>("Error occurred");
+
     const fetchUser = () => userApi.getUserById(parseInt(userId || "0")).then(response => {
-        setUser(response.data);
-        return response.data
+        return response;
     });
+
+    const [user, setUser] = useState<UserModel>();
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
@@ -52,7 +51,10 @@ const ProfilePage = () => {
     useEffect(() => {
         setLoading(true);
 
-        fetchUser().then((response) => {
+        fetchUser().then((response: AxiosResponse<UserModel>) => {
+
+            console.log(response);
+            setUser(response.data);
 
             setPageRequestPostReel({
                 requestFilters: {
@@ -60,7 +62,7 @@ const ProfilePage = () => {
                     filters: [
                         {
                             path: "UserId",
-                            value: response.id.toString()
+                            value: response.data.id.toString()
                         }
                     ]
                 },
@@ -74,7 +76,7 @@ const ProfilePage = () => {
                     filters: [
                         {
                             path: "UserId",
-                            value: response.id.toString()
+                            value: response.data.id.toString()
                         }
                     ]
                 },
@@ -83,39 +85,61 @@ const ProfilePage = () => {
             });
 
             setLoading(false);
+        }).catch((error: AxiosError<ErrorResponse>) => {
+            console.log(error);
+            setHasError(true);
+
+            if (error.response)
+            {
+                setErrorText(error.response?.data.Message);
+            }
+
+            setLoading(false);
         });
     }, [isAuthorized]);
 
     return (
         <>
             {
-                isLoading
+                (isLoading)
                     ?
                     <WholePageLoader/>
                     :
                     <>
-                        <ProfileHeader setUser={setUser} user={user}/>
+                        {user && !hasError ?
+                            <>
+                                <ProfileHeader setUser={setUser} user={user}/>
 
-                        <Box style={{width: "70vw", margin: "0 auto"}}>
-                            <Box>
-                                <Tabs value={visibleTabIndex} onChange={handleTabChange}>
-                                    <Tab label="Posts" {...tabProps(0)}/>
-                                    <Tab label="Comments" {...tabProps(1)}/>
-                                </Tabs>
-                            </Box>
+                                <Box style={{width: "70vw", margin: "0 auto"}}>
+                                    <Box>
+                                        <Tabs value={visibleTabIndex} onChange={handleTabChange}>
+                                            <Tab label="Posts" {...tabProps(0)}/>
+                                            <Tab label="Comments" {...tabProps(1)}/>
+                                        </Tabs>
+                                    </Box>
 
-                            <CustomTabPanel index={0} value={visibleTabIndex}>
-                                {pageRequestPostReel && <BlogReel reelWidth="100%" pageSize={DefaultPageSize}
-                                                                  pagingRequestDefault={pageRequestPostReel}
-                                />}
-                            </CustomTabPanel>
+                                    <CustomTabPanel index={0} value={visibleTabIndex}>
+                                        {pageRequestPostReel && <BlogReel reelWidth="100%" pageSize={DefaultPageSize}
+                                                                          pagingRequestDefault={pageRequestPostReel}
+                                        />}
+                                    </CustomTabPanel>
 
-                            <CustomTabPanel index={1} value={visibleTabIndex}>
-                                {<CommentReel enableInfiniteScroll reelWidth="100%"
-                                              pagingRequestDefault={pageRequestCommentReel}></CommentReel>}
-                            </CustomTabPanel>
-                        </Box>
+                                    <CustomTabPanel index={1} value={visibleTabIndex}>
+                                        {<CommentReel enableInfiniteScroll reelWidth="100%"
+                                                      pagingRequestDefault={pageRequestCommentReel}></CommentReel>}
+                                    </CustomTabPanel>
+                                </Box>
+                            </>
+                            :
+                                <Box style={{margin: "15% auto"}}>
+                                    <Typography variant={"h2"} style={{textAlign: "center"}}>
+                                        {errorText}
+                                    </Typography>
 
+                                    <CancelIcon
+                                        style={{margin: "0 auto", display: "block", width: "100px", height: "100px"}}/>
+                                </Box>
+                        }
                     </>
             }
         </>
