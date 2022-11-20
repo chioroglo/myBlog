@@ -104,7 +104,6 @@ namespace Service
             if (avatarInfo == null)
             {
                 return;
-                //throw new ValidationException($"{nameof(User)} of ID:{userId} has no profile picture to remove");
             }
             var path = ComposeAbsolutePath(avatarInfo.Url);
 

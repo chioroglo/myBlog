@@ -6,7 +6,7 @@ namespace DAL.DataSeed
     {
         public static async Task SeedData(BlogDbContext dbContext)
         {
-            dbContext.Database.Migrate();
+            await dbContext.Database.MigrateAsync();
 
             await UserSeed.Seed(dbContext);
             await PostSeed.Seed(dbContext);

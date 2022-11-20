@@ -70,7 +70,7 @@ namespace Service
 
             if (reaction.UserId != issuerId)
             {
-                throw new ValidationException($"This {nameof(PostReaction)} does not belong to authorized user");
+                throw new InsufficientPermissionsException($"This {nameof(PostReaction)} does not belong to authorized user");
             }
 
             await _postReactionRepository.RemoveAsync(reactionId,cancellationToken);

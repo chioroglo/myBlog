@@ -36,8 +36,12 @@ namespace API.Middlewares
                         }
                     case AuthenticationException:
                         {
-                            // throw HttpStatusCode.Unauthorized???? ++++
-                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            break;
+                        }
+                    case InsufficientPermissionsException:
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                             break;
                         }
                     case OperationCanceledException:

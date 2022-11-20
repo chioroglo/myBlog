@@ -20,7 +20,7 @@ namespace Service
         {
             if (await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
             {
-                throw new ValidationException("This title is occupied");
+                throw new ValidationException($"Title {request.Title} is occupied");
             }
 
 
@@ -57,7 +57,7 @@ namespace Service
 
             if (post.UserId != issuerId)
             {
-                throw new ValidationException($"This {nameof(Post)} does not belong to authorized user");
+                throw new InsufficientPermissionsException($"This {nameof(Post)} does not belong to authorized user");
             }
 
             await _postRepository.RemoveAsync(postId,cancellationToken);
@@ -76,12 +76,12 @@ namespace Service
 
             if (post.Title != request.Title && await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
             {
-                throw new ValidationException("This title is occupied");
+                throw new ValidationException($"Title {request.Title} is occupied");
             }
 
             if (request.UserId != post.UserId)
             {
-                throw new ValidationException($"Authorized user has no privileges to edit this {nameof(Post)} postID:{postId}");
+                throw new InsufficientPermissionsException($"Authorized user has no privileges to edit this {nameof(Post)} postID:{postId}");
             }
             
             post.Title = request.Title;

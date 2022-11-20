@@ -67,7 +67,7 @@ namespace Service
 
             if (issuerId != comment.UserId)
             {
-                throw new ValidationException($"Authorized {nameof(User)} of ID: {issuerId} has no access to this comment");
+                throw new InsufficientPermissionsException($"Authorized {nameof(User)} of ID: {issuerId} has no access to this comment");
             }
 
             await _commentRepository.RemoveAsync(id,cancellationToken);
@@ -84,7 +84,7 @@ namespace Service
 
             if (entity.UserId != comment.UserId)
             {
-                throw new ValidationException("Authorized user has no access to this comment");
+                throw new InsufficientPermissionsException("Authorized user has no access to this comment");
             }
 
             comment.Content = entity.Content;

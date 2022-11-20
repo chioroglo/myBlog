@@ -41,7 +41,7 @@ namespace Service
         {
             if (id != issuerId)
             {
-                throw new ValidationException($"{nameof(User)} of ID : {issuerId} cannot delete this account!");
+                throw new InsufficientPermissionsException($"{nameof(User)} of ID : {issuerId} cannot delete this account!");
             }
 
             await _userRepository.RemoveAsync(id,cancellationToken);

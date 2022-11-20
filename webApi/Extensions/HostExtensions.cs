@@ -21,7 +21,7 @@ namespace API.Extensions
                 }
                 catch(Exception e)
                 {
-                    throw new Exception("error occured during migration");
+                    throw new Exception("error occurred during migration");
                 }
             }
         }

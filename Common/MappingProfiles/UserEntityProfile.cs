@@ -32,7 +32,8 @@ namespace Common.MappingProfiles
                             : $"{src.FirstName} {src.LastName}"
                     ))
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dst => dst.RegistrationDate, opt => opt.MapFrom(src => src.RegistrationDate.ToString("u")));
+                .ForMember(dst => dst.RegistrationDate, opt => opt.MapFrom(src => src.RegistrationDate.ToString("u")))
+                .ForMember(dst => dst.LastActivity, opt => opt.MapFrom(src => src.LastActivity.ToString("u")));
 
 
             CreateMap<UserInfoDto, User>().ForMember(dst => dst.Id, opt => opt.Ignore())
