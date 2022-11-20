@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BlogReel} from '../../components/BlogReel';
 import {fetchFiltersFromUrlSearchParams, PostFilterNames} from "../../shared/assets";
-import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
 import {DefaultPageSize} from "../../shared/config";
 import {Navigate, useParams, useSearchParams} from 'react-router-dom';
 import {Typography} from '@mui/material';
@@ -18,11 +17,11 @@ const TopicPage = () => {
     filters.filters.push({path: PostFilterNames.Topic, value: topicName || ""});
 
 
-    const [topicPagePagingConditions, setTopicPagePagingConditions] = useState<CursorPagedRequest>({
+    const topicPagePagingConditions = {
         pageSize: DefaultPageSize,
         getNewer: false,
         requestFilters: filters
-    });
+    };
 
     return (
         <>

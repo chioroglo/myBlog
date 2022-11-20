@@ -16,6 +16,7 @@ import {DefaultPageSize} from "../../shared/config";
 import {UserInfoCache} from "../../shared/types";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import {Waypoint} from "react-waypoint";
+import {CenteredLoader} from "../CenteredLoader";
 
 
 const CommentReel = ({
@@ -106,7 +107,7 @@ const CommentReel = ({
             )}
             {isLoading && comments.length === 0
                 ?
-                <Box style={{margin: "0 auto", width: "fit-content"}}>
+                <Box style={{margin: "50px auto", width: "fit-content"}}>
                     <CircularProgress/>
                 </Box>
                 :
@@ -123,12 +124,7 @@ const CommentReel = ({
                             {enableInfiniteScroll &&
                                 <Waypoint bottomOffset="-700px" onEnter={() => !noMoreComments && loadMoreComments()}/>}
 
-                            {
-                                isLoading &&
-                                <Box style={{margin: "0 auto", width: reelWidth}}>
-                                    <CircularProgress/>
-                                </Box>
-                            }
+                            {isLoading && <CenteredLoader/>}
 
                             {
                                 enableInfiniteScroll

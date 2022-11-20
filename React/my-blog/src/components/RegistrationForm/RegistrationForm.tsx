@@ -13,7 +13,7 @@ import {
 import {FormHeader} from '../FormHeader';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import {AxiosError} from 'axios';
-import {WholePageLoader} from '../WholePageLoader';
+import {CenteredLoader} from '../CenteredLoader';
 import {useNotifier} from '../../hooks';
 
 
@@ -109,7 +109,7 @@ const RegistrationForm = () => {
         <>
             {
                 loading ?
-                    <WholePageLoader/>
+                    <CenteredLoader/>
                     :
                     <form style={{display: "inline-block"}} onSubmit={formik.handleSubmit}>
                         <Paper style={paperStyle} elevation={12}>

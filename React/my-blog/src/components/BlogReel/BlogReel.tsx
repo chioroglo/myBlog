@@ -1,4 +1,4 @@
-import {Box, Button, CircularProgress, IconButton, Typography} from '@mui/material';
+import {Box, Button, IconButton, Typography} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from '../../redux';
@@ -20,6 +20,7 @@ import {DefaultPageSize} from '../../shared/config';
 import {PostForm} from "../PostForm";
 import {EmptyReelPlate} from "../EmptyReelPlate";
 import {UserInfoCache} from "../../shared/types";
+import {CenteredLoader} from "../CenteredLoader";
 
 const BlogReel = ({
                       pageSize = DefaultPageSize,
@@ -121,9 +122,7 @@ const BlogReel = ({
             }
 
             {isLoading && posts.length === 0 ?
-                <Box style={{margin: "50px auto", width: "fit-content"}}>
-                    <CircularProgress/>
-                </Box>
+                <CenteredLoader/>
                 :
                 posts.length === 0 ?
                     <EmptyReelPlate width={reelWidth}/>
@@ -138,11 +137,7 @@ const BlogReel = ({
                                       requestFilters: filters
                                   }, false)}></Waypoint>
 
-                        {isLoading &&
-                            <Box style={{margin: "50px auto", width: "fit-content"}}>
-                                <CircularProgress/>
-                            </Box>
-                        }
+                        {isLoading && <CenteredLoader/>}
 
                         {
                             noMorePosts && <Box style={{margin: "50px auto", width: "fit-content"}}>

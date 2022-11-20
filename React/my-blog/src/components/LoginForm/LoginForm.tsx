@@ -6,10 +6,10 @@ import {authApi, userApi} from '../../shared/api/http/api';
 import {ErrorResponse} from '../../shared/api/types';
 import {palette, PasswordValidationConstraints, UsernameValidationConstraints} from '../../shared/assets';
 import {FormHeader} from '../FormHeader';
-import {AuthenticationForm} from './AuthenticationForm';
+import {AuthenticationFormProps} from './AuthenticationFormProps';
 import * as Yup from 'yup';
 import {AxiosError, AxiosResponse} from 'axios';
-import {WholePageLoader} from '../WholePageLoader';
+import {CenteredLoader} from '../CenteredLoader';
 import {useDispatch} from 'react-redux';
 import {ReduxActionTypes} from '../../redux';
 import {Link} from 'react-router-dom';
@@ -57,7 +57,7 @@ const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const displayNotification = useNotifier();
 
-    const formik = useFormik<AuthenticationForm>({
+    const formik = useFormik<AuthenticationFormProps>({
         initialValues: {
             username: "",
             password: "",
@@ -100,7 +100,7 @@ const LoginForm = () => {
     return (
         <>
             {loading ?
-                <WholePageLoader/>
+                <CenteredLoader/>
                 :
                 <form style={{display: "inline-block"}} onSubmit={formik.handleSubmit}>
 

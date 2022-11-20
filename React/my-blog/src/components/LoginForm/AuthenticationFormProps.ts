@@ -1,4 +1,4 @@
-export interface AuthenticationForm {
+export interface AuthenticationFormProps {
     username: string,
     password: string,
     rememberMe: boolean

@@ -6,7 +6,7 @@ import {BlogReel} from '../../components/BlogReel';
 import {CommentReel} from '../../components/CommentReel';
 import {CustomTabPanel} from '../../components/CustomTabPanel';
 import {ProfileHeader} from '../../components/ProfileHeader';
-import {WholePageLoader} from '../../components/WholePageLoader';
+import {CenteredLoader} from '../../components/CenteredLoader';
 import {ApplicationState} from '../../redux';
 import {userApi} from '../../shared/api/http/api';
 import {FilterLogicalOperator} from '../../shared/api/types/paging';
@@ -30,8 +30,8 @@ const ProfilePage = () => {
     const [pageRequestCommentReel, setPageRequestCommentReel] = useState<CursorPagedRequest>();
 
 
-    const [hasError,setHasError] = useState<boolean>(false);
-    const [errorText,setErrorText] = useState<string>("Error occurred");
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [errorText, setErrorText] = useState<string>("Error occurred");
 
     const fetchUser = () => userApi.getUserById(parseInt(userId || "0")).then(response => {
         return response;
@@ -89,8 +89,7 @@ const ProfilePage = () => {
             console.log(error);
             setHasError(true);
 
-            if (error.response)
-            {
+            if (error.response) {
                 setErrorText(error.response?.data.Message);
             }
 
@@ -103,7 +102,7 @@ const ProfilePage = () => {
             {
                 (isLoading)
                     ?
-                    <WholePageLoader/>
+                    <CenteredLoader/>
                     :
                     <>
                         {user && !hasError ?
@@ -131,14 +130,14 @@ const ProfilePage = () => {
                                 </Box>
                             </>
                             :
-                                <Box style={{margin: "15% auto"}}>
-                                    <Typography variant={"h2"} style={{textAlign: "center"}}>
-                                        {errorText}
-                                    </Typography>
+                            <Box style={{margin: "15% auto"}}>
+                                <Typography variant={"h2"} style={{textAlign: "center"}}>
+                                    {errorText}
+                                </Typography>
 
-                                    <CancelIcon
-                                        style={{margin: "0 auto", display: "block", width: "100px", height: "100px"}}/>
-                                </Box>
+                                <CancelIcon
+                                    style={{margin: "0 auto", display: "block", width: "100px", height: "100px"}}/>
+                            </Box>
                         }
                     </>
             }

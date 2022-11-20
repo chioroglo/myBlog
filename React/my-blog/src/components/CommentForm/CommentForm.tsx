@@ -1,6 +1,6 @@
-    import React, {useState} from 'react';
+import React, {useState} from 'react';
 import {CommentFormProps} from "./CommentFormProps";
-import {Box, Button, CircularProgress, FormControl, FormHelperText, IconButton, Paper, TextField} from "@mui/material";
+import {Box, Button, FormControl, FormHelperText, IconButton, Paper, TextField} from "@mui/material";
 import {useFormik} from "formik";
 import {CommentDto} from '../../shared/api/types/comment';
 import {AxiosError} from "axios";
@@ -10,6 +10,7 @@ import {FormHeader} from '../FormHeader';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import CloseIcon from "@mui/icons-material/Close";
 import {useNotifier} from '../../hooks';
+import {CenteredLoader} from '../CenteredLoader';
 
 
 const textFieldStyle: React.CSSProperties = {
@@ -69,9 +70,7 @@ const CommentForm = ({
             {
                 loading
                     ?
-                    <Box style={{margin: "50px auto", width: "fit-content"}}>
-                        <CircularProgress/>
-                    </Box>
+                    <CenteredLoader/>
                     :
                     <Paper elevation={1} sx={{
                         width: width,

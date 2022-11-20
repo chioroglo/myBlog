@@ -3,13 +3,14 @@ import {useFormik} from "formik";
 import {PostDto} from "../../shared/api/types/post";
 import * as Yup from 'yup';
 import {palette, PostValidationConstraints} from "../../shared/assets";
-import {Box, Button, CircularProgress, FormControl, FormHelperText, IconButton, Paper, TextField} from '@mui/material';
+import {Box, Button, FormControl, FormHelperText, IconButton, Paper, TextField} from '@mui/material';
 import {PostFormProps} from "./PostFormProps";
 import {FormHeader} from '../FormHeader';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import {AxiosError} from "axios";
 import CloseIcon from '@mui/icons-material/Close';
 import {useNotifier} from "../../hooks";
+import {CenteredLoader} from '../CenteredLoader';
 
 const textFieldStyle: React.CSSProperties = {
     padding: "0 0 20px 0"
@@ -70,10 +71,7 @@ const PostForm = ({
             {
                 loading
                     ?
-                    /* TODO decompose centered loader in separate component */
-                    <Box style={{margin: "50px auto", width: "fit-content"}}>
-                        <CircularProgress/>
-                    </Box>
+                    <CenteredLoader/>
                     :
                     <Paper elevation={12} style={{
                         width: width,
