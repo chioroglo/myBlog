@@ -121,7 +121,7 @@ const BlogReel = ({
                     </Box>)
             }
 
-            {isLoading && posts.length === 0 ?
+            {isLoading ?
                 <CenteredLoader/>
                 :
                 posts.length === 0 ?
@@ -137,7 +137,7 @@ const BlogReel = ({
                                       requestFilters: filters
                                   }, false)}></Waypoint>
 
-                        {isLoading && <CenteredLoader/>}
+                        {!noMorePosts && <CenteredLoader/>}
 
                         {
                             noMorePosts && <Box style={{margin: "50px auto", width: "fit-content"}}>

@@ -101,7 +101,7 @@ const CommentForm = ({
                                            value={formik.values.content} onChange={formik.handleChange}/>
                             </FormControl>
 
-                            <Button type={"submit"}>Submit</Button>
+                            <Button disabled={JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)} type={"submit"}>Submit</Button>
                         </form>
 
                         <Box>

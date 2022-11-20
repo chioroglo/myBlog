@@ -79,6 +79,9 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
         },
         onSubmit: (values, formikHelpers) => {
 
+            console.log(formik.values);
+            console.log(formik.initialValues);
+
             if (values.username === user.username) {
                 values.username = undefined;
             }
@@ -155,7 +158,6 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
             await avatarApi.RemoveAvatarForAuthorizedUser();
 
             avatarApi.UploadNewAvatarForAuthorizedUser(avatarFile).then((response) => {
-                console.log(response.data);
                 notifyUser("Avatar was successfully loaded", "success");
                 setReduxAvatar(response.data);
             }).catch((error: AxiosError<ErrorResponse>) => {
@@ -253,7 +255,7 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                 </DialogContent>
 
                 <DialogActions>
-                    <Button type={"submit"}>Update</Button>
+                    <Button disabled={JSON.stringify(formik.values)  === JSON.stringify(formik.initialValues)} type={"submit"}>Update</Button>
                     <Button onClick={() => setModalOpen(false)}>Go back</Button>
                 </DialogActions>
             </form>
