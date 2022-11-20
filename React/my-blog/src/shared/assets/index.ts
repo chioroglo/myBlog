@@ -13,5 +13,3 @@ export * from "./getFirstCharOfStringUpperCase"
 export * from "./transformUtcToLocalDate"
 
 export * from "./transformUtcToLocalDateMonthHoursMinutesString"
-
-export * from "./FileReaderReadyStates"

@@ -5,7 +5,7 @@ export const fetchFiltersFromUrlSearchParams = (searchParams: URLSearchParams, a
     let output: Filter[] = [];
     let logicalOperator = parseInt(searchParams.get("LogicalOperator") || "0");
 
-    availableFilterNames.forEach((filterPath, index, array) => {
+    availableFilterNames.forEach((filterPath) => {
         let filterValues: string[] = searchParams.getAll(filterPath);
 
         filterValues.forEach((filterValue) => {

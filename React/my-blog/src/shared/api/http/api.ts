@@ -4,7 +4,7 @@ import {API_URL, AvatarTokenKeyName, JwtTokenKeyName, UserIdTokenKeyName, Userna
 import {AuthenticateRequest, AuthenticateResponse, RegistrationDto} from "../types"
 import {CursorPagedRequest} from "../types/paging/cursorPaging";
 import {PostDto, PostModel} from "../types/post";
-import {PostReactionDto} from "../types/postReaction/PostReactionDto";
+import {PostReactionDto} from "../types/postReaction";
 import {CommentDto} from "../types/comment";
 import {UserInfoDto, UserModel} from "../types/user";
 
@@ -63,17 +63,13 @@ export class authApi {
     }
 
     static logout(): void {
-        localStorage.removeItem(JwtTokenKeyName);
-        sessionStorage.removeItem(JwtTokenKeyName);
 
-        localStorage.removeItem(UserIdTokenKeyName);
-        sessionStorage.removeItem(UserIdTokenKeyName);
+        const claimNames = [JwtTokenKeyName,UserIdTokenKeyName,UsernameTokenKeyName,AvatarTokenKeyName];
 
-        localStorage.removeItem(UsernameTokenKeyName);
-        sessionStorage.removeItem(UsernameTokenKeyName);
-
-        localStorage.removeItem(AvatarTokenKeyName);
-        sessionStorage.removeItem(AvatarTokenKeyName);
+        claimNames.forEach(claim => {
+           localStorage.removeItem(claim);
+           sessionStorage.removeItem(claim);
+        });
     }
 
     static TryAuthenticateAndPayloadInHeaders(credentials: AuthenticateRequest, useLocalStorage: boolean) {
