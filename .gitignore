@@ -11,6 +11,7 @@
 webApi/wwwroot/data/avatar
 webApi/Logs
 Tests
+node_modules
 
 
 
