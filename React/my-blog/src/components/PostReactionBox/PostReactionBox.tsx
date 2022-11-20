@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Avatar, AvatarGroup, Box, ClickAwayListener, IconButton, Popper, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import {ApplicationState} from "../../redux";
-import {PostReactionModel} from "../../shared/api/types/postReaction/PostReactionModel";
+import {PostReactionModel} from "../../shared/api/types/postReaction";
 import {PostReactionBoxProps} from "./PostReactionBoxProps";
 import {postReactionApi, userApi} from "../../shared/api/http/api";
 import {AxiosResponse} from "axios";
@@ -101,7 +101,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
     }
 
     // this system is based on order of reaction types like in enum.
-    const reactionsAndComponentsUnactive = [
+    const reactionsAndComponentsInactive = [
         <IconButton onClick={() => handleNewReaction(ReactionType.Like)} children={<ThumbUpOutlinedIcon/>}/>,
         <IconButton onClick={() => handleNewReaction(ReactionType.Dislike)} children={<ThumbDownOutlinedIcon/>}/>,
         <IconButton onClick={() => handleNewReaction(ReactionType.Love)} children={<FavoriteBorderIcon/>}/>
@@ -163,7 +163,7 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
                                 ?
                                 reactionsAndComponentsActive[userReaction.type - 1]
                                 :
-                                reactionsAndComponentsUnactive[ReactionType.Love - 1]
+                                reactionsAndComponentsInactive[ReactionType.Love - 1]
                         }
                     </Box>
 
@@ -183,9 +183,9 @@ const PostReactionBox = ({postId}: PostReactionBoxProps) => {
 
 
                                 <Box style={{margin: "auto 0"}}>
-                                    {userReaction.type === ReactionType.Like ? reactionsAndComponentsActive[ReactionType.Like - 1] : reactionsAndComponentsUnactive[ReactionType.Like - 1]}
-                                    {userReaction.type === ReactionType.Dislike ? reactionsAndComponentsActive[ReactionType.Dislike - 1] : reactionsAndComponentsUnactive[ReactionType.Dislike - 1]}
-                                    {userReaction.type === ReactionType.Love ? reactionsAndComponentsActive[ReactionType.Love - 1] : reactionsAndComponentsUnactive[ReactionType.Love - 1]}
+                                    {userReaction.type === ReactionType.Like ? reactionsAndComponentsActive[ReactionType.Like - 1] : reactionsAndComponentsInactive[ReactionType.Like - 1]}
+                                    {userReaction.type === ReactionType.Dislike ? reactionsAndComponentsActive[ReactionType.Dislike - 1] : reactionsAndComponentsInactive[ReactionType.Dislike - 1]}
+                                    {userReaction.type === ReactionType.Love ? reactionsAndComponentsActive[ReactionType.Love - 1] : reactionsAndComponentsInactive[ReactionType.Love - 1]}
                                 </Box>
 
                                 <Typography fontSize={"smaller"}>{

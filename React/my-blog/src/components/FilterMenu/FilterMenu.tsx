@@ -28,7 +28,7 @@ const FilterMenu = ({availableFilters, width, requestFilters, setFilters}: Filte
 
 
     const alreadyHasNoSuchFilter = (filter: Filter) => {
-        return !requestFilters.filters.some((val, index) => val.path === filter.path && val.value === filter.value);
+        return !requestFilters.filters.some((val) => val.path === filter.path && val.value === filter.value);
     }
 
     const handleDeleteFilter = (triggeredFilter: Filter) => {

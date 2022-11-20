@@ -8,8 +8,6 @@ import {Typography} from '@mui/material';
 const TopicPage = () => {
 
     const {topicName} = useParams();
-
-
     const [searchParams, setSearchParams] = useSearchParams();
     const availableFilterNames: PostFilterNames[] = [PostFilterNames.Content, PostFilterNames.Title];
 

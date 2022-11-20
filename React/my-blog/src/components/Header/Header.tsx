@@ -2,7 +2,7 @@ import {Avatar, Box, Button, Toolbar, Typography} from '@mui/material';
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from '../../redux';
-import {CustomNavbar} from '../CustomNavbar/CustomNavbar';
+import {CustomNavbar} from '../CustomNavbar';
 import {CustomNavLink} from '../CustomNavLink';
 import {Link} from 'react-router-dom';
 import {AccountMenuDropdown} from '../AccountMenuDropdown';

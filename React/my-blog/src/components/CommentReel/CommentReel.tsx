@@ -5,7 +5,7 @@ import {CursorPagedRequest, CursorPagedResult} from "../../shared/api/types/pagi
 import {commentApi} from "../../shared/api/http/api";
 import {AxiosResponse} from "axios";
 import {Box, Button, CircularProgress, IconButton, Typography} from '@mui/material';
-import {CommentCard} from "../CommentCard/CommentCard";
+import {CommentCard} from "../CommentCard";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {useSelector} from 'react-redux';
 import {ApplicationState} from "../../redux";

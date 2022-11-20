@@ -56,7 +56,7 @@ const RegistrationForm = () => {
             password: "",
             confirmPassword: ""
         },
-        onSubmit: async (values, formikHelpers) => {
+        onSubmit: async (values) => {
 
             setLoading(true);
             const request = await authApi.TryRegister(values as RegistrationDto);

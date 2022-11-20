@@ -54,9 +54,9 @@ const BlogReel = ({
 
     const fetchPosts = (pagingRequest: CursorPagedRequest) => postApi.getCursorPagedPosts(pagingRequest).then((result: AxiosResponse<CursorPagedResult<PostModel>>) => result.data);
 
-    const loadMorePosts = (request: CursorPagedRequest, cleanPosts: boolean): void => {
+    const loadMorePosts = (request: CursorPagedRequest, doCleanPosts: boolean): void => {
 
-        if (noMorePosts && cleanPosts !== true) {
+        if (noMorePosts && !doCleanPosts) {
             return;
         }
 
@@ -67,7 +67,7 @@ const BlogReel = ({
                 setNoMorePosts(true);
             }
 
-            if (cleanPosts) {
+            if (doCleanPosts) {
                 setPosts(result.items);
             } else {
                 setPosts(posts.concat(result.items));

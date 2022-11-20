@@ -165,7 +165,6 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
         } else {
             notifyUser("Please select image.", "info");
         }
-        ;
     }
 
     const handleDeleteAvatar = () => {

@@ -1,5 +1,5 @@
-import {Alert, AlertColor, Snackbar, SnackbarCloseReason} from '@mui/material';
-import React, {SyntheticEvent} from 'react';
+import {Alert, AlertColor, Snackbar} from '@mui/material';
+import React from 'react';
 
 interface SnackbarProps {
     isOpen: boolean,
@@ -16,7 +16,7 @@ const CustomSnackbar = ({
                             closeHandler
                         }: SnackbarProps) => {
 
-    const onClose = (event: Event | SyntheticEvent<any, Event>, reason: SnackbarCloseReason) => {
+    const onClose = () => {
         closeHandler();
     }
 

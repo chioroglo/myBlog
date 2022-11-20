@@ -63,7 +63,7 @@ const LoginForm = () => {
             password: "",
             rememberMe: false
         },
-        onSubmit: async (values, formikHelpers) => {
+        onSubmit: async (values) => {
             setLoading(true);
             const result = await authApi.TryAuthenticateAndPayloadInHeaders({...values}, values.rememberMe);
 
