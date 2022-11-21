@@ -255,7 +255,8 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                 </DialogContent>
 
                 <DialogActions>
-                    <Button disabled={JSON.stringify(formik.values)  === JSON.stringify(formik.initialValues)} type={"submit"}>Update</Button>
+                    <Button disabled={JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)}
+                            type={"submit"}>Update</Button>
                     <Button onClick={() => setModalOpen(false)}>Go back</Button>
                 </DialogActions>
             </form>

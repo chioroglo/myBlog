@@ -64,11 +64,11 @@ export class authApi {
 
     static logout(): void {
 
-        const claimNames = [JwtTokenKeyName,UserIdTokenKeyName,UsernameTokenKeyName,AvatarTokenKeyName];
+        const claimNames = [JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName, AvatarTokenKeyName];
 
         claimNames.forEach(claim => {
-           localStorage.removeItem(claim);
-           sessionStorage.removeItem(claim);
+            localStorage.removeItem(claim);
+            sessionStorage.removeItem(claim);
         });
     }
 
