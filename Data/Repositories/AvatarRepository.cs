@@ -9,12 +9,11 @@ namespace DAL.Repositories
     {
         public AvatarRepository(BlogDbContext db) : base(db)
         {
-
         }
 
-        public async Task<Avatar?> GetByUserIdAsync(int userId,CancellationToken cancellationToken)
+        public async Task<Avatar?> GetByUserIdAsync(int userId, CancellationToken cancellationToken)
         {
-            var avatarInfo =  await _db.Avatars.Where(a => a.UserId == userId).FirstOrDefaultAsync(cancellationToken);
+            var avatarInfo = await _db.Avatars.Where(a => a.UserId == userId).FirstOrDefaultAsync(cancellationToken);
 
             return avatarInfo;
         }

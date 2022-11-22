@@ -8,6 +8,7 @@ namespace Service.Abstract
     {
         public Task<IEnumerable<Comment>> GetCommentsByPostId(int postId, CancellationToken cancellationToken);
 
-        Task<CursorPagedResult<Comment>> GetCursorPageAsync(CursorPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties);
+        Task<CursorPagedResult<Comment>> GetCursorPageAsync(CursorPagedRequest query,
+            CancellationToken cancellationToken, params Expression<Func<Comment, object>>[] includeProperties);
     }
 }

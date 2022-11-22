@@ -5,6 +5,5 @@ namespace DAL.Repositories.Abstract
 {
     public interface IUserRepository : IBaseRepository<User>
     {
-
     }
 }

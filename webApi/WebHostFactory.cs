@@ -7,12 +7,12 @@ namespace API
         public static IHostBuilder CreateHostBuilderUsingStartupAndLogging()
         {
             return Host.CreateDefaultBuilder()
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-                webBuilder.ConfigureLogging(e => e.ClearProviders());
-            })
-            .UseNLog();
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureLogging(e => e.ClearProviders());
+                })
+                .UseNLog();
         }
     }
 }

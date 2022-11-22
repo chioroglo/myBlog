@@ -1,6 +1,6 @@
 ﻿namespace Common.Dto.Paging.CursorPaging
 {
-    public class CursorPagedResult<T> where T: class
+    public class CursorPagedResult<T> where T : class
     {
         public int PageSize { get; set; }
 

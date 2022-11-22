@@ -14,7 +14,7 @@ namespace API.Controllers.Base
 
         protected AppBaseController(IUserService userService)
         {
-           _userService = userService;
+            _userService = userService;
         }
 
         [NonAction]
@@ -25,10 +25,7 @@ namespace API.Controllers.Base
 
         protected async Task UpdateAuthorizedUserLastActivity(CancellationToken cancellationToken)
         {
-            if (HttpContext.User != null)
-            {
-                await _userService.UpdateLastActivity(GetCurrentUserId(), cancellationToken);
-            }
+            await _userService.UpdateLastActivity(GetCurrentUserId(), cancellationToken);
         }
     }
 }

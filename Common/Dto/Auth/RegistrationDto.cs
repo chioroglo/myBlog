@@ -5,7 +5,6 @@ namespace Common.Dto.Auth
 {
     public class RegistrationDto
     {
-
         [Required]
         [MinLength(UsernameMinLength)]
         [MaxLength(UsernameMaxLength)]

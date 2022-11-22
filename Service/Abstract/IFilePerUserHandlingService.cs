@@ -10,6 +10,7 @@ namespace Service.Abstract
 
         Task RemoveAsync(int issuerId, CancellationToken cancellationToken);
 
-        Task<string> UpdateFileAsyncAndRetrieveFileName(IFormFile file, int userId, CancellationToken cancellationToken);
+        Task<string> UpdateFileAsyncAndRetrieveFileName(IFormFile file, int userId,
+            CancellationToken cancellationToken);
     }
 }

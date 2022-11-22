@@ -23,14 +23,15 @@ namespace Service
             _avatarRepository = avatarRepository;
             _webHostEnvironment = webHostEnvironment;
             _uploadSubDirectoryInWwwRoot = "data";
-            _absoluteDirectoryPath = Path.Combine(_webHostEnvironment.WebRootPath, _uploadSubDirectoryInWwwRoot, nameof(Avatar));
+            _absoluteDirectoryPath = Path.Combine(_webHostEnvironment.WebRootPath, _uploadSubDirectoryInWwwRoot,
+                nameof(Avatar));
             _relativePathInWwwRoot = Path.Combine(_uploadSubDirectoryInWwwRoot, nameof(Avatar));
         }
 
-        public async Task<string> AddAsyncAndRetrieveFileName(IFormFile image, int userId,CancellationToken cancellationToken)
+        public async Task<string> AddAsyncAndRetrieveFileName(IFormFile image, int userId,
+            CancellationToken cancellationToken)
         {
-                
-            if (await _avatarRepository.GetByUserIdAsync(userId,cancellationToken) != null)
+            if (await _avatarRepository.GetByUserIdAsync(userId, cancellationToken) != null)
             {
                 throw new ValidationException("This user already has an avatar uploaded!");
             }
@@ -42,9 +43,9 @@ namespace Service
                 Directory.CreateDirectory(_absoluteDirectoryPath);
             }
 
-            string fileName = ComposeFileNameWithExtension(image, userId);
-            string absolutePath = ComposeAbsolutePath(fileName);
-            
+            var fileName = ComposeFileNameWithExtension(image, userId);
+            var absolutePath = ComposeAbsolutePath(fileName);
+
             await image.CopyInPathOnDiskAsync(absolutePath);
 
             var entity = new Avatar()
@@ -53,15 +54,15 @@ namespace Service
                 Url = fileName
             };
 
-            await _avatarRepository.AddAsync(entity,cancellationToken);
+            await _avatarRepository.AddAsync(entity, cancellationToken);
 
-            return Path.Combine(_relativePathInWwwRoot,fileName);
+            return Path.Combine(_relativePathInWwwRoot, fileName);
         }
 
         public async Task<string> GetFileNameByUserIdAsync(int userId, CancellationToken cancellationToken)
         {
             var avatarInfo = await GetAvatarInfoAsync(userId, cancellationToken);
-            
+
             if (avatarInfo == null)
             {
                 return String.Empty;
@@ -71,8 +72,9 @@ namespace Service
 
             return Path.Combine(_relativePathInWwwRoot, fileName);
         }
-        
-        public async Task<string> UpdateFileAsyncAndRetrieveFileName(IFormFile image, int userId, CancellationToken cancellationToken)
+
+        public async Task<string> UpdateFileAsyncAndRetrieveFileName(IFormFile image, int userId,
+            CancellationToken cancellationToken)
         {
             ValidateImageSize(image);
 
@@ -93,35 +95,36 @@ namespace Service
             avatarInfo.Url = fileName;
             await _avatarRepository.Update(avatarInfo, cancellationToken);
 
-            
+
             return Path.Combine(_relativePathInWwwRoot, fileName);
         }
-        
+
         public async Task RemoveAsync(int userId, CancellationToken cancellationToken)
         {
-            var avatarInfo = await GetAvatarInfoAsync(userId,cancellationToken);
-            
+            var avatarInfo = await GetAvatarInfoAsync(userId, cancellationToken);
+
             if (avatarInfo == null)
             {
                 return;
             }
+
             var path = ComposeAbsolutePath(avatarInfo.Url);
 
             RemoveAvatarOnDisk(path);
 
-            await _avatarRepository.RemoveAsync(avatarInfo.Id,cancellationToken);
+            await _avatarRepository.RemoveAsync(avatarInfo.Id, cancellationToken);
         }
-        
+
         private async Task<Avatar?> GetAvatarInfoAsync(int userId, CancellationToken cancellationToken)
         {
-            var avatarInfo = await _avatarRepository.GetByUserIdAsync(userId,cancellationToken);
+            var avatarInfo = await _avatarRepository.GetByUserIdAsync(userId, cancellationToken);
 
             return avatarInfo;
         }
 
         private string ComposeFileNameWithExtension(IFormFile image, int userId)
         {
-            string relativeFilePath = userId + Path.GetExtension(image.FileName);
+            var relativeFilePath = userId + Path.GetExtension(image.FileName);
 
             return relativeFilePath;
         }
@@ -130,12 +133,12 @@ namespace Service
         {
             return Path.Combine(_absoluteDirectoryPath, relativeUrl);
         }
-        
+
         private void RemoveAvatarOnDisk(string path)
         {
-            using (new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, FileOptions.DeleteOnClose))
+            using (new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096,
+                       FileOptions.DeleteOnClose))
             {
-
             }
         }
 
@@ -152,7 +155,5 @@ namespace Service
                 }
             }
         }
-
-
     }
 }

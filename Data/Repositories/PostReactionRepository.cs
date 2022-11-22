@@ -8,7 +8,6 @@ namespace DAL.Repositories
     {
         public PostReactionRepository(BlogDbContext db) : base(db)
         {
-
         }
     }
 }

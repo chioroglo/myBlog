@@ -12,10 +12,11 @@ namespace API.Controllers.Auth
     [Route("api/register")]
     public class RegistrationController : AppBaseController
     {
-        private IRegistrationService _registrationService;
-        private IMapper _mapper;
+        private readonly IRegistrationService _registrationService;
+        private readonly IMapper _mapper;
 
-        public RegistrationController(IRegistrationService registrationService, IMapper mapper, IUserService userService) : base(userService)
+        public RegistrationController(IRegistrationService registrationService, IMapper mapper,
+            IUserService userService) : base(userService)
         {
             _registrationService = registrationService;
             _mapper = mapper;
@@ -23,9 +24,10 @@ namespace API.Controllers.Auth
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<UserModel> RegisterAsync([FromBody] RegistrationDto registrationData,CancellationToken cancellationToken)
+        public async Task<UserModel> RegisterAsync([FromBody] RegistrationDto registrationData,
+            CancellationToken cancellationToken)
         {
-            var user = await _registrationService.RegisterAsync(registrationData,cancellationToken);
+            var user = await _registrationService.RegisterAsync(registrationData, cancellationToken);
 
             return _mapper.Map<UserModel>(user);
         }

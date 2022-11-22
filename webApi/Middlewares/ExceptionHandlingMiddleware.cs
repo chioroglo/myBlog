@@ -23,36 +23,36 @@ namespace API.Middlewares
             {
                 await _next(context);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.LogError(e.ToString());
 
                 switch (e)
                 {
                     case ValidationException:
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                            break;
-                        }
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        break;
+                    }
                     case AuthenticationException:
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                            break;
-                        }
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        break;
+                    }
                     case InsufficientPermissionsException:
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                            break;
-                        }
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        break;
+                    }
                     case OperationCanceledException:
-                        {
-                            return;
-                        }
+                    {
+                        return;
+                    }
                     default:
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                            break;
-                        }
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        break;
+                    }
                 }
 
                 await CreateExceptionResponseAsync(context, e);
@@ -65,7 +65,7 @@ namespace API.Middlewares
 
             return context.Response.WriteAsync(
                 new ErrorDetails(context.Response.StatusCode, e.Message).ToString()
-                );
+            );
         }
     }
 }

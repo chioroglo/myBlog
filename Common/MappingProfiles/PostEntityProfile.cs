@@ -23,7 +23,8 @@ namespace Common.MappingProfiles
                 .ForMember(dst => dst.Title,
                     opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Content, opt => opt.MapFrom(src => src.Content))
-                .ForMember(dst => dst.Topic, opt => opt.MapFrom(src => String.IsNullOrWhiteSpace(src.Topic) ? null : src.Topic));
+                .ForMember(dst => dst.Topic,
+                    opt => opt.MapFrom(src => String.IsNullOrWhiteSpace(src.Topic) ? null : src.Topic));
         }
     }
 }

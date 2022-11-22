@@ -21,11 +21,10 @@ namespace Common.MappingProfiles
                 .ForMember(e => e.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(e => e.PostId, opt => opt.MapFrom(src => src.PostId))
                 .ForMember(e => e.ReactionType, opt => opt.MapFrom(src => src.ReactionType));
-                
+
             CreateMap<PostReactionDto, PostReactionModel>()
                 .ForMember(e => e.PostId, opt => opt.MapFrom(src => src.PostId))
                 .ForMember(e => e.ReactionType, opt => opt.MapFrom(src => src.ReactionType));
-
         }
     }
 }

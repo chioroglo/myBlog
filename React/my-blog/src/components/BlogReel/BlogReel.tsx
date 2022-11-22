@@ -121,7 +121,7 @@ const BlogReel = ({
                     </Box>)
             }
 
-            {isLoading ?
+            {isLoading && posts.length === 0 ?
                 <CenteredLoader/>
                 :
                 posts.length === 0 ?

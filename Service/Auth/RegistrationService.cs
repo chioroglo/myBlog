@@ -21,7 +21,6 @@ namespace Service.Auth
 
         public async Task<User> RegisterAsync(RegistrationDto registerData, CancellationToken cancellationToken)
         {
-
             if (await IsNicknameOccupied(registerData.Username, cancellationToken))
             {
                 throw new ValidationException($"Username {registerData.Username} is occupied");
@@ -32,25 +31,28 @@ namespace Service.Auth
                 throw new ValidationException($"Passwords do not match");
             }
 
-            User newUserEntity = _mapper.Map<User>(registerData);
+            var newUserEntity = _mapper.Map<User>(registerData);
 
             await _userRepository.AddAsync(newUserEntity, cancellationToken);
 
             await _userRepository.SaveChangesAsync();
 
-            var newlyCreatedUser = (await _userRepository.GetWhereAsync(u => u.Username == newUserEntity.Username,cancellationToken)).FirstOrDefault();
+            var newlyCreatedUser =
+                (await _userRepository.GetWhereAsync(u => u.Username == newUserEntity.Username, cancellationToken))
+                .FirstOrDefault();
 
             return newlyCreatedUser;
         }
 
         private async Task<bool> IsNicknameOccupied(string username, CancellationToken cancellationToken)
         {
-            IEnumerable<User> requestOfUserOfProvidedNickname = await _userRepository.GetWhereAsync(u => u.Username == username, cancellationToken);
+            var requestOfUserOfProvidedNickname =
+                await _userRepository.GetWhereAsync(u => u.Username == username, cancellationToken);
 
             return requestOfUserOfProvidedNickname.Any();
         }
 
-        private bool PasswordsDoNotMatch(string actualPassword,string confirmationPassword)
+        private bool PasswordsDoNotMatch(string actualPassword, string confirmationPassword)
         {
             return actualPassword != confirmationPassword;
         }

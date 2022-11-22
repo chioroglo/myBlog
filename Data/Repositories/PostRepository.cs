@@ -9,12 +9,11 @@ namespace DAL.Repositories
     {
         public PostRepository(BlogDbContext db) : base(db)
         {
-
         }
 
         public async Task<Post?> GetByTitleAsync(string title, CancellationToken cancellationToken)
         {
-            var found = await _db.Posts.Where(e => e.Title == title).FirstOrDefaultAsync(cancellationToken); 
+            var found = await _db.Posts.Where(e => e.Title == title).FirstOrDefaultAsync(cancellationToken);
 
             return found;
         }

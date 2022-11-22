@@ -10,7 +10,7 @@ namespace API.Controllers
     public class AvatarController : AppBaseController
     {
         private readonly IFilePerUserHandlingService _avatarService;
-        private UriBuilder _uriBuilder;
+        private readonly UriBuilder _uriBuilder;
 
         public AvatarController(IFilePerUserHandlingService avatarService, IUserService userService) : base(userService)
         {
@@ -24,26 +24,28 @@ namespace API.Controllers
         {
             SupplyWithApplicationUrl(_uriBuilder);
 
-            var fileName = await _avatarService.GetFileNameByUserIdAsync(userId,cancellationToken);
-            
+            var fileName = await _avatarService.GetFileNameByUserIdAsync(userId, cancellationToken);
+
             _uriBuilder.Path = fileName;
 
             return _uriBuilder.ToString();
         }
-        
+
         [HttpPost]
-        public async Task<string> UploadAvatarAndReturnLinkAsync([FromForm] AvatarDto request, CancellationToken cancellationToken)
-            {
+        public async Task<string> UploadAvatarAndReturnLinkAsync([FromForm] AvatarDto request,
+            CancellationToken cancellationToken)
+        {
             SupplyWithApplicationUrl(_uriBuilder);
             request.UserId = GetCurrentUserId();
             await UpdateAuthorizedUserLastActivity(cancellationToken);
 
-            var fileName = await _avatarService.AddAsyncAndRetrieveFileName(request.Image, request.UserId,cancellationToken);
+            var fileName =
+                await _avatarService.AddAsyncAndRetrieveFileName(request.Image, request.UserId, cancellationToken);
             _uriBuilder.Path = fileName;
 
             return _uriBuilder.ToString();
         }
-            
+
         [HttpPut]
         public async Task<string> UpdateAvatarAsync([FromForm] AvatarDto request, CancellationToken cancellationToken)
         {
@@ -51,7 +53,9 @@ namespace API.Controllers
             request.UserId = GetCurrentUserId();
             await UpdateAuthorizedUserLastActivity(cancellationToken);
 
-            var fileName = await _avatarService.UpdateFileAsyncAndRetrieveFileName(request.Image, request.UserId,cancellationToken);
+            var fileName =
+                await _avatarService.UpdateFileAsyncAndRetrieveFileName(request.Image, request.UserId,
+                    cancellationToken);
             _uriBuilder.Path = fileName;
 
             return _uriBuilder.ToString();
@@ -61,7 +65,7 @@ namespace API.Controllers
         public async Task RemoveAvatarAsync(CancellationToken cancellationToken)
         {
             await UpdateAuthorizedUserLastActivity(cancellationToken);
-            await _avatarService.RemoveAsync(GetCurrentUserId(),cancellationToken);
+            await _avatarService.RemoveAsync(GetCurrentUserId(), cancellationToken);
         }
 
         [NonAction]
@@ -69,8 +73,7 @@ namespace API.Controllers
         {
             uriBuilder.Scheme = Request.Scheme;
             uriBuilder.Host = Request.Host.Host;
-            uriBuilder.Port = (int)(Request.Host.Port ?? 80);
+            uriBuilder.Port = Request.Host.Port ?? 80;
         }
     }
-
 }

@@ -19,27 +19,24 @@ namespace API
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddHttpContextAccessor();
 
-            AuthenticationBuilder authenticationBuilder = services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+            var authenticationBuilder =
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
             authenticationBuilder.LoadConfigurationForJwtBearer(Configuration);
 
             services.AddCorsWithCustomDefaultPolicy();
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<BlogDbContext>((options =>
-            {
-                options.UseSqlServer(connectionString);
-            }),ServiceLifetime.Transient);
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<BlogDbContext>(options => { options.UseSqlServer(connectionString); },
+                ServiceLifetime.Transient);
 
             services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
             services.InitializeRepositories();
             services.InitializeServices();
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -51,7 +48,7 @@ namespace API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 OnPrepareResponse = (context) =>
@@ -69,13 +66,9 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseDatabaseTransactions(); //
-            
 
-            
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

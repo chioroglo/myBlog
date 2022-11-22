@@ -10,8 +10,8 @@ namespace DAL.DataSeed
             {
                 var _1937nkvd = new User()
                 {
-                     Username = "1937nkvd",
-                     Password = "qwerty",
+                    Username = "1937nkvd",
+                    Password = "qwerty"
                 };
 
                 var _vaflea = new User()

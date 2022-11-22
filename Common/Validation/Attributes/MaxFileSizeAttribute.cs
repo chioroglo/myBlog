@@ -24,6 +24,7 @@ namespace Common.Validation.Attributes
                     return new ValidationResult($"Maximum allowed file size is {_maxFileSizeBytes / _1KbSizeBytes} KB");
                 }
             }
+
             return ValidationResult.Success;
         }
     }

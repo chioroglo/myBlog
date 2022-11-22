@@ -16,7 +16,7 @@ namespace Service
             _postRepository = postRepository;
         }
 
-        public async Task<Post> Add(Post request,CancellationToken cancellationToken)
+        public async Task<Post> Add(Post request, CancellationToken cancellationToken)
         {
             if (await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
             {
@@ -24,19 +24,19 @@ namespace Service
             }
 
 
-            return await _postRepository.AddAsync(request,cancellationToken);
+            return await _postRepository.AddAsync(request, cancellationToken);
         }
 
         public async Task<IEnumerable<Post>> GetAllAsync(CancellationToken cancellationToken)
         {
             var result = await _postRepository.GetAllAsync(cancellationToken);
-            
+
             return result;
         }
 
         public async Task<Post> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var result = await _postRepository.GetByIdAsync(id,cancellationToken);
+            var result = await _postRepository.GetByIdAsync(id, cancellationToken);
 
             if (result == null)
             {
@@ -46,9 +46,9 @@ namespace Service
             return result;
         }
 
-        public async Task RemoveAsync(int postId,int issuerId, CancellationToken cancellationToken)
+        public async Task RemoveAsync(int postId, int issuerId, CancellationToken cancellationToken)
         {
-            var post = await _postRepository.GetByIdAsync(postId,cancellationToken);
+            var post = await _postRepository.GetByIdAsync(postId, cancellationToken);
 
             if (post == null)
             {
@@ -60,46 +60,50 @@ namespace Service
                 throw new InsufficientPermissionsException($"This {nameof(Post)} does not belong to authorized user");
             }
 
-            await _postRepository.RemoveAsync(postId,cancellationToken);
+            await _postRepository.RemoveAsync(postId, cancellationToken);
         }
 
         public async Task<Post> UpdateAsync(Post request, CancellationToken cancellationToken)
         {
-            int postId = request.Id;
+            var postId = request.Id;
 
-            var post = await _postRepository.GetByIdAsync(postId,cancellationToken);
+            var post = await _postRepository.GetByIdAsync(postId, cancellationToken);
 
             if (post == null)
             {
                 throw new ValidationException($"{nameof(Post)} of {nameof(Post)}Id {postId} was not found");
             }
 
-            if (post.Title != request.Title && await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
+            if (post.Title != request.Title &&
+                await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
             {
                 throw new ValidationException($"Title {request.Title} is occupied");
             }
 
             if (request.UserId != post.UserId)
             {
-                throw new InsufficientPermissionsException($"Authorized user has no privileges to edit this {nameof(Post)} postID:{postId}");
+                throw new InsufficientPermissionsException(
+                    $"Authorized user has no privileges to edit this {nameof(Post)} postID:{postId}");
             }
-            
+
             post.Title = request.Title;
             post.Topic = request.Topic;
             post.Content = request.Content;
 
 
-            return await _postRepository.Update(post,cancellationToken);
+            return await _postRepository.Update(post, cancellationToken);
         }
 
-        public async Task<Post> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
+        public async Task<Post> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken,
+            params Expression<Func<Post, object>>[] includeProperties)
         {
             var post = await _postRepository.GetByIdWithIncludeAsync(id, cancellationToken, includeProperties);
 
             return post ?? throw new ValidationException($"{nameof(Post)} of ID: {id} does not exist");
         }
 
-        public async Task<CursorPagedResult<Post>> GetCursorPageAsync(CursorPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
+        public async Task<CursorPagedResult<Post>> GetCursorPageAsync(CursorPagedRequest query,
+            CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties)
         {
             var pagedPosts = await _postRepository.GetCursorPagedData(query, cancellationToken, includeProperties);
 

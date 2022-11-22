@@ -8,7 +8,6 @@ namespace DAL.Repositories
     {
         public UserRepository(BlogDbContext db) : base(db)
         {
-
         }
     }
 }

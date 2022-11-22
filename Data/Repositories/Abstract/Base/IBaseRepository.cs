@@ -8,15 +8,18 @@ namespace DAL.Repositories.Abstract.Base
     {
         Task SaveChangesAsync();
 
-        Task<TEntity?> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken);
 
-        Task<TEntity?> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
-        
+        Task<TEntity?> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken,
+            params Expression<Func<TEntity, object>>[] includeProperties);
+
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 
-        Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
-        
-        Task<CursorPagedResult<TEntity>> GetCursorPagedData(CursorPagedRequest pagedRequest, CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
+        Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate,
+            CancellationToken cancellationToken);
+
+        Task<CursorPagedResult<TEntity>> GetCursorPagedData(CursorPagedRequest pagedRequest,
+            CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
 
         Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken);
 

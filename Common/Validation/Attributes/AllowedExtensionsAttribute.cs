@@ -18,10 +18,12 @@ namespace Common.Validation.Attributes
             {
                 var extension = Path.GetExtension(file.FileName);
 
-                if (!_extensions.Contains(extension,StringComparer.OrdinalIgnoreCase))
+                if (!_extensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                 {
                     return new ValidationResult($"Extension {extension} is not allowed!");
-                };
+                }
+
+                ;
             }
 
             return ValidationResult.Success;

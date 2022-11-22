@@ -6,6 +6,7 @@ namespace Service.Abstract
 {
     public interface IPostService : IEntityService<Post>
     {
-        Task<CursorPagedResult<Post>> GetCursorPageAsync(CursorPagedRequest query, CancellationToken cancellationToken, params Expression<Func<Post, object>>[] includeProperties);
+        Task<CursorPagedResult<Post>> GetCursorPageAsync(CursorPagedRequest query, CancellationToken cancellationToken,
+            params Expression<Func<Post, object>>[] includeProperties);
     }
 }

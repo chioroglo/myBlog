@@ -13,7 +13,8 @@ namespace API.Controllers.Auth
         private readonly IAuthenticationService _authenticationService;
         private readonly ITokenService _tokenService;
 
-        public AuthenticationController(IAuthenticationService authenticationService, ITokenService tokenService, IUserService userService) : base(userService)
+        public AuthenticationController(IAuthenticationService authenticationService, ITokenService tokenService,
+            IUserService userService) : base(userService)
         {
             _tokenService = tokenService;
             _authenticationService = authenticationService;
@@ -21,13 +22,13 @@ namespace API.Controllers.Auth
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<AuthenticateResponse> LoginAsync([FromBody] AuthenticateRequest userData,CancellationToken cancellationToken)
+        public async Task<AuthenticateResponse> LoginAsync([FromBody] AuthenticateRequest userData,
+            CancellationToken cancellationToken)
         {
-            var authenticationResponse = await _authenticationService.AuthenticateAsync(userData,cancellationToken);
+            var authenticationResponse = await _authenticationService.AuthenticateAsync(userData, cancellationToken);
             authenticationResponse.Token = _tokenService.GenerateAccessToken(authenticationResponse);
 
             return authenticationResponse;
         }
-
     }
 }

@@ -16,7 +16,8 @@ namespace API.Controllers
         private readonly ICommentService _commentsService;
         private readonly IMapper _mapper;
 
-        public CommentsController(ICommentService commentsService, IMapper mapper, IUserService userService) : base(userService)
+        public CommentsController(ICommentService commentsService, IMapper mapper, IUserService userService) : base(
+            userService)
         {
             _commentsService = commentsService;
             _mapper = mapper;
@@ -30,8 +31,8 @@ namespace API.Controllers
             var result =
                 await _commentsService.GetByIdWithIncludeAsync(commentId, cancellationToken, e => e.User, e => e.Post);
 
-            CommentModel commentModel = _mapper.Map<CommentModel>(result);
-            
+            var commentModel = _mapper.Map<CommentModel>(result);
+
             return commentModel;
         }
 
@@ -40,14 +41,15 @@ namespace API.Controllers
         [HttpGet("[action]/{postId:int}")]
         public async Task<IEnumerable<CommentModel>> GetByPostIdAsync(int postId, CancellationToken cancellationToken)
         {
-            IEnumerable<Comment> comments = await _commentsService.GetCommentsByPostId(postId,cancellationToken);
+            var comments = await _commentsService.GetCommentsByPostId(postId, cancellationToken);
 
             return comments.Select(e => _mapper.Map<CommentModel>(e)).ToList();
         }
 
 
         [HttpPost]
-        public async Task<CommentModel> CreateCommentAsync([FromBody] CommentDto request, CancellationToken cancellationToken)
+        public async Task<CommentModel> CreateCommentAsync([FromBody] CommentDto request,
+            CancellationToken cancellationToken)
         {
             var commentEntity = _mapper.Map<Comment>(request);
 
@@ -55,21 +57,22 @@ namespace API.Controllers
 
             await UpdateAuthorizedUserLastActivity(cancellationToken);
 
-            var newlyCreatedComment = await _commentsService.Add(commentEntity,cancellationToken);
+            var newlyCreatedComment = await _commentsService.Add(commentEntity, cancellationToken);
 
             return _mapper.Map<CommentModel>(newlyCreatedComment);
         }
 
-        
+
         [HttpPut("{commentId:int}")]
-        public async Task<CommentModel> EditCommentAsync(int commentId, [FromBody] CommentDto updateRequest, CancellationToken cancellationToken)
+        public async Task<CommentModel> EditCommentAsync(int commentId, [FromBody] CommentDto updateRequest,
+            CancellationToken cancellationToken)
         {
             var commentEntity = _mapper.Map<Comment>(updateRequest);
 
             commentEntity.Id = commentId;
             commentEntity.UserId = GetCurrentUserId();
 
-            var updatedComment = await _commentsService.UpdateAsync(commentEntity,cancellationToken);
+            var updatedComment = await _commentsService.UpdateAsync(commentEntity, cancellationToken);
 
             return _mapper.Map<CommentModel>(updatedComment);
         }
@@ -81,14 +84,15 @@ namespace API.Controllers
 
             await UpdateAuthorizedUserLastActivity(cancellationToken);
 
-            await _commentsService.RemoveAsync(commentId,currentUserId,cancellationToken);
+            await _commentsService.RemoveAsync(commentId, currentUserId, cancellationToken);
         }
 
         [AllowAnonymous]
         [HttpPost("paginated-search-cursor")]
-        public async Task<CursorPagedResult<CommentModel>> GetPageWithUserAsync([FromBody] CursorPagedRequest query, CancellationToken cancellationToken)
+        public async Task<CursorPagedResult<CommentModel>> GetPageWithUserAsync([FromBody] CursorPagedRequest query,
+            CancellationToken cancellationToken)
         {
-            var result = await _commentsService.GetCursorPageAsync(query, cancellationToken,e => e.User,e => e.Post);
+            var result = await _commentsService.GetCursorPageAsync(query, cancellationToken, e => e.User, e => e.Post);
 
 
             return new CursorPagedResult<CommentModel>()

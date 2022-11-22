@@ -9,11 +9,8 @@ namespace Common.Dto.Post
         [MaxLength(PostTitleMaxLength)]
         public string Title { get; set; }
 
-        [Required]
-        [MaxLength(PostMaxLength)]
-        public string Content { get; set; }
+        [Required] [MaxLength(PostMaxLength)] public string Content { get; set; }
 
-        [MaxLength(MaxTopicNameLength)]
-        public string? Topic { get; set; }
+        [MaxLength(MaxTopicNameLength)] public string? Topic { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace API.Extensions
 
                     return host;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     throw new Exception("error occurred during migration");
                 }

@@ -5,9 +5,7 @@ namespace Common.Dto.PostReaction
 {
     public class PostReactionDto
     {
-
-        [Required]
-        public int PostId { get; set; }
+        [Required] public int PostId { get; set; }
 
         [Required]
         [EnumDataType(typeof(ReactionType))]

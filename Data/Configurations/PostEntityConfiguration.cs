@@ -10,7 +10,6 @@ namespace DAL.Configurations
     {
         public override void ConfigureNonPkProperties(EntityTypeBuilder<Post> builder)
         {
-
             builder.ToTable(nameof(Post));
 
             builder.Property(e => e.Content)

@@ -12,7 +12,7 @@ namespace Service.Auth
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _config;
-            
+
         public TokenService(IConfiguration configuration)
         {
             _config = configuration;
@@ -25,14 +25,14 @@ namespace Service.Auth
 
             var claims = new Claim[]
             {
-                new Claim(TokenClaimNames.Id,userData.Id.ToString()),
-                new Claim(TokenClaimNames.Username,userData.Username),
+                new Claim(TokenClaimNames.Id, userData.Id.ToString()),
+                new Claim(TokenClaimNames.Username, userData.Username)
             };
 
             var token = new JwtSecurityToken(
-                issuer:_config["Jwt:Issuer"],
-                audience:_config["Jwt:Audience"],
-                claims: claims, 
+                _config["Jwt:Issuer"],
+                _config["Jwt:Audience"],
+                claims,
                 expires: DateTime.UtcNow.AddMinutes(TokenClaimNames.SessionTimeInMinutes),
                 signingCredentials: credentials);
 

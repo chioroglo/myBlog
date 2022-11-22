@@ -5,6 +5,6 @@ namespace DAL.Repositories.Abstract
 {
     public interface IAvatarRepository : IBaseRepository<Avatar>
     {
-        Task<Avatar?> GetByUserIdAsync(int userId,CancellationToken cancellationToken);
+        Task<Avatar?> GetByUserIdAsync(int userId, CancellationToken cancellationToken);
     }
 }

@@ -14,7 +14,7 @@ namespace API.Controllers
     {
         private readonly IMapper _mapper;
 
-        public UsersController(IUserService userService, IMapper mapper)  : base(userService)
+        public UsersController(IUserService userService, IMapper mapper) : base(userService)
         {
             _mapper = mapper;
         }
@@ -50,9 +50,9 @@ namespace API.Controllers
 
 
         [HttpPatch]
-        public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUserAsync([FromBody] UserInfoDto newProfileInfo, CancellationToken cancellationToken)
+        public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUserAsync([FromBody] UserInfoDto newProfileInfo,
+            CancellationToken cancellationToken)
         {
-
             var mappedRequest = _mapper.Map<User>(newProfileInfo);
 
             await UpdateAuthorizedUserLastActivity(cancellationToken);
@@ -63,6 +63,5 @@ namespace API.Controllers
 
             return _mapper.Map<UserModel>(updatedUser);
         }
-
     }
 }

@@ -6,6 +6,6 @@ namespace Service.Abstract
     {
         Task<IEnumerable<PostReaction>> GetByPostId(int postId, CancellationToken cancellationToken);
 
-        Task RemoveByPostId(int issuerId,int postId, CancellationToken cancellationToken);
+        Task RemoveByPostId(int issuerId, int postId, CancellationToken cancellationToken);
     }
 }

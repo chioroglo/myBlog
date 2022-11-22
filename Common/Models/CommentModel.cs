@@ -13,6 +13,5 @@ namespace Common.Models
         public string AuthorUsername { get; set; }
 
         public string Content { get; set; }
-
     }
 }

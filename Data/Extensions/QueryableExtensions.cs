@@ -11,12 +11,14 @@ namespace DAL.Extensions
 {
     public static class QueryableExtensions
     {
-        public async static Task<CursorPagedResult<TEntity>> CreateCursorPagedResultAsync<TEntity>(this IQueryable<TEntity> query,CursorPagedRequest pagedRequest, CancellationToken cancellationToken)
+        public async static Task<CursorPagedResult<TEntity>> CreateCursorPagedResultAsync<TEntity>(
+            this IQueryable<TEntity> query, CursorPagedRequest pagedRequest, CancellationToken cancellationToken)
             where TEntity : BaseEntity
         {
             if (pagedRequest.PageSize <= 0)
             {
-                throw new ValidationException($"Negative pagination offsets introduced! PageSize: {pagedRequest.PageSize}");
+                throw new ValidationException(
+                    $"Negative pagination offsets introduced! PageSize: {pagedRequest.PageSize}");
             }
 
             query = query.ApplyFilters(pagedRequest.RequestFilters);
@@ -25,7 +27,7 @@ namespace DAL.Extensions
 
             query = query.Sort(nameof(BaseEntity.Id), pagedRequest.GetNewer ? "ASC" : "DESC", cancellationToken);
 
-            query = PaginateCursor(query, pagedRequest.PageSize, pagedRequest.PivotElementId,pagedRequest.GetNewer);
+            query = PaginateCursor(query, pagedRequest.PageSize, pagedRequest.PivotElementId, pagedRequest.GetNewer);
 
             var listResult = await query.ToListAsync(cancellationToken);
 
@@ -34,13 +36,13 @@ namespace DAL.Extensions
                 Items = listResult,
                 PageSize = pagedRequest.PageSize,
                 Total = total,
-                HeadElementId = listResult.FirstOrDefault()?.Id ?? 0 ,
+                HeadElementId = listResult.FirstOrDefault()?.Id ?? 0,
                 TailElementId = listResult.LastOrDefault()?.Id ?? 0
             };
-
         }
-        
-        private static IQueryable<T> PaginateCursor<T>(this IQueryable<T> query,int pageSize, int? pivotElementId, bool getNewer) where T : BaseEntity
+
+        private static IQueryable<T> PaginateCursor<T>(this IQueryable<T> query, int pageSize, int? pivotElementId,
+            bool getNewer) where T : BaseEntity
         {
             if (pivotElementId != null)
             {
@@ -55,12 +57,13 @@ namespace DAL.Extensions
                 }
             }
 
-            var entities =  query.Take(pageSize);
+            var entities = query.Take(pageSize);
 
             return entities;
         }
 
-        private static IQueryable<T> Sort<T>(this IQueryable<T> query, string columnNameForSorting, string sortingDirection, CancellationToken cancellationToken)
+        private static IQueryable<T> Sort<T>(this IQueryable<T> query, string columnNameForSorting,
+            string sortingDirection, CancellationToken cancellationToken)
         {
             if (!string.IsNullOrWhiteSpace(columnNameForSorting))
             {
@@ -71,10 +74,10 @@ namespace DAL.Extensions
         }
 
         private static IQueryable<T> ApplyFilters<T>(this IQueryable<T> query, RequestFilters requestFilters)
-            {
+        {
             var predicate = new StringBuilder();
 
-            for (int i = 0; i < requestFilters.Filters.Count; i++)
+            for (var i = 0; i < requestFilters.Filters.Count; i++)
             {
                 if (i > 0)
                 {
@@ -82,7 +85,7 @@ namespace DAL.Extensions
                 }
 
 
-                bool isString = typeof(T).GetProperty(requestFilters.Filters[i].Path)?.PropertyType == typeof(string);
+                var isString = typeof(T).GetProperty(requestFilters.Filters[i].Path)?.PropertyType == typeof(string);
 
 
                 if (isString)
@@ -93,7 +96,6 @@ namespace DAL.Extensions
                 {
                     predicate.Append(requestFilters.Filters[i].Path + $" == (@{i})");
                 }
-                
             }
 
             if (requestFilters.Filters.Any())
@@ -102,7 +104,7 @@ namespace DAL.Extensions
 
                 query = query.Where(predicate.ToString(), propertyValues);
             }
-            
+
             return query;
         }
     }

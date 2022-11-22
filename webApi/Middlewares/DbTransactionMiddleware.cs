@@ -20,14 +20,14 @@ namespace API.Middlewares
                 return;
             }
 
-            using (var transaction = await dbContext.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead))
+            using (var transaction =
+                   await dbContext.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead))
             {
                 await _next(httpContext);
 
                 await dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
-
         }
     }
 }

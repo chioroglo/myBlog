@@ -18,8 +18,10 @@ namespace Common.MappingProfiles
             CreateMap<RegistrationDto, User>()
                 .ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.Username, opt => opt.MapFrom(src => src.Username))
-                .ForMember(dst => dst.FirstName, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.FirstName) ? null : src.FirstName))
-                .ForMember(dst => dst.LastName, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.LastName) ? null : src.LastName))
+                .ForMember(dst => dst.FirstName,
+                    opt => opt.MapFrom(src => string.IsNullOrEmpty(src.FirstName) ? null : src.FirstName))
+                .ForMember(dst => dst.LastName,
+                    opt => opt.MapFrom(src => string.IsNullOrEmpty(src.LastName) ? null : src.LastName))
                 .ForMember(dst => dst.Password, opt => opt.MapFrom(src => src.Password))
                 .ForMember(dst => dst.RegistrationDate, opt => opt.NullSubstitute(DateTime.UtcNow));
 
@@ -38,8 +40,10 @@ namespace Common.MappingProfiles
 
             CreateMap<UserInfoDto, User>().ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.Username, opt => opt.MapFrom(src => src.Username))
-                .ForMember(dst => dst.FirstName, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.FirstName) ? null : src.FirstName))
-                .ForMember(dst => dst.LastName, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.LastName) ? null : src.LastName))
+                .ForMember(dst => dst.FirstName,
+                    opt => opt.MapFrom(src => string.IsNullOrEmpty(src.FirstName) ? null : src.FirstName))
+                .ForMember(dst => dst.LastName,
+                    opt => opt.MapFrom(src => string.IsNullOrEmpty(src.LastName) ? null : src.LastName))
                 .ForMember(dst => dst.RegistrationDate, opt => opt.NullSubstitute(DateTime.UtcNow));
         }
     }

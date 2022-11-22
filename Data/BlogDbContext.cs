@@ -8,12 +8,10 @@ namespace DAL
     {
         public BlogDbContext()
         {
-
         }
 
         public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
         {
-
         }
 
 
@@ -26,7 +24,7 @@ namespace DAL
         public DbSet<Avatar> Avatars { get; set; }
 
         public DbSet<PostReaction> PostReactions { get; set; }
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,7 +33,6 @@ namespace DAL
             var assembly = typeof(ConfigurationsAssemblyMarker).Assembly;
 
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
-
         }
     }
 }
