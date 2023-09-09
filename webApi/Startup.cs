@@ -30,7 +30,7 @@ namespace API
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("Blog");
             services.AddDbContext<BlogDbContext>(options => { options.UseSqlServer(connectionString); },
                 ServiceLifetime.Transient);
 
