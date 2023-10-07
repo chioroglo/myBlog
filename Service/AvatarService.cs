@@ -22,6 +22,7 @@ namespace Service
         {
             _avatarRepository = avatarRepository;
             _webHostEnvironment = webHostEnvironment;
+            // TODO move this to IOptions
             _uploadSubDirectoryInWwwRoot = "data";
             _absoluteDirectoryPath = Path.Combine(_webHostEnvironment.WebRootPath, _uploadSubDirectoryInWwwRoot,
                 nameof(Avatar));

@@ -1,4 +1,5 @@
-﻿using Domain.Abstract;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Domain.Abstract;
 
 namespace Domain
 {
@@ -9,8 +10,10 @@ namespace Domain
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
-
+        [NotMapped]
         public string Password { get; set; }
+
+        public string PasswordHash { get; set; }
 
         public DateTime LastActivity { get; set; }
 

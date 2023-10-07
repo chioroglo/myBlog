@@ -26,7 +26,8 @@ namespace DAL.Configurations
             builder.Property(e => e.LastName)
                 .HasMaxLength(UserFirstAndLastNameMaxLength);
 
-            builder.Property(e => e.Password)
+            builder.Property(e => e.PasswordHash)
+                .HasMaxLength(HashedPasswordLengthSha256)
                 .IsRequired();
 
             builder.Property(e => e.LastActivity)
