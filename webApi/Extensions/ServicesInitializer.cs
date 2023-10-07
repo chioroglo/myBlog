@@ -21,7 +21,7 @@ namespace API.Extensions
         private static void AddScopedAuthServices(this IServiceCollection services)
         {
             services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IEncryptionService, EncryptionService>();
             services.AddTransient<IRegistrationService, RegistrationService>();
         }
     }
