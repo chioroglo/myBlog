@@ -7,7 +7,7 @@ namespace API
         public static async Task Main(string[] args)
         {
             var host = await WebHostFactory.CreateHostBuilderUsingStartupAndLogging().Build().SeedData();
-
+        2432423423
             await host.RunAsync();
         }
     }
