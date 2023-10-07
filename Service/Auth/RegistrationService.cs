@@ -12,11 +12,13 @@ namespace Service.Auth
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IEncryptionService _encryptionService;
 
-        public RegistrationService(IUserRepository userRepository, IMapper mapper)
+        public RegistrationService(IUserRepository userRepository, IMapper mapper, IEncryptionService encryptionService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _encryptionService = encryptionService;
         }
 
         public async Task<User> RegisterAsync(RegistrationDto registerData, CancellationToken cancellationToken)
@@ -32,7 +34,8 @@ namespace Service.Auth
             }
 
             var newUserEntity = _mapper.Map<User>(registerData);
-
+            newUserEntity.PasswordHash = _encryptionService.EncryptPassword(newUserEntity.Password);
+            
             await _userRepository.AddAsync(newUserEntity, cancellationToken);
 
             await _userRepository.SaveChangesAsync();

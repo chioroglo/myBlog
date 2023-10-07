@@ -3,6 +3,8 @@ using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
 using System.Linq.Expressions;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Service
 {
@@ -50,12 +52,14 @@ namespace Service
 
         public async Task<User> UpdateAsync(User request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken) ??
+                       throw new ValidationException($"User with ID {request.Id} was not found");
 
-            if (request.Username != null)
+            if (!request.Username.IsNullOrEmpty())
             {
-                if ((await _userRepository.GetWhereAsync(user => user.Username == request.Username, cancellationToken))
-                    .ToList().Any())
+                var newUsernameDuplicates =
+                    await _userRepository.GetWhereAsync(user => user.Username == request.Username, cancellationToken);
+                if (newUsernameDuplicates.Any())
                 {
                     throw new ValidationException($"Username {request.Username} is occupied");
                 }

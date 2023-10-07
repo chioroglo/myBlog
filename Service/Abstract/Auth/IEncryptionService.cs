@@ -2,8 +2,9 @@
 
 namespace Service.Abstract.Auth
 {
-    public interface ITokenService
+    public interface IEncryptionService
     {
         public string GenerateAccessToken(AuthenticateResponse userData);
+        public string EncryptPassword(string phrase);
     }
 }

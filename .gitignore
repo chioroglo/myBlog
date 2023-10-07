@@ -471,3 +471,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 .dll
+/.idea/.idea.webApi/.idea/.gitignore
+/.idea/.idea.webApi/.idea/.name
+/.idea/.idea.webApi/.idea/vcs.xml
+/.idea/.idea.webApi/.idea/indexLayout.xml

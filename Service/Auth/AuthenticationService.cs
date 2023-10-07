@@ -4,18 +4,26 @@ using DAL.Repositories.Abstract;
 using Service.Abstract.Auth;
 using System.Security.Authentication;
 using Common;
+using Common.Options;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Service.Auth
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private IUserRepository _userRepository;
-        private IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+        private readonly IEncryptionService _encryptionService;
+        private readonly JsonWebTokenOptions _jwtOptions;
 
-        public AuthenticationService(IUserRepository userRepository, IMapper mapper)
+        public AuthenticationService(IUserRepository userRepository, IMapper mapper,
+            IEncryptionService encryptionService, IOptions<JsonWebTokenOptions> jwtOptions)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _encryptionService = encryptionService;
+            _jwtOptions = jwtOptions.Value;
         }
 
 
@@ -25,7 +33,7 @@ namespace Service.Auth
             var response = await TryIdentifyUserAsync(userData.Username, userData.Password, cancellationToken)
                            ?? throw new AuthenticationException("Credentials were not valid");
 
-            response.AuthorizationExpirationDate = DateTime.UtcNow.AddMinutes(TokenClaimNames.SessionTimeInMinutes);
+            response.AuthorizationExpirationDate = DateTime.UtcNow.AddMinutes(_jwtOptions.ValidityTimeMinutes);
 
             return response;
         }
@@ -33,11 +41,12 @@ namespace Service.Auth
         private async Task<AuthenticateResponse> TryIdentifyUserAsync(string username, string password,
             CancellationToken cancellationToken)
         {
+            var hashedPassword = _encryptionService.EncryptPassword(password);
             var matchingUsers =
-                await _userRepository.GetWhereAsync(u => u.Username == username && u.Password == password,
+                await _userRepository.GetWhereAsync(u => u.Username == username && u.PasswordHash == hashedPassword,
                     cancellationToken);
 
-            if (!matchingUsers.Any())
+            if (matchingUsers.IsNullOrEmpty())
             {
                 return null;
             }

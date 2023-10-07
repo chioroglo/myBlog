@@ -15,7 +15,7 @@ namespace API
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,12 +31,16 @@ namespace API
             services.AddSwaggerGen();
 
             var connectionString = Configuration.GetConnectionString("Blog");
-            services.AddDbContext<BlogDbContext>(options => { options.UseSqlServer(connectionString); },
+            services.AddDbContext<BlogDbContext>(options =>
+                {
+                    options.UseSqlServer(connectionString);
+                },
                 ServiceLifetime.Transient);
 
             services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
             services.InitializeRepositories();
             services.InitializeServices();
+            services.InitializeOptions(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -68,7 +72,10 @@ namespace API
             app.UseDatabaseTransactions(); //
 
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
