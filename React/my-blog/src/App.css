@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Onest';
-    src: url(./fonts/Onest/WOFF/Onest-Regular.woff) format('woff');
+    src: url(./shared/assets/fonts/Onest/WOFF/Onest-Regular.woff) format('woff');
     /* other formats include: 'woff2', 'truetype, 'opentype',
                               'embedded-opentype', and 'svg' */
   }
