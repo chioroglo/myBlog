@@ -1,5 +1,15 @@
+@font-face {
+    font-family: 'Onest';
+    src: url(./fonts/Onest/WOFF/Onest-Regular.woff) format('woff');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+  }
+
+* {
+    font-family: 'Onest' !important;
+}
+
 a, a:active {
     color: #000;
     text-decoration: none;
-
 }
