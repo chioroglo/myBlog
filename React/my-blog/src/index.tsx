@@ -5,8 +5,9 @@ import {BrowserRouter} from 'react-router-dom';
 import {createStore} from 'redux';
 import App from './App';
 import {ApplicationState, CustomNotificationPayload, ReduxActionTypes} from './redux';
-import {AvatarTokenKeyName, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName} from './shared/config';
+import {AvatarTokenKeyName, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName, applicationTheme} from './shared/config';
 import {UserInfoCache} from "./shared/types";
+import { ThemeProvider } from '@emotion/react';
 
 
 const root = ReactDOM.createRoot(
@@ -91,8 +92,10 @@ const store = createStore(reducer);
 
 root.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
+        <ThemeProvider theme={applicationTheme}>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </ThemeProvider>
     </Provider>
 );
