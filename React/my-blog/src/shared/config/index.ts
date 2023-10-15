@@ -13,3 +13,5 @@ export const DefaultPageSize = 5
 export const DefaultAvatarGroupMaxLength = 5
 
 export const MaxAvatarSizeBytes = 100 * 1024; // 100KB synchronized with backend formal restrictions
+
+export * from "./theme"
