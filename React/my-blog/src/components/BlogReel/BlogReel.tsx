@@ -21,6 +21,7 @@ import {PostForm} from "../PostForm";
 import {EmptyReelPlate} from "../EmptyReelPlate";
 import {UserInfoCache} from "../../shared/types";
 import {CenteredLoader} from "../CenteredLoader";
+import DancingBananaGif from "../../assets/banana.gif";
 
 const BlogReel = ({
                       pageSize = DefaultPageSize,
@@ -141,12 +142,14 @@ const BlogReel = ({
 
                         {
                             noMorePosts && <Box style={{margin: "50px auto", width: "fit-content"}}>
-                                <IconButton children={<ArrowUpwardIcon fontSize={"large"}/>}
-                                            style={{margin: "0 auto", display: "block"}}
-                                            onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}/>
+                                <IconButton style={{margin: "0 auto", display: "block"}}
+                                            onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}
+                                            >
+                                    <img src={DancingBananaGif} alt="Happy Dancing Banana" />
+                                </IconButton>
                                 <Typography textAlign={"center"}>
-                                    Oops.. Looks like there is nothing for you to show<br/>
-                                    Press the arrow button to scroll to the top
+                                    Congratulations!<br/>
+                                    You've finally reached the end. There is no more posts!
                                 </Typography>
                             </Box>
                         }
