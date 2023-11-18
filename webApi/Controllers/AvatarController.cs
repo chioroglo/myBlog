@@ -38,7 +38,7 @@ namespace API.Controllers
             CancellationToken cancellationToken)
         {
             SupplyWithApplicationUrl(_uriBuilder);
-            request.UserId = GetCurrentUserId();
+            request.UserId = CurrentUserId;
 
             var fileName = await _avatarService.AddAsyncAndRetrieveFileName(request.Image, request.UserId, cancellationToken);
             _uriBuilder.Path = fileName;
@@ -51,7 +51,7 @@ namespace API.Controllers
         public async Task<string> UpdateAvatarAsync([FromForm] AvatarDto request, CancellationToken cancellationToken)
         {
             SupplyWithApplicationUrl(_uriBuilder);
-            request.UserId = GetCurrentUserId();
+            request.UserId = CurrentUserId;
 
             var fileName =
                 await _avatarService.UpdateFileAsyncAndRetrieveFileName(request.Image, request.UserId,
@@ -65,7 +65,7 @@ namespace API.Controllers
         [UpdatesUserActivity]
         public async Task RemoveAvatarAsync(CancellationToken cancellationToken)
         {
-            await _avatarService.RemoveAsync(GetCurrentUserId(), cancellationToken);
+            await _avatarService.RemoveAsync(CurrentUserId, cancellationToken);
         }
 
         [NonAction]

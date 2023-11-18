@@ -18,12 +18,5 @@ namespace API.Controllers.Base
         }
 
         protected int CurrentUserId => Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
-
-        [NonAction]
-        // TODO: write this as C# property
-        protected int GetCurrentUserId()
-        {
-            return Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
-        }
     }
 }

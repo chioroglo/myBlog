@@ -41,12 +41,12 @@ namespace API.Controllers
             CancellationToken cancellationToken)
         {
             var request = _mapper.Map<PostReaction>(dto);
-            request.UserId = GetCurrentUserId();
+            request.UserId = CurrentUserId;
 
             await _postReactionService.Add(request, cancellationToken);
 
             var newlyCreatedReaction = _mapper.Map<PostReactionModel>(dto);
-            newlyCreatedReaction.UserId = GetCurrentUserId();
+            newlyCreatedReaction.UserId = CurrentUserId;
 
             return newlyCreatedReaction;
         }
@@ -57,7 +57,7 @@ namespace API.Controllers
             CancellationToken cancellationToken)
         {
             var request = _mapper.Map<PostReaction>(dto);
-            request.UserId = GetCurrentUserId();
+            request.UserId = CurrentUserId;
 
             var editedReaction = await _postReactionService.UpdateAsync(request, cancellationToken);
 
@@ -68,7 +68,7 @@ namespace API.Controllers
         [UpdatesUserActivity]
         public async Task RemoveReactionByPostIdAsync(int postId, CancellationToken cancellationToken)
         {
-            await _postReactionService.RemoveByPostId(GetCurrentUserId(), postId, cancellationToken);
+            await _postReactionService.RemoveByPostId(CurrentUserId, postId, cancellationToken);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace API.Controllers
             CancellationToken cancellationToken)
         {
             var commentEntity = _mapper.Map<Comment>(request);
-            commentEntity.UserId = GetCurrentUserId();
+            commentEntity.UserId = CurrentUserId;
 
             var newlyCreatedComment = await _commentsService.Add(commentEntity, cancellationToken);
 
@@ -70,7 +70,7 @@ namespace API.Controllers
             var commentEntity = _mapper.Map<Comment>(updateRequest);
 
             commentEntity.Id = commentId;
-            commentEntity.UserId = GetCurrentUserId();
+            commentEntity.UserId = CurrentUserId;
 
             var updatedComment = await _commentsService.UpdateAsync(commentEntity, cancellationToken);
 
@@ -81,7 +81,7 @@ namespace API.Controllers
         [UpdatesUserActivity]
         public async Task DeleteCommentAsync(int commentId, CancellationToken cancellationToken)
         {
-            var currentUserId = GetCurrentUserId();
+            var currentUserId = CurrentUserId;
             await _commentsService.RemoveAsync(commentId, currentUserId, cancellationToken);
         }
 

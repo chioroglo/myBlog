@@ -41,7 +41,7 @@ namespace API.Controllers
             CancellationToken cancellationToken)
         {
             var request = _mapper.Map<Post>(postContent);
-            request.UserId = GetCurrentUserId();
+            request.UserId = CurrentUserId;
             var createdPost = await _postsService.Add(request, cancellationToken);
             return _mapper.Map<PostModel>(createdPost);
         }
@@ -53,7 +53,7 @@ namespace API.Controllers
         {
             var request = _mapper.Map<Post>(post);
             request.Id = postId;
-            request.UserId = GetCurrentUserId();
+            request.UserId = CurrentUserId;
 
             var updatedPost = await _postsService.UpdateAsync(request, cancellationToken);
 
@@ -64,7 +64,7 @@ namespace API.Controllers
         [UpdatesUserActivity]
         public async Task DeletePostByIdAsync(int postId, CancellationToken cancellationToken)
         {
-            await _postsService.RemoveAsync(postId, GetCurrentUserId(), cancellationToken);
+            await _postsService.RemoveAsync(postId, CurrentUserId, cancellationToken);
         }
 
         [AllowAnonymous]
