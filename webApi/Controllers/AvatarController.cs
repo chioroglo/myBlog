@@ -33,26 +33,25 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [UpdatesUserActivity]
         public async Task<string> UploadAvatarAndReturnLinkAsync([FromForm] AvatarDto request,
             CancellationToken cancellationToken)
         {
             SupplyWithApplicationUrl(_uriBuilder);
             request.UserId = GetCurrentUserId();
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
 
-            var fileName =
-                await _avatarService.AddAsyncAndRetrieveFileName(request.Image, request.UserId, cancellationToken);
+            var fileName = await _avatarService.AddAsyncAndRetrieveFileName(request.Image, request.UserId, cancellationToken);
             _uriBuilder.Path = fileName;
 
             return _uriBuilder.ToString();
         }
 
         [HttpPut]
+        [UpdatesUserActivity]
         public async Task<string> UpdateAvatarAsync([FromForm] AvatarDto request, CancellationToken cancellationToken)
         {
             SupplyWithApplicationUrl(_uriBuilder);
             request.UserId = GetCurrentUserId();
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             var fileName =
                 await _avatarService.UpdateFileAsyncAndRetrieveFileName(request.Image, request.UserId,
@@ -63,13 +62,14 @@ namespace API.Controllers
         }
 
         [HttpDelete]
+        [UpdatesUserActivity]
         public async Task RemoveAvatarAsync(CancellationToken cancellationToken)
         {
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
             await _avatarService.RemoveAsync(GetCurrentUserId(), cancellationToken);
         }
 
         [NonAction]
+        // Do this as property
         private void SupplyWithApplicationUrl(UriBuilder uriBuilder)
         {
             uriBuilder.Scheme = Request.Scheme;

@@ -1,4 +1,5 @@
 ﻿using API.Controllers.Base;
+using API.Filters;
 using AutoMapper;
 using Common.Dto.PostReaction;
 using Common.Models;
@@ -35,11 +36,10 @@ namespace API.Controllers
 
 
         [HttpPost]
+        [UpdatesUserActivity]
         public async Task<PostReactionModel> CreateReactionAsync([FromBody] PostReactionDto dto,
             CancellationToken cancellationToken)
         {
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
-
             var request = _mapper.Map<PostReaction>(dto);
             request.UserId = GetCurrentUserId();
 
@@ -52,11 +52,10 @@ namespace API.Controllers
         }
 
         [HttpPut]
+        [UpdatesUserActivity]
         public async Task<PostReactionModel> EditReactionAsync([FromBody] PostReactionDto dto,
             CancellationToken cancellationToken)
         {
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
-
             var request = _mapper.Map<PostReaction>(dto);
             request.UserId = GetCurrentUserId();
 
@@ -66,9 +65,9 @@ namespace API.Controllers
         }
 
         [HttpDelete("{postId:int}")]
+        [UpdatesUserActivity]
         public async Task RemoveReactionByPostIdAsync(int postId, CancellationToken cancellationToken)
         {
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
             await _postReactionService.RemoveByPostId(GetCurrentUserId(), postId, cancellationToken);
         }
     }

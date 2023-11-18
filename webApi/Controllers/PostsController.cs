@@ -47,13 +47,13 @@ namespace API.Controllers
         }
 
         [HttpPut("{postId:int}")]
+        [UpdatesUserActivity]
         public async Task<PostModel> UpdatePostByIdAsync(int postId, [FromBody] PostDto post,
             CancellationToken cancellationToken)
         {
             var request = _mapper.Map<Post>(post);
             request.Id = postId;
             request.UserId = GetCurrentUserId();
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
 
             var updatedPost = await _postsService.UpdateAsync(request, cancellationToken);
 
@@ -61,9 +61,9 @@ namespace API.Controllers
         }
 
         [HttpDelete("{postId:int}")]
+        [UpdatesUserActivity]
         public async Task DeletePostByIdAsync(int postId, CancellationToken cancellationToken)
         {
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
             await _postsService.RemoveAsync(postId, GetCurrentUserId(), cancellationToken);
         }
 

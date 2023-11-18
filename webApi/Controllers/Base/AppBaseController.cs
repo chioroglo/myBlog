@@ -17,15 +17,13 @@ namespace API.Controllers.Base
             _userService = userService;
         }
 
+        protected int CurrentUserId => Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
+
         [NonAction]
+        // TODO: write this as C# property
         protected int GetCurrentUserId()
         {
             return Convert.ToInt32(HttpContext.User.FindFirstValue(TokenClaimNames.Id));
-        }
-
-        protected async Task UpdateAuthorizedUserLastActivity(CancellationToken cancellationToken)
-        {
-            await _userService.UpdateLastActivity(GetCurrentUserId(), cancellationToken);
         }
     }
 }

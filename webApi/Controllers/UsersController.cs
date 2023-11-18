@@ -1,4 +1,5 @@
 ﻿using API.Controllers.Base;
+using API.Filters;
 using AutoMapper;
 using Common.Dto.User;
 using Common.Models;
@@ -50,15 +51,12 @@ namespace API.Controllers
 
 
         [HttpPatch]
+        [UpdatesUserActivity]
         public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUserAsync([FromBody] UserInfoDto newProfileInfo,
             CancellationToken cancellationToken)
         {
             var mappedRequest = _mapper.Map<User>(newProfileInfo);
-
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
-
             mappedRequest.Id = GetCurrentUserId();
-
             var updatedUser = await _userService.UpdateAsync(mappedRequest, cancellationToken);
 
             return _mapper.Map<UserModel>(updatedUser);
