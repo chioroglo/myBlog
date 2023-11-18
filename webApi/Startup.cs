@@ -21,28 +21,21 @@ namespace API
         {
             services.AddHttpContextAccessor();
 
-            var authenticationBuilder =
-                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
-            authenticationBuilder.LoadConfigurationForJwtBearer(Configuration);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .LoadConfigurationForJwtBearer(Configuration);
 
-            services.AddCorsWithPolicy(
-                Configuration.GetSection(CorsPolicyOptions.Config).Get<CorsPolicyOptions>()
-                );
-            services.AddControllers();
+            services.AddCorsWithPolicy(Configuration.GetSection(CorsPolicyOptions.Config).Get<CorsPolicyOptions>());
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            var connectionString = Configuration.GetConnectionString("Blog");
-            services.AddDbContext<BlogDbContext>(options =>
-                {
-                    options.UseSqlServer(connectionString);
-                },
-                ServiceLifetime.Transient);
+            services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Blog"))
+                , ServiceLifetime.Transient);
 
             services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
             services.InitializeRepositories();
             services.InitializeServices();
             services.InitializeOptions(Configuration);
+            services.InitializeControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

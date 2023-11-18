@@ -1,4 +1,5 @@
 ﻿using API.Controllers.Base;
+using API.Filters;
 using Common.Dto.Avatar;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

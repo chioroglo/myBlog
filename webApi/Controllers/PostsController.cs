@@ -1,4 +1,5 @@
 ﻿using API.Controllers.Base;
+using API.Filters;
 using AutoMapper;
 using Common.Dto.Paging.CursorPaging;
 using Common.Dto.Post;
@@ -35,16 +36,13 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [UpdatesUserActivity]
         public async Task<PostModel> CreatePostAsync([FromBody] PostDto postContent,
             CancellationToken cancellationToken)
         {
             var request = _mapper.Map<Post>(postContent);
-
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
             request.UserId = GetCurrentUserId();
-
             var createdPost = await _postsService.Add(request, cancellationToken);
-
             return _mapper.Map<PostModel>(createdPost);
         }
 
