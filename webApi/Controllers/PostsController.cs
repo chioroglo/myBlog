@@ -16,8 +16,8 @@ namespace API.Controllers
     {
         private readonly IPostService _postsService;
         private readonly IMapper _mapper;
-
-        public PostsController(IPostService postsService, IMapper mapper, IUserService userService) : base(userService)
+        
+        public PostsController(IPostService postsService, IMapper mapper)
         {
             _postsService = postsService;
             _mapper = mapper;

@@ -11,12 +11,11 @@ namespace API.Controllers
     public class AvatarController : AppBaseController
     {
         private readonly IFilePerUserHandlingService _avatarService;
-        private readonly UriBuilder _uriBuilder;
+        private readonly UriBuilder _uriBuilder = new UriBuilder();
 
-        public AvatarController(IFilePerUserHandlingService avatarService, IUserService userService) : base(userService)
+        public AvatarController(IFilePerUserHandlingService avatarService) 
         {
             _avatarService = avatarService;
-            _uriBuilder = new UriBuilder();
         }
 
         [AllowAnonymous]

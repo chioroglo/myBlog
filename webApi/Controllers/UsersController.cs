@@ -14,9 +14,11 @@ namespace API.Controllers
     public class UsersController : AppBaseController
     {
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public UsersController(IUserService userService, IMapper mapper) : base(userService)
+        public UsersController(IUserService userService, IMapper mapper)
         {
+            _userService = userService;
             _mapper = mapper;
         }
 
