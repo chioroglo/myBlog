@@ -1,18 +1,24 @@
-﻿namespace API.Extensions
+﻿using Common.Options;
+
+namespace API.Extensions
 {
     public static class CorsPolicyConfiguration
     {
-        public static void AddCorsWithCustomDefaultPolicy(this IServiceCollection services)
+        public static void AddCorsWithPolicy(this IServiceCollection services,CorsPolicyOptions policyConfiguration)
         {
+            if (policyConfiguration == null)
+            {
+                throw new ApplicationException("CORS Policy is not configured. Check appsettings.json");
+            } 
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
                     builder =>
                     {
                         builder
-                            .AllowAnyOrigin() // in PRODUCTION
+                            .WithOrigins(policyConfiguration.AllowedOrigins)
                             .AllowAnyHeader()
-                            .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE");
+                            .WithMethods(policyConfiguration.AllowedMethods);
                     });
             });
         }

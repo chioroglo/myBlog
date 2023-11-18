@@ -1,8 +1,8 @@
 ﻿using API.Extensions;
 using API.Extensions.Auth;
 using Common;
+using Common.Options;
 using DAL;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +25,9 @@ namespace API
                 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
             authenticationBuilder.LoadConfigurationForJwtBearer(Configuration);
 
-            services.AddCorsWithCustomDefaultPolicy();
+            services.AddCorsWithPolicy(
+                Configuration.GetSection(CorsPolicyOptions.Config).Get<CorsPolicyOptions>()
+                );
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
