@@ -1,6 +1,6 @@
 namespace Common.Options
 {
-    public class JsonWebTokenOptions : IApplicationOptions
+    public class JsonWebTokenOptions : ApplicationOptions
     {
         public static string Config => "Jwt";
         public string Key { get; set; }

@@ -1,6 +1,6 @@
 namespace Common.Options;
 
-public interface IApplicationOptions
+public abstract class ApplicationOptions
 {
     public static string Config { get; } 
 }
