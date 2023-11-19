@@ -4,7 +4,6 @@ using Common.Dto.Auth;
 using Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Service.Abstract;
 using Service.Abstract.Auth;
 
 namespace API.Controllers.Auth
@@ -15,8 +14,7 @@ namespace API.Controllers.Auth
         private readonly IRegistrationService _registrationService;
         private readonly IMapper _mapper;
 
-        public RegistrationController(IRegistrationService registrationService, IMapper mapper,
-            IUserService userService) : base(userService)
+        public RegistrationController(IRegistrationService registrationService, IMapper mapper)
         {
             _registrationService = registrationService;
             _mapper = mapper;

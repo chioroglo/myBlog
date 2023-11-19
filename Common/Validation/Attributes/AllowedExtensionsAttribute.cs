@@ -22,8 +22,6 @@ namespace Common.Validation.Attributes
                 {
                     return new ValidationResult($"Extension {extension} is not allowed!");
                 }
-
-                ;
             }
 
             return ValidationResult.Success;

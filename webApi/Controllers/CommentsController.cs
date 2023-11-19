@@ -1,4 +1,5 @@
 ﻿using API.Controllers.Base;
+using API.Filters;
 using AutoMapper;
 using Common.Dto.Comment;
 using Common.Dto.Paging.CursorPaging;
@@ -15,9 +16,8 @@ namespace API.Controllers
     {
         private readonly ICommentService _commentsService;
         private readonly IMapper _mapper;
-
-        public CommentsController(ICommentService commentsService, IMapper mapper, IUserService userService) : base(
-            userService)
+        
+        public CommentsController(ICommentService commentsService, IMapper mapper)
         {
             _commentsService = commentsService;
             _mapper = mapper;
@@ -48,14 +48,12 @@ namespace API.Controllers
 
 
         [HttpPost]
+        [UpdatesUserActivity]
         public async Task<CommentModel> CreateCommentAsync([FromBody] CommentDto request,
             CancellationToken cancellationToken)
         {
             var commentEntity = _mapper.Map<Comment>(request);
-
-            commentEntity.UserId = GetCurrentUserId();
-
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
+            commentEntity.UserId = CurrentUserId;
 
             var newlyCreatedComment = await _commentsService.Add(commentEntity, cancellationToken);
 
@@ -64,13 +62,14 @@ namespace API.Controllers
 
 
         [HttpPut("{commentId:int}")]
+        [UpdatesUserActivity]
         public async Task<CommentModel> EditCommentAsync(int commentId, [FromBody] CommentDto updateRequest,
             CancellationToken cancellationToken)
         {
             var commentEntity = _mapper.Map<Comment>(updateRequest);
 
             commentEntity.Id = commentId;
-            commentEntity.UserId = GetCurrentUserId();
+            commentEntity.UserId = CurrentUserId;
 
             var updatedComment = await _commentsService.UpdateAsync(commentEntity, cancellationToken);
 
@@ -78,12 +77,10 @@ namespace API.Controllers
         }
 
         [HttpDelete("{commentId:int}")]
+        [UpdatesUserActivity]
         public async Task DeleteCommentAsync(int commentId, CancellationToken cancellationToken)
         {
-            var currentUserId = GetCurrentUserId();
-
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
-
+            var currentUserId = CurrentUserId;
             await _commentsService.RemoveAsync(commentId, currentUserId, cancellationToken);
         }
 
@@ -95,7 +92,7 @@ namespace API.Controllers
             var result = await _commentsService.GetCursorPageAsync(query, cancellationToken, e => e.User, e => e.Post);
 
 
-            return new CursorPagedResult<CommentModel>()
+            return new CursorPagedResult<CommentModel>
             {
                 PageSize = result.PageSize,
                 Total = result.Total,

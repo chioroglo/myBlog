@@ -1,4 +1,5 @@
 ﻿using API.Controllers.Base;
+using API.Filters;
 using AutoMapper;
 using Common.Dto.PostReaction;
 using Common.Models;
@@ -15,8 +16,7 @@ namespace API.Controllers
         private readonly IPostReactionService _postReactionService;
         private readonly IMapper _mapper;
 
-        public PostReactionController(IPostReactionService postReactionService, IMapper mapper,
-            IUserService userService) : base(userService)
+        public PostReactionController(IPostReactionService postReactionService, IMapper mapper)
         {
             _postReactionService = postReactionService;
             _mapper = mapper;
@@ -35,30 +35,28 @@ namespace API.Controllers
 
 
         [HttpPost]
+        [UpdatesUserActivity]
         public async Task<PostReactionModel> CreateReactionAsync([FromBody] PostReactionDto dto,
             CancellationToken cancellationToken)
         {
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
-
             var request = _mapper.Map<PostReaction>(dto);
-            request.UserId = GetCurrentUserId();
+            request.UserId = CurrentUserId;
 
             await _postReactionService.Add(request, cancellationToken);
 
             var newlyCreatedReaction = _mapper.Map<PostReactionModel>(dto);
-            newlyCreatedReaction.UserId = GetCurrentUserId();
+            newlyCreatedReaction.UserId = CurrentUserId;
 
             return newlyCreatedReaction;
         }
 
         [HttpPut]
+        [UpdatesUserActivity]
         public async Task<PostReactionModel> EditReactionAsync([FromBody] PostReactionDto dto,
             CancellationToken cancellationToken)
         {
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
-
             var request = _mapper.Map<PostReaction>(dto);
-            request.UserId = GetCurrentUserId();
+            request.UserId = CurrentUserId;
 
             var editedReaction = await _postReactionService.UpdateAsync(request, cancellationToken);
 
@@ -66,10 +64,10 @@ namespace API.Controllers
         }
 
         [HttpDelete("{postId:int}")]
+        [UpdatesUserActivity]
         public async Task RemoveReactionByPostIdAsync(int postId, CancellationToken cancellationToken)
         {
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
-            await _postReactionService.RemoveByPostId(GetCurrentUserId(), postId, cancellationToken);
+            await _postReactionService.RemoveByPostId(CurrentUserId, postId, cancellationToken);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using API.Controllers.Base;
+using API.Filters;
 using AutoMapper;
 using Common.Dto.User;
 using Common.Models;
@@ -13,9 +14,11 @@ namespace API.Controllers
     public class UsersController : AppBaseController
     {
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public UsersController(IUserService userService, IMapper mapper) : base(userService)
+        public UsersController(IUserService userService, IMapper mapper)
         {
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -41,7 +44,7 @@ namespace API.Controllers
         [HttpGet("current")]
         public async Task<UserModel> GetAuthenticatedUserAsync(CancellationToken cancellationToken)
         {
-            var currentId = GetCurrentUserId();
+            var currentId = CurrentUserId;
 
             var user = await _userService.GetByIdAsync(currentId, cancellationToken);
 
@@ -50,15 +53,12 @@ namespace API.Controllers
 
 
         [HttpPatch]
+        [UpdatesUserActivity]
         public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUserAsync([FromBody] UserInfoDto newProfileInfo,
             CancellationToken cancellationToken)
         {
             var mappedRequest = _mapper.Map<User>(newProfileInfo);
-
-            await UpdateAuthorizedUserLastActivity(cancellationToken);
-
-            mappedRequest.Id = GetCurrentUserId();
-
+            mappedRequest.Id = CurrentUserId;
             var updatedUser = await _userService.UpdateAsync(mappedRequest, cancellationToken);
 
             return _mapper.Map<UserModel>(updatedUser);

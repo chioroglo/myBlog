@@ -25,7 +25,7 @@ namespace API.Middlewares
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                _logger.LogError(e.Message);
 
                 switch (e)
                 {
@@ -59,7 +59,7 @@ namespace API.Middlewares
             }
         }
 
-        private Task CreateExceptionResponseAsync(HttpContext context, Exception e)
+        private static Task CreateExceptionResponseAsync(HttpContext context, Exception e)
         {
             context.Response.ContentType = "application/json";
 

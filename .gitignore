@@ -475,3 +475,6 @@ FodyWeavers.xsd
 /.idea/.idea.webApi/.idea/.name
 /.idea/.idea.webApi/.idea/vcs.xml
 /.idea/.idea.webApi/.idea/indexLayout.xml
+/.idea
+
+.sonarqube/
