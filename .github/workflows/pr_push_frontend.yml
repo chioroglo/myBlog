@@ -23,6 +23,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: React/my-blog/package-lock.json
-    - run: npm ci
+    - run: npm install
     - run: npm run build
     - run: npm test -- --coverage
