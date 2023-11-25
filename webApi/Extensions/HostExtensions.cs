@@ -1,5 +1,6 @@
 ﻿using DAL;
 using DAL.DataSeed;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
 {
@@ -16,7 +17,7 @@ namespace API.Extensions
                     var context = services.GetRequiredService<BlogDbContext>();
 
                     await SeedFacade.SeedData(context);
-
+                    await context.Database.MigrateAsync();
                     return host;
                 }
                 catch (Exception e)
