@@ -24,6 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.23.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NLog.Database" Version="5.0.4" />
