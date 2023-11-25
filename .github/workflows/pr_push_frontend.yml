@@ -29,3 +29,5 @@ jobs:
       run: npm --prefix React/my-blog install
     - name: Run tests
       run: npm --prefix React/my-blog test -- --coverage --passWithNoTests
+    - name: Build
+      run: npm --prefix React/my-blog run build
