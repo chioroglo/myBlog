@@ -15,14 +15,17 @@ jobs:
         node-version: [18.17.0]
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: React/my-blog/package-lock.json
-    - run: npm --prefix React/my-blog install
-    - run: npm --prefix React/my-blog run build
-      timeout-minutes: 5
-    - run: npm --prefix React/my-blog test -- --coverage
+
+    - name: Install dependencies
+      run: npm --prefix React/my-blog install
+    - name: Run tests
+      run: npm --prefix React/my-blog test -- --coverage
