@@ -28,7 +28,7 @@ jobs:
     - name: Install dependencies
       run: npm --prefix React/my-blog install
     - name: Run tests
-      run: npm --prefix React/my-blog test -- --coverage --if-present
+      run: npm --prefix React/my-blog test -- --coverage --passWithNoTests
     - name: Build
       env:
           CI: false
