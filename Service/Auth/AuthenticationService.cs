@@ -3,10 +3,10 @@ using Common.Dto.Auth;
 using DAL.Repositories.Abstract;
 using Service.Abstract.Auth;
 using System.Security.Authentication;
-using Common;
 using Common.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Service.Abstract;
 
 namespace Service.Auth
 {
@@ -16,13 +16,15 @@ namespace Service.Auth
         private readonly IMapper _mapper;
         private readonly IEncryptionService _encryptionService;
         private readonly JsonWebTokenOptions _jwtOptions;
+        private IUserService _userService;
 
         public AuthenticationService(IUserRepository userRepository, IMapper mapper,
-            IEncryptionService encryptionService, IOptions<JsonWebTokenOptions> jwtOptions)
+            IEncryptionService encryptionService, IOptions<JsonWebTokenOptions> jwtOptions, IUserService userService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _encryptionService = encryptionService;
+            _userService = userService;
             _jwtOptions = jwtOptions.Value;
         }
 
@@ -34,7 +36,7 @@ namespace Service.Auth
                            ?? throw new AuthenticationException("Credentials were not valid");
 
             response.AuthorizationExpirationDate = DateTime.UtcNow.AddMinutes(_jwtOptions.ValidityTimeMinutes);
-
+            await _userService.UpdateLastActivity(response.Id, cancellationToken);
             return response;
         }
 

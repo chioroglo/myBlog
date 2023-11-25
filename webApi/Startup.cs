@@ -1,8 +1,8 @@
 ﻿using API.Extensions;
 using API.Extensions.Auth;
 using Common;
+using Common.Options;
 using DAL;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,26 +21,25 @@ namespace API
         {
             services.AddHttpContextAccessor();
 
-            var authenticationBuilder =
-                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
-            authenticationBuilder.LoadConfigurationForJwtBearer(Configuration);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .LoadConfigurationForJwtBearer(Configuration);
 
-            services.AddCorsWithCustomDefaultPolicy();
-            services.AddControllers();
+            services.AddCorsWithPolicy(Configuration.GetSection(CorsPolicyOptions.Config).Get<CorsPolicyOptions>());
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            var connectionString = Configuration.GetConnectionString("Blog");
-            services.AddDbContext<BlogDbContext>(options =>
-                {
-                    options.UseSqlServer(connectionString);
-                },
-                ServiceLifetime.Transient);
+            services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Blog"))
+                , ServiceLifetime.Transient);
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("Redis");
+            });
 
             services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
             services.InitializeRepositories();
             services.InitializeServices();
             services.InitializeOptions(Configuration);
+            services.InitializeControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

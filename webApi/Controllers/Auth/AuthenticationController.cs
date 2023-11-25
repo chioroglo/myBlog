@@ -2,7 +2,6 @@
 using Common.Dto.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Service.Abstract;
 using Service.Abstract.Auth;
 
 namespace API.Controllers.Auth
@@ -13,8 +12,7 @@ namespace API.Controllers.Auth
         private readonly IAuthenticationService _authenticationService;
         private readonly IEncryptionService _encryptionService;
 
-        public AuthenticationController(IAuthenticationService authenticationService, IEncryptionService encryptionService,
-            IUserService userService) : base(userService)
+        public AuthenticationController(IAuthenticationService authenticationService, IEncryptionService encryptionService)
         {
             _encryptionService = encryptionService;
             _authenticationService = authenticationService;
