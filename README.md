@@ -16,10 +16,16 @@ React(TypeScript) (Material UI,Formik,react-router-dom,Axios,React Redux)
 5. Make pull request using UI GitHub Interface from your branch to origin/slave
 
 # Getting Started
-1. Install Docker, set up local MS SQL Server Database for development using this instruction (guide [9/9/2023] => https://www.youtube.com/watch?v=TPbCKUwJ_hE). Command for quick installation:
+1. Install Docker, then run Docker. To launch the solution, you need to have on your local machine instances of: 
+- MS SQL Server to bring up a database
+- Redis to support in-memory distributed caching
+
+These instances may be installed via **docker-compose.yml** file. To install - go to the terminal in .NET application
+folder ("webApi") and type in 
 ```shell
-docker run -e "ACCEPT_EULA=Y" -e 'SA_PASSWORD=P@ssword!' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+docker-compose up -d
 ```
+
 2. Install an IDE for development, set up environment to develop .NET Applications (Install .NET 6 SDK (!!DOTNET SIX, NOT HIGHER!!))
 3. Then, install Dotnet Entity Framework 6 Core Tools
 https://learn.microsoft.com/en-us/ef/core/cli/dotnet
