@@ -1,4 +1,4 @@
-name: React build + unit test
+name: Frontend build + test
 
 on:
   push:
@@ -8,15 +8,18 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-         node-version: "18.17.0"
+        node-version: 18.17.0
+
     steps:
     - uses: actions/checkout@v3
-    - name: node js ${{ matrix.node-version }}
-    uses: actions/setup-node@v3
-    with:
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
