@@ -1,0 +1,35 @@
+name: Frontend build + test
+
+on:
+  push:
+    branches: [ "slave" ]
+  pull_request:
+    branches: [ "slave" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.17.0]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: React/my-blog/package-lock.json
+
+    - name: Install dependencies
+      run: npm --prefix React/my-blog install
+    - name: Run tests
+      run: npm --prefix React/my-blog test -- --coverage --passWithNoTests
+    - name: Build
+      env:
+          CI: false
+      run: npm --prefix React/my-blog run build

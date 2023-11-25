@@ -1,6 +1,6 @@
-import { createTheme } from "@mui/material";
+import { Theme, createTheme } from "@mui/material";
 
-export const applicationTheme = createTheme({
+export const applicationTheme: Partial<Theme> = createTheme({
     typography: {
         fontFamily: "Onest, sans-serif"
     }
