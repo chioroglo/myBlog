@@ -30,6 +30,10 @@ namespace API
 
             services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Blog"))
                 , ServiceLifetime.Transient);
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("Redis");
+            });
 
             services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
             services.InitializeRepositories();
