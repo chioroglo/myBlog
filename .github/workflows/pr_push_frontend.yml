@@ -7,9 +7,7 @@ on:
     branches: [ "slave" ]
 
 jobs:
-  timeout-minutes: 5
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -26,4 +24,5 @@ jobs:
         cache-dependency-path: React/my-blog/package-lock.json
     - run: npm --prefix React/my-blog install
     - run: npm --prefix React/my-blog run build
+      timeout-minutes: 5
     - run: npm --prefix React/my-blog test -- --coverage
