@@ -13,7 +13,6 @@ import {PostCard} from '../PostCard';
 import {BlogReelProps} from './BlogReelProps';
 import {Waypoint} from 'react-waypoint';
 import {AxiosResponse} from 'axios';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {FilterLogicalOperator, RequestFilters} from '../../shared/api/types/paging';
 import {FilterMenu} from '../FilterMenu';
 import {DefaultPageSize} from '../../shared/config';
