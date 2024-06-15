@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace DAL.Extensions
+namespace Common.Extensions
 {
     public static class IFormFileExtensions
     {

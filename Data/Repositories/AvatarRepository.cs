@@ -1,21 +1,16 @@
-﻿using DAL.Repositories.Abstract;
+using DAL.Repositories.Abstract;
 using DAL.Repositories.Abstract.Base;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories
+namespace DAL.Repositories;
+
+public class AvatarRepository(BlogDbContext db) : BaseRepository<Avatar>(db), IAvatarRepository
 {
-    public class AvatarRepository : BaseRepository<Avatar>, IAvatarRepository
+    public async Task<Avatar?> GetByUserIdAsync(int userId, CancellationToken cancellationToken)
     {
-        public AvatarRepository(BlogDbContext db) : base(db)
-        {
-        }
+        var avatarInfo = await _db.Avatars.FirstOrDefaultAsync(a => a.UserId == userId, cancellationToken);
 
-        public async Task<Avatar?> GetByUserIdAsync(int userId, CancellationToken cancellationToken)
-        {
-            var avatarInfo = await _db.Avatars.Where(a => a.UserId == userId).FirstOrDefaultAsync(cancellationToken);
-
-            return avatarInfo;
-        }
+        return avatarInfo;
     }
 }

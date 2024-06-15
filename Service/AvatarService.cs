@@ -1,5 +1,5 @@
 ﻿using Common.Exceptions;
-using DAL.Extensions;
+using Common.Extensions;
 using DAL.Repositories.Abstract;
 using Domain;
 using Microsoft.AspNetCore.Hosting;
