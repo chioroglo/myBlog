@@ -20,7 +20,7 @@ namespace API.Extensions
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("error occurred during migration");
+                    throw new Exception($"error occurred during migration \n {e.Message}");
                 }
             }
         }

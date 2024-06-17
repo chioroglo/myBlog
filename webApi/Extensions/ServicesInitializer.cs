@@ -16,6 +16,7 @@ namespace API.Extensions
             services.AddTransient<IFilePerUserHandlingService, AvatarService>();
             services.AddTransient<IPostReactionService, PostReactionService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddScoped<ICacheService, RedisDistributedCacheService>();
         }
 
         private static void AddScopedAuthServices(this IServiceCollection services)
@@ -23,6 +24,7 @@ namespace API.Extensions
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
             services.AddTransient<IRegistrationService, RegistrationService>();
+            services.AddTransient<IPasskeyService, PasskeyService>();
         }
     }
 }

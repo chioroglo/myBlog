@@ -24,5 +24,6 @@ namespace Domain
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<PostReaction> PostReactions { get; set; }
+        public string? FullName => FirstName != null && LastName != null ? $"{FirstName} {LastName}" : null;
     }
 }
