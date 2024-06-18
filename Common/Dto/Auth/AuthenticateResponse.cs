@@ -1,10 +1,10 @@
 ﻿namespace Common.Dto.Auth
 {
-    public class AuthenticateResponse
+    public record AuthenticateResponse
     {
-        public int Id { get; set; }
+        public required int Id { get; set; }
 
-        public string Username { get; set; }
+        public required string Username { get; set; }
 
         public string Token { get; set; }
 

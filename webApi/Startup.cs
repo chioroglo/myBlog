@@ -1,4 +1,5 @@
-﻿using API.Extensions;
+﻿using System.Text;
+using API.Extensions;
 using API.Extensions.Auth;
 using Common;
 using Common.Options;
@@ -33,6 +34,14 @@ namespace API
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("Redis");
+            });
+
+            services.AddFido2((fido) =>
+            {
+                fido.Origins = ["https://localhost:3000"];
+                fido.ServerDomain = "localhost";
+                fido.ServerName = "localhost";
+                fido.TimestampDriftTolerance = TimeSpan.FromMinutes(2).Milliseconds;
             });
 
             services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);

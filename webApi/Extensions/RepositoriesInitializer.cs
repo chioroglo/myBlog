@@ -12,6 +12,7 @@ namespace API.Extensions
             services.AddTransient<ICommentRepository, CommentRepository>();
             services.AddTransient<IPostReactionRepository, PostReactionRepository>();
             services.AddTransient<IAvatarRepository, AvatarRepository>();
+            services.AddTransient<IPasskeyRepository, PasskeyRepository>();
         }
     }
 }

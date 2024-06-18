@@ -1,5 +1,6 @@
 ﻿using DAL.Configurations;
 using Domain;
+using Domain.Passkey;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL
@@ -24,6 +25,7 @@ namespace DAL
         public DbSet<Avatar> Avatars { get; set; }
 
         public DbSet<PostReaction> PostReactions { get; set; }
+        public DbSet<PasskeyStoredCredential> PasskeyStoredCredentials { get; init; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

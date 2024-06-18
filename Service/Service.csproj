@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+	<PackageReference Include="Fido2" Version="3.0.1" />
 	<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
