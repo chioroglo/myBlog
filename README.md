@@ -2,9 +2,9 @@
 
 # Used Technologies:
 
-Microsoft SQL Server 15.0.4153.1,  
-ASP.NET Core WEB API  
-Entity Framework  
+Microsoft SQL Server
+ASP.NET Core 8 WEB API  
+Entity Framework 8  
 React(TypeScript) (Material UI,Formik,react-router-dom,Axios,React Redux)
 
 
@@ -26,8 +26,8 @@ folder ("webApi") and type in
 docker-compose up -d
 ```
 
-2. Install an IDE for development, set up environment to develop .NET Applications (Install .NET 6 SDK (!!DOTNET SIX, NOT HIGHER!!))
-3. Then, install Dotnet Entity Framework 6 Core Tools
+2. Install an IDE for development, set up environment to develop .NET Applications (Install .NET 8 SDK)
+3. Then, install Dotnet Entity Framework 8 Core Tools
 https://learn.microsoft.com/en-us/ef/core/cli/dotnet
 This is necessary to manage database migrations.
 While you've installed CLI (Command Line Interface) for Entity Framework, type in following commands
