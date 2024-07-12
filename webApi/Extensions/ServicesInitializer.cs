@@ -24,7 +24,6 @@ namespace API.Extensions
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
             services.AddTransient<IRegistrationService, RegistrationService>();
-            services.AddTransient<IPasskeyService, PasskeyService>();
         }
     }
 }
