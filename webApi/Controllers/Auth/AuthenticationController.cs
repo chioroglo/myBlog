@@ -10,11 +10,9 @@ namespace API.Controllers.Auth
     public class AuthenticationController : AppBaseController
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IEncryptionService _encryptionService;
 
-        public AuthenticationController(IAuthenticationService authenticationService, IEncryptionService encryptionService)
+        public AuthenticationController(IAuthenticationService authenticationService)
         {
-            _encryptionService = encryptionService;
             _authenticationService = authenticationService;
         }
 
@@ -24,7 +22,6 @@ namespace API.Controllers.Auth
             CancellationToken cancellationToken)
         {
             var authenticationResponse = await _authenticationService.AuthenticateAsync(userData, cancellationToken);
-            authenticationResponse.Token = _encryptionService.GenerateAccessToken(authenticationResponse);
 
             return authenticationResponse;
         }

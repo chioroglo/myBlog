@@ -1,0 +1,16 @@
+.passkey-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.passkey-info {
+    &__item {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__caption {
+        font-weight: 600;
+    }
+}

@@ -29,6 +29,11 @@ namespace API.Middlewares
 
                 switch (e)
                 {
+                    case NotFoundException:
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        break;
+                    }
                     case ValidationException:
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -44,6 +49,7 @@ namespace API.Middlewares
                         context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                         break;
                     }
+                    case TaskCanceledException:
                     case OperationCanceledException:
                     {
                         return;

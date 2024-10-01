@@ -40,6 +40,7 @@ namespace API
             services.InitializeServices();
             services.InitializeOptions(Configuration);
             services.InitializeControllers();
+            services.InitializePasskeyFido2CryptoLibrary();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

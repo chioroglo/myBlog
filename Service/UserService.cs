@@ -104,5 +104,15 @@ namespace Service
 
             await _userRepository.Update(user, cancellationToken);
         }
+
+        public async Task<ICollection<Passkey>> GetPasskeys(int userId, CancellationToken cancellationToken)
+        {
+            var user = await _userRepository.GetByIdWithIncludeAsync(userId,
+                cancellationToken, 
+                e => e.Passkeys)
+                 ?? throw new NotFoundException($"{nameof(User)} of ID: {userId} does not exist");
+
+            return user.Passkeys;
+        }
     }
 }

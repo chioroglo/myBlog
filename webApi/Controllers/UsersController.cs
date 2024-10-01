@@ -3,6 +3,7 @@ using API.Filters;
 using AutoMapper;
 using Common.Dto.User;
 using Common.Models;
+using Common.Models.Passkey;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +63,17 @@ namespace API.Controllers
             var updatedUser = await _userService.UpdateAsync(mappedRequest, cancellationToken);
 
             return _mapper.Map<UserModel>(updatedUser);
+        }
+
+        [HttpGet("current/passkeys")]
+        [UpdatesUserActivity]
+        public async Task<IActionResult> GetPasskeyList(CancellationToken cancellationToken)
+        {
+            var passkeys = await _userService.GetPasskeys(CurrentUserId, cancellationToken);
+            return Ok(new PasskeyListModel
+            {
+                Passkeys = _mapper.Map<List<PasskeyInfoModel>>(passkeys)
+            });
         }
     }
 }

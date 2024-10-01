@@ -1,6 +1,6 @@
 ﻿namespace Common.Dto.Auth
 {
-    public class AuthenticateResponse
+    public record AuthenticateResponse
     {
         public int Id { get; set; }
 

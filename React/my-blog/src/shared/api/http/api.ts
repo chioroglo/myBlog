@@ -7,9 +7,10 @@ import {PostDto, PostModel} from "../types/post";
 import {PostReactionDto} from "../types/postReaction";
 import {CommentDto} from "../types/comment";
 import {UserInfoDto, UserModel} from "../types/user";
+import { PasskeyListModel } from "../types/authentication/passkey/passkey-info-model";
 
 
-const instance = axios.create({
+export const instance = axios.create({
     withCredentials: false,
     baseURL: API_URL
 });
@@ -23,6 +24,7 @@ instance.interceptors.request.use((config) => {
 
     return config;
 })
+
 
 export class avatarApi {
 
@@ -53,6 +55,10 @@ export class userApi {
 
     static editProfileOfAuthorizedUser(dto: UserInfoDto): Promise<AxiosResponse<UserModel>> {
         return instance.patch(`/users/`, dto);
+    }
+
+    static getPasskeysInfoByCurrentUserId(): Promise<AxiosResponse<PasskeyListModel>> {
+        return instance.get(`/users/current/passkeys`);
     }
 }
 
@@ -99,7 +105,7 @@ export class authApi {
             .catch((reason) => reason as AxiosError);
     }
 
-    private static setJwtAndPayloadInStorage(payload: AuthenticateResponse, useLocalStorage: boolean): void {
+    public static setJwtAndPayloadInStorage(payload: AuthenticateResponse, useLocalStorage: boolean): void {
 
         let storage: Storage = useLocalStorage ? localStorage : sessionStorage;
 
