@@ -1,9 +1,9 @@
 import {AssignmentInd,} from '@mui/icons-material';
 import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Paper} from '@mui/material';
 import {useFormik} from 'formik';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {authApi, userApi} from '../../shared/api/http/api';
-import {ErrorResponse} from '../../shared/api/types';
+import {AuthenticateResponse, ErrorResponse} from '../../shared/api/types';
 import {palette, PasswordValidationConstraints, UsernameValidationConstraints} from '../../shared/assets';
 import {FormHeader} from '../FormHeader';
 import {AuthenticationFormProps} from './AuthenticationFormProps';
@@ -15,6 +15,10 @@ import {ReduxActionTypes} from '../../redux';
 import {Link} from 'react-router-dom';
 import {useNotifier} from '../../hooks';
 import {UserInfoCache} from "../../shared/types";
+import { PasskeyApi } from '../../shared/api/http/passkey-api';
+import { WebauthnService } from '../../shared/services/webauthn-service';
+import { arrayBufferToBase64, arrayBufferToUtf8 } from '../../shared/assets/array-buffer-utils';
+import { PasskeyAuthenticationRequest } from '../../shared/api/types/authentication/passkey/passkey-authentication-request';
 
 const textFieldStyle: React.CSSProperties = {
     maxWidth: "400px",
@@ -46,6 +50,9 @@ const errorTextStyle: React.CSSProperties = {
 
 const LoginForm = () => {
 
+    const passkeyApi = PasskeyApi.create();
+    const webauthnService = new WebauthnService(navigator, window);
+
     const dispatch = useDispatch();
 
     const setUser = (user: UserInfoCache) => {
@@ -56,6 +63,47 @@ const LoginForm = () => {
 
     const [loading, setLoading] = useState(false);
     const displayNotification = useNotifier();
+    const notifySucessfullAuth = () => displayNotification("Authorization successfull", "success");
+
+    useEffect(() => {
+        passkeyApi.getAuthenticationOptions().then((response) => {
+            const ac = new AbortController();
+            webauthnService.authenticateCredentialRequest(response, ac).then((resp) => {
+
+                const credential = resp?.credential;
+                const challenge = resp?.challenge;
+
+                if (!credential || !challenge) {
+                    return;
+                }
+                const response = credential.response as AuthenticatorAssertionResponse;
+                const credentialId = arrayBufferToBase64(credential.rawId);
+                const authenticatorData = arrayBufferToBase64(response.authenticatorData);
+                const clientDataJson = arrayBufferToBase64(credential.response.clientDataJSON);
+                const signature = arrayBufferToBase64(response.signature);
+                const userHandle = arrayBufferToUtf8(response.userHandle ?? new ArrayBuffer(0));
+                const type = credential.type;
+
+                const payload: PasskeyAuthenticationRequest = {
+                    credentialId,
+                    authenticatorData,
+                    clientDataJson,
+                    signature,
+                    userHandle,
+                    type,
+                    challenge
+                }
+
+                passkeyApi.authenticate(payload)
+                .then((response: AuthenticateResponse) => {
+                    authApi.setJwtAndPayloadInStorage(response, formik.values.rememberMe);
+                    setUser(new UserInfoCache(response.id, response.username));
+                    notifySucessfullAuth();
+                })
+                .catch(() => displayNotification("Error occurred during passkey authentication", "error"));
+            });
+        });
+    }, []);
 
     const formik = useFormik<AuthenticationFormProps>({
         initialValues: {
@@ -73,8 +121,7 @@ const LoginForm = () => {
             } else {
                 fetchAvatarUrl(result.data.id).then((resultOfAvatarFetching) => {
                     setUser(new UserInfoCache(result.data.id, result.data.username, resultOfAvatarFetching));
-
-                    displayNotification("Authorization successfull", "success");
+                    notifySucessfullAuth();
                 })
             }
             setLoading(false);
@@ -110,7 +157,7 @@ const LoginForm = () => {
 
                         <FormControl style={textFieldStyle}>
                             <InputLabel htmlFor="username">Username</InputLabel>
-                            <Input onChange={formik.handleChange} value={formik.values.username} name="username"/>
+                            <Input onChange={formik.handleChange} value={formik.values.username} name="username" autoComplete="username webauthn"/>
                             <FormHelperText>
                                 {formik.touched.username && formik.errors.username && (
                                     <span style={errorTextStyle}>{formik.errors.username}</span>)}
@@ -120,7 +167,7 @@ const LoginForm = () => {
                         <FormControl style={textFieldStyle}>
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Input type="password" onChange={formik.handleChange} value={formik.values.password}
-                                   name="password"/>
+                                   name="password" autoComplete="current-password webauthn"/>
                             <FormHelperText>
                                 {formik.touched.password && formik.errors.password && (
                                     <span style={errorTextStyle}>{formik.errors.password}</span>)}

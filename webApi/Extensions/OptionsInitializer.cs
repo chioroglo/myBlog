@@ -12,8 +12,8 @@ namespace API.Extensions
             services.Configure<CorsPolicyOptions>(
                 configuration.GetSection(CorsPolicyOptions.Config));
 
-            services.Configure<PasskeyRelyingPartyOptions>(
-                configuration.GetSection(PasskeyRelyingPartyOptions.Config));
+            services.Configure<PasskeyOptions>(
+                configuration.GetSection(PasskeyOptions.Config));
 
             services.Configure<CacheOptions>(
                 configuration.GetSection(CacheOptions.Config));

@@ -2,6 +2,13 @@
 {
     public static class EntityConfigurationConstants
     {
+        #region Common Variables
+
+        public const int IndexableNvarcharLengthLimit = 450;
+        public const int IndexableVarcharLengthLimit = 900;
+
+        #endregion
+
         #region User entity section
 
         public const int UsernameMinLength = 3;
@@ -54,6 +61,8 @@
         #region SQL Expressions
 
         public const string GetutcdateSqlExpression = "GETUTCDATE()";
+        public const string Varchar = "VARCHAR";
+        public const string Nvarchar = "NVARCHAR";
 
         #endregion
     }

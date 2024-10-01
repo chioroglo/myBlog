@@ -24,6 +24,7 @@ namespace DAL
         public DbSet<Avatar> Avatars { get; set; }
 
         public DbSet<PostReaction> PostReactions { get; set; }
+        public DbSet<Passkey> Passkeys { get; init; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

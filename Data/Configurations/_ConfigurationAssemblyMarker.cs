@@ -1,6 +1,3 @@
-﻿namespace DAL.Configurations
-{
-    public struct ConfigurationsAssemblyMarker
-    {
-    }
-}
+﻿namespace DAL.Configurations;
+
+public struct ConfigurationsAssemblyMarker;

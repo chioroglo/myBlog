@@ -20,34 +20,42 @@ namespace Service.Auth
             _jwtOptions = jwtOptions.Value;
         }
 
-
-        public string GenerateAccessToken(AuthenticateResponse userData)
+        public AuthenticateResponse GenerateAccessToken(int userId, string username)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _jwtOptions.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
-            var claims = new Claim[]
-            {
-                new Claim(TokenClaimNames.Id, userData.Id.ToString()),
-                new Claim(TokenClaimNames.Username, userData.Username)
-            };
+            Claim[] claims =
+            [
+                new(TokenClaimNames.Id, userId.ToString()),
+                new(TokenClaimNames.Username, username)
+            ];
 
-            var token = new JwtSecurityToken(
+            var notBefore = DateTime.UtcNow;
+            var expires = notBefore.AddMinutes(_jwtOptions.ValidityTimeMinutes);
+            var tokenObject = new JwtSecurityToken(
                 _jwtOptions.Issuer,
                 _jwtOptions.Audience,
                 claims,
-                expires: DateTime.UtcNow.AddMinutes(_jwtOptions.ValidityTimeMinutes),
+                notBefore: notBefore,
+                expires: expires,
                 signingCredentials: credentials);
 
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenObject);
+            return new AuthenticateResponse
+            {
+                Id = userId,
+                Username = username,
+                Token = token,
+                AuthorizationExpirationDate = expires
+            };
         }
 
         public string EncryptPassword(string phrase)
         {
             var byteArrayPhrase = Encoding.UTF8.GetBytes(phrase);
-            var algorithm = SHA256.Create();
+            using var algorithm = SHA256.Create();
             var hashBytes = algorithm.ComputeHash(byteArrayPhrase);
             var hash = BitConverter.ToString(hashBytes).ToLower().Replace("-","");
             return hash;

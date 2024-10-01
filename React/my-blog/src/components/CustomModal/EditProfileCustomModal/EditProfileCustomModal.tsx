@@ -33,6 +33,10 @@ import {ApplicationState, ReduxActionTypes} from '../../../redux';
 import {useDispatch, useSelector} from 'react-redux';
 import {UserInfoCache} from '../../../shared/types';
 import {MaxAvatarSizeBytes} from "../../../shared/config";
+import '../EditProfileCustomModal/EditProfileCustomModal.scss';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import { RegisterPasskeyButton } from '../../RegisterPasskeyButton';
+import { PasskeyList } from '../../PasskeyList/PasskeyList';
 
 
 const textFieldStyle: React.CSSProperties = {
@@ -50,7 +54,6 @@ const errorTextStyle: React.CSSProperties = {
 
 
 const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditProfileCustomModalProps) => {
-
 
     const reduxUser = useSelector<ApplicationState, (UserInfoCache | null)>(state => state.user);
 
@@ -208,7 +211,7 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                             style={{margin: "0 auto"}}
                             src={avatarPreview?.toString()}>{getFirstCharOfStringUpperCase(user.username)}</Avatar>
 
-                        <input name={"avatar"} multiple accept={"image/png,image/jpeg"} id={"contained-button-file"}
+                        <input name={"avatar"} accept={"image/png,image/jpeg"} id={"contained-button-file"}
                                type={"file"} onChange={handleFile}/>
 
                         <Button onClick={handleUpload} color={"primary"} variant={"contained"}
@@ -220,7 +223,7 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
 
                     </Box>
 
-                    <Box style={{justifyContent: "space-around", display: "flex", flexDirection: "column"}}>
+                    <Box className="profile-info-container">
 
                         <FormHeader iconColor={palette.BAYERN_BLUE} caption={"Edit profile information"}
                                     icon={<AccountBoxIcon/>}/>
@@ -251,6 +254,12 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                                     <span style={errorTextStyle}>{formik.errors.lastName}</span>)}
                             </FormHelperText>
                         </FormControl>
+                    </Box>
+
+                    <Box className="security">
+                        <FormHeader iconColor={palette.SUNRISE} caption="Security" icon={<VpnKeyIcon/>}/>
+                        <PasskeyList/>
+                        <RegisterPasskeyButton caption="ADD PASSKEY"/>
                     </Box>
                 </DialogContent>
 

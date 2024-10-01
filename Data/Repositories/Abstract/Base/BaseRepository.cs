@@ -32,7 +32,7 @@ namespace DAL.Repositories.Abstract.Base
 
         public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var entity = await _db.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            var entity = await _db.Set<TEntity>().FindAsync(new object  [] { id }, cancellationToken);
 
             return entity;
         }
