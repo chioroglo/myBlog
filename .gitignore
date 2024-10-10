@@ -478,3 +478,4 @@ FodyWeavers.xsd
 /.idea
 
 .sonarqube/
+.containers/
