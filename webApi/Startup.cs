@@ -3,6 +3,7 @@ using API.Extensions.Auth;
 using Common;
 using Common.Options;
 using DAL;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,26 @@ namespace API
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("Redis");
+            });
+
+            services.AddMassTransit(busConfigurator =>
+            {
+                busConfigurator.AddDelayedMessageScheduler();
+                busConfigurator.SetKebabCaseEndpointNameFormatter();
+                busConfigurator.AddConsumersFromNamespaceContaining(typeof(API.AssemblyReference));
+
+                busConfigurator.UsingRabbitMq((context, configurator) =>
+                {
+                    configurator.Host(Configuration["MessageBus:Host"]!, h =>
+                    {
+                        h.Username(Configuration["MessageBus:Username"]!);
+                        h.Password(Configuration["MessageBus:Password"]!);
+                    });
+                    configurator.UseDelayedMessageScheduler();
+                    configurator.MapProducers(context)
+                        .MapConsumers(context);
+                    configurator.ConfigureEndpoints(context);
+                });
             });
 
             services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);

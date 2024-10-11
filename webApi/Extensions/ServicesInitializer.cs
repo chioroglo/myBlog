@@ -4,8 +4,10 @@ using Service;
 using Service.Abstract;
 using Service.Abstract.Auth;
 using Service.Abstract.Auth.Passkeys;
+using Service.Abstract.Messaging;
 using Service.Auth;
 using Service.Auth.Passkeys;
+using Service.Messaging;
 
 namespace API.Extensions
 {
@@ -13,6 +15,7 @@ namespace API.Extensions
     {
         public static void InitializeServices(this IServiceCollection services)
         {
+            services.AddTransient<IMessageBus, MassTransitMessageBus>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
             services.AddTransient<IRegistrationService, RegistrationService>();
