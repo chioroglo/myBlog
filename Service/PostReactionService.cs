@@ -17,11 +17,6 @@ namespace Service
             _postRepository = postRepository;
         }
 
-        public async Task<IEnumerable<PostReaction>> GetAllAsync(CancellationToken cancellationToken)
-        {
-            return await _postReactionRepository.GetAllAsync(cancellationToken);
-        }
-
         public async Task<PostReaction> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var reaction = await _postReactionRepository.GetByIdAsync(id, cancellationToken);

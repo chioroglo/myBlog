@@ -141,6 +141,9 @@ namespace DAL.Migrations
                         .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DetectedLanguage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("RegistrationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -208,6 +211,9 @@ namespace DAL.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("LastActivity")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -238,6 +244,68 @@ namespace DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.UserBanLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<short>("Action")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserBanLog", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.UserWarning", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<DateTime?>("RemovedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserWarning", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Avatar", b =>
@@ -311,6 +379,28 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.UserBanLog", b =>
+                {
+                    b.HasOne("Domain.User", "User")
+                        .WithMany("BanLogs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.UserWarning", b =>
+                {
+                    b.HasOne("Domain.User", "User")
+                        .WithMany("Warnings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -323,6 +413,8 @@ namespace DAL.Migrations
                     b.Navigation("Avatar")
                         .IsRequired();
 
+                    b.Navigation("BanLogs");
+
                     b.Navigation("Comments");
 
                     b.Navigation("Passkeys");
@@ -330,6 +422,8 @@ namespace DAL.Migrations
                     b.Navigation("PostReactions");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("Warnings");
                 });
 #pragma warning restore 612, 618
         }

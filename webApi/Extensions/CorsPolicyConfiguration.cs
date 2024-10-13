@@ -4,12 +4,11 @@ namespace API.Extensions
 {
     public static class CorsPolicyConfiguration
     {
-        public static void AddCorsWithPolicy(this IServiceCollection services,CorsPolicyOptions policyConfiguration)
+        public static void AddCorsWithPolicy(this IServiceCollection services, IConfiguration configuration)
         {
-            if (policyConfiguration == null)
-            {
-                throw new ApplicationException("CORS Policy is not configured. Check appsettings.json");
-            } 
+            var policyConfiguration = configuration.GetSection(CorsPolicyOptions.Config).Get<CorsPolicyOptions>()
+                ?? throw new ApplicationException("CORS Policy is not configured. Check appsettings.json");
+
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(

@@ -17,5 +17,6 @@ namespace Domain
         public ICollection<PostReaction> Reactions { get; set; }
 
         public string? Topic { get; set; }
+        public string? DetectedLanguage { get; set; }
     }
 }

@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
-	<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
 
-  </ItemGroup>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Domain\Domain.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Utils\" />
+	</ItemGroup>
 
 </Project>

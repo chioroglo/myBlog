@@ -17,4 +17,16 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
-
+  rabbitmq:
+    container_name: blog-mq
+    hostname: blog-mq
+    image: masstransit/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./.containers/queue/data/:/var/lib/rabbitmq
+      - ./.containers/queue/log/:/var/log/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin

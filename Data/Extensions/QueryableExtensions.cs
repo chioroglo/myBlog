@@ -5,13 +5,12 @@ using Domain.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using System.Text;
-using System.Reflection;
 
 namespace DAL.Extensions
 {
     public static class QueryableExtensions
     {
-        public async static Task<CursorPagedResult<TEntity>> CreateCursorPagedResultAsync<TEntity>(
+        public static async Task<CursorPagedResult<TEntity>> CreateCursorPagedResultAsync<TEntity>(
             this IQueryable<TEntity> query, CursorPagedRequest pagedRequest, CancellationToken cancellationToken)
             where TEntity : BaseEntity
         {

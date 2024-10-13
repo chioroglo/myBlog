@@ -25,6 +25,9 @@ namespace Domain
 
         public ICollection<PostReaction> PostReactions { get; set; }
         public ICollection<Passkey> Passkeys { get; set; }
+        public ICollection<UserWarning> Warnings { get; set; } 
+        public ICollection<UserBanLog> BanLogs { get; set; }
+        public bool IsBanned { get; set; }
         public string? FullName => FirstName != null && LastName != null ? $"{FirstName} {LastName}" : null;
     }
 }

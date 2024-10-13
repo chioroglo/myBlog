@@ -6,8 +6,6 @@ using Fido2NetLib.Objects;
 using Service.Abstract.Auth.Passkeys;
 using ResponseData = Fido2NetLib.AuthenticatorAttestationRawResponse.ResponseData;
 using AssertionResponse = Fido2NetLib.AuthenticatorAssertionRawResponse.AssertionResponse;
-using CredentialMakeResult = Fido2NetLib.Fido2.CredentialMakeResult;
-
 
 namespace Service.Auth.Passkeys;
 

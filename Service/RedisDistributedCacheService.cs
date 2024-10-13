@@ -21,7 +21,7 @@ public class RedisDistributedCacheService(IDistributedCache distributedCache, IO
         return string.IsNullOrWhiteSpace(stringValue) ? default! : JsonSerializer.Deserialize<T>(stringValue);
     }
 
-    public async Task<string> GetStringAsync(string cacheKey)
+    public async Task<string?> GetStringAsync(string cacheKey)
     {
         var stringValue = await distributedCache.GetStringAsync(cacheKey);
 

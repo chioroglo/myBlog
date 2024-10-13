@@ -66,7 +66,7 @@ namespace Service
 
             if (avatarInfo == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             var fileName = avatarInfo.Url;

@@ -31,11 +31,6 @@ namespace Service
             return await _commentRepository.AddAsync(entity, cancellationToken);
         }
 
-        public async Task<IEnumerable<Comment>> GetAllAsync(CancellationToken cancellationToken)
-        {
-            return await _commentRepository.GetAllAsync(cancellationToken);
-        }
-
         public async Task<Comment> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var comment = await _commentRepository.GetByIdWithIncludeAsync(id, cancellationToken, e => e.User);
