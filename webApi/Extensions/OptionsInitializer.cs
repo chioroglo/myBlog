@@ -17,6 +17,12 @@ namespace API.Extensions
 
             services.Configure<CacheOptions>(
                 configuration.GetSection(CacheOptions.Config));
+
+            services.Configure<SemanticAnalysisOptions>(
+                configuration.GetSection(SemanticAnalysisOptions.Config));
+
+            services.Configure<PunishmentOptions>(
+                configuration.GetSection(PunishmentOptions.Config));
         }
     }
 }

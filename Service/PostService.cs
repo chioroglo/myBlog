@@ -4,16 +4,22 @@ using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
 using System.Linq.Expressions;
+using Domain.Messaging;
+using Service.Abstract.Messaging;
 
 namespace Service
 {
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
+        private readonly IMessageBus _bus;
 
-        public PostService(IPostRepository postRepository)
+        public PostService(
+            IPostRepository postRepository,
+            IMessageBus bus)
         {
             _postRepository = postRepository;
+            _bus = bus;
         }
 
         public async Task<Post> Add(Post request, CancellationToken cancellationToken)
@@ -23,15 +29,11 @@ namespace Service
                 throw new ValidationException($"Title {request.Title} is occupied");
             }
 
+            var post = await _postRepository.AddAsync(request, cancellationToken);
 
-            return await _postRepository.AddAsync(request, cancellationToken);
-        }
+            await _bus.Publish(new AnalyzePostMessage(post.Id), ct: cancellationToken);
 
-        public async Task<IEnumerable<Post>> GetAllAsync(CancellationToken cancellationToken)
-        {
-            var result = await _postRepository.GetAllAsync(cancellationToken);
-
-            return result;
+            return post;
         }
 
         public async Task<Post> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -90,8 +92,11 @@ namespace Service
             post.Topic = request.Topic;
             post.Content = request.Content;
 
+            post = await _postRepository.Update(post, cancellationToken);
 
-            return await _postRepository.Update(post, cancellationToken);
+            await _bus.Publish(new AnalyzePostMessage(post.Id), ct: cancellationToken);
+
+            return post;
         }
 
         public async Task<Post> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken,

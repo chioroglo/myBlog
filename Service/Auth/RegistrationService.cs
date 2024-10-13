@@ -3,7 +3,6 @@ using Common.Dto.Auth;
 using Common.Exceptions;
 using DAL.Repositories.Abstract;
 using Domain;
-using Service.Abstract;
 using Service.Abstract.Auth;
 
 namespace Service.Auth
@@ -38,8 +37,6 @@ namespace Service.Auth
             
             await _userRepository.AddAsync(newUserEntity, cancellationToken);
 
-            await _userRepository.SaveChangesAsync();
-
             var newlyCreatedUser =
                 (await _userRepository.GetWhereAsync(u => u.Username == newUserEntity.Username, cancellationToken))
                 .FirstOrDefault();
@@ -57,6 +54,7 @@ namespace Service.Auth
 
         private bool PasswordsDoNotMatch(string actualPassword, string confirmationPassword)
         {
+            // TODO: Replace with String.CompareOrdinal()
             return actualPassword != confirmationPassword;
         }
     }

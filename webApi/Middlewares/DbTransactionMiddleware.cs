@@ -12,6 +12,9 @@ namespace API.Middlewares
             _next = next;
         }
 
+        /// <summary>
+        /// TODO: CONSIDER ANOTHER OPTIONS FOR ONE-TRANSACTION PER HTTP REQUEST
+        /// </summary>
         public async Task InvokeAsync(HttpContext httpContext, BlogDbContext dbContext)
         {
             if (httpContext.Request.Method == HttpMethod.Get.Method)

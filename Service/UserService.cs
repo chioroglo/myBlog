@@ -3,7 +3,6 @@ using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
 using System.Linq.Expressions;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Service
@@ -20,11 +19,6 @@ namespace Service
         public async Task<User> Add(User entity, CancellationToken cancellationToken)
         {
             return await _userRepository.AddAsync(entity, cancellationToken);
-        }
-
-        public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken)
-        {
-            return await _userRepository.GetAllAsync(cancellationToken);
         }
 
         public async Task<User> GetByIdAsync(int id, CancellationToken cancellationToken)

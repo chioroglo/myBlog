@@ -5,9 +5,6 @@ namespace Service.Abstract
     public interface IEntityService<TEntity> where TEntity : class
     {
         Task<TEntity> Add(TEntity entity, CancellationToken cancellationToken);
-
-        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
-
         Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
 
         Task<TEntity> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken,

@@ -7,8 +7,8 @@ namespace API.Filters;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class UpdatesUserActivityAttribute : ActionFilterAttribute
-{ 
-    public override void OnActionExecuting(ActionExecutingContext context)
+{
+    public override void OnResultExecuted(ResultExecutedContext context)
     {
         var cancellationToken = context.HttpContext.RequestAborted;
         if (cancellationToken.IsCancellationRequested)
@@ -19,8 +19,8 @@ public class UpdatesUserActivityAttribute : ActionFilterAttribute
         var userService = context.HttpContext.RequestServices.GetService<IUserService>();
         if (int.TryParse(context.HttpContext.User.FindFirstValue(TokenClaimNames.Id), out var userId))
         {
-            userService?.UpdateLastActivity(userId,cancellationToken);
+            userService?.UpdateLastActivity(userId, cancellationToken);
         }
-    }
 
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using Common.Options;
+using LanguageDetection;
 using Microsoft.Extensions.Options;
 using Service;
 using Service.Abstract;
@@ -8,6 +9,7 @@ using Service.Abstract.Messaging;
 using Service.Auth;
 using Service.Auth.Passkeys;
 using Service.Messaging;
+using ProfanityFilter.Interfaces;
 
 namespace API.Extensions
 {
@@ -15,20 +17,33 @@ namespace API.Extensions
     {
         public static void InitializeServices(this IServiceCollection services)
         {
-            services.AddTransient<IMessageBus, MassTransitMessageBus>();
-            services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<IEncryptionService, EncryptionService>();
-            services.AddTransient<IRegistrationService, RegistrationService>();
-            services.AddTransient<IPostService, PostService>();
-            services.AddTransient<ICommentService, CommentService>();
-            services.AddTransient<IFilePerUserHandlingService, AvatarService>();
-            services.AddTransient<IPostReactionService, PostReactionService>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IMessageBus, MassTransitMessageBus>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IEncryptionService, EncryptionService>();
+            services.AddScoped<IRegistrationService, RegistrationService>();
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IFilePerUserHandlingService, AvatarService>();
+            services.AddScoped<IPostReactionService, PostReactionService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICacheService, RedisDistributedCacheService>();
+            services.AddScoped<IUserPunishmentsService, UserPunishmentsService>();
+            
             // Passkey
             services.AddScoped<IPasskeyAuthService, PasskeyAuthService>();
             services.AddScoped<IPasskeyCryptographyService, PasskeyCryptographyService>();
             services.AddScoped<IPasskeySessionsService, PasskeySessionsService>();
+
+            // Semantic analysis
+            services.AddScoped<IProfanityFilter, ProfanityFilter.ProfanityFilter>();
+            services.AddScoped<ISemanticAnalysisService, SemanticAnalysisService>(serviceProvider =>
+            {
+                var langDetector = new LanguageDetector();
+                langDetector.AddAllLanguages();
+                var profanityFilter = serviceProvider.GetRequiredService<IProfanityFilter>();
+                var options = serviceProvider.GetRequiredService<IOptions<SemanticAnalysisOptions>>();
+                return new SemanticAnalysisService(langDetector, profanityFilter, options);
+            });
         }
 
         public static void InitializePasskeyFido2CryptoLibrary(this IServiceCollection services)

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <Folder Include="Abstract\Messaging\" />
-    <Folder Include="Messaging\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Abstract\Messaging\" />
+		<Folder Include="Messaging\" />
+	</ItemGroup>
 </Project>

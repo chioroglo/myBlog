@@ -1,5 +1,4 @@
-﻿using Common.Validation;
-using DAL.Configurations.Abstract;
+﻿using DAL.Configurations.Abstract;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

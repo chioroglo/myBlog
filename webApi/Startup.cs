@@ -1,8 +1,8 @@
 ﻿using API.Extensions;
 using API.Extensions.Auth;
 using Common;
-using Common.Options;
 using DAL;
+using Domain.Abstract;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -25,12 +25,23 @@ namespace API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .LoadConfigurationForJwtBearer(Configuration);
 
-            services.AddCorsWithPolicy(Configuration.GetSection(CorsPolicyOptions.Config).Get<CorsPolicyOptions>());
+            services.AddCorsWithPolicy(Configuration);
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Blog"))
-                , ServiceLifetime.Transient);
+            services.AddDbContext<BlogDbContext>(
+                options =>
+                {
+                    var connectionString = Configuration.GetConnectionString("Blog");
+                    options.UseSqlServer(connectionString);
+                });
+
+            services.AddScoped<IUnitOfWork>(serviceProvider =>
+            {
+                var context = serviceProvider.GetRequiredService<BlogDbContext>();
+                return new UnitOfWork(context);
+            });
+
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("Redis");
@@ -57,9 +68,9 @@ namespace API
             });
 
             services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
+            services.InitializeOptions(Configuration);
             services.InitializeRepositories();
             services.InitializeServices();
-            services.InitializeOptions(Configuration);
             services.InitializeControllers();
             services.InitializePasskeyFido2CryptoLibrary();
         }
@@ -90,7 +101,7 @@ namespace API
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseDatabaseTransactions(); //
+            //app.UseDatabaseTransactions(); TODO: Bring back after DB transaction will be fixed
 
 
             app.UseEndpoints(endpoints =>

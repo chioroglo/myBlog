@@ -1,18 +1,15 @@
-﻿using DAL.Repositories;
-using DAL.Repositories.Abstract;
+﻿using DAL.Repositories.Abstract.Base;
 
-namespace API.Extensions
+namespace API.Extensions;
+
+public static class RepositoriesInitializer
 {
-    public static class RepositoriesInitializer
+    public static void InitializeRepositories(this IServiceCollection services)
     {
-        public static void InitializeRepositories(this IServiceCollection services)
-        {
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IPostRepository, PostRepository>();
-            services.AddTransient<ICommentRepository, CommentRepository>();
-            services.AddTransient<IPostReactionRepository, PostReactionRepository>();
-            services.AddTransient<IAvatarRepository, AvatarRepository>();
-            services.AddTransient<IPasskeyRepository, EfPasskeyRepository>();
-        }
+        services.Scan(scan =>
+            scan.FromAssemblies(typeof(DAL.AssemblyReference).Assembly)
+                .AddClasses(classes => classes.AssignableTo(typeof(BaseRepository<>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
     }
 }
