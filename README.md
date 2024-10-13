@@ -36,6 +36,8 @@ While you've installed CLI (Command Line Interface) for Entity Framework, type i
     dotnet ef migrations list -s WebApi
 # To apply migrations to your brand new database
     dotnet ef database update -s WebApi
+# INFO: To add new migartion, type in:
+    dotnet ef migrations add "MIGRATION_NAME" -s WebApi -p Data
 ```
 That should do well, after you lanch WebApi, it'll be populated with initial mock values. Launch the API!
 
