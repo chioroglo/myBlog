@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpGet("{id:int}")]
         public async Task<UserModel> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetByIdAsync(id, cancellationToken);
+            var user = await _userService.GetUserProfileData(id, cancellationToken);
 
             return _mapper.Map<UserModel>(user);
         }
@@ -45,9 +45,7 @@ namespace API.Controllers
         [HttpGet("current")]
         public async Task<UserModel> GetAuthenticatedUserAsync(CancellationToken cancellationToken)
         {
-            var currentId = CurrentUserId;
-
-            var user = await _userService.GetByIdAsync(currentId, cancellationToken);
+            var user = await _userService.GetByIdAsync(CurrentUserId, cancellationToken);
 
             return _mapper.Map<UserModel>(user);
         }

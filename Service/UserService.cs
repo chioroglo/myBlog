@@ -86,13 +86,8 @@ namespace Service
 
         public async Task UpdateLastActivity(int userId, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
-
-
-            if (user == null)
-            {
-                throw new ValidationException($"{nameof(User)} of ID: {userId} does not exist");
-            }
+            var user = await _userRepository.GetByIdAsync(userId, cancellationToken)
+                ?? throw new ValidationException($"{nameof(User)} of ID: {userId} does not exist");
 
             user.LastActivity = DateTime.UtcNow;
 
@@ -107,6 +102,14 @@ namespace Service
                  ?? throw new NotFoundException($"{nameof(User)} of ID: {userId} does not exist");
 
             return user.Passkeys;
+        }
+
+        public async Task<User?> GetUserProfileData(int userId, CancellationToken cancellationToken)
+        {
+            var user = await _userRepository.GetProfileData(userId, cancellationToken)
+                       ?? throw new NotFoundException($"{nameof(User)} of ID: {userId} does not exist");
+
+            return user;
         }
     }
 }

@@ -82,9 +82,6 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
         },
         onSubmit: (values, formikHelpers) => {
 
-            console.log(formik.values);
-            console.log(formik.initialValues);
-
             if (values.username === user.username) {
                 values.username = undefined;
             }

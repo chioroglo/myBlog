@@ -35,6 +35,7 @@ namespace API.Middlewares
                         break;
                     }
                     case ValidationException:
+                    case InsufficientPermissionsException:
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
@@ -44,7 +45,7 @@ namespace API.Middlewares
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         break;
                     }
-                    case InsufficientPermissionsException:
+                    case UserBannedException:
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                         break;

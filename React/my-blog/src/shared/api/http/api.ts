@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosResponse} from "axios";
+import axios, {AxiosError, AxiosResponse, HttpStatusCode} from "axios";
 
 import {API_URL, AvatarTokenKeyName, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKeyName} from "../../config"
 import {AuthenticateRequest, AuthenticateResponse, RegistrationDto} from "../types"
@@ -25,6 +25,15 @@ instance.interceptors.request.use((config) => {
     return config;
 })
 
+instance.interceptors.response.use((response) => response,
+(err) => {
+    if (err.status === HttpStatusCode.Forbidden) {
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.reload();
+    }
+    throw err;
+})
 
 export class avatarApi {
 

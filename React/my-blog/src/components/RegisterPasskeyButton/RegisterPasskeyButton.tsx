@@ -32,7 +32,6 @@ const RegisterPasskeyButton = ({ caption }: RegisterPasskeyButtonProps) => {
                 .then(() => notifyUser("Passkey created successfully!", "success"))
                 .catch((result) => notifyUser(result.response?.data.Message, "error"));
             }).catch((err) => {
-                console.log(err);
                 notifyUser("error", "info");
             })
         })
