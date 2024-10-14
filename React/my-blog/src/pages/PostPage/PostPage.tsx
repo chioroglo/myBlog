@@ -22,7 +22,6 @@ const PostPage = () => {
 
         if (typeof postId === "string") {
             postApi.getPostById(parseInt(postId) || 0).then((result: AxiosResponse<PostModel>) => {
-                console.log(result.data);
                 setPost(result.data)
             })
                 .catch(() => {

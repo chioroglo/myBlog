@@ -52,8 +52,6 @@ const ProfilePage = () => {
         setLoading(true);
 
         fetchUser().then((response: AxiosResponse<UserModel>) => {
-
-            console.log(response);
             setUser(response.data);
 
             setPageRequestPostReel({
@@ -86,7 +84,6 @@ const ProfilePage = () => {
 
             setLoading(false);
         }).catch((error: AxiosError<ErrorResponse>) => {
-            console.log(error);
             setHasError(true);
 
             if (error.response) {
