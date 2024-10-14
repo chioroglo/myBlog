@@ -2,6 +2,7 @@
 using DAL.Repositories.Abstract;
 using Service.Abstract.Auth;
 using System.Security.Authentication;
+using Common.Exceptions;
 using Domain;
 using Service.Abstract;
 
@@ -26,12 +27,17 @@ namespace Service.Auth
         public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest userData,
             CancellationToken cancellationToken)
         {
-            var response = await TryIdentifyUserAsync(userData.Username, userData.Password, cancellationToken)
-                           ?? throw new AuthenticationException("Credentials were not valid");
+            var user = await TryIdentifyUserAsync(userData.Username, userData.Password, cancellationToken)
+                           ?? throw new ValidationException("Credentials were not valid");
 
-            var authenticationResponse = _encryptionService.GenerateAccessToken(response.Id, response.Username);
+            if (user.IsBanned)
+            {
+                throw new ValidationException($"User is banned! Please contact platform administrators!");
+            }
 
-            await _userService.UpdateLastActivity(response.Id, cancellationToken);
+            var authenticationResponse = _encryptionService.GenerateAccessToken(user.Id, user.Username);
+
+            await _userService.UpdateLastActivity(user.Id, cancellationToken);
             return authenticationResponse;
         }
 

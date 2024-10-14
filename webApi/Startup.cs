@@ -1,5 +1,6 @@
 ﻿using API.Extensions;
 using API.Extensions.Auth;
+using API.Middlewares;
 using Common;
 using DAL;
 using Domain.Abstract;
@@ -73,6 +74,7 @@ namespace API
             services.InitializeServices();
             services.InitializeControllers();
             services.InitializePasskeyFido2CryptoLibrary();
+            services.AddScoped<BannedUserMiddleware>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -101,6 +103,7 @@ namespace API
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<BannedUserMiddleware>();
             //app.UseDatabaseTransactions(); TODO: Bring back after DB transaction will be fixed
 
 

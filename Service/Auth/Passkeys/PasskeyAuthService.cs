@@ -75,6 +75,11 @@ public class PasskeyAuthService(
         var user = await passkeyRepository.GetUserWithActivePasskeys(userId.Value, ct)
             ?? throw new NotFoundException($"User with ID: {userId} was not found");
 
+        if (user.IsBanned)
+        {
+            throw new ValidationException($"User is banned! Please contact administrator!");
+        }
+
         if (user.Passkeys?.IsNullOrEmpty() ?? true)
         {
             throw new NotFoundException("No passkeys available!");
