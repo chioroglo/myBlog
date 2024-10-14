@@ -160,8 +160,7 @@ const PostCard = ({
                                                   variant="outlined" color={"primary"} label={"#" + post.topic}/>
                                         </Link>
                                     }
-                                    {post.content}
-
+                                    <Typography>{post.content}</Typography>
                                 </>
                             </CardContent>
 

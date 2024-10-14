@@ -35,7 +35,8 @@ namespace Common.MappingProfiles
                     ))
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.RegistrationDate, opt => opt.MapFrom(src => src.RegistrationDate.ToString("u")))
-                .ForMember(dst => dst.LastActivity, opt => opt.MapFrom(src => src.LastActivity.ToString("u")));
+                .ForMember(dst => dst.LastActivity, opt => opt.MapFrom(src => src.LastActivity.ToString("u")))
+                .ForMember(dst => dst.ActiveWarnings, opt => opt.MapFrom(src => src.Warnings));
 
 
             CreateMap<UserInfoDto, User>().ForMember(dst => dst.Id, opt => opt.Ignore())

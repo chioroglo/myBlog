@@ -13,21 +13,8 @@ import {
 } from '../../shared/assets';
 import {EditProfileCustomModal} from "../CustomModal";
 import {UserInfoCache} from "../../shared/types";
-
-
-const paperStyle: React.CSSProperties = {
-    width: "70vw",
-    minWidth: "300px",
-    margin: "0 auto",
-}
-
-const paperBackgroundStyle: React.CSSProperties = {
-    backgroundImage: "radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)",
-    height: "200px",
-    borderBottomLeftRadius: "0px",
-    borderBottomRightRadius: "0px"
-}
-
+import "../ProfileHeader/ProfileHeader.scss";
+import { WarningProfileBox } from './WarningsProfileBox/WarningProfileBox';
 
 const avatarStyle: React.CSSProperties = {
     minWidth: "115px",
@@ -74,8 +61,8 @@ const ProfileHeader = ({user, setUser}: ProfileHeaderProps) => {
                                     user={user}
                                     setUser={setUser}/>
 
-            <Paper style={paperStyle}>
-                <Paper elevation={0} style={paperBackgroundStyle}/>
+            <Paper className="profile-header-wrapper">
+                <Paper elevation={0} className="profile-header-upper-background"/>
 
                 <Box style={{
                     margin: internalMarginOfDialog,
@@ -124,7 +111,7 @@ const ProfileHeader = ({user, setUser}: ProfileHeaderProps) => {
                         </Box>
 
                     </Box>
-
+                    <WarningProfileBox isBanned={user.isBanned} warnings={user.activeWarnings}/>
                 </Box>
             </Paper>
         </>

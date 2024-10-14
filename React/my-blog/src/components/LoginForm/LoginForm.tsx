@@ -100,7 +100,7 @@ const LoginForm = () => {
                     setUser(new UserInfoCache(response.id, response.username));
                     notifySucessfullAuth();
                 })
-                .catch(() => displayNotification("Error occurred during passkey authentication", "error"));
+                .catch((err) => displayNotification(err.response.data.Message, "error"));
             });
         });
     }, []);
@@ -140,7 +140,6 @@ const LoginForm = () => {
                     .min(PasswordValidationConstraints.MinLength)
                     .max(PasswordValidationConstraints.MaxLength)
         })
-
     });
 
 
