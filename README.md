@@ -41,10 +41,10 @@ While you've installed CLI (Command Line Interface) for Entity Framework, type i
 ```
 That should do well, after you lanch WebApi, it'll be populated with initial mock values. Launch the API!
 
-4. Set up React application.
-4.1 Install NODE.JS LTS version https://nodejs.org/en
-4.2 Open react section of this project in console ("React/my-blog/")
-4.3 Install all dependencies.
+4. Set up React application.<br/>
+4.1 Install NODE.JS LTS version https://nodejs.org/en<br/>
+4.2 Open react section of this project in console ("React/my-blog/")<br/>
+4.3 Install all dependencies.<br/>
 ```shell
     npm install
 ```
