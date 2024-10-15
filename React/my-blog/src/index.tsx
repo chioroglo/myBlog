@@ -9,7 +9,6 @@ import {AvatarTokenKeyName, JwtTokenKeyName, UserIdTokenKeyName, UsernameTokenKe
 import {UserInfoCache} from "./shared/types";
 import { ThemeProvider } from '@emotion/react';
 
-
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );

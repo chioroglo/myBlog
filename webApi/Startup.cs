@@ -87,7 +87,7 @@ namespace API
                 app.UseSwaggerUI();
             }
 
-            app.UseStaticFiles(new StaticFileOptions()
+            app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = (context) =>
                 {

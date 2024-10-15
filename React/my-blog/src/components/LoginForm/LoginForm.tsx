@@ -183,7 +183,7 @@ const LoginForm = () => {
                             fontStyle: "italic",
                             textDecoration: "bold",
                             color: palette.JET
-                        }} to="/register">Do not have an account? Click here</Link>
+                        }} to="/register">Do not have an account? <u>Click here</u></Link>
                     </Paper>
                 </form>
             }
