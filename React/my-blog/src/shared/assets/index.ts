@@ -13,3 +13,5 @@ export * from "./getFirstCharOfStringUpperCase"
 export * from "./transformUtcToLocalDate"
 
 export * from "./transformUtcToLocalDateMonthHoursMinutesString"
+
+export * from "./language-flag-helper";

@@ -1,5 +1,6 @@
 import {
     Avatar,
+    Box,
     Card,
     CardActions,
     CardContent,
@@ -33,6 +34,7 @@ import {ApplicationState} from '../../redux';
 import {ConfirmActionCustomModal} from "../CustomModal";
 import {UserInfoCache} from "../../shared/types";
 import {useNotifier} from '../../hooks';
+import { FlagEmoji } from '../FlagEmoji/FlagEmoji';
 
 const PostCard = ({
                       initialPost,
@@ -79,7 +81,6 @@ const PostCard = ({
 
     const handleExpandCommentSection = () => setCommentsOpen(!commentsOpen);
 
-
     const handleEditPost = async (newPost: PostDto): Promise<AxiosResponse<PostModel>> => {
         return postApi.editPost(post.id, newPost).then((result: AxiosResponse<PostModel>) => {
             if (result.status === 200 && user) {
@@ -120,7 +121,6 @@ const PostCard = ({
                     :
                     <Card elevation={10} style={{width: width, margin: "20px auto"}}>
                         <>
-
                             {
                                 user && confirmDeleteDialogOpen &&
                                 <ConfirmActionCustomModal actionCallback={() => handleDeletePost(post.id)}
@@ -145,12 +145,18 @@ const PostCard = ({
                                     <IconButton onClick={handleOpenMenu}><MoreVertIcon/></IconButton> : <></>}
                                 title={<Link to={`/user/${post.authorId}`}>{post.authorUsername}</Link>}
                                 subheader={
-                                    <Link
-                                        to={`/post/${post.id}`}>Posted
-                                        at {assets.transformUtcStringToDateMonthHoursMinutesString(post.registrationDate)}
-                                    </Link>}/>
-
-
+                                    <Box
+                                        display={"flex"}
+                                        justifyContent={'left'}
+                                        flexDirection={'row'}
+                                        gap={'10px'}
+                                        alignItems={"center"}>
+                                        <Link
+                                            to={`/post/${post.id}`}>Posted
+                                            at {assets.transformUtcStringToDateMonthHoursMinutesString(post.registrationDate)}
+                                        </Link>
+                                        <FlagEmoji fontSizePx={16} emoji={assets.getFlagEmoji(post.language)}/>
+                                    </Box>}/>
                             <CardContent>
                                 <>
                                     <Typography variant="h5">{post.title}</Typography>

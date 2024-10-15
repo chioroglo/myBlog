@@ -16,8 +16,8 @@ namespace Common.MappingProfiles
                 .ForMember(dst => dst.AuthorUsername, opt => opt.MapFrom(src => src.User.Username))
                 .ForMember(dst => dst.Topic, opt => opt.MapFrom(src => src.Topic))
                 .ForMember(dst => dst.AmountOfComments, opt => opt.MapFrom(src => src.Comments.Count()))
-                .ForMember(dst => dst.RegistrationDate,
-                    opt => opt.MapFrom(src => src.RegistrationDate.ToString("u")));
+                .ForMember(dst => dst.RegistrationDate, opt => opt.MapFrom(src => src.RegistrationDate.ToString("u")))
+                .ForMember(dst => dst.Language, opt => opt.MapFrom(src => src.DetectedLanguage));
 
             CreateMap<PostDto, Post>()
                 .ForMember(dst => dst.Title,

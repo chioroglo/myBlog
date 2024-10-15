@@ -15,5 +15,6 @@ namespace Common.Models
         public string Topic { get; set; }
 
         public int AmountOfComments { get; set; }
+        public string? Language { get; set; }
     }
 }
