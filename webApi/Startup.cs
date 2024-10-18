@@ -75,6 +75,8 @@ namespace API
             services.InitializeControllers();
             services.InitializePasskeyFido2CryptoLibrary();
             services.AddScoped<BannedUserMiddleware>();
+            services.AddProblemDetails();
+            services.AddExceptionHandler<GlobalExceptionHandlingMiddleware>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -87,6 +89,7 @@ namespace API
                 app.UseSwaggerUI();
             }
 
+            app.UseExceptionHandler();
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = (context) =>
@@ -96,7 +99,6 @@ namespace API
                 }
             });
 
-            app.UseExceptionHandling(); //
             app.UseRouting();
             app.UseCors();
 
