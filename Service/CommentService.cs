@@ -4,6 +4,7 @@ using DAL.Repositories.Abstract;
 using Domain;
 using Service.Abstract;
 using System.Linq.Expressions;
+using Domain.Abstract;
 
 namespace Service
 {
@@ -11,24 +12,24 @@ namespace Service
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IPostRepository _postRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
 
-        public CommentService(ICommentRepository commentRepository, IPostRepository postRepository)
+        public CommentService(ICommentRepository commentRepository, IPostRepository postRepository, IUnitOfWork unitOfWork)
         {
             _postRepository = postRepository;
+            _unitOfWork = unitOfWork;
             _commentRepository = commentRepository;
         }
 
         public async Task<Comment> Add(Comment entity, CancellationToken cancellationToken)
         {
-            var post = _postRepository.GetByIdAsync(entity.PostId, cancellationToken);
+            var post = await _postRepository.GetByIdAsync(entity.PostId, cancellationToken)
+                ?? throw new ValidationException($"{nameof(Post)} of ID: {entity.PostId} does not exist");
 
-            if (post == null)
-            {
-                throw new ValidationException($"{nameof(Post)} of ID: {entity.PostId} does not exist");
-            }
-
-            return await _commentRepository.AddAsync(entity, cancellationToken);
+            var comment = await _commentRepository.AddAsync(entity, false, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return comment;
         }
 
         public async Task<Comment> GetByIdAsync(int id, CancellationToken cancellationToken)

@@ -17,7 +17,9 @@ namespace DAL.Repositories.Abstract.Base
         Task<CursorPagedResult<TEntity>> GetCursorPagedData(CursorPagedRequest pagedRequest,
             CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
 
+        [Obsolete]
         Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken);
+        Task<TEntity> AddAsync(TEntity entity, bool saveChanges = false, CancellationToken cancellationToken = default);
 
         Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken);
 
