@@ -12,6 +12,7 @@ namespace API.Extensions.Auth
             authenticationBuilder.AddJwtBearer(
                 options =>
                 {
+                    var securityKeyBytes = Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? throw new ArgumentNullException());
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -20,7 +21,7 @@ namespace API.Extensions.Auth
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = configuration["Jwt:Issuer"],
                         ValidAudience = configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(securityKeyBytes)
                     };
                 });
         }

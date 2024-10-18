@@ -34,14 +34,10 @@ namespace Service.Auth
 
             var newUserEntity = _mapper.Map<User>(registerData);
             newUserEntity.PasswordHash = _encryptionService.EncryptPassword(newUserEntity.Password);
-            
-            await _userRepository.AddAsync(newUserEntity, cancellationToken);
 
-            var newlyCreatedUser =
-                (await _userRepository.GetWhereAsync(u => u.Username == newUserEntity.Username, cancellationToken))
-                .FirstOrDefault();
+            newUserEntity = await _userRepository.AddAsync(newUserEntity, cancellationToken);
 
-            return newlyCreatedUser;
+            return newUserEntity;
         }
 
         private async Task<bool> IsNicknameOccupied(string username, CancellationToken cancellationToken)
