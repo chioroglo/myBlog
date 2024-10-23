@@ -31,12 +31,16 @@ public class SemanticAnalysisService : ISemanticAnalysisService
         };
 
         // Profanity Checking
-        var profanities = _profanityFilter.DetectAllProfanities(text);
-        if (profanities != null && profanities.Any())
+        if (_analysisOptions.CheckProfanity)
         {
-            response.DoPunish = true;
-            response.PunishmentExplanation = $"Text content contains {profanities.Count} profanities";
-            response.CensoredText = _profanityFilter.CensorString(text);
+            var profanities = _profanityFilter.DetectAllProfanities(text);
+            if (profanities != null && profanities.Any())
+            {
+                response.DoPunish = true;
+                response.PunishmentExplanation = $"Text content contains {profanities.Count} profanities";
+                response.CensoredText = _profanityFilter.CensorString(text);
+            }
+
         }
 
         return response;
