@@ -23,7 +23,7 @@ React(TypeScript) (Material UI,Formik,react-router-dom,Axios,React Redux)
 - Redis to support in-memory distributed caching
 
 These instances may be installed via **docker-compose.yml** file. To install - go to the terminal in .NET application
-folder ("webApi") and type in 
+folder ("MyBlog.API") and type in 
 ```shell
 docker-compose up -d
 ```
@@ -36,11 +36,11 @@ dotnet tool install --global dotnet-ef
 While you've installed CLI (Command Line Interface) for Entity Framework, type in following commands
 ```shell
 # To view the migartions list
-    dotnet ef migrations list -s WebApi
+    dotnet ef migrations list -s MyBlog.API
 # To apply migrations to your brand new database
-    dotnet ef database update -s WebApi
+    dotnet ef database update -s MyBlog.API
 # INFO: To add new migartion, type in:
-    dotnet ef migrations add "MIGRATION_NAME" -s WebApi -p Data
+    dotnet ef migrations add "MIGRATION_NAME" -s MyBlog.API -p Data
 ```
 That should do well, after you lanch WebApi, it'll be populated with initial mock values. Launch the API!
 

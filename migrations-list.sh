@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dotnet ef migrations list -s webApi
+dotnet ef migrations list -s MyBlog.API
