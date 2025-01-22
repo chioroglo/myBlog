@@ -10,8 +10,6 @@ miglist:
 
 clean:
 	dotnet clean
-	cd React/my-blog
-	npm clean
 
 help:
 	@echo "Available commands"
