@@ -79,7 +79,10 @@ namespace MyBlog.API
             services.AddCache(Configuration);
             services.InitializeRepositories();
             services.InitializeServices();
-            services.InitializeControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.WriteIndented = true;
+            });
             services.InitializePasskeyFido2CryptoLibrary();
             services.AddScoped<BannedUserMiddleware>();
             services.AddScoped<JwtAccessTokenBlacklistMiddleware>();
