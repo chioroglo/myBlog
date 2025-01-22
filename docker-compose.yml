@@ -9,7 +9,7 @@ services:
       - "6379:6379"
 
   mssql:
-    container_name: "mssql2022"
+    container_name: "MSSQL2022"
     restart: always
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     environment:

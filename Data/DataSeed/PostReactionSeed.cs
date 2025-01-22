@@ -29,9 +29,7 @@ namespace DAL.DataSeed
                     ReactionType = ReactionType.Love
                 };
 
-                dbContext.Add(reaction1);
-                dbContext.Add(reaction2);
-                dbContext.Add(reaction3);
+                dbContext.AddRange([ reaction1, reaction2, reaction3 ]);
 
                 await dbContext.SaveChangesAsync();
             }

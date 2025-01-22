@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dotnet ef database update -s webApi
+dotnet ef database update -s MyBlog.API

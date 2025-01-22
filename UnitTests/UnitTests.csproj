@@ -27,7 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
-    <ProjectReference Include="..\webApi\API.csproj" />
+    <ProjectReference Include="..\MyBlog.API\MyBlog.API.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,49 @@
+﻿using System.Net;
+using System.Text;
+using System.Text.Json;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using MyBlog.API.Middlewares.Models;
+
+namespace MyBlog.API.Extensions.Auth
+{
+    public static class JwtBearerConfiguration
+    {
+        public static void LoadConfigurationForJwtBearer(this AuthenticationBuilder authenticationBuilder,
+            IConfiguration configuration)
+        {
+            authenticationBuilder.AddJwtBearer(
+                options =>
+                {
+                    var securityKeyBytes = Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? throw new ArgumentNullException());
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = configuration["Jwt:Issuer"],
+                        ValidAudience = configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(securityKeyBytes)
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnChallenge = async context =>
+                        {
+                            context.HandleResponse();
+                            const int statusCode = (int)HttpStatusCode.Unauthorized;
+
+                            context.Response.StatusCode = statusCode;
+
+                            var error = new ErrorDetails(statusCode, "Authentication failed!");
+
+                            var json = JsonSerializer.SerializeToUtf8Bytes(error);
+                            await context.Response.BodyWriter.WriteAsync(json);
+                        }
+                    };
+                });
+        }
+    }
+}

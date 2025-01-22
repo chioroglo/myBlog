@@ -21,9 +21,7 @@ namespace DAL.DataSeed
                     Post = dbContext.Posts.First(e => e.Title == "Boone"),
                     Content = "comment 2"
                 };
-
-                dbContext.Add(comment1);
-                dbContext.Add(comment2);
+                dbContext.AddRange(comment1, comment2);
 
                 await dbContext.SaveChangesAsync();
             }
