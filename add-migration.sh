@@ -10,4 +10,4 @@ fi
 migration_name=$1
 
 # Run the EF Core migrations command
-dotnet ef migrations add "$migration_name" -s MyBlog.API -p Data -o ../Data/Migrations
+dotnet ef migrations add "$migration_name" -s MyBlog.API -p MyBlog.Data -o ../MyBlog.Data/Migrations

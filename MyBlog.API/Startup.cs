@@ -1,5 +1,4 @@
-﻿using DAL;
-using HealthChecks.UI.Client;
+﻿using HealthChecks.UI.Client;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
