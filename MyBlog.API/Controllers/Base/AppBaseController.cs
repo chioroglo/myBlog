@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Common;
+using MyBlog.Common;
 
 namespace MyBlog.API.Controllers.Base
 {

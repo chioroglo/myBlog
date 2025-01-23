@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Common.Dto.PostReaction;
-using Common.Models;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.API.Controllers.Base;
 using MyBlog.API.Filters;
-using Service.Abstract;
+using MyBlog.Common.Dto.PostReaction;
+using MyBlog.Common.Models;
+using MyBlog.Domain;
+using MyBlog.Service.Abstract;
 
 namespace MyBlog.API.Controllers
 {

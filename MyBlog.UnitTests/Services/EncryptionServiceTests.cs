@@ -1,7 +1,7 @@
-﻿using Common.Options;
-using Common.Validation;
-using Microsoft.Extensions.Options;
-using Service.Auth;
+﻿using Microsoft.Extensions.Options;
+using MyBlog.Common.Options;
+using MyBlog.Common.Validation;
+using MyBlog.Service.Auth;
 
 namespace MyBlog.UnitTests.Services;
 

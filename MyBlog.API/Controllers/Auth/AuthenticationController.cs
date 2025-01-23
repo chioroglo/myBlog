@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
-using Common.Dto.Auth;
-using Common.Exceptions;
-using Common.Models;
-using Common.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.API.Controllers.Base;
 using MyBlog.API.Extensions;
-using Service.Abstract.Auth;
+using MyBlog.Common.Dto.Auth;
+using MyBlog.Common.Exceptions;
+using MyBlog.Common.Models;
+using MyBlog.Common.Utils;
+using MyBlog.Service.Abstract.Auth;
 
 namespace MyBlog.API.Controllers.Auth
 {

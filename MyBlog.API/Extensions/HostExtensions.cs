@@ -1,5 +1,6 @@
 ﻿using DAL;
-using DAL.DataSeed;
+using MyBlog.Data;
+using MyBlog.Data.DataSeed;
 
 namespace MyBlog.API.Extensions;
 

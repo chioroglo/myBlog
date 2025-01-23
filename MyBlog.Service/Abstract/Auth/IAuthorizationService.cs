@@ -1,0 +1,13 @@
+﻿using MyBlog.Common.Dto.Auth;
+using MyBlog.Domain;
+
+namespace MyBlog.Service.Abstract.Auth;
+
+public interface IAuthorizationService
+{
+    Task<AuthorizationResponse> Authorize(User user, CancellationToken ct = default);
+    Task<string> GetNewAccessToken(string refreshToken, int userId, CancellationToken ct = default);
+    Task PurgeRefreshToken(int userId, CancellationToken ct = default);
+    Task BlacklistAccessToken(string? accessToken, CancellationToken ct = default);
+    Task<bool> IsTokenBlacklisted(string? accessToken, CancellationToken ct = default);
+}

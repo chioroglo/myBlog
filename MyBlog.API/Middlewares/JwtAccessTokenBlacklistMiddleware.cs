@@ -1,6 +1,6 @@
 ﻿using System.Security.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using IAuthorizationService = Service.Abstract.Auth.IAuthorizationService;
+using IAuthorizationService = MyBlog.Service.Abstract.Auth.IAuthorizationService;
 
 namespace MyBlog.API.Middlewares;
 

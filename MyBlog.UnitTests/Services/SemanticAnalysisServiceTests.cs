@@ -1,8 +1,8 @@
-﻿using Common.Options;
-using LanguageDetection;
+﻿using LanguageDetection;
 using Microsoft.Extensions.Options;
+using MyBlog.Common.Options;
+using MyBlog.Service;
 using ProfanityFilter.Interfaces;
-using Service;
 
 namespace MyBlog.UnitTests.Services;
 

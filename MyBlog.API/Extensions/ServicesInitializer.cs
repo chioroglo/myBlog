@@ -1,17 +1,17 @@
-﻿using Common.Options;
-using LanguageDetection;
+﻿using LanguageDetection;
 using Microsoft.Extensions.Options;
+using MyBlog.Common.Options;
+using MyBlog.Service;
+using MyBlog.Service.Abstract;
+using MyBlog.Service.Abstract.Auth;
+using MyBlog.Service.Abstract.Auth.Passkeys;
+using MyBlog.Service.Abstract.Messaging;
+using MyBlog.Service.Abstract.Statistics;
+using MyBlog.Service.Auth;
+using MyBlog.Service.Auth.Passkeys;
+using MyBlog.Service.Messaging;
+using MyBlog.Service.Statistics;
 using ProfanityFilter.Interfaces;
-using Service;
-using Service.Abstract;
-using Service.Abstract.Auth;
-using Service.Abstract.Auth.Passkeys;
-using Service.Abstract.Messaging;
-using Service.Abstract.Statistics;
-using Service.Auth;
-using Service.Auth.Passkeys;
-using Service.Messaging;
-using Service.Statistics;
 
 namespace MyBlog.API.Extensions
 {

@@ -1,9 +1,9 @@
-﻿using Common.Dto.Avatar;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.API.Controllers.Base;
 using MyBlog.API.Filters;
-using Service.Abstract;
+using MyBlog.Common.Dto.Avatar;
+using MyBlog.Service.Abstract;
 
 namespace MyBlog.API.Controllers
 {

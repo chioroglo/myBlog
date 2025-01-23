@@ -1,9 +1,9 @@
-﻿using Common.Exceptions;
-using DAL.Repositories.Abstract;
-using Domain.Abstract;
-using Domain.Messaging;
-using MassTransit;
-using Service.Abstract;
+﻿using MassTransit;
+using MyBlog.Common.Exceptions;
+using MyBlog.Data.Repositories.Abstract;
+using MyBlog.Domain.Abstract;
+using MyBlog.Domain.Messaging;
+using MyBlog.Service.Abstract;
 
 namespace MyBlog.API.EventConsumers;
 

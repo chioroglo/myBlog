@@ -1,8 +1,8 @@
-﻿using Common.Dto.Statistics;
-using Common.Exceptions;
-using Common.Models.Statistics;
-using DAL.Repositories.Abstract;
-using Service.Statistics;
+﻿using MyBlog.Common.Dto.Statistics;
+using MyBlog.Common.Exceptions;
+using MyBlog.Common.Models.Statistics;
+using MyBlog.Data.Repositories.Abstract;
+using MyBlog.Service.Statistics;
 
 namespace MyBlog.UnitTests.Services;
 

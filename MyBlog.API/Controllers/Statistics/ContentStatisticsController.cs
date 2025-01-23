@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Common.Dto.Statistics;
-using Common.Models.Statistics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.API.Controllers.Base;
-using Service.Abstract.Statistics;
+using MyBlog.Common.Dto.Statistics;
+using MyBlog.Common.Models.Statistics;
+using MyBlog.Service.Abstract.Statistics;
 
 namespace MyBlog.API.Controllers.Statistics;
 

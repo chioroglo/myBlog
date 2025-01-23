@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using Common.Dto.Paging.CursorPaging;
-using Common.Dto.Post;
-using Common.Models;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.API.Controllers.Base;
 using MyBlog.API.Filters;
-using Service.Abstract;
+using MyBlog.Common.Dto.Paging.CursorPaging;
+using MyBlog.Common.Dto.Post;
+using MyBlog.Common.Models;
+using MyBlog.Domain;
+using MyBlog.Service.Abstract;
 
 namespace MyBlog.API.Controllers
 {

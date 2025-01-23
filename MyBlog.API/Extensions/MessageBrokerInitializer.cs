@@ -1,5 +1,5 @@
-﻿using Common.Options;
-using MassTransit;
+﻿using MassTransit;
+using MyBlog.Common.Options;
 
 namespace MyBlog.API.Extensions;
 

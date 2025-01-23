@@ -1,6 +1,7 @@
-﻿using Common.Options;
-using Service;
-using Service.Abstract;
+﻿using MyBlog.Common.Options;
+using MyBlog.Service;
+using MyBlog.Service.Abstract;
+
 
 namespace MyBlog.API.Extensions;
 
