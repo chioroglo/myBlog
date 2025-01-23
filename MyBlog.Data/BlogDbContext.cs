@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyBlog.Data.Configurations;
 using MyBlog.Domain;
 
 namespace MyBlog.Data
@@ -33,7 +32,7 @@ namespace MyBlog.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            var assembly = typeof(ConfigurationsAssemblyMarker).Assembly;
+            var assembly = typeof(MyBlog.Data.AssemblyReference).Assembly;
 
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
         }
