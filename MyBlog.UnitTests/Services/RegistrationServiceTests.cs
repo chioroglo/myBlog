@@ -7,7 +7,7 @@ using Domain.Abstract;
 using Service.Abstract.Auth;
 using Service.Auth;
 
-namespace UnitTests.Services;
+namespace MyBlog.UnitTests.Services;
 
 public class RegistrationServiceTests
 {
