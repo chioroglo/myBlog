@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "Data\DAL.csproj", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{6670C395-A64B-49F7-9215-5564B595F592}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{D439981A-3F0E-42FD-AC5E-F578BE7A4BB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlog.Service", MyBlog.Service\MyBlog.Service.csproj", "{D439981A-3F0E-42FD-AC5E-F578BE7A4BB5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{0318B2CD-B1BA-4D97-8E19-759328F2252E}"
 EndProject

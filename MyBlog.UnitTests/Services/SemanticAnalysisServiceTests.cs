@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using ProfanityFilter.Interfaces;
 using Service;
 
-namespace UnitTests.Services;
+namespace MyBlog.UnitTests.Services;
 
 public class SemanticAnalysisServiceTests
 {

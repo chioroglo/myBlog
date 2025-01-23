@@ -2,7 +2,7 @@
 using AutoMapper;
 using Common;
 
-namespace UnitTests.Mapping;
+namespace MyBlog.UnitTests.Mapping;
 
 public class AutoMapperConfigurationTests
 {

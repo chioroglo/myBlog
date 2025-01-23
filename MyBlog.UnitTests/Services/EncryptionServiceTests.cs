@@ -1,10 +1,9 @@
-﻿using System.Runtime.InteropServices;
-using Common.Options;
+﻿using Common.Options;
 using Common.Validation;
 using Microsoft.Extensions.Options;
 using Service.Auth;
 
-namespace UnitTests.Services;
+namespace MyBlog.UnitTests.Services;
 
 public class EncryptionServiceTests
 {

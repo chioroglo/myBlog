@@ -4,7 +4,7 @@ using Common.Models.Statistics;
 using DAL.Repositories.Abstract;
 using Service.Statistics;
 
-namespace UnitTests.Services;
+namespace MyBlog.UnitTests.Services;
 
 public class ContentStatisticsServiceTests
 {
