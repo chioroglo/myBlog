@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Security.Authentication;
-using Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using MyBlog.API.Middlewares.Models;
+using MyBlog.Common.Exceptions;
 
 namespace MyBlog.API.Middlewares;
 

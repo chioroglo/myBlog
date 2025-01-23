@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
-using Common;
-using Common.Exceptions;
-using DAL.Repositories.Abstract;
+using MyBlog.Common;
+using MyBlog.Common.Exceptions;
+using MyBlog.Data.Repositories.Abstract;
 
 namespace MyBlog.API.Middlewares;
 

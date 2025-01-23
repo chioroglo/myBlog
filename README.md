@@ -40,7 +40,7 @@ While you've installed CLI (Command Line Interface) for Entity Framework, type i
 # To apply migrations to your brand new database
     dotnet ef database update -s MyBlog.API
 # INFO: To add new migartion, type in:
-    dotnet ef migrations add "MIGRATION_NAME" -s MyBlog.API -p Data
+    dotnet ef migrations add "MIGRATION_NAME" -s MyBlog.API -p MyBlog.Data
 ```
 That should do well, after you lanch WebApi, it'll be populated with initial mock values. Launch the API!
 

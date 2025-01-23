@@ -1,7 +1,4 @@
-﻿using Common;
-using Common.Options;
-using DAL;
-using Domain.Abstract;
+﻿using DAL;
 using HealthChecks.UI.Client;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,8 +8,12 @@ using Microsoft.FeatureManagement;
 using MyBlog.API.Extensions;
 using MyBlog.API.Extensions.Auth;
 using MyBlog.API.Middlewares;
-using Service;
-using Service.Abstract;
+using MyBlog.Common;
+using MyBlog.Common.Options;
+using MyBlog.Data;
+using MyBlog.Domain.Abstract;
+using MyBlog.Service;
+using MyBlog.Service.Abstract;
 
 namespace MyBlog.API
 {

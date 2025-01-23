@@ -1,4 +1,4 @@
-using Common.Options;
+using MyBlog.Common.Options;
 
 namespace MyBlog.API.Extensions
 {

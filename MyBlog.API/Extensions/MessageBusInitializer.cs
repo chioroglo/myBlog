@@ -1,6 +1,6 @@
-﻿using Domain.Messaging;
-using MassTransit;
+﻿using MassTransit;
 using MyBlog.API.EventConsumers;
+using MyBlog.Domain.Messaging;
 
 namespace MyBlog.API.Extensions;
 

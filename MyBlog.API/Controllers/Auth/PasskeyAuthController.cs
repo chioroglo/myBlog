@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Common.Dto.Auth;
-using Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using MyBlog.API.Controllers.Base;
 using MyBlog.API.Extensions;
-using Service.Abstract.Auth.Passkeys;
+using MyBlog.Common.Dto.Auth;
+using MyBlog.Common.Models;
+using MyBlog.Service.Abstract.Auth.Passkeys;
 
 namespace MyBlog.API.Controllers.Auth;
 

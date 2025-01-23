@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Common.Dto.Auth;
-using Common.Exceptions;
-using DAL.Repositories.Abstract;
-using Domain;
-using Domain.Abstract;
-using Service.Abstract.Auth;
-using Service.Auth;
+using MyBlog.Common.Dto.Auth;
+using MyBlog.Common.Exceptions;
+using MyBlog.Data.Repositories.Abstract;
+using MyBlog.Domain;
+using MyBlog.Domain.Abstract;
+using MyBlog.Service.Abstract.Auth;
+using MyBlog.Service.Auth;
 
 namespace MyBlog.UnitTests.Services;
 

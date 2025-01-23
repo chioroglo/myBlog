@@ -1,7 +1,7 @@
 ﻿using Azure.Storage.Blobs;
-using Common.Options;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
+using MyBlog.Common.Options;
 
 namespace MyBlog.API.Extensions;
 

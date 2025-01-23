@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
 	<ItemGroup>
 		<PackageReference Include="AspNetCore.HealthChecks.Azure.Storage.Blobs" Version="8.0.1" />
 		<PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="8.0.2" />
@@ -44,9 +43,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Common\Common.csproj" />
-		<ProjectReference Include="..\Data\DAL.csproj" />
-		<ProjectReference Include="..\Domain\Domain.csproj" />
-		<ProjectReference Include="..\Service\Service.csproj" />
+		<ProjectReference Include="..\MyBlog.Common\MyBlog.Common.csproj" />
+		<ProjectReference Include="..\MyBlog.Data\MyBlog.Data.csproj" />
+		<ProjectReference Include="..\MyBlog.Domain\MyBlog.Domain.csproj" />
+		<ProjectReference Include="..\MyBlog.Service\MyBlog.Service.csproj" />
 	</ItemGroup>
 </Project>

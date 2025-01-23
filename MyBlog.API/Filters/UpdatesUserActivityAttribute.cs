@@ -1,7 +1,7 @@
 using System.Security.Claims;
-using Common;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Service.Abstract;
+using MyBlog.Common;
+using MyBlog.Service.Abstract;
 
 namespace MyBlog.API.Filters;
 

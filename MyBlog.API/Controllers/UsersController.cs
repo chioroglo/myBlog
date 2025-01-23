@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using Common.Dto.User;
-using Common.Models;
-using Common.Models.Passkey;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.API.Controllers.Base;
 using MyBlog.API.Filters;
-using Service.Abstract;
+using MyBlog.Common.Dto.User;
+using MyBlog.Common.Models;
+using MyBlog.Common.Models.Passkey;
+using MyBlog.Domain;
+using MyBlog.Service.Abstract;
 
 namespace MyBlog.API.Controllers
 {

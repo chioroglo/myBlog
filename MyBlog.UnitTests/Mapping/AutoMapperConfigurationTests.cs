@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using AutoMapper;
-using Common;
+using MyBlog.Common;
 
 namespace MyBlog.UnitTests.Mapping;
 

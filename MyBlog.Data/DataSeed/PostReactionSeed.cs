@@ -1,0 +1,38 @@
+﻿using MyBlog.Domain;
+
+namespace MyBlog.Data.DataSeed
+{
+    public class PostReactionSeed
+    {
+        public static async Task Seed(BlogDbContext dbContext)
+        {
+            if (!dbContext.PostReactions.Any())
+            {
+                var reaction1 = new PostReaction()
+                {
+                    User = dbContext.Users.First(e => e.Username == "vaflea"),
+                    Post = dbContext.Posts.First(e => e.Title == "Boone"),
+                    ReactionType = ReactionType.Like
+                };
+
+                var reaction2 = new PostReaction()
+                {
+                    User = dbContext.Users.First(e => e.Username == "admin"),
+                    Post = dbContext.Posts.First(e => e.Title == "Boone"),
+                    ReactionType = ReactionType.Like
+                };
+
+                var reaction3 = new PostReaction()
+                {
+                    User = dbContext.Users.First(e => e.Username == "1937nkvd"),
+                    Post = dbContext.Posts.First(e => e.Title == "Boone"),
+                    ReactionType = ReactionType.Love
+                };
+
+                dbContext.AddRange([ reaction1, reaction2, reaction3 ]);
+
+                await dbContext.SaveChangesAsync();
+            }
+        }
+    }
+}
