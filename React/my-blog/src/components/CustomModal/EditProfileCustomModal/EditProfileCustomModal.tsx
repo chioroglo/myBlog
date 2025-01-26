@@ -100,6 +100,8 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
     const [passkeyListUpdateTrigger, setPasskeyListUpdateTrigger] = useState<number>(0);
 
+    const clearAvatarPreview = () => setAvatarPreview("");
+
     const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             let file: File = e.target.files[0];
@@ -132,11 +134,16 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
     const handleDeleteAvatar = () => {
         avatarApi.RemoveAvatarForAuthorizedUser().then(() => {
             notifyUser("Avatar was successfully removed", "success");
-            setAvatarPreview("");
+            clearAvatarPreview();
             dispatch({type: ReduxActionTypes.ChangeUser, payload: { ...user } });
         }).catch((result: AxiosError<ErrorResponse>) => {
             notifyUser(result.response?.data.Message || "Unknown error", "error");
         });
+    }
+
+    const goBack = () => {
+        setModalOpen(false);
+        clearAvatarPreview();
     }
 
     useEffect(() => {
@@ -147,7 +154,6 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
     useEffect(() => {
         if (avatarFile) {
             const avatarPreviewUrl = URL.createObjectURL(avatarFile);
-
             setAvatarPreview(avatarPreviewUrl);
         }
     }, [avatarFile]);
@@ -222,7 +228,7 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
                 <DialogActions>
                     <Button disabled={JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)}
                             type={"submit"}>Update</Button>
-                    <Button onClick={() => setModalOpen(false)}>Go back</Button>
+                    <Button onClick={goBack}>Go back</Button>
                 </DialogActions>
             </form>
         </CustomModal>
