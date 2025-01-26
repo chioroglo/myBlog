@@ -47,6 +47,12 @@
 
         #endregion
 
+        #region Avatar entity section
+
+        public const int MaxAvatarSizeKb = 100;
+
+        #endregion
+
         #region SQL Expressions
 
         public const string GetutcdateSqlExpression = "GETUTCDATE()";
