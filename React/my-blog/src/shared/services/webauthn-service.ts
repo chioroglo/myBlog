@@ -55,7 +55,7 @@ export class WebauthnService {
                 }
             ],
             authenticatorSelection: {
-                userVerification: "preferred",
+                userVerification: "required",
                 requireResidentKey: true,
             },
             extensions: {
