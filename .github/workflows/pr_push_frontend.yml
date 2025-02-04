@@ -22,19 +22,14 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: React/my-blog/package-lock.json
-    
-    - name: Go to project directory
-      run: |
-            cd React/my-blog
-            ls -l
 
     - name: Install dependencies
-      run: npm install
+      run: npm --prefix React/my-blog install
 
     - name: Run tests
-      run: npm test -- --coverage
+      run: npm --prefix React/my-blog test -- --coverage
     
     - name: Build
       env:
           CI: false
-      run: npm run build
+      run: npm --prefix React/my-blog run build
