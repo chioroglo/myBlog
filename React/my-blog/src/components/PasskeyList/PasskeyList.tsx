@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { PasskeyListModel } from "../../shared/api/types/authentication/passkey/passkey-info-model";
+import { PasskeyInfoModel, PasskeyListModel } from "../../shared/api/types/authentication/passkey/passkey-info-model";
 import { CenteredLoader } from "../CenteredLoader";
 import { VpnKey, Delete } from "@mui/icons-material";
-import styles from "./passkey-list.module.scss";
 import { dateTimeFormats } from "../../shared/assets/dateTimeUtils";
 import dayjs from "dayjs";
 import { UserApi } from "../../shared/api/http/user-api";
 import { IconButton } from "@mui/material";
 import { passkeyApi } from "../../shared/api/http/passkey-api";
 import { useNotifier } from "../../hooks";
+import styles from "./passkey-list.module.scss";
 
 const PasskeyList = () => {
     const [isLoading, setLoading] = useState<boolean>(true);
     const [passkeys, setPasskeys] = useState<PasskeyListModel>();
+    const [selectedPasskey, selectPasskey] = useState<PasskeyInfoModel>();
     const displayNotification = useNotifier();
 
     useEffect(() => {
@@ -22,16 +23,22 @@ const PasskeyList = () => {
         })
     }, []);
 
-    const handleDeletePasskey = (id: number) => {
-        passkeyApi.deactivate(id).then(() => {
+    const handleDeletePasskey = (passkey: PasskeyInfoModel) => {
+        passkeyApi.deactivate(passkey.id).then(() => {
             displayNotification("Passkey deleted", "success");
             setPasskeys({
-                passkeys: passkeys?.passkeys.filter(p => p.id !== id) || []
+                passkeys: passkeys?.passkeys.filter(p => p.id !== passkey.id) || []
             });
         }).catch((resp) => {
             displayNotification(resp.response.data.Message, "error");
         })
     }
+
+    const pickPasskeyForDelete = (passkey: PasskeyInfoModel) => {
+        selectPasskey(passkey);
+        displayNotification("Click once more to confirm deleting", "info");
+    }
+
 
     return (
         isLoading ? <CenteredLoader /> : <div>
@@ -43,7 +50,15 @@ const PasskeyList = () => {
                     className={styles[`passkey-info__item`]}>
                     <VpnKey />
                     <span className={styles[`passkey-info__caption`]}>{p.name + ' ' + dayjs(p.registrationDate).format(dateTimeFormats.SIMPLE_WITH_TIME)}</span>
-                    <IconButton className={styles[`passkey-info__delete`]} color="error" onClick={() => handleDeletePasskey(p.id)}>
+                    <IconButton className={styles[`passkey-info__delete` + (selectedPasskey?.id === p.id && '--flash')]}
+                        color={ (selectedPasskey?.id === p.id) ? "warning" : "default" }
+                        onClick={() => {
+                            if (selectedPasskey && p.id === selectedPasskey?.id) {
+                                handleDeletePasskey(p);
+                            } else {
+                                pickPasskeyForDelete(p);
+                            }
+                    }}>
                         <Delete />
                     </IconButton>
                 </div>)
