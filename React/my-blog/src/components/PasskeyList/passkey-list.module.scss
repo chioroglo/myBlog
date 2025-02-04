@@ -9,6 +9,7 @@
         display: flex;
         justify-content: space-between;
         gap: 10px;
+        align-items: center;
     }
 
     &__caption {
@@ -18,5 +19,15 @@
     &__delete {
         margin: 0 !important;
         padding: 0 !important;
+        
+            &--flash {
+              animation: blink 0.8s linear infinite;
+            }
     }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 30%;
+  }
 }
