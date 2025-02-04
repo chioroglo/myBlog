@@ -24,7 +24,9 @@ jobs:
         cache-dependency-path: React/my-blog/package-lock.json
     
     - name: Go to project directory
-      run: cd React/my-blog
+      run: |
+            cd React/my-blog
+            ls -l
 
     - name: Install dependencies
       run: npm install
