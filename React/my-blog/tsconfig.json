@@ -9,7 +9,8 @@
     "allowJs": false,
     "types": [
       "@types/webappsec-credential-management",
-      "node"
+      "node",
+      "jest"
     ],
     "skipLibCheck": true,
     "esModuleInterop": true,
