@@ -9,6 +9,11 @@ public static class HostExtensions
     {
         using (var scope = host.Services.CreateScope())
         {
+            var environment = scope.ServiceProvider.GetRequiredService<IHostEnvironment>()?.EnvironmentName;
+            if (environment == "Test")
+            {
+                return host;
+            }
             var services = scope.ServiceProvider;
             var context = services.GetRequiredService<BlogDbContext>();
             await SeedFacade.SeedData(context);

@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlog.UnitTests", "MyBlog.UnitTests\MyBlog.UnitTests.csproj", "{E17452B0-D418-4663-9D2D-1E4DDAEFB9DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBlog.FunctionalTests", "MyBlog.FunctionalTests\MyBlog.FunctionalTests.csproj", "{48EA521A-6233-4B7E-B281-61714601B2C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{E17452B0-D418-4663-9D2D-1E4DDAEFB9DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E17452B0-D418-4663-9D2D-1E4DDAEFB9DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E17452B0-D418-4663-9D2D-1E4DDAEFB9DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48EA521A-6233-4B7E-B281-61714601B2C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48EA521A-6233-4B7E-B281-61714601B2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48EA521A-6233-4B7E-B281-61714601B2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48EA521A-6233-4B7E-B281-61714601B2C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

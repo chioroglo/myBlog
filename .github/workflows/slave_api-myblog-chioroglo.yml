@@ -36,7 +36,7 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  publish-coverage:
+  functional-testing:
     runs-on: windows-latest
     needs:
       - build
@@ -50,9 +50,27 @@ jobs:
       
       - name: Build with dotnet
         run: dotnet build
-        
-      - name: Collect Code Coverage
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputDirectory=TestResults/ /p:CoverletOutputFormat=lcov
+      
+      - name: Run Functional Testing
+        run: dotnet test MyBlog.FunctionalTests/MyBlog.FunctionalTests.csproj
+
+  publish-coverage:
+    runs-on: windows-latest
+    needs:
+      - functional-testing
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+      
+      - name: Build with dotnet
+        run: dotnet build
+
+      - name: Collect Code Coverage Unit testing
+        run: dotnet test MyBlog.UnitTests/MyBlog.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputDirectory=TestResults/ /p:CoverletOutputFormat=lcov
       
       - name: Publish Coverage Results to coveralls.io
         uses: coverallsapp/github-action@master
@@ -63,7 +81,7 @@ jobs:
   apply-migrations:
     runs-on: ubuntu-latest
     needs:
-      - build
+      - functional-testing
     steps:
       - uses: actions/checkout@v4
 
