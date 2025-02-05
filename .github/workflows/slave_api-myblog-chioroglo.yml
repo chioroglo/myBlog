@@ -51,7 +51,7 @@ jobs:
       - name: Build with dotnet
         run: dotnet build
         
-      - name: Collect Code Coverage
+      - name: Collect Code Coverage on Functional & Unit testing
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputDirectory=TestResults/ /p:CoverletOutputFormat=lcov
       
       - name: Publish Coverage Results to coveralls.io
