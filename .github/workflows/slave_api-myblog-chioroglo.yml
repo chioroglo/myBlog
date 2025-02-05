@@ -37,7 +37,7 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/myapp
 
   functional-testing:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs:
       - build
     steps:
