@@ -48,9 +48,6 @@ jobs:
         with:
           dotnet-version: '8.x'
       
-      - name: Build with dotnet
-        run: dotnet build
-      
       - name: Run Functional Testing
         run: dotnet test MyBlog.FunctionalTests/MyBlog.FunctionalTests.csproj
 
@@ -66,9 +63,6 @@ jobs:
         with:
           dotnet-version: '8.x'
       
-      - name: Build with dotnet
-        run: dotnet build
-
       - name: Collect Code Coverage Unit testing
         run: dotnet test MyBlog.UnitTests/MyBlog.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputDirectory=TestResults/ /p:CoverletOutputFormat=lcov
       
