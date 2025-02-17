@@ -3,7 +3,6 @@ using MyBlog.FunctionalTests.Utils;
 using FluentAssertions;
 using MyBlog.Common.Models;
 using System.Net.Http.Json;
-using System;
 using System.Net;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
