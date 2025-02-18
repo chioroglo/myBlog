@@ -1,0 +1,24 @@
+.toolbar-grid {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 1fr 1fr;
+
+    button {
+        margin: 2px;
+        font-size: 1rem;
+        padding: 10px;
+        background: #fff;
+        cursor: pointer;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    
+        &.active {
+            color: rgba(0, 0, 0, 1);
+            
+        }
+        
+        &.inactive {
+            color: rgba(0, 0, 0, 0.4);
+        }
+    }
+}

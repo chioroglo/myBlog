@@ -12,32 +12,35 @@ import {
     MenuItem,
     Typography
 } from '@mui/material';
-import React, {useEffect, useState} from 'react';
-import {PostCardProps} from './PostCardProps';
+import React, { useEffect, useMemo, useState } from 'react';
+import { PostCardProps } from './PostCardProps';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as assets from '../../shared/assets';
 import CommentIcon from '@mui/icons-material/Comment';
 import { postApi } from '../../shared/api/http/api';
-import {CommentReel} from "../CommentReel";
-import {DefaultPageSize} from "../../shared/config";
-import {FilterLogicalOperator} from "../../shared/api/types/paging";
-import {CursorPagedRequest} from "../../shared/api/types/paging/cursorPaging";
-import {ExpandMoreCard} from './ExpandMoreCard';
+import { CommentReel } from "../CommentReel";
+import { DefaultPageSize } from "../../shared/config";
+import { FilterLogicalOperator } from "../../shared/api/types/paging";
+import { CursorPagedRequest } from "../../shared/api/types/paging/cursorPaging";
+import { ExpandMoreCard } from './ExpandMoreCard';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {PostReactionBox} from "../PostReactionBox";
-import {Link, useNavigate} from 'react-router-dom';
-import {PostForm} from '../PostForm';
-import {AxiosResponse} from 'axios';
-import {PostDto, PostModel} from '../../shared/api/types/post';
-import {useSelector} from "react-redux";
-import {ApplicationState, CurrentUserState} from '../../redux';
-import {ConfirmActionCustomModal} from "../CustomModal";
-import {useNotifier} from '../../hooks';
+import { PostReactionBox } from "../PostReactionBox";
+import { Link, useNavigate } from 'react-router-dom';
+import { PostForm } from '../PostForm';
+import { AxiosResponse } from 'axios';
+import { PostDto, PostModel } from '../../shared/api/types/post';
+import { useSelector } from "react-redux";
+import { ApplicationState, CurrentUserState } from '../../redux';
+import { ConfirmActionCustomModal } from "../CustomModal";
+import { useNotifier } from '../../hooks';
 import { FlagEmoji } from '../FlagEmoji/FlagEmoji';
 import { Analytics } from '@mui/icons-material';
 import { PostCardStatisticsDialog } from './PostCardStatisticsDialog';
 import styles from "./post-card.module.scss";
 import { UserApi } from '../../shared/api/http/user-api';
+import DOMPurify from 'dompurify'
+
+const { sanitize } = DOMPurify
 
 const PostCard = ({
                       initialPost,
@@ -51,6 +54,8 @@ const PostCard = ({
     const [post, setPost] = useState<PostModel>(initialPost);
     const [editPostMode, setEditPostMode] = useState<boolean>(false);
     const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState<boolean>(false);
+    const sanitizedPostContent = useMemo(() => sanitize(post.content), [post.content]);
+
     const navigate = useNavigate();
 
     const commentsPagingRequestDefault: CursorPagedRequest = {
@@ -194,7 +199,7 @@ const PostCard = ({
                                                   variant="outlined" color={"primary"} label={"#" + post.topic}/>
                                         </Link>
                                     }
-                                    <Typography>{post.content}</Typography>
+                                    <div dangerouslySetInnerHTML={{ __html: sanitizedPostContent }} />
                                 </>
                             </CardContent>
 
