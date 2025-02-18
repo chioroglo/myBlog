@@ -15,7 +15,6 @@ namespace MyBlog.Data.Repositories.Abstract.Base
         Task<CursorPagedResult<TEntity>> GetCursorPagedData(CursorPagedRequest pagedRequest,
             CancellationToken cancellationToken, params Expression<Func<TEntity, object>>[] includeProperties);
         Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default);
-        Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken);
         /// <summary>
         /// This method is async only to retrieve entity of corresponding id asynchronously to ensure it is created
         /// </summary>

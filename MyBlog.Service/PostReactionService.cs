@@ -91,10 +91,9 @@ namespace MyBlog.Service
 
             var existingReaction = found.FirstOrDefault() ?? throw new ValidationException("Reaction was not found");
 
-
             existingReaction.ReactionType = entity.ReactionType;
-
-            return await _postReactionRepository.Update(existingReaction, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return existingReaction;
         }
 
         public async Task<PostReaction> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken,

@@ -81,23 +81,23 @@ namespace MyBlog.Service
                 throw new ValidationException($"{nameof(Post)} of {nameof(Post)}Id {postId} was not found");
             }
 
-            if (post.Title != request.Title &&
-                await _postRepository.TitleExistsAsync(request.Title, cancellationToken))
-            {
-                throw new ValidationException($"Title {request.Title} is occupied");
-            }
-
             if (request.UserId != post.UserId)
             {
                 throw new InsufficientPermissionsException(
                     $"Authorized user has no privileges to edit this {nameof(Post)} postID:{postId}");
             }
 
+            if (post.Title != request.Title &&
+                await _postRepository.TitleExistsAsync(request.Title, cancellationToken))
+            {
+                throw new ValidationException($"Title {request.Title} is occupied");
+            }
+
             post.Title = request.Title;
             post.Topic = request.Topic;
             post.Content = request.Content;
 
-            post = await _postRepository.Update(post, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             await _bus.Publish(new AnalyzePostMessage(post.Id), ct: cancellationToken);
 

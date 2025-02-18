@@ -21,13 +21,13 @@
         padding: 0 !important;
         
             &--flash {
-              animation: blink 0.8s linear infinite;
+              animation: blink 1s linear infinite;
             }
     }
 }
 
 @keyframes blink {
   50% {
-    opacity: 30%;
+    opacity: 20%;
   }
 }

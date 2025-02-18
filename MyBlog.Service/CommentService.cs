@@ -85,8 +85,8 @@ namespace MyBlog.Service
             }
 
             comment.Content = entity.Content;
-
-            return await _commentRepository.Update(comment, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return comment;
         }
 
         public async Task<Comment> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken,

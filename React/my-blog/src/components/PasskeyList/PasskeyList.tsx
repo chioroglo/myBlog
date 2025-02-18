@@ -51,7 +51,7 @@ const PasskeyList = () => {
                     <VpnKey />
                     <span className={styles[`passkey-info__caption`]}>{p.name + ' ' + dayjs(p.registrationDate).format(dateTimeFormats.SIMPLE_WITH_TIME)}</span>
                     <IconButton className={styles[`passkey-info__delete` + (selectedPasskey?.id === p.id && '--flash')]}
-                        color={ (selectedPasskey?.id === p.id) ? "warning" : "default" }
+                        color={ (selectedPasskey?.id === p.id) ? "error" : "default" }
                         onClick={() => {
                             if (selectedPasskey && p.id === selectedPasskey?.id) {
                                 handleDeletePasskey(p);
