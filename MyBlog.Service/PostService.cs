@@ -28,7 +28,7 @@ namespace MyBlog.Service
 
         public async Task<Post> Add(Post request, CancellationToken cancellationToken)
         {
-            if (await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
+            if (await _postRepository.TitleExistsAsync(request.Title, cancellationToken))
             {
                 throw new ValidationException($"Title {request.Title} is occupied");
             }
@@ -82,7 +82,7 @@ namespace MyBlog.Service
             }
 
             if (post.Title != request.Title &&
-                await _postRepository.GetByTitleAsync(request.Title, cancellationToken) != null)
+                await _postRepository.TitleExistsAsync(request.Title, cancellationToken))
             {
                 throw new ValidationException($"Title {request.Title} is occupied");
             }
