@@ -2,7 +2,6 @@
 using MyBlog.Service;
 using MyBlog.Service.Abstract;
 
-
 namespace MyBlog.API.Extensions;
 
 public static class CacheInitializer
