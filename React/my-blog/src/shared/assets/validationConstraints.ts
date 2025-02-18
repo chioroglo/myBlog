@@ -26,5 +26,5 @@ export const CommentValidationConstraints = {
 }
 
 export const commonValidationConstraints = {
-    isAlphaNumeric: /^[a-zA-Z0-9_]+$/
+    isAlphaNumeric: /^[a-zA-Z0-9_-]+$/
 }
