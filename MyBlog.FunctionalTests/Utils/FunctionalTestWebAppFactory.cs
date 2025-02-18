@@ -38,7 +38,7 @@ public class FunctionalTestWebAppFactory : WebApplicationFactory<Program> , IAsy
         });
     }
 
-    public async Task InitializeAsync()
+    public virtual async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
 
@@ -51,7 +51,7 @@ public class FunctionalTestWebAppFactory : WebApplicationFactory<Program> , IAsy
         }
     }
 
-    public new async Task DisposeAsync()
+    public new virtual async Task DisposeAsync()
     {
         await _dbContainer.StopAsync();
     }

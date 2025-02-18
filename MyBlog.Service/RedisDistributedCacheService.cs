@@ -13,20 +13,19 @@ public class RedisDistributedCacheService(IDistributedCache distributedCache, IO
         AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(options.Value.DefaultExpirationInMinutes)
     };
 
-    public async Task<T?> GetAsync<T>(string cacheKey, CancellationToken ct)
+    public async Task<T?> GetAsync<T>(string cacheKey, CancellationToken ct = default)
     {
         var stringValue = await distributedCache.GetStringAsync(cacheKey, ct);
         return string.IsNullOrWhiteSpace(stringValue) ? default! : JsonSerializer.Deserialize<T>(stringValue);
     }
 
-    public async Task<string?> GetStringAsync(string cacheKey, CancellationToken ct)
+    public async Task<string?> GetStringAsync(string cacheKey, CancellationToken ct = default)
     {
         var stringValue = await distributedCache.GetStringAsync(cacheKey, ct);
-
         return string.IsNullOrWhiteSpace(stringValue) ? default! : stringValue.Trim('"');
     }
 
-    public async Task RemoveAsync(string cacheKey, CancellationToken ct)
+    public async Task RemoveAsync(string cacheKey, CancellationToken ct = default)
     {
         await distributedCache.RemoveAsync(cacheKey, ct);
     }
