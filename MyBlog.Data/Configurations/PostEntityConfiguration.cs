@@ -16,6 +16,9 @@ namespace MyBlog.Data.Configurations
                 .HasMaxLength(PostMaxLength)
                 .IsRequired();
 
+            builder.Property(e => e.DetectedLanguage)
+                .HasMaxLength(IndexableNvarcharLengthLimit);
+
             builder.Property(e => e.Title)
                 .HasMaxLength(PostTitleMaxLength)
                 .IsRequired();
