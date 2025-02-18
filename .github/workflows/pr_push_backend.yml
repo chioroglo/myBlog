@@ -1,4 +1,4 @@
-name: Backend Build + Unit Test
+name: Backend Build + Test
 
 on:
   pull_request:
@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
