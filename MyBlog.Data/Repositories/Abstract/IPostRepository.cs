@@ -6,7 +6,7 @@ namespace MyBlog.Data.Repositories.Abstract
 {
     public interface IPostRepository : IBaseRepository<Post>
     {
-        Task<Post?> GetByTitleAsync(string title, CancellationToken cancellationToken);
+        Task<bool> TitleExistsAsync(string title, CancellationToken ct = default);
         Task<PostActivityModel> GetPostActivity(
             int postId,
             IEnumerable<DateTime> dates,

@@ -48,15 +48,6 @@ namespace MyBlog.Data.Repositories.Abstract.Base
             await _db.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken)
-        {
-            _db.Entry(entity).State = EntityState.Modified;
-
-            await _db.SaveChangesAsync(cancellationToken);
-
-            return entity;
-        }
-
         /// <summary>
         /// This method is used to return data from webApi, so it is called as no tracking comparing to GetById
         /// </summary>

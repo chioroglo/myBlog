@@ -12,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useNotifier } from "../../hooks";
 import { CenteredLoader } from '../CenteredLoader';
 import styles from "./post-form.module.scss";
+import { MyBlogTextEditor } from '../MyBlogTextEditor/my-blog-text-editor';
 
 const PostForm = ({
                       initialPost = {content: "", title: "", topic: ""},
@@ -118,16 +119,9 @@ const PostForm = ({
                                             {formik.errors.content}
                                         </span>}
                                 </FormHelperText>
-
-                                <TextField className={styles["form__text-field"]}
-                                           name="content"
-                                           label="Content"
-                                           placeholder="Content"
-                                           multiline
-                                           rows={5}
-                                           value={formik.values.content}
-                                           onChange={formik.handleChange}
-                                />
+                                <MyBlogTextEditor
+                                    defaultContent={initialPost.content}
+                                    onChange={(newContent) => formik.setFieldValue("content", newContent)}/>
                             </FormControl>
 
                             <Button disabled={JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)}

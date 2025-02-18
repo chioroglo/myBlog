@@ -60,9 +60,8 @@ namespace MyBlog.Service
 
             if (!string.IsNullOrEmpty(request.Username))
             {
-                var newUsernameDuplicates =
-                    await _userRepository.GetWhereAsync(user => user.Username == request.Username, cancellationToken);
-                if (newUsernameDuplicates.Any())
+                var isNicknameOccupied = await _userRepository.IsNicknameOccupied(request.Username, cancellationToken);
+                if (isNicknameOccupied)
                 {
                     throw new ValidationException($"Username {request.Username} is occupied");
                 }
@@ -72,8 +71,8 @@ namespace MyBlog.Service
 
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
-
-            return await _userRepository.Update(user, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return user;
         }
 
         public async Task<User> GetByIdWithIncludeAsync(int id, CancellationToken cancellationToken,
@@ -87,11 +86,10 @@ namespace MyBlog.Service
         public async Task UpdateLastActivity(int userId, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(userId, cancellationToken)
-                ?? throw new ValidationException($"{nameof(User)} of ID: {userId} does not exist");
+                       ?? throw new ValidationException($"{nameof(User)} of ID: {userId} does not exist");
 
             user.LastActivity = DateTime.UtcNow;
-
-            await _userRepository.Update(user, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<Passkey>> GetActivePasskeys(int userId, CancellationToken cancellationToken)

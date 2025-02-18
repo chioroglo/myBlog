@@ -12,11 +12,9 @@ namespace MyBlog.Data.Repositories
         {
         }
 
-        public async Task<Post?> GetByTitleAsync(string title, CancellationToken cancellationToken)
+        public async Task<bool> TitleExistsAsync(string title, CancellationToken ct = default)
         {
-            var found = await _db.Posts.Where(e => e.Title == title).FirstOrDefaultAsync(cancellationToken);
-
-            return found;
+            return await _db.Posts.AnyAsync(t => t.Title == title, ct);
         }
 
         public async Task<PostActivityModel> GetPostActivity(int postId, IEnumerable<DateTime> dates, TimeMeasure measure, CancellationToken ct)

@@ -1,0 +1,15 @@
+@import "../../assets/variables";
+
+.editor-wrapper {
+    width: 94%;
+    border: 1px solid rgba($primary, .4);
+    border-radius: 4px;
+    padding: 1rem;
+    
+    .editor-container {
+        width: 90%;
+        border: 1px solid rgba($primary, .4);
+        border-radius: 4px;
+        padding: 1rem;
+    }
+}
