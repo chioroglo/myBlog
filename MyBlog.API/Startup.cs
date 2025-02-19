@@ -42,7 +42,9 @@ namespace MyBlog.API
                 {
                     var connectionString = Configuration.GetConnectionString("Blog");
                     options.UseSqlServer(connectionString);
-                    options.ConfigureWarnings(warnings => warnings.Log(RelationalEventId.PendingModelChangesWarning));
+                    // TODO: Remove after EF core bug will be fixed
+                    // https://github.com/dotnet/efcore/issues/35158
+                    options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
                 });
 
             services.AddScoped<IUnitOfWork>(serviceProvider =>
