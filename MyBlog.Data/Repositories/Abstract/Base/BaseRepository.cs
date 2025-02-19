@@ -37,15 +37,9 @@ namespace MyBlog.Data.Repositories.Abstract.Base
 
         public async Task RemoveAsync(int id, CancellationToken cancellationToken)
         {
-            var entity = await GetByIdAsync(id, cancellationToken);
-
-            if (entity == null)
-            {
-                throw new ValidationException($"{typeof(TEntity).Name} of ID: {id} does not exist");
-            }
-             
-            _db.Remove(entity);
-            await _db.SaveChangesAsync(cancellationToken);
+            await _db.Set<TEntity>()
+                .Where(e => e.Id == id)
+                .ExecuteDeleteAsync(cancellationToken);
         }
 
         /// <summary>
