@@ -48,8 +48,6 @@ namespace MyBlog.Service
         {
             var user = await _userRepository.GetByIdAsync(userId, cancellationToken)
                 ?? throw new NotFoundException($"UID: ${userId} not found");
-            // TODO: add validation to file size before converting it to the image
-            // f.e via Attribute in Controller
 
             var imgBytes = FormFileToByteArray(image);
             var img = Image.Load(imgBytes);

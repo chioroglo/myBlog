@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Options;
 using MyBlog.Domain;
 
 namespace MyBlog.Data
@@ -26,6 +28,9 @@ namespace MyBlog.Data
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlServer();
+            // TODO: Remove after EF core bug will be fixed
+            // https://github.com/dotnet/efcore/issues/35158
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

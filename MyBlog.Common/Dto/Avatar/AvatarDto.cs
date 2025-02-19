@@ -9,7 +9,6 @@ namespace MyBlog.Common.Dto.Avatar
     {
         public int UserId { get; set; }
 
-        // TODO add file size validation
         [Required(ErrorMessage = "Please select a file.")]
         [DataType(DataType.Upload)]
         [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" })]
