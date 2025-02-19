@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.FeatureManagement;
 using MyBlog.API.Extensions;
 using MyBlog.API.Extensions.Auth;
@@ -41,6 +42,7 @@ namespace MyBlog.API
                 {
                     var connectionString = Configuration.GetConnectionString("Blog");
                     options.UseSqlServer(connectionString);
+                    options.ConfigureWarnings(warnings => warnings.Log(RelationalEventId.PendingModelChangesWarning));
                 });
 
             services.AddScoped<IUnitOfWork>(serviceProvider =>
