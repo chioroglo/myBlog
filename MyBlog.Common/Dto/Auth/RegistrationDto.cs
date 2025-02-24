@@ -30,7 +30,7 @@ namespace MyBlog.Common.Dto.Auth
 
         [Required]
         [MinLength(UserPasswordMinLength)]
-        [MaxLength(UsernameMaxLength)]
+        [MaxLength(UserPasswordMaxLength)]
         public string ConfirmPassword { get; set; }
     }
 }

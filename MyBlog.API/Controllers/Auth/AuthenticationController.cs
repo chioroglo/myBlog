@@ -16,6 +16,11 @@ namespace MyBlog.API.Controllers.Auth
     [Route("api/auth")]
     public class AuthenticationController : AppBaseController
     {
+        private string? GetAccessToken() => HttpContext
+            .Request.
+            Headers.
+            Authorization.ToString()
+            .Replace(JwtBearerDefaults.AuthenticationScheme, string.Empty)?.Trim();
         private readonly IPasswordAuthService _passwordAuthService;
         private readonly Service.Abstract.Auth.IAuthorizationService _authorizationService;
         private readonly IMapper _mapper;
@@ -67,6 +72,20 @@ namespace MyBlog.API.Controllers.Auth
             await _authorizationService.BlacklistAccessToken(accessToken, ct);
             HttpContext.Response.Cookies.Delete(JwtUtils.CookieRefreshTokenKey);
             return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpPatch("password/change")]
+        public async Task<IActionResult> ChangePassword(
+            [FromBody] ChangePasswordDto dto,
+            CancellationToken ct = default)
+        {
+            var accessToken = GetAccessToken();
+            dto.UserId = CurrentUserId;
+            await _passwordAuthService.ChangePasswordAsync(dto, ct);
+            await _authorizationService.PurgeRefreshToken(CurrentUserId, ct);
+            await _authorizationService.BlacklistAccessToken(accessToken, ct);
+            return NoContent();
         }
     }
 }
