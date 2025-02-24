@@ -30,7 +30,8 @@ const ProfileHeader = ({user, setUser}: ProfileHeaderProps) => {
         <>
             <EditProfileCustomModal modalOpen={editProfileModalOpen} setModalOpen={setEditProfileModalOpen}
                                     user={user}
-                                    setUser={setUser}/>
+                                    setUser={setUser}
+                                    title='Edit profile'/>
 
             <Paper className={styles.wrapper}>
                 <Paper elevation={0} className={styles['upper-background']}/>

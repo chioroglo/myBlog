@@ -37,7 +37,7 @@ import { UserApi } from '../../../shared/api/http/user-api';
 import { useDispatch } from 'react-redux';
 import { ReduxActionTypes } from '../../../redux';
 
-const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditProfileCustomModalProps) => {
+const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser, title}: EditProfileCustomModalProps) => {
     const dispatch = useDispatch();
     const notifyUser = useNotifier();
     const formik = useFormik<UserInfoDto>({
@@ -159,7 +159,7 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser}: EditPr
     }, [avatarFile]);
 
     return (
-        <CustomModal modalOpen={modalOpen} setModalOpen={setModalOpen}>
+        <CustomModal title={title} modalOpen={modalOpen} setModalOpen={setModalOpen} minWidthPx={600}>
             <form className={styles["edit-profile-form"]}
                   onSubmit={formik.handleSubmit}>
 
