@@ -23,7 +23,6 @@ namespace MyBlog.API.Controllers
             _mapper = mapper;
         }
 
-
         [AllowAnonymous]
         [HttpGet("{id:int}")]
         public async Task<UserModel> GetByIdAsync(int id, CancellationToken cancellationToken)

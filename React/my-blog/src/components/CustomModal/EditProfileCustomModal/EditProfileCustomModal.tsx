@@ -30,14 +30,11 @@ import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { MaxAvatarSizeBytes } from "../../../shared/config";
 import styles from './edit-profile-custom-modal.module.scss';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import { RegisterPasskeyButton } from '../../RegisterPasskeyButton';
-import { PasskeyList } from '../../PasskeyList/PasskeyList';
 import { UserApi } from '../../../shared/api/http/user-api';
 import { useDispatch } from 'react-redux';
 import { ReduxActionTypes } from '../../../redux';
 
-const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser, title}: EditProfileCustomModalProps) => {
+const EditProfileCustomModal = ({ modalOpen, setModalOpen, user, setUser, title }: EditProfileCustomModalProps) => {
     const dispatch = useDispatch();
     const notifyUser = useNotifier();
     const formik = useFormik<UserInfoDto>({
@@ -47,7 +44,9 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser, title}:
             lastName: user.fullName.split(' ')[1]
         },
         onSubmit: (values, formikHelpers) => {
-
+            if(!formik.touched) {
+                return;
+            }
             if (values.username === user.username) {
                 values.username = undefined;
             }
@@ -98,7 +97,6 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser, title}:
 
     const [avatarPreview, setAvatarPreview] = useState<string>("");
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
-    const [passkeyListUpdateTrigger, setPasskeyListUpdateTrigger] = useState<number>(0);
 
     const clearAvatarPreview = () => setAvatarPreview("");
 
@@ -216,17 +214,12 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser, title}:
                                     <span className={styles.error}>{formik.errors.lastName}</span>)}
                             </FormHelperText>
                         </FormControl>
-                    </Box>
 
-                    <Box className={styles["security"]}>
-                        <FormHeader iconColor={palette.SUNRISE} caption="Security" icon={<VpnKeyIcon/>}/>
-                        <PasskeyList key={passkeyListUpdateTrigger}/>
-                        <RegisterPasskeyButton caption="ADD PASSKEY" onSuccess={() => setPasskeyListUpdateTrigger(passkeyListUpdateTrigger + 1)}/>
                     </Box>
                 </DialogContent>
 
                 <DialogActions>
-                    <Button disabled={JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)}
+                <Button  disabled={JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)}
                             type={"submit"}>Update</Button>
                     <Button onClick={goBack}>Go back</Button>
                 </DialogActions>
@@ -235,4 +228,4 @@ const EditProfileCustomModal = ({modalOpen, setModalOpen, user, setUser, title}:
     );
 };
 
-export {EditProfileCustomModal};
+export { EditProfileCustomModal };

@@ -21,3 +21,31 @@
     height: 15vw !important;
     font-size: 128px !important;
 }
+
+.settings {
+    display:flex;
+    gap: 10px;
+    align-items: center;
+    justify-items: center;
+}
+
+.upper-section {
+    margin: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lower-section {
+    margin: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: self-start;
+    flex-direction: column;
+
+    &__activity {
+        margin: 32px 0 0 0;
+        display: flex;
+        gap: 32px;
+    }
+}

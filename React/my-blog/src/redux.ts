@@ -29,3 +29,5 @@ export interface CurrentUserState {
     id: number;
     accessToken: string;
 }
+
+export const selectCurrentUser = (state : ApplicationState) => state.user;

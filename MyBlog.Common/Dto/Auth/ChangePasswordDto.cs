@@ -25,7 +25,12 @@ public class ChangePasswordDto : IValidatableObject
     {
         if (string.Compare(NewPassword, ConfirmNewPassword, StringComparison.InvariantCulture) != 0)
         {
-            yield return new ValidationResult("Passwords do not match!", [NewPassword, ConfirmNewPassword]);
+            yield return new ValidationResult("Passwords do not match!", [nameof(NewPassword), nameof(ConfirmNewPassword)]);
+        }
+
+        if (string.Compare(NewPassword, CurrentPassword, StringComparison.InvariantCulture) == 0)
+        {
+            yield return new ValidationResult("New password is the same as current", [nameof(NewPassword), nameof(CurrentPassword)]);
         }
     }
 }

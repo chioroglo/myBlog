@@ -4,6 +4,7 @@ using MyBlog.Common.Exceptions;
 using MyBlog.Data.Repositories.Abstract;
 using MyBlog.Domain.Abstract;
 using MyBlog.Service.Abstract.Auth;
+using System.Threading;
 
 namespace MyBlog.Service.Auth
 {
@@ -36,11 +37,10 @@ namespace MyBlog.Service.Auth
             return await _authorizationService.Authorize(user, cancellationToken);
         }
 
-        public async Task ChangePasswordAsync(ChangePasswordDto dto, CancellationToken ct = default)
+        public async Task<AuthorizationResponse> ChangePasswordAsync(ChangePasswordDto dto, CancellationToken ct = default)
         {
             var user = await _userRepository.GetByIdAsync(dto.UserId, ct)
                 ?? throw new ValidationException($"User {dto.UserId} was not found");
-
             var currentPasswordHash = _encryptionService.EncryptPassword(dto.CurrentPassword);
 
             if (string.Compare(currentPasswordHash, user.PasswordHash, StringComparison.InvariantCulture) != 0)
@@ -50,6 +50,8 @@ namespace MyBlog.Service.Auth
 
             user.PasswordHash = _encryptionService.EncryptPassword(dto.NewPassword);
             await _unitOfWork.CommitAsync(ct);
+
+            return await _authorizationService.Authorize(user, ct);
         }
     }
 }

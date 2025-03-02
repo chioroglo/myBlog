@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using MyBlog.API.Controllers.Base;
 using MyBlog.API.Extensions;
+using MyBlog.API.Filters;
 using MyBlog.Common.Dto.Auth;
 using MyBlog.Common.Models;
 using MyBlog.Service.Abstract.Auth.Passkeys;
@@ -15,7 +16,7 @@ namespace MyBlog.API.Controllers.Auth;
 [Route("api/passkey")]
 public class PasskeyAuthController(IPasskeyAuthService passkeyAuthService, IMapper mapper) : AppBaseController
 {
-
+    [UpdatesUserActivity]
     [HttpGet("registration-options")]
     public async Task<IActionResult> GetRegistrationOptions(CancellationToken ct)
     {
@@ -23,6 +24,7 @@ public class PasskeyAuthController(IPasskeyAuthService passkeyAuthService, IMapp
         return Ok(registrationOptions);
     }
 
+    [UpdatesUserActivity]
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterPasskeyRequest request, CancellationToken ct)
     {
@@ -48,6 +50,7 @@ public class PasskeyAuthController(IPasskeyAuthService passkeyAuthService, IMapp
     }
 
     [HttpDelete("{id:int:min(0)}")]
+    [UpdatesUserActivity]
     public async Task<IActionResult> Delete(int id, CancellationToken ct)
     {
         await passkeyAuthService.Deactivate(id, CurrentUserId, ct);

@@ -27,5 +27,4 @@
   <ItemGroup>
     <ProjectReference Include="..\MyBlog.API\MyBlog.API.csproj" />
   </ItemGroup>
-
 </Project>
