@@ -7,9 +7,11 @@ namespace MyBlog.FunctionalTests.Utils;
 public class BaseFunctionalTest : IClassFixture<FunctionalTestWebAppFactory>
 {
     protected HttpClient HttpClient { get; init; }
+    protected IServiceProvider Services { get; init; }
     public BaseFunctionalTest(FunctionalTestWebAppFactory factory)
     {
         HttpClient = factory.CreateClient();
+        Services = factory.Services;
     }
 
     protected async Task<TResponse?> TryHitPost<TRequest, TResponse>(
