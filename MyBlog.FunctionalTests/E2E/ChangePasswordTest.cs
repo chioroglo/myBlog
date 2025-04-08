@@ -12,6 +12,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MyBlog.Common.Dto.Post;
 
 namespace MyBlog.FunctionalTests.E2E;
 
@@ -38,31 +39,56 @@ public class ChangePasswordTest : BaseFunctionalTest
         // Arrange
         var user = await CreateMockUser();
 
-        // Log In
-        var loginResponseMessage = await HttpClient.PostAsJsonAsync("api/auth/login", new PasswordAuthorizeRequest
-        {
-            Password = Password,
-            Username = Username
-        }, _ct);
-        loginResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        var loginResponse = await loginResponseMessage.Content.ReadFromJsonAsync<AuthorizationResponseModel>(_ct);
+        // Act
+            // Log In
+        var loginResponse = await TryAuthorize(Username, Password, expectedStatusCode: HttpStatusCode.OK);
         var oldAccessToken = loginResponse.AccessToken;
 
-        // Change Password
-        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-            JwtBearerDefaults.AuthenticationScheme,
-            oldAccessToken);
+            // Change Password
+        SetAuthorizationHeader(oldAccessToken);
 
-        var changePasswordMessage = await HttpClient.PostAsJsonAsync("api/auth/password/change", new ChangePasswordDto
+        var changePasswordMessage = await HttpClient.PatchAsJsonAsync("api/auth/password/change", new ChangePasswordDto
         {
             CurrentPassword = Password,
             NewPassword = NewPassword,
             ConfirmNewPassword = NewPassword,
             UserId = user.Id
         }, _ct);
-        var changePasswordResponse = await  
+        changePasswordMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            // Try to reach API with old token and create post (should fail)
+        var createPostMessage = await HttpClient.PostAsJsonAsync("api/posts", new PostDto
+        {
+            Title = "Test",
+            Content = "Test"
+        }, _ct);
+        createPostMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+            // Try to log In with old password
+        HttpClient.DefaultRequestHeaders.Clear();
+        await TryAuthorize(Username, Password, expectedStatusCode: HttpStatusCode.BadRequest);
     }
 
+    private async Task<AuthorizationResponseModel?> TryAuthorize(
+        string username,
+        string password,
+        HttpStatusCode expectedStatusCode)
+    {
+        var loginResponseMessage = await HttpClient.PostAsJsonAsync("api/auth/login", new PasswordAuthorizeRequest
+        {
+            Password = password,
+            Username = username
+        }, _ct);
+
+        loginResponseMessage.StatusCode.Should().Be(expectedStatusCode);
+        return await loginResponseMessage.Content.ReadFromJsonAsync<AuthorizationResponseModel>(_ct);
+    }
+    private void SetAuthorizationHeader(string value)
+    {
+        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+            JwtBearerDefaults.AuthenticationScheme,
+            value);
+    }
     private async Task<User> CreateMockUser()
     {
         var user = await _registrationService.RegisterAsync(new RegistrationDto
