@@ -5,6 +5,7 @@ import { CursorPagedRequest } from "../types/paging/cursorPaging";
 import { PostDto, PostModel } from "../types/post";
 import { PostReactionDto } from "../types/postReaction";
 import { CommentDto } from "../types/comment";
+import { ChangePasswordDto } from "../types/user";
 
 const IMMEDIATE_LOGOUT_STATUSES = [ HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden ];
 
@@ -35,7 +36,7 @@ instance.interceptors.response.use((response) => {
     }
 
     const currentUserId = sessionStorage.getItem(UserIdTokenKeyName) || localStorage.getItem(UserIdTokenKeyName) || "";
-    const newAccessToken = await instance.get<AuthenticateResponse>(`/auth/refresh-access-token?targetUserId=${currentUserId}`)
+    const newAccessToken = await instance.get<AuthenticateResponse>(`/auth/access-token/refresh?targetUserId=${currentUserId}`)
 
     const storage: Storage = sessionStorage.getItem(UserIdTokenKeyName) ? sessionStorage : localStorage;
 
@@ -80,6 +81,14 @@ export class authApi {
 
     static async getCurrent() {
         return await instance.get(`/users/current`);
+    }
+
+    static changePassword(dto: ChangePasswordDto): Promise<AxiosResponse<AuthenticateResponse>> {
+        return instance.patch<ChangePasswordDto, AxiosResponse<AuthenticateResponse>>(`auth/password/change`, dto).then((response) => {
+            const storage: Storage = sessionStorage.getItem(UserIdTokenKeyName) ? sessionStorage : localStorage;
+            storage.setItem(JwtTokenKeyName, response.data.accessToken);
+            return response;
+        });
     }
 
     static logout(): Promise<void> {

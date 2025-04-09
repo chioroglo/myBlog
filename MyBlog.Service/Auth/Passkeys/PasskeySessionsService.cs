@@ -102,6 +102,6 @@ public class PasskeySessionsService : IPasskeySessionsService
     public async Task RemoveOngoingAuthenticationSession(string challenge, CancellationToken ct)
     {
         var cacheKey = PasskeyUtils.AuthenticationCacheKey(challenge);
-        await _cache.RemoveAsync(cacheKey);
+        await _cache.RemoveAsync(cacheKey, ct);
     }
 }

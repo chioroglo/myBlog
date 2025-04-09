@@ -1,0 +1,12 @@
+.security {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.change-password {
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}

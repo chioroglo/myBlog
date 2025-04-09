@@ -3,20 +3,15 @@
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 10px; 
     align-items: center;
     gap: 10px;
 }
 
-.edit-profile-form {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
 .form-field {
     max-width: 400px;
-    width: 20vw !important;
+    width: 100% !important;
     min-width: 300px;
     padding: 0 0 16px 0 !important;
 }
@@ -31,7 +26,7 @@
     gap: 10px;
     display: flex;
     text-align: center;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-direction: column;
 }
 
@@ -41,9 +36,21 @@
     }
 
     &__wrapper {
+        border-top: 1px solid rgba(0,0,0,0.1);
+        padding-top: 10px; 
+
         justify-content: space-around;
         display: flex;
         flex-direction: column;
+        align-items: center;
         margin: 10px 0;   
+    }
+}
+
+.password-section {
+    &__wrapper {
+        margin: 20px 0;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        padding-top: 10px; 
     }
 }

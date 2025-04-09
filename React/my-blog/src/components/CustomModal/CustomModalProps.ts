@@ -4,5 +4,6 @@ export interface CustomModalProps {
     modalOpen: boolean,
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
     children?: React.ReactNode,
-    title?: string
+    title?: string,
+    minWidthPx?: number;
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.API.Controllers.Base;
 using MyBlog.API.Extensions;
+using MyBlog.API.Filters;
 using MyBlog.Common.Dto.Auth;
 using MyBlog.Common.Exceptions;
 using MyBlog.Common.Models;
@@ -19,6 +20,11 @@ namespace MyBlog.API.Controllers.Auth
         private readonly IPasswordAuthService _passwordAuthService;
         private readonly Service.Abstract.Auth.IAuthorizationService _authorizationService;
         private readonly IMapper _mapper;
+        private string? AccessToken => HttpContext.Request.Headers.Authorization
+            .ToString()
+            .Replace(JwtBearerDefaults.AuthenticationScheme, string.Empty)?.Trim();
+        private string? RefreshToken => HttpContext?.Request.Cookies[JwtUtils.CookieRefreshTokenKey];
+
 
         public AuthenticationController(
             IPasswordAuthService passwordAuthService,
@@ -42,13 +48,12 @@ namespace MyBlog.API.Controllers.Auth
         }
 
         [AllowAnonymous]
-        [HttpGet("refresh-access-token")]
+        [HttpGet("access-token/refresh")]
         public async Task<IActionResult> RefreshAccessToken(
             [FromQuery] [Required] int targetUserId,
             CancellationToken ct)
         {
-            var refreshToken = HttpContext.Request.Cookies[JwtUtils.CookieRefreshTokenKey]
-                ?? throw new AccessDeniedException("No refresh token set up");
+            var refreshToken = RefreshToken ?? throw new AccessDeniedException("No refresh token set up");
             var newToken = await _authorizationService.GetNewAccessToken(refreshToken, targetUserId, ct);
             return Ok(new AuthorizationResponseModel
             {
@@ -58,15 +63,29 @@ namespace MyBlog.API.Controllers.Auth
         }
 
         [HttpPost("logout")]
+        [UpdatesUserActivity]
         public async Task<IActionResult> Logout(CancellationToken ct)
         {
-            var accessToken = HttpContext.Request.Headers.Authorization.ToString()
-                ?.Replace(JwtBearerDefaults.AuthenticationScheme, string.Empty)?.Trim();
+            var accessToken = AccessToken;
 
             await _authorizationService.PurgeRefreshToken(CurrentUserId, ct);
             await _authorizationService.BlacklistAccessToken(accessToken, ct);
             HttpContext.Response.Cookies.Delete(JwtUtils.CookieRefreshTokenKey);
             return Ok();
+        }
+
+        [HttpPatch("password/change")]
+        [UpdatesUserActivity]
+        public async Task<IActionResult> ChangePassword(
+            [FromBody] ChangePasswordDto dto,
+            CancellationToken ct = default)
+        {
+            dto.UserId = CurrentUserId;
+            var result = await _passwordAuthService.ChangePasswordAsync(dto, ct);
+            await _authorizationService.BlacklistAccessToken(AccessToken, ct);
+
+            HttpContext.AddRefreshTokenCookie(result.RefreshToken, result.RefreshTokenExpiresAt);
+            return Ok(_mapper.Map<AuthorizationResponseModel>(result));
         }
     }
 }

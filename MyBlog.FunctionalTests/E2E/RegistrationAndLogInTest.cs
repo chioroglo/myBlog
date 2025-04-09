@@ -25,7 +25,6 @@ public class RegistrationAndLogInTest : BaseFunctionalTest
 
         // Act
 
-
             // Register
         var registrationResponse = await TryHitPost<RegistrationDto, UserModel>("api/register", new()
         {
