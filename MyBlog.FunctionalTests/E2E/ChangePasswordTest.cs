@@ -6,7 +6,6 @@ using MyBlog.Domain.Abstract;
 using MyBlog.FunctionalTests.Utils;
 using MyBlog.Service.Abstract;
 using MyBlog.Service.Abstract.Auth;
-using Newtonsoft.Json.Serialization;
 using System.Net.Http.Json;
 using System.Net;
 using System.Net.Http.Headers;
