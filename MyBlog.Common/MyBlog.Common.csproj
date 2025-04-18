@@ -1,8 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="14.0.0" />
-		<PackageReference Include="Azure.Storage.Common" Version="12.22.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="Azure.Storage.Common" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\MyBlog.Domain\MyBlog.Domain.csproj" />

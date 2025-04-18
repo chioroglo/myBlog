@@ -1,45 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AspNetCore.HealthChecks.Azure.Storage.Blobs" Version="9.0.0" />
-		<PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="9.0.0" />
-		<PackageReference Include="AspNetCore.HealthChecks.Redis" Version="9.0.0" />
-		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
-		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
-		<PackageReference Include="AutoMapper" Version="14.0.0" />
-		<PackageReference Include="Fido2.AspNet" Version="3.0.1" />
-		<PackageReference Include="MassTransit.Abstractions" Version="8.3.6" />
-		<PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
-		<PackageReference Include="MassTransit.RabbitMQ" Version="8.3.6" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
-		<PackageReference Include="microsoft.aspnetcore.cors" Version="2.3.0" />
-		<PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
+		<PackageReference Include="AspNetCore.HealthChecks.Azure.Storage.Blobs"/>
+		<PackageReference Include="AspNetCore.HealthChecks.Rabbitmq"  />
+		<PackageReference Include="AspNetCore.HealthChecks.Redis"  />
+		<PackageReference Include="AspNetCore.HealthChecks.SqlServer"  />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.Client"  />
+		<PackageReference Include="AutoMapper"  />
+		<PackageReference Include="Fido2.AspNet"  />
+		<PackageReference Include="MassTransit.Abstractions"  />
+		<PackageReference Include="MassTransit.AspNetCore"  />
+		<PackageReference Include="MassTransit.RabbitMQ"  />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"  />
+		<PackageReference Include="microsoft.aspnetcore.cors"  />
+		<PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore"  />
+		<PackageReference Include="Microsoft.Data.SqlClient"  />
+		<PackageReference Include="Microsoft.EntityFrameworkCore"  />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions"  />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" >
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.2">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"  />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" >
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.2" />
-		<PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="4.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis"  />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks"  />
+		<PackageReference Include="Microsoft.FeatureManagement.AspNetCore"  />
 		<!-- TODO: to remove????-->
-		<PackageReference Include="Microsoft.IdentityModel" Version="7.0.0" />
+		<PackageReference Include="Microsoft.IdentityModel"  />
 		<!-- endtodo -->
-		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.5.0" />
-		<PackageReference Include="Microsoft.IdentityModel.Protocols" Version="8.5.0" />
-		<PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.5.0" />
-		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.5.0" />
-		<PackageReference Include="Profanity.Detector" Version="0.1.8" />
-		<PackageReference Include="Scrutor" Version="6.0.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
-		<PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0.2" />
+		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens"  />
+		<PackageReference Include="Microsoft.IdentityModel.Protocols"  />
+		<PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect"  />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens"  />
+		<PackageReference Include="Profanity.Detector"  />
+		<PackageReference Include="Scrutor"  />
+		<PackageReference Include="Swashbuckle.AspNetCore"  />
+		<PackageReference Include="System.Data.SqlClient"  />
+		<PackageReference Include="System.Linq.Dynamic.Core"  />
 	</ItemGroup>
 
 	<ItemGroup>
