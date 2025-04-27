@@ -70,7 +70,7 @@ namespace MyBlog.API.Controllers.Auth
 
             await _authorizationService.PurgeRefreshToken(CurrentUserId, ct);
             await _authorizationService.BlacklistAccessToken(accessToken, ct);
-            HttpContext.Response.Cookies.Delete(JwtUtils.CookieRefreshTokenKey);
+            HttpContext.ClearRefreshToken();
             return Ok();
         }
 

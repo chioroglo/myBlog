@@ -14,7 +14,10 @@ public static class HttpContextExtensions
                HttpOnly = true,
                Secure = true,
                Expires = expiresAtUtc,
-               SameSite = SameSiteMode.None
+               SameSite = SameSiteMode.Strict,
+               Path = "/",
             });
     }
+
+    public static void ClearRefreshToken(this HttpContext httpContext) => AddRefreshTokenCookie(httpContext, string.Empty, DateTime.UnixEpoch);
 }
