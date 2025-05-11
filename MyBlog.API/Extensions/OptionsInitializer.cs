@@ -6,26 +6,33 @@ namespace MyBlog.API.Extensions
     {
         public static void InitializeOptions(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<JsonWebTokenOptions>(
-                configuration.GetSection(JsonWebTokenOptions.Config));
+            services.AddOptionsWithValidateOnStart<JsonWebTokenOptions>()
+                .BindConfiguration(JsonWebTokenOptions.Config)
+                .ValidateDataAnnotations();
 
-            services.Configure<CorsPolicyOptions>(
-                configuration.GetSection(CorsPolicyOptions.Config));
+            services.AddOptionsWithValidateOnStart<CorsPolicyOptions>()
+                .BindConfiguration(CorsPolicyOptions.Config)
+                .ValidateDataAnnotations();
 
-            services.Configure<PasskeyOptions>(
-                configuration.GetSection(PasskeyOptions.Config));
+            services.AddOptionsWithValidateOnStart<PasskeyOptions>()
+                .BindConfiguration(PasskeyOptions.Config)
+                .ValidateDataAnnotations();
 
-            services.Configure<SemanticAnalysisOptions>(
-                configuration.GetSection(SemanticAnalysisOptions.Config));
+            services.AddOptionsWithValidateOnStart<SemanticAnalysisOptions>()
+                .BindConfiguration(SemanticAnalysisOptions.Config)
+                .ValidateDataAnnotations();
 
-            services.Configure<PunishmentOptions>(
-                configuration.GetSection(PunishmentOptions.Config));
+            services.AddOptionsWithValidateOnStart<PunishmentOptions>()
+                .BindConfiguration(PunishmentOptions.Config)
+                .ValidateDataAnnotations();
 
-            services.Configure<AzureStorageCredentialOptions>(
-                configuration.GetSection(AzureStorageCredentialOptions.Config));
+            services.AddOptionsWithValidateOnStart<AzureStorageCredentialOptions>()
+                .BindConfiguration(AzureStorageCredentialOptions.Config)
+                .ValidateDataAnnotations();
 
-            services.Configure<AvatarOptions>(
-                configuration.GetSection(AvatarOptions.Config));
+            services.AddOptionsWithValidateOnStart<AvatarOptions>()
+                .BindConfiguration(AvatarOptions.Config)
+                .ValidateDataAnnotations();
 
             AddAzureContainerOptions(services, configuration);
         }

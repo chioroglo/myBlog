@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyBlog.Common.Options;
 
@@ -11,8 +12,7 @@ public class AvatarOptions : BaseApplicationOptions
     {
         public double Height { get; set; }
         public double Width { get; set; }
-    }   
-    public int CacheRetentionMinutes { get; set; }
-    [NotMapped]
-    public TimeSpan CacheRetention => TimeSpan.FromMinutes(CacheRetentionMinutes);
+    }
+    [Required]
+    public TimeSpan CacheRetention { get; set; }
 }

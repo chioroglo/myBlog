@@ -15,7 +15,7 @@ public class InMemoryCacheService : ICacheService
         _memoryCache = memoryCache;
         _cacheOptions = new MemoryCacheEntryOptions
         {
-            SlidingExpiration = TimeSpan.FromMinutes(options.Value.DefaultExpirationInMinutes)
+            SlidingExpiration = options.Value.DefaultExpiration
         };
     }
 
