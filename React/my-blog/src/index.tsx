@@ -9,6 +9,9 @@ import { JwtTokenKeyName, UserIdTokenKeyName, applicationTheme } from './shared/
 import { ThemeProvider } from '@emotion/react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import * as serviceWorkerRegistration from './register-service-worker';
+
+serviceWorkerRegistration.registerServerWorker();
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
