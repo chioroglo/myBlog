@@ -2,7 +2,13 @@ name: Backend Build + Test
 
 on:
   pull_request:
-    branches: [ "slave" ]
+    branches:
+      - slave
+    paths:
+      - '**/*.cs'
+      - '**/*.props'
+      - '**/*.csproj'
+      - '**/*.sln'
 
 jobs:
   build:

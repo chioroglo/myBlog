@@ -5,7 +5,7 @@ newmig:
 	@echo "Adding new migration..."
 	./add-migration.sh arg1
 miglist:
-	@echo "Migration list:"
+	@echo "Migration list: "
 	./migrations-list.sh
 
 clean:

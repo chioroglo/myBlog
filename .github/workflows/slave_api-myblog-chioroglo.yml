@@ -7,8 +7,12 @@ on:
   push:
     branches:
       - slave
+    paths:
+      - '**/*.cs'
+      - '**/*.props'
+      - '**/*.csproj'
+      - '**/*.sln'
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: windows-latest
