@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MyBlog.Common.Options
 {
     public class JsonWebTokenOptions : BaseApplicationOptions
@@ -6,9 +8,9 @@ namespace MyBlog.Common.Options
         public string Key { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }
-        public int AccessTokenValidityTimeMinutes { get; set; }
-        public int RefreshTokenValidityTimeHours { get; set; }
-        public TimeSpan AccessTokenValidityTime => TimeSpan.FromMinutes(AccessTokenValidityTimeMinutes);
-        public TimeSpan RefreshTokenValidityTime => TimeSpan.FromHours(RefreshTokenValidityTimeHours);
+        [Required]
+        public TimeSpan AccessTokenValidityTime { get; set; }
+        [Required]
+        public TimeSpan RefreshTokenValidityTime { get; set; }
     }
 }

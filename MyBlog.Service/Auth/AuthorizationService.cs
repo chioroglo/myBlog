@@ -105,7 +105,7 @@ public class AuthorizationService : IAuthorizationService
         }
 
         var key = JwtUtils.GetJwtCacheKey(accessToken);
-        var expiresAt = TimeSpan.FromMinutes(_jsonWebTokenOptions.AccessTokenValidityTimeMinutes);
+        var expiresAt = _jsonWebTokenOptions.AccessTokenValidityTime;
         await _cacheService.SetAsync(key, "blacklisted", expiresAt, ct);
     }
 

@@ -1,12 +1,14 @@
-﻿namespace MyBlog.Common.Options;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyBlog.Common.Options;
 
 public class PasskeyOptions : BaseApplicationOptions
 {
     public new static string Config => "PasskeyOptions";
 
     public PasskeyRelyingParty RelyingParty { get; set; }
-    public int ChallengeLifetimeMinutes { get; set; }
-    public TimeSpan ChallengeLifetime => TimeSpan.FromMinutes(ChallengeLifetimeMinutes);
+    [Required]
+    public TimeSpan ChallengeLifetime { get; set; }
 }
 
 public class PasskeyRelyingParty

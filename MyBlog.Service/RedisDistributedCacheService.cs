@@ -10,7 +10,7 @@ public class RedisDistributedCacheService(IDistributedCache distributedCache, IO
 {
     private readonly DistributedCacheEntryOptions _cacheOptions = new()
     {
-        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(options.Value.DefaultExpirationInMinutes)
+        AbsoluteExpirationRelativeToNow = options.Value.DefaultExpiration
     };
 
     public async Task<T?> GetAsync<T>(string cacheKey, CancellationToken ct = default)

@@ -17,7 +17,7 @@ public class EncryptionServiceTests
             Key = "key",
             Issuer = "issuer",
             Audience = "audience2232",
-            AccessTokenValidityTimeMinutes = 24
+            AccessTokenValidityTime = TimeSpan.FromMinutes(24)
         });
         _subject = new EncryptionService(_options);
     }
