@@ -3,6 +3,8 @@ name: Frontend build + test
 on:
   pull_request:
     branches: [ "slave" ]
+    paths:
+      - 'React/**'
 
 jobs:
   build:
