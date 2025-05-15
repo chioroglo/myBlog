@@ -40,7 +40,7 @@ namespace MyBlog.API.Controllers
 
         [HttpPatch]
         [UpdatesUserActivity]
-        public async Task<UserModel> UpdateProfileInfoOfAuthenticatedUserAsync([FromBody] UserInfoDto newProfileInfo,
+        public async Task<UserModel> UpdateProfileInfo([FromBody] UserInfoDto newProfileInfo,
             CancellationToken cancellationToken)
         {
             var mappedRequest = _mapper.Map<User>(newProfileInfo);
