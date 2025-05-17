@@ -1,10 +1,20 @@
-﻿namespace MyBlog.API
+﻿using Serilog;
+
+namespace MyBlog.API
 {
     public static class WebHostFactory
     {
         public static IHostBuilder CreateHostBuilderUsingStartupAndLogging()
         {
             return Host.CreateDefaultBuilder()
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                })
+                .UseSerilog((context,loggingConfiguration) =>
+                {
+                    loggingConfiguration.ReadFrom.Configuration(context.Configuration);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
