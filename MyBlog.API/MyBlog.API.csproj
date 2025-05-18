@@ -9,6 +9,7 @@
 		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
 		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="Destructurama.Attributed" />
 		<PackageReference Include="Fido2.AspNet" />
 		<PackageReference Include="MassTransit.Abstractions" />
 		<PackageReference Include="MassTransit.AspNetCore" />

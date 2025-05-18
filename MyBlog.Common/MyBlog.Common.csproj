@@ -6,6 +6,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" />
 		<PackageReference Include="Azure.Storage.Common" />
+		<PackageReference Include="Destructurama.Attributed" />
 		<PackageReference Include="Microsoft.AspNetCore.Http" />
 	</ItemGroup>
 	<ItemGroup>

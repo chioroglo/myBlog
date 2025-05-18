@@ -51,8 +51,6 @@ namespace MyBlog.Service.Auth
             newUserEntity = await _userRepository.AddAsync(newUserEntity, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            _logger.LogInformation("Registered successfully {@User}", newUserEntity);
-            
             return newUserEntity;
         }
 

@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Destructurama;
+using Serilog;
 
 namespace MyBlog.API
 {
@@ -14,6 +15,7 @@ namespace MyBlog.API
                 .UseSerilog((context,loggingConfiguration) =>
                 {
                     loggingConfiguration.ReadFrom.Configuration(context.Configuration);
+                    loggingConfiguration.Destructure.UsingAttributes();
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
