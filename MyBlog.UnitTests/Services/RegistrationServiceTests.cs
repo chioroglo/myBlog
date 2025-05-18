@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using MyBlog.Common.Dto.Auth;
 using MyBlog.Common.Exceptions;
 using MyBlog.Data.Repositories.Abstract;
@@ -11,26 +12,24 @@ namespace MyBlog.UnitTests.Services;
 
 public class RegistrationServiceTests
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
-    private readonly IEncryptionService _encryptionService;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserRepository _userRepository = Substitute.For<IUserRepository>();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly IEncryptionService _encryptionService = Substitute.For<IEncryptionService>();
+    private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
+    private readonly ILogger<RegistrationService> _logger = Substitute.For<ILogger<RegistrationService>>();
     private readonly CancellationToken _ct;
     private readonly RegistrationService _subject;
 
     public RegistrationServiceTests()
     {
         _ct = CancellationToken.None;
-        _userRepository = Substitute.For<IUserRepository>();
-        _mapper = Substitute.For<IMapper>();
-        _encryptionService = Substitute.For<IEncryptionService>();
-        _unitOfWork = Substitute.For<IUnitOfWork>();
 
         _subject = new RegistrationService(
             _userRepository,
             _mapper,
             _encryptionService,
-            _unitOfWork
+            _unitOfWork,
+            _logger
         );
     }
 
