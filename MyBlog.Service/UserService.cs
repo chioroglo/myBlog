@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.Extensions.Logging;
 using MyBlog.Common.Exceptions;
 using MyBlog.Common.Models;
 using MyBlog.Data.Repositories.Abstract;
@@ -14,19 +15,26 @@ namespace MyBlog.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasskeyRepository _passkeyRepository;
         private readonly IAvatarService _avatarService;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IAvatarService avatarService, IPasskeyRepository passkeyRepository)
+        public UserService(IUserRepository userRepository,
+            IUnitOfWork unitOfWork,
+            IAvatarService avatarService,
+            IPasskeyRepository passkeyRepository,
+            ILogger<UserService> logger)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
             _avatarService = avatarService;
             _passkeyRepository = passkeyRepository;
+            _logger = logger;
         }
 
         public async Task<User> Add(User entity, CancellationToken cancellationToken)
         {
             var user = await _userRepository.AddAsync(entity, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
+            _logger.LogInformation("Successfully created user {@User}", user);
             return user;
         }
 
@@ -71,7 +79,10 @@ namespace MyBlog.Service
 
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
+
             await _unitOfWork.CommitAsync(cancellationToken);
+            _logger.LogInformation("Personal data was updated successfully {@User}", user);
+
             return user;
         }
 

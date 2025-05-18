@@ -85,6 +85,7 @@ namespace MyBlog.Service
                 return await GetBlobUrlWithCache(userId, cancellationToken);
             }
 
+            _logger.LogInformation("Avatar not found UserId: {UserId}", userId);
             return string.Empty;
         }
 
