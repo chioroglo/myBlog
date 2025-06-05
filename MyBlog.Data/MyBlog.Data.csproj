@@ -5,21 +5,22 @@
 
 	<ItemGroup>
 		<PackageReference Include="Fido2.Models" />
-		<PackageReference Include="Microsoft.Data.SqlClient"  />
-		<PackageReference Include="Microsoft.EntityFrameworkCore"  />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions"  />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" >
+		<PackageReference Include="Microsoft.Data.SqlClient" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"  />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" >
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.IdentityModel.Tokens"  />
-		<PackageReference Include="System.Data.SqlClient"  />
-		<PackageReference Include="System.Linq.Dynamic.Core"  />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+		<PackageReference Include="System.Data.SqlClient" />
+		<PackageReference Include="System.Linq.Dynamic.Core" />
 	</ItemGroup>
 
 	<ItemGroup>

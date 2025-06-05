@@ -55,9 +55,8 @@
 
         #region SQL Expressions
 
-        public const string GetutcdateSqlExpression = "GETUTCDATE()";
+        public const string CurrentTimestampUtcSql = "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')";
         public const string Varchar = "VARCHAR";
-        public const string Nvarchar = "NVARCHAR";
 
         #endregion
     }

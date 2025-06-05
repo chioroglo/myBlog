@@ -13,7 +13,6 @@ public class UserWarningEntityConfiguration : BaseEntityConfiguration<UserWarnin
         builder.ToTable(nameof(UserWarning));
 
         builder.Property(e => e.Reason)
-            .HasColumnType(Nvarchar)
             .HasMaxLength(IndexableNvarcharLengthLimit)
             .IsRequired();
     }

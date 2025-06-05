@@ -17,7 +17,7 @@ namespace MyBlog.Data.DataSeed
 
                 var reaction2 = new PostReaction()
                 {
-                    User = dbContext.Users.First(e => e.Username == "admin"),
+                    User = dbContext.Users.First(e => e.Username == "Admin"),
                     Post = dbContext.Posts.First(e => e.Title == "Boone"),
                     ReactionType = ReactionType.Like
                 };

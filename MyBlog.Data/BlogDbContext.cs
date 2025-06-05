@@ -27,7 +27,7 @@ namespace MyBlog.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer();
+            optionsBuilder.UseNpgsql();
             // TODO: Remove after EF core bug will be fixed
             // https://github.com/dotnet/efcore/issues/35158
             optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));

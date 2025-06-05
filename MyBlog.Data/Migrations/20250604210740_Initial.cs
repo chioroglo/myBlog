@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -15,18 +16,18 @@ namespace MyBlog.Data.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    PasswordHash = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    RefreshToken = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
-                    RefreshTokenExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastActivity = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
-                    IsBanned = table.Column<bool>(type: "bit", nullable: false),
-                    Initials = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false, computedColumnSql: "CASE \r\n    WHEN [FirstName] IS NOT NULL AND [LastName] IS NOT NULL \r\n        THEN SUBSTRING([FirstName], 1, 1) + SUBSTRING([LastName], 1, 1)\r\n    ELSE SUBSTRING([Username], 1, 1)\r\nEND", stored: false),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Username = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    LastName = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    PasswordHash = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    RefreshToken = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    RefreshTokenExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastActivity = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')"),
+                    IsBanned = table.Column<bool>(type: "boolean", nullable: false),
+                    Initials = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false, computedColumnSql: "CASE \r\n    WHEN \"FirstName\" IS NOT NULL AND \"LastName\" IS NOT NULL \r\n        THEN SUBSTRING(\"FirstName\" FROM 1 FOR 1) || SUBSTRING(\"LastName\" FROM 1 FOR 1)\r\n    ELSE SUBSTRING(\"Username\" FROM 1 FOR 1)\r\nEND", stored: true),
+                    RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
                 },
                 constraints: table =>
                 {
@@ -37,11 +38,11 @@ namespace MyBlog.Data.Migrations
                 name: "Avatar",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    BlobName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    BlobName = table.Column<string>(type: "text", nullable: false),
+                    RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
                 },
                 constraints: table =>
                 {
@@ -58,15 +59,15 @@ namespace MyBlog.Data.Migrations
                 name: "Passkey",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CredentialId = table.Column<string>(type: "VARCHAR(900)", maxLength: 900, nullable: false),
-                    PublicKey = table.Column<string>(type: "VARCHAR(900)", maxLength: 900, nullable: false),
-                    CredentialType = table.Column<string>(type: "VARCHAR(900)", maxLength: 900, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    AaGuid = table.Column<string>(type: "VARCHAR(900)", maxLength: 900, nullable: false, comment: "Specifies authenticator type (e.g Google Password Manager, iCloud Keychain etc)"),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    CredentialId = table.Column<string>(type: "VARCHAR", maxLength: 900, nullable: false),
+                    PublicKey = table.Column<string>(type: "VARCHAR", maxLength: 900, nullable: false),
+                    CredentialType = table.Column<string>(type: "VARCHAR", maxLength: 900, nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    AaGuid = table.Column<string>(type: "VARCHAR", maxLength: 900, nullable: false, comment: "Specifies authenticator type (e.g Google Password Manager, iCloud Keychain etc)"),
+                    RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
                 },
                 constraints: table =>
                 {
@@ -83,14 +84,14 @@ namespace MyBlog.Data.Migrations
                 name: "Post",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", maxLength: 10000, nullable: false),
-                    Topic = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    DetectedLanguage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Title = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Content = table.Column<string>(type: "character varying(10000)", maxLength: 10000, nullable: false),
+                    Topic = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    DetectedLanguage = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: true),
+                    RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
                 },
                 constraints: table =>
                 {
@@ -107,12 +108,12 @@ namespace MyBlog.Data.Migrations
                 name: "UserBanLog",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Reason = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Reason = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
                     Action = table.Column<short>(type: "smallint", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
                 },
                 constraints: table =>
                 {
@@ -128,12 +129,12 @@ namespace MyBlog.Data.Migrations
                 name: "UserWarning",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Reason = table.Column<string>(type: "NVARCHAR(450)", maxLength: 450, nullable: false),
-                    RemovedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Reason = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    RemovedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
                 },
                 constraints: table =>
                 {
@@ -150,12 +151,12 @@ namespace MyBlog.Data.Migrations
                 name: "Comment",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    PostId = table.Column<int>(type: "integer", nullable: false),
+                    Content = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
                 },
                 constraints: table =>
                 {
@@ -177,12 +178,12 @@ namespace MyBlog.Data.Migrations
                 name: "PostReaction",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ReactionType = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: false),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ReactionType = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    PostId = table.Column<int>(type: "integer", nullable: false),
+                    RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
                 },
                 constraints: table =>
                 {
@@ -242,8 +243,7 @@ namespace MyBlog.Data.Migrations
                 name: "IX_User_RefreshToken",
                 table: "User",
                 column: "RefreshToken",
-                unique: true,
-                filter: "[RefreshToken] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserBanLog_UserId",

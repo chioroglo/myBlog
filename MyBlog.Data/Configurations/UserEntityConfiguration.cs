@@ -17,11 +17,11 @@ namespace MyBlog.Data.Configurations
                 .IsRequired()
                 .HasComputedColumnSql("""
                                       CASE 
-                                          WHEN [FirstName] IS NOT NULL AND [LastName] IS NOT NULL 
-                                              THEN SUBSTRING([FirstName], 1, 1) + SUBSTRING([LastName], 1, 1)
-                                          ELSE SUBSTRING([Username], 1, 1)
+                                          WHEN "FirstName" IS NOT NULL AND "LastName" IS NOT NULL 
+                                              THEN SUBSTRING("FirstName" FROM 1 FOR 1) || SUBSTRING("LastName" FROM 1 FOR 1)
+                                          ELSE SUBSTRING("Username" FROM 1 FOR 1)
                                       END
-                                      """, false);
+                                      """, stored: true);
 
             builder.Property(e => e.Username)
                 .IsRequired()
@@ -48,7 +48,7 @@ namespace MyBlog.Data.Configurations
                 .IsUnique();
 
             builder.Property(e => e.LastActivity)
-                .HasDefaultValueSql(GetutcdateSqlExpression)
+                .HasDefaultValueSql(CurrentTimestampUtcSql)
                 .IsRequired();
 
             builder.HasMany(e => e.Posts)

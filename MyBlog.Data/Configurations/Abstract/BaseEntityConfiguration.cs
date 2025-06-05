@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyBlog.Domain.Abstract;
+using static MyBlog.Common.Validation.EntityConfigurationConstants;
 
 namespace MyBlog.Data.Configurations.Abstract
 {
@@ -11,7 +12,7 @@ namespace MyBlog.Data.Configurations.Abstract
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.RegistrationDate)
-                .HasDefaultValueSql("GETUTCDATE()")
+                .HasDefaultValueSql(CurrentTimestampUtcSql)
                 .IsRequired();
         }
 

@@ -40,8 +40,8 @@ namespace MyBlog.API
             services.AddDbContext<BlogDbContext>(
                 options =>
                 {
-                    var connectionString = Configuration.GetConnectionString("Blog");
-                    options.UseSqlServer(connectionString);
+                    var connectionString = Configuration.GetConnectionString("Postgres");
+                    options.UseNpgsql(connectionString);
                     // TODO: Remove after EF core bug will be fixed
                     // https://github.com/dotnet/efcore/issues/35158
                     options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
