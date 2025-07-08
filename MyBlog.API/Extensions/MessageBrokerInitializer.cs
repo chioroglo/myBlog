@@ -26,21 +26,16 @@ public static class MessageBrokerInitializer
         });
     }
 
-    public static void ConfigureRabbitMq(IBusRegistrationConfigurator busConfigurator, IConfiguration configuration)
+    public static void ConfigureRabbitMq(IBusRegistrationConfigurator busConfigurator, RabbitMqOptions options)
     {
-        var host = configuration["MessageBus:Host"]!;
-        var username = configuration["MessageBus:Username"]!;
-        var password = configuration["MessageBus:Password"]!;
-        var port = ushort.Parse(configuration["MessageBus:Port"]!);
-        var virtualHost = configuration["MessageBus:VirtualHost"]!;
-
         busConfigurator.UsingRabbitMq((context, configurator) =>
         {
-            configurator.Host(host,port,virtualHost,h =>
+            configurator.Host(options.Host, options.Port, options.VirtualHost, h =>
             {
-                h.Username(username);
-                h.Password(password);
+                h.Username(options.Username);
+                h.Password(options.Password);
             });
+
             configurator.UseDelayedMessageScheduler();
             configurator.MapProducers(context)
                 .MapConsumers(context);
