@@ -28,12 +28,18 @@ public static class MessageBrokerInitializer
 
     public static void ConfigureRabbitMq(IBusRegistrationConfigurator busConfigurator, IConfiguration configuration)
     {
+        var host = configuration["MessageBus:Host"]!;
+        var username = configuration["MessageBus:Username"]!;
+        var password = configuration["MessageBus:Password"]!;
+        var port = ushort.Parse(configuration["MessageBus:Port"]!);
+        var virtualHost = configuration["MessageBus:VirtualHost"]!;
+
         busConfigurator.UsingRabbitMq((context, configurator) =>
         {
-            configurator.Host(configuration["MessageBus:Host"]!, h =>
+            configurator.Host(host,port,virtualHost,h =>
             {
-                h.Username(configuration["MessageBus:Username"]!);
-                h.Password(configuration["MessageBus:Password"]!);
+                h.Username(username);
+                h.Password(password);
             });
             configurator.UseDelayedMessageScheduler();
             configurator.MapProducers(context)

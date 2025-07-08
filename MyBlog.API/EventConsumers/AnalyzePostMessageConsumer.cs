@@ -32,7 +32,7 @@ public class AnalyzePostMessageConsumer : IConsumer<AnalyzePostMessage>
 
     public async Task Consume(ConsumeContext<AnalyzePostMessage> context)
     {
-        _logger.LogInformation($"Consumed Analyze Post | ${context.Message.PostId}");
+        _logger.LogInformation("Consumed Analyze Post | {PostId}", context.Message.PostId);
         var message = context.Message;
         var ct = context.CancellationToken;
         var post = await _postRepository.GetByIdAsync(message.PostId, ct) 

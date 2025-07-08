@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -6,14 +7,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MyBlog.API;
+using MyBlog.API.Extensions;
+using MyBlog.Common.Options;
 using MyBlog.Data;
 using Testcontainers.MsSql;
+using Testcontainers.RabbitMq;
 
 namespace MyBlog.FunctionalTests.Utils;
 
 public class FunctionalTestWebAppFactory : WebApplicationFactory<Program> , IAsyncLifetime
 {
     private readonly MsSqlContainer _dbContainer = ContainersSetup.BuildMsSqlContainer();
+    private readonly RabbitMqContainer _rabbitMqContainer = ContainersSetup.BuildRabbitMqContainer();
+    private IConfiguration _configuration;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -40,6 +46,7 @@ public class FunctionalTestWebAppFactory : WebApplicationFactory<Program> , IAsy
 
     public virtual async Task InitializeAsync()
     {
+        await _rabbitMqContainer.StartAsync();
         await _dbContainer.StartAsync();
 
         await using (var scope = Services.CreateAsyncScope())
@@ -54,5 +61,6 @@ public class FunctionalTestWebAppFactory : WebApplicationFactory<Program> , IAsy
     public new virtual async Task DisposeAsync()
     {
         await _dbContainer.StopAsync();
+        await _rabbitMqContainer.StopAsync();
     }
 }
