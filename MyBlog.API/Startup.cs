@@ -81,7 +81,10 @@ namespace MyBlog.API
                 }
             });
 
-            services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
+            services.AddAutoMapper(config =>
+            {
+                config.AddMaps(typeof(MappingAssemblyMarker).Assembly);
+            });
             services.InitializeOptions(Configuration);
             services.AddCache(Configuration);
             services.InitializeRepositories();

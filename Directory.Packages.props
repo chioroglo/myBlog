@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="AspNetCore.HealthChecks.Azure.Storage.Blobs" Version="9.0.0" />
-    <PackageVersion Include="AutoMapper" Version="14.0.0" />
+    <PackageVersion Include="AutoMapper" Version="15.0.0" />
     <PackageVersion Include="Azure.Storage.Common" Version="12.22.0" />
     <PackageVersion Include="Bogus" Version="35.6.3" />
     <PackageVersion Include="Destructurama.Attributed" Version="5.1.0" />
