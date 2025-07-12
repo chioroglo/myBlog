@@ -8,6 +8,7 @@ public class BaseFunctionalTest : IClassFixture<FunctionalTestWebAppFactory>
 {
     protected HttpClient HttpClient { get; init; }
     protected IServiceProvider Services { get; init; }
+
     public BaseFunctionalTest(FunctionalTestWebAppFactory factory)
     {
         HttpClient = factory.CreateClient();
@@ -22,6 +23,15 @@ public class BaseFunctionalTest : IClassFixture<FunctionalTestWebAppFactory>
             where TResponse : class, new()
     {
         var response = await HttpClient.PostAsJsonAsync(url, payload);
+        var jsonResponse = await response.Content.ReadFromJsonAsync<TResponse>();
+        response.StatusCode.Should().Be(expectedStatusCode);
+        return jsonResponse;
+    }
+
+    protected async Task<TResponse?> TryHitGet<TResponse>(string url,
+        HttpStatusCode expectedStatusCode = HttpStatusCode.OK)
+    {
+        var response = await HttpClient.GetAsync(url);
         var jsonResponse = await response.Content.ReadFromJsonAsync<TResponse>();
         response.StatusCode.Should().Be(expectedStatusCode);
         return jsonResponse;

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyBlog.Data;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using MyBlog.API;
 using MyBlog.FunctionalTests.Utils;
 using MyBlog.Service;
 using MyBlog.Service.Abstract;
@@ -9,13 +12,24 @@ using Testcontainers.Redis;
 
 namespace MyBlog.FunctionalTests.Integration.Cache;
 
-public sealed class CacheTestWebAppFactory : FunctionalTestWebAppFactory
+public sealed class CacheTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly RedisContainer _redisContainer = ContainersSetup.BuildRedisContainer();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         base.ConfigureWebHost(builder);
+
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Test");
+
+        builder.ConfigureAppConfiguration((context, config) =>
+        {
+            var appsettingsPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.Test.json");
+
+            config.AddEnvironmentVariables();
+            config.AddJsonFile(appsettingsPath, optional: false, reloadOnChange: false);
+        });
+
 
         builder.ConfigureTestServices(services =>
         {
@@ -27,10 +41,8 @@ public sealed class CacheTestWebAppFactory : FunctionalTestWebAppFactory
             });
         });
     }
-
-    public override async Task InitializeAsync()
+    public async Task InitializeAsync()
     {
-        await base.InitializeAsync();
         await _redisContainer.StartAsync();
     }
 

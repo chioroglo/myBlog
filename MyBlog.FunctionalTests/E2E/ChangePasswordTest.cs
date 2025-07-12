@@ -12,23 +12,16 @@ using System.Net.Http.Headers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MyBlog.Common.Dto.Post;
+using MyBlog.FunctionalTests.Utils.Fakers;
 
 namespace MyBlog.FunctionalTests.E2E;
 
 public class ChangePasswordTest : BaseFunctionalTest
 {
-    private readonly IUserService _userService;
     private readonly IRegistrationService _registrationService;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly CancellationToken _ct = CancellationToken.None;
-    private const string Username = "TestName1";
-    private const string Password = "P@ssword!";
-    private const string NewPassword = "NeewP@ssword";
 
     public ChangePasswordTest(FunctionalTestWebAppFactory factory) : base(factory)
     {
-        _userService = Services.GetRequiredService<IUserService>();
-        _unitOfWork = Services.GetRequiredService<IUnitOfWork>();
         _registrationService = Services.GetRequiredService<IRegistrationService>();
     }
 
@@ -36,23 +29,25 @@ public class ChangePasswordTest : BaseFunctionalTest
     public async Task ShouldChangePassword_And_UnableToLogIn_WithOldPassword()
     {
         // Arrange
-        var user = await CreateMockUser();
+        var (user, dto) = await CreateMockUser();
 
         // Act
             // Log In
-        var loginResponse = await TryAuthorize(Username, Password, expectedStatusCode: HttpStatusCode.OK);
+        var loginResponse = await TryAuthorize(user.Username, dto.Password, expectedStatusCode: HttpStatusCode.OK);
         var oldAccessToken = loginResponse.AccessToken;
 
             // Change Password
         SetAuthorizationHeader(oldAccessToken);
 
+        var newPasswordDto = new RegistrationDtoFaker().Generate();
+        newPasswordDto.ConfirmPassword = newPasswordDto.Password;
         var changePasswordMessage = await HttpClient.PatchAsJsonAsync("api/auth/password/change", new ChangePasswordDto
         {
-            CurrentPassword = Password,
-            NewPassword = NewPassword,
-            ConfirmNewPassword = NewPassword,
+            CurrentPassword = dto.Password,
+            NewPassword = newPasswordDto.Password,
+            ConfirmNewPassword = newPasswordDto.ConfirmPassword,
             UserId = user.Id
-        }, _ct);
+        });
         changePasswordMessage.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Try to reach API with old token and create post (should fail)
@@ -60,12 +55,13 @@ public class ChangePasswordTest : BaseFunctionalTest
         {
             Title = "Test",
             Content = "Test"
-        }, _ct);
+        });
         createPostMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
             // Try to log In with old password
         HttpClient.DefaultRequestHeaders.Clear();
-        await TryAuthorize(Username, Password, expectedStatusCode: HttpStatusCode.BadRequest);
+        var authAttemptResponse = await TryAuthorize(user.Username, dto.Password , expectedStatusCode: HttpStatusCode.BadRequest);
+        authAttemptResponse.AccessToken.Should().BeNull();
     }
 
     private async Task<AuthorizationResponseModel?> TryAuthorize(
@@ -77,10 +73,10 @@ public class ChangePasswordTest : BaseFunctionalTest
         {
             Password = password,
             Username = username
-        }, _ct);
+        });
 
         loginResponseMessage.StatusCode.Should().Be(expectedStatusCode);
-        return await loginResponseMessage.Content.ReadFromJsonAsync<AuthorizationResponseModel>(_ct);
+        return await loginResponseMessage.Content.ReadFromJsonAsync<AuthorizationResponseModel>();
     }
     private void SetAuthorizationHeader(string value)
     {
@@ -88,14 +84,11 @@ public class ChangePasswordTest : BaseFunctionalTest
             JwtBearerDefaults.AuthenticationScheme,
             value);
     }
-    private async Task<User> CreateMockUser()
+    private async Task<(User,RegistrationDto)> CreateMockUser()
     {
-        var user = await _registrationService.RegisterAsync(new RegistrationDto
-        {
-            Username = Username,
-            Password = Password,
-            ConfirmPassword = Password
-        }, _ct);
-        return user;
+        var dto = new RegistrationDtoFaker().Generate();
+        dto.ConfirmPassword = dto.Password;
+        var user = await _registrationService.RegisterAsync(dto, CancellationToken.None);
+        return (user,dto);
     }
 }

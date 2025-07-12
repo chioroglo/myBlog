@@ -26,15 +26,16 @@ public static class MessageBrokerInitializer
         });
     }
 
-    public static void ConfigureRabbitMq(IBusRegistrationConfigurator busConfigurator, IConfiguration configuration)
+    public static void ConfigureRabbitMq(IBusRegistrationConfigurator busConfigurator, RabbitMqOptions options)
     {
         busConfigurator.UsingRabbitMq((context, configurator) =>
         {
-            configurator.Host(configuration["MessageBus:Host"]!, h =>
+            configurator.Host(options.Host, options.Port, options.VirtualHost, h =>
             {
-                h.Username(configuration["MessageBus:Username"]!);
-                h.Password(configuration["MessageBus:Password"]!);
+                h.Username(options.Username);
+                h.Password(options.Password);
             });
+
             configurator.UseDelayedMessageScheduler();
             configurator.MapProducers(context)
                 .MapConsumers(context);

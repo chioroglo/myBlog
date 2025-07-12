@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using MyBlog.Common;
 
 namespace MyBlog.UnitTests.Mapping;
@@ -18,7 +19,7 @@ public class AutoMapperConfigurationTests
         _subject = new MapperConfiguration(cfg =>
         {
             cfg.AddMaps(mappingAssemblies);
-        });
+        }, new LoggerFactory());
         var mapper = _subject.CreateMapper();
     }
 

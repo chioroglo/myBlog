@@ -72,13 +72,19 @@ namespace MyBlog.API
                     }
                     case MessageBrokerProvider.Rabbit:
                     {
-                        MessageBrokerInitializer.ConfigureRabbitMq(busConfigurator, Configuration);
+                        var rabbitMqOptions = new RabbitMqOptions();
+                        Configuration.GetSection(RabbitMqOptions.Config).Bind(rabbitMqOptions);
+                        services.AddOptions<RabbitMqOptions>().Bind(Configuration.GetSection(RabbitMqOptions.Config));
+                        MessageBrokerInitializer.ConfigureRabbitMq(busConfigurator, rabbitMqOptions);
                         break;
                     }
                 }
             });
 
-            services.AddAutoMapper(typeof(MappingAssemblyMarker).Assembly);
+            services.AddAutoMapper(config =>
+            {
+                config.AddMaps(typeof(MappingAssemblyMarker).Assembly);
+            });
             services.InitializeOptions(Configuration);
             services.AddCache(Configuration);
             services.InitializeRepositories();
