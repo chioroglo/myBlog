@@ -14,7 +14,7 @@ public static class ContainersSetup
 
     public static RedisContainer BuildRedisContainer() => new RedisBuilder()
         .WithPortBinding(6379, true)
-        .WithImage("redis:7.2.3")
+        .WithImage("redis:7.2.3-alpine")
         .Build();
 
     public static class RabbitSetup
