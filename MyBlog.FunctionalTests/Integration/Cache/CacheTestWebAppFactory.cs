@@ -1,20 +1,29 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Networks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using MyBlog.API;
 using MyBlog.FunctionalTests.Utils;
 using MyBlog.Service;
-using MyBlog.Service.Abstract;
 using Testcontainers.Redis;
 
 namespace MyBlog.FunctionalTests.Integration.Cache;
 
 public sealed class CacheTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    private readonly RedisContainer _redisContainer = ContainersSetup.BuildRedisContainer();
+    private readonly RedisContainer _redisContainer;
+    private readonly INetwork _network;
+    
+    public CacheTestWebAppFactory()
+    {
+        _network = new NetworkBuilder()
+            .WithName($"sut-{Guid.NewGuid()}")
+            .Build();
+        _redisContainer = ContainersSetup.BuildRedisContainer(_network);
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -41,6 +50,7 @@ public sealed class CacheTestWebAppFactory : WebApplicationFactory<Program>, IAs
             });
         });
     }
+
     public async Task InitializeAsync()
     {
         await _redisContainer.StartAsync();
