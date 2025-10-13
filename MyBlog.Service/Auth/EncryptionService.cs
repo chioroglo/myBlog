@@ -1,5 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
@@ -23,27 +23,31 @@ namespace MyBlog.Service.Auth
 
         public string GenerateAccessToken(int userId, string username)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-
-            Claim[] claims =
-            [
-                new(TokenClaimNames.Id, userId.ToString()),
-                new(TokenClaimNames.Username, username)
-            ];
+            var rsa = RSA.Create();
+            rsa.ImportFromPem(_jwtOptions.PrivateKey);
+            var securityKey = new RsaSecurityKey(rsa);
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.RsaSha256);
 
             var notBefore = DateTime.UtcNow;
             var expires = notBefore.Add(_jwtOptions.AccessTokenValidityTime);
-            var tokenObject = new JwtSecurityToken(
-                _jwtOptions.Issuer,
-                _jwtOptions.Audience,
-                claims,
-                notBefore: notBefore,
-                expires: expires,
-                signingCredentials: credentials);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Issuer = _jwtOptions.Issuer,
+                Audience = _jwtOptions.Audience,
+                Claims = new Dictionary<string, object>
+                {
+                    { TokenClaimNames.Id, userId.ToString(CultureInfo.InvariantCulture) },
+                    { TokenClaimNames.Username, username }
+                },
+                SigningCredentials = credentials,
+                NotBefore = notBefore,
+                Expires = expires,
+            };
 
-            var token = new JwtSecurityTokenHandler().WriteToken(tokenObject);
-            return token;
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.CreateToken(tokenDescriptor);
+            var jwt = handler.WriteToken(token);
+            return jwt;
         }
 
         public string EncryptPassword(string phrase)
