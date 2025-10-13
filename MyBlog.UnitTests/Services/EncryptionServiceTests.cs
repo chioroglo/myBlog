@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Security.Cryptography;
+using Microsoft.Extensions.Options;
 using MyBlog.Common.Options;
 using MyBlog.Common.Validation;
 using MyBlog.Service.Auth;
@@ -12,9 +13,19 @@ public class EncryptionServiceTests
 
     public EncryptionServiceTests()
     {
+        // Generate an in-memory RSA key pair
+        using var rsa = RSA.Create(2048);
+
+        // Export private key in PKCS#8 PEM format
+        var privateKey = ExportPrivateKeyPem(rsa);
+
+        // Export public key in PEM format
+        var publicKey = ExportPublicKeyPem(rsa);
+
         _options = new OptionsWrapper<JsonWebTokenOptions>(new()
         {
-            Key = "key",
+            PrivateKey = privateKey,
+            PublicKey = publicKey,
             Issuer = "issuer",
             Audience = "audience2232",
             AccessTokenValidityTime = TimeSpan.FromMinutes(24)
@@ -48,5 +59,25 @@ public class EncryptionServiceTests
 
         // Assert
         actual.Should().Be(expected);
+    }
+
+    private static string ExportPrivateKeyPem(RSA rsa)
+    {
+        var pkcs8 = rsa.ExportPkcs8PrivateKey();
+        return PemEncode("PRIVATE KEY", pkcs8);
+    }
+
+    private static string ExportPublicKeyPem(RSA rsa)
+    {
+        var publicKey = rsa.ExportSubjectPublicKeyInfo();
+        return PemEncode("PUBLIC KEY", publicKey);
+    }
+
+    private static string PemEncode(string label, byte[] keyBytes)
+    {
+        var base64 = Convert.ToBase64String(keyBytes);
+        var lines = Enumerable.Range(0, (int)Math.Ceiling(base64.Length / 64.0))
+            .Select(i => base64.Substring(i * 64, Math.Min(64, base64.Length - i * 64)));
+        return $"-----BEGIN {label}-----\n{string.Join("\n", lines)}\n-----END {label}-----";
     }
 }

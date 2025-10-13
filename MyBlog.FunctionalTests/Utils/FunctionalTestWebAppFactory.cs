@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Networks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -6,10 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MyBlog.API;
-using MyBlog.API.Extensions;
-using MyBlog.Common.Options;
 using MyBlog.Data;
 using MyBlog.Service;
 using MyBlog.Service.Abstract;
@@ -21,11 +19,22 @@ namespace MyBlog.FunctionalTests.Utils;
 
 public class FunctionalTestWebAppFactory : WebApplicationFactory<Program> , IAsyncLifetime
 {
-    private readonly MsSqlContainer _dbContainer = ContainersSetup.BuildMsSqlContainer();
-    private readonly RabbitMqContainer _rabbitMqContainer = ContainersSetup.BuildRabbitMqContainer();
-    private readonly RedisContainer _redisContainer = ContainersSetup.BuildRedisContainer();
-
+    private readonly MsSqlContainer _dbContainer;
+    private readonly RabbitMqContainer _rabbitMqContainer;
+    private readonly RedisContainer _redisContainer;
+    private readonly INetwork _network;
     private IConfiguration _configuration;
+
+    public FunctionalTestWebAppFactory()
+    {
+        _network = new NetworkBuilder()
+            .WithName($"sut-{Guid.NewGuid()}")
+            .Build();
+
+        _dbContainer = ContainersSetup.BuildMsSqlContainer(_network);
+        _redisContainer = ContainersSetup.BuildRedisContainer(_network);
+        _rabbitMqContainer = ContainersSetup.BuildRabbitMqContainer(_network);
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
