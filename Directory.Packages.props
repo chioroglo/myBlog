@@ -78,7 +78,7 @@
     <PackageVersion Include="Fido2" Version="3.0.1" />
     <PackageVersion Include="LanguageDetection.NETStandard" Version="1.3.1" />
     <PackageVersion Include="Profanity.Detector" Version="0.1.8" />
-    <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.10" />
+    <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.11" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.5.0" />
   </ItemGroup>
 </Project>
