@@ -90,6 +90,7 @@ jobs:
 
       - name: Generate Migration Bundle
         run: |
+          dotnet restore
           dotnet tool install --global dotnet-ef
           dotnet ef migrations bundle --project MyBlog.Data/MyBlog.Data.csproj --startup-project MyBlog.API/MyBlog.API.csproj --output migrationBundle --force
       - name: Apply Migrations
