@@ -23,7 +23,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '10.x'
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
@@ -50,7 +50,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '10.x'
       
       - name: Run Functional Testing
         run: dotnet test MyBlog.FunctionalTests/MyBlog.FunctionalTests.csproj
@@ -65,7 +65,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '10.x'
       
       - name: Collect Code Coverage Unit testing
         run: dotnet test MyBlog.UnitTests/MyBlog.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputDirectory=TestResults/ /p:CoverletOutputFormat=lcov
@@ -86,7 +86,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '10.x'
 
       - name: Generate Migration Bundle
         run: |
