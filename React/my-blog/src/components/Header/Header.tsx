@@ -12,10 +12,10 @@ const Header = () => {
 
     return (
         <CustomNavbar>
-            <Toolbar>
+            <Toolbar sx={{px: {xs: 2, sm: 3}}}>
                 <Box className={styles["toolbar__buttons"]}>
                     <CustomNavLink to={"/"}>
-                        Home
+                        MyBlog
                     </CustomNavLink>
                 </Box>
                 {

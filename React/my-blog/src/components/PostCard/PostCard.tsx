@@ -144,13 +144,13 @@ const PostCard = ({
         <>
             {
                 user && editPostMode ?
-                    <PostForm initialPost={post} width={"50%"} caption={"Edit post"} formActionCallback={handleEditPost}
+                    <PostForm initialPost={post} width={width} caption={"Edit post"} formActionCallback={handleEditPost}
                               formCloseHandler={() => {
                                   handleCloseMenu();
                                   setEditPostMode(false);
                               }}/>
                     :
-                    <Card elevation={10} style={{width: width, margin: "20px auto"}}>
+                    <Card elevation={2} sx={{width, maxWidth: "calc(100% - 0px)", my: 2.5, mx: "auto", overflow: "hidden"}}>
                         <>
                             {
                                 user && confirmDeleteDialogOpen &&
@@ -174,12 +174,7 @@ const PostCard = ({
                                     <IconButton onClick={handleOpenMenu}><MoreVertIcon/></IconButton> : <></>}
                                 title={<Link to={`/user/${post.authorId}`}>{post.authorUsername}</Link>}
                                 subheader={
-                                    <Box
-                                        display={"flex"}
-                                        justifyContent={'left'}
-                                        flexDirection={'row'}
-                                        gap={'10px'}
-                                        alignItems={"center"}>
+                                    <Box display="flex" flexWrap="wrap" gap={1} alignItems="center">
                                         <Link
                                             to={`/post/${post.id}`}>Posted
                                             at {assets.transformUtcStringToDateMonthHoursMinutesString(post.registrationDate)}
@@ -190,20 +185,21 @@ const PostCard = ({
                                         </IconButton>
                                         <PostCardStatisticsDialog open={statsDialogOpen} post={post} close={() => setStatsDialogOpen(false)}/>
                                     </Box>}/>
-                            <CardContent>
+                            <CardContent sx={{px: {xs: 2, sm: 3}, py: 2}}>
                                 <>
-                                    <Typography variant="h5">{post.title}</Typography>
+                                    <Typography variant="h5" sx={{mb: 1, overflowWrap: "anywhere"}}>{post.title}</Typography>
                                     {post.topic &&
                                         <Link to={{pathname: `/topic/${post.topic}`}}>
                                             <Chip style={{display: "block", width: "fit-content", padding: "5px 5px"}}
                                                   variant="outlined" color={"primary"} label={"#" + post.topic}/>
                                         </Link>
                                     }
-                                    <div dangerouslySetInnerHTML={{ __html: sanitizedPostContent }} />
+                                    <Box sx={{mt: 2, overflowWrap: "anywhere", "& img": {maxWidth: "100%", height: "auto"}}}
+                                         dangerouslySetInnerHTML={{ __html: sanitizedPostContent }} />
                                 </>
                             </CardContent>
 
-                            <CardActions>
+                            <CardActions sx={{px: {xs: 1.5, sm: 2.5}, pb: 2, flexWrap: "wrap", gap: .5}}>
 
                                 <PostReactionBox postId={post.id}/>
 

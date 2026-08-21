@@ -19,14 +19,14 @@ const AuthorizationRequiredCustomModal = ({
             <Box style={{margin: "0 auto"}}>
                 <FavoriteBorderIcon fontSize={"large"} color={"info"}/>
             </Box>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText id="alert-dialog-description" sx={{px: 3, pt: 1}}>
                 <Typography align='center'>{caption}</Typography>
             </DialogContentText>
 
-            <DialogActions style={{display: "flex", flexDirection: "column", padding: "20px"}}>
-                <Button style={{margin: "5px"}} fullWidth variant={"outlined"}
+            <DialogActions sx={{display: "flex", flexDirection: "column", p: 3, gap: 1}}>
+                <Button sx={{m: "0 !important"}} fullWidth variant={"contained"}
                         onClick={() => navigate("/login", {replace: true})}>Login</Button>
-                <Button style={{margin: "5px"}} fullWidth variant={"outlined"}
+                <Button sx={{m: "0 !important"}} fullWidth variant={"outlined"}
                         onClick={() => navigate("register", {replace: true})}>Sign up</Button>
             </DialogActions>
         </CustomModal>

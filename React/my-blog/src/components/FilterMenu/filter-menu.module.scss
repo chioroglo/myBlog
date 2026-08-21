@@ -1,26 +1,29 @@
 .menu-wrapper {
-    min-width: 500px;
-    margin: 0 auto;
+    width: min(100%, 760px) !important;
+    margin: 0 auto 24px;
     min-height: 50px;
-    padding: 20px;
+    padding: 24px;
 }
 
 .header {
     padding-bottom: 20px;
 
     &__caption {
-        font-size: 36px;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 }
 
 .buttons {
-    padding: 20px;
-    min-width: 120px;
+    padding: 0;
     display: flex;
-    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
     
     &__dropdown {
-        max-width: 20%;
+        flex: 0 1 180px;
 
         &__selector {
             min-width: 150px !important;
@@ -28,8 +31,7 @@
     }
 
     &__search {
-        min-width: 60px;
-        width: 20vw;
+        flex: 1 1 240px;
 
     }
 }
@@ -43,4 +45,19 @@
         display: flex;
         justify-content: center;
     }
+}
+
+.active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+@media (max-width: 650px) {
+    .menu-wrapper { padding: 18px; }
+    .buttons { flex-direction: column; align-items: stretch; }
+    .buttons__dropdown, .buttons__search { flex-basis: auto; width: 100%; max-width: none; }
+    .buttons__dropdown__selector { width: 100%; }
 }

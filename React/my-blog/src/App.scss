@@ -1,3 +1,27 @@
+@font-face {
+    font-family: "Onest";
+    src: url("./shared/assets/fonts/Onest/WOFF/Onest-Regular.woff") format("woff");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Onest";
+    src: url("./shared/assets/fonts/Onest/WOFF/Onest-Medium.woff") format("woff");
+    font-style: normal;
+    font-weight: 500 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Onest";
+    src: url("./shared/assets/fonts/Onest/WOFF/Onest-Bold.woff") format("woff");
+    font-style: normal;
+    font-weight: 700 900;
+    font-display: swap;
+}
+
 :root {
     --mui-palette-primary-main: #3d5a80;
     --mui-palette-secondary-main: #98c1d9;
@@ -7,11 +31,43 @@
     --mui-palette-success-main: #00FF9C;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "Onest", "Segoe UI", sans-serif;
+    color: #182337;
+    background:
+        radial-gradient(circle at 8% 4%, rgba(152, 193, 217, .25), transparent 28rem),
+        #f4f7fb;
+}
+
 a, a:active {
-    color: #000;
+    color: inherit;
     text-decoration: none;
 }
 
 * {
-    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+}
+
+.App {
+    min-height: 100vh;
+}
+
+.page-shell {
+    width: min(100% - 32px, 1080px);
+    margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+    .page-shell {
+        width: min(100% - 20px, 1080px);
+    }
 }

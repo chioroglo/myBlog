@@ -18,18 +18,17 @@ import {useNotifier} from '../../hooks';
 
 
 const textFieldStyle: React.CSSProperties = {
-    maxWidth: "400px",
-    width: "20vw",
-    minWidth: "300px",
-    margin: "0 auto",
-    padding: "10px"
+    width: "100%",
+    margin: "0",
+    padding: "8px 0"
 };
 
 const paperStyle: React.CSSProperties = {
-    width: "450px",
-    padding: "20px",
+    width: "min(100%, 440px)",
+    padding: "32px",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    border: "1px solid rgba(24, 35, 55, .08)"
 }
 
 const buttonStyle: React.CSSProperties = {
@@ -111,7 +110,7 @@ const RegistrationForm = () => {
                 loading ?
                     <CenteredLoader/>
                     :
-                    <form style={{display: "inline-block"}} onSubmit={formik.handleSubmit}>
+                    <form style={{display: "block", width: "100%"}} onSubmit={formik.handleSubmit}>
                         <Paper style={paperStyle} elevation={12}>
                             <FormHeader iconColor={palette.LIGHT_PINK} caption="Register" icon={<AssignmentIcon/>}/>
 

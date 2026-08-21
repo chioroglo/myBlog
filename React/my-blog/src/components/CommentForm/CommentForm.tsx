@@ -64,11 +64,14 @@ const CommentForm = ({
                     :
                     <Paper elevation={1} sx={{
                         width: width,
-                        padding: "20px 0",
-                        margin: "0",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        flexDirection: "row"
+                        maxWidth: "100%",
+                        p: {xs: 2, sm: 3},
+                        my: 2,
+                        display: "grid",
+                        gridTemplateColumns: {xs: "1fr auto", sm: "auto 1fr auto"},
+                        gap: {xs: 1.5, sm: 3},
+                        alignItems: "start",
+                        border: "1px solid rgba(24, 35, 55, .08)"
                     }}>
                         <FormHeader iconColor={palette.JET} caption={caption} icon={<ModeEditIcon/>}/>
 

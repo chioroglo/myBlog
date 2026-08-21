@@ -1,16 +1,17 @@
 .toolbar-grid {
     display: flex;
     flex-wrap: wrap;
-    flex-basis: 1fr 1fr;
+    gap: 4px;
+    margin-bottom: 10px;
 
     button {
-        margin: 2px;
+        margin: 0;
         font-size: 1rem;
         padding: 10px;
         background: #fff;
         cursor: pointer;
         border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
+        border-radius: 8px;
     
         &.active {
             color: rgba(0, 0, 0, 1);

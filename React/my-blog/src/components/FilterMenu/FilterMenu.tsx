@@ -135,14 +135,14 @@ const FilterMenu = ({availableFilters, width, requestFilters, setFilters}: Filte
                         label="" />
                 </Box>
             }
-            <>
+            <Box className={styles["active-filters"]}>
                 {requestFilters?.filters.map((filter, index) =>
                     <Chip color="secondary" key={index} onDelete={() => handleDeleteFilter(filter)} label={
                         <>
                             <span style={{fontWeight: "bold"}}>{filter.path}</span> : {filter.value}
                         </>
                     }/>)}
-            </>
+            </Box>
         </Paper>
     );
 };

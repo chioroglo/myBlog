@@ -14,20 +14,25 @@
 }
 
 .form-field {
-    max-width: 400px !important;
-    width: 20vw !important;
-    min-width: 300px !important;
-    margin: 0 auto !important;
+    width: 100% !important;
+    margin: 0 !important;
     padding: 0 0 20px 0 !important;
 }
 
 .block-wrapper {
-    width: 450px;
-    padding: 18px;
+    width: min(100%, 440px);
+    padding: 32px;
     display: flex;
     flex-direction: column;
+    gap: 8px;
+    border: 1px solid rgba(24, 35, 55, .08);
 }
 
 .form {
-    display: inline-block;
+    display: block;
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .block-wrapper { padding: 24px 18px; }
 }

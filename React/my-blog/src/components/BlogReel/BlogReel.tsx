@@ -110,7 +110,7 @@ const BlogReel = ({
             {user && showAddPostForm &&
                 (formVisible ?
                     <PostForm formCloseHandler={() => setFormVisible(false)} caption={"New post"}
-                              formActionCallback={handleNewPost} width="50%"/>
+                              formActionCallback={handleNewPost} width={reelWidth}/>
                     :
                     <Box style={{margin: "20px 0", display: "flex", justifyContent: "space-around"}}>
                         <Button variant={"contained"} onClick={() => setFormVisible(true)}>Add new post</Button>

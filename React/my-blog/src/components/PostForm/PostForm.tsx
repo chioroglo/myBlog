@@ -72,13 +72,17 @@ const PostForm = ({
                     ?
                     <CenteredLoader/>
                     :
-                    <Paper elevation={12} style={{
-                        width: width,
-                        padding: "20px",
-                        margin: "20px auto",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        flexDirection: "row"
+                    <Paper elevation={2} sx={{
+                        width,
+                        maxWidth: "calc(100% - 0px)",
+                        p: {xs: 2, sm: 3},
+                        my: 2.5,
+                        mx: "auto",
+                        display: "grid",
+                        gridTemplateColumns: {xs: "1fr auto", sm: "auto 1fr auto"},
+                        gap: {xs: 1.5, sm: 3},
+                        alignItems: "start",
+                        border: "1px solid rgba(24, 35, 55, .08)"
                     }}>
                         <FormHeader iconColor={palette.JET} caption={caption} icon={<AutoFixHighIcon/>}></FormHeader>
 

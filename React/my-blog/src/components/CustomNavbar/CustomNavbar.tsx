@@ -5,7 +5,7 @@ import {CustomNavbarProps} from './CustomNavbarProps';
 
 const CustomNavbar = ({children}: CustomNavbarProps) => {
     return (
-        <AppBar position="absolute">
+        <AppBar position="fixed">
             {children}
         </AppBar>
     );

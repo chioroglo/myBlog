@@ -54,7 +54,7 @@ const PostPage = () => {
                                 <CancelIcon className={styles['error-wrapper__icon']}/>
                             </Box>
                             :
-                            post && <PostCard enableCommentInfiniteScroll initialPost={post} width={"70%"}
+                            post && <PostCard enableCommentInfiniteScroll initialPost={post} width={"min(100% - 24px, 860px)"}
                                               commentPortionSize={DefaultPageSize}
                                               disappearPostCallback={redirectToMain}
                                               redirectToAfterDelete='/'/>

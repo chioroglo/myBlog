@@ -12,7 +12,14 @@ const CustomModal = ({
                          minWidthPx = 400
                      }: CustomModalProps) => {
     return (
-        <Dialog PaperProps={{elevation: 4, sx: {minWidth: `${minWidthPx}px`, width: "fit-content", height: "fit-content"}}}
+        <Dialog fullWidth maxWidth="sm" PaperProps={{elevation: 4, sx: {
+                    minWidth: {xs: 0, sm: `${minWidthPx}px`},
+                    width: {xs: "calc(100% - 24px)", sm: "fit-content"},
+                    maxWidth: "calc(100% - 24px)",
+                    height: "fit-content",
+                    m: {xs: 1.5, sm: 4},
+                    overflowX: "hidden"
+                }}}
                 open={modalOpen} onClose={() => setModalOpen(false)}>
 
             <DialogTitle id="alert-dialog-title">

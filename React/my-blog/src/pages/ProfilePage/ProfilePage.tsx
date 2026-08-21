@@ -106,7 +106,7 @@ const ProfilePage = () => {
                             <>
                                 <ProfileHeader setUser={setUser} user={user}/>
 
-                                <Box style={{width: "70vw", margin: "0 auto"}}>
+                                <Box className="page-shell" sx={{mt: 3}}>
                                     <Box>
                                         <Tabs value={visibleTabIndex} onChange={handleTabChange}>
                                             <Tab label="Posts" {...tabProps(0)}/>
@@ -127,7 +127,7 @@ const ProfilePage = () => {
                                 </Box>
                             </>
                             :
-                            <Box style={{margin: "15% auto"}}>
+                            <Box className="page-shell" sx={{py: 10}}>
                                 <Typography variant={"h2"} style={{textAlign: "center"}}>
                                     {errorText}
                                 </Typography>

@@ -1,6 +1,8 @@
 .container {
-    padding: 15vh 0 0 0;
+    width: min(100% - 24px, 480px);
+    min-height: calc(100vh - 156px);
     margin: 0 auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
 }

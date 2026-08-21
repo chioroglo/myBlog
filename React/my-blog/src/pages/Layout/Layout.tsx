@@ -18,9 +18,8 @@ const Layout = () => {
 
     return (
         <>
-            <div style={{height: "5vh", minHeight: "70px"}}></div>
             <Header/>
-            <main>
+            <main style={{paddingTop: "92px", paddingBottom: "64px"}}>
                 <CustomSnackbar isOpen={notificationRaised} alertMessage={notificationProps.message}
                                 closeHandler={closeNotificationHandler} alertType={notificationProps.severity}/>
                 <Outlet/>

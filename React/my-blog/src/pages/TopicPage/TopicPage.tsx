@@ -22,19 +22,19 @@ const TopicPage = () => {
     };
 
     return (
-        <>
-            <Typography style={{textAlign: "center", fontSize: "36px"}}>
+        <div className="page-shell">
+            <Typography variant="h3" sx={{textAlign: "center", fontSize: {xs: "1.8rem", sm: "2.5rem"}, mb: 3}}>
                 Welcome to topic <span style={{fontStyle: "italic"}}>{topicName}</span>
             </Typography>
             {
                 topicName ?
-                    <BlogReel pagingRequestDefault={topicPagePagingConditions} reelWidth={"50%"}
+                    <BlogReel pagingRequestDefault={topicPagePagingConditions} reelWidth={"min(100%, 760px)"}
                               pageSize={DefaultPageSize}
                               showAddPostForm={false} availableFilterNames={availableFilterNames} showFilteringMenu/>
                     :
                     <Navigate to={"/"}/>
             }
-        </>
+        </div>
 
     );
 };

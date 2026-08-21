@@ -1,7 +1,12 @@
 .not-found-page-wrapper {
-    display: block;
+    width: min(100% - 24px, 680px);
+    min-height: calc(100vh - 180px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin: 25vh 25vw;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .not-found-page-button {

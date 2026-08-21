@@ -69,7 +69,7 @@ const CommentCard = ({width = "100%", initialComment, disappearCommentCallback, 
                     <CommentForm formActionCallback={handleEditComment} formCloseHandler={openEditWindow}
                                  post={post} initialComment={comment}/>
                     :
-                    <Card elevation={10} style={{width: width, margin: "20px auto", minHeight: "fit-content"}}>
+                    <Card elevation={1} sx={{width, maxWidth: "100%", my: 2, mx: "auto", minHeight: "fit-content"}}>
                         <>
                             {
                                 user &&
@@ -102,8 +102,8 @@ const CommentCard = ({width = "100%", initialComment, disappearCommentCallback, 
                                     <IconButton onClick={handleOpenMenu}><MoreVertIcon/></IconButton> : <></>}
                                 subheader={transformUtcStringToDateMonthHoursMinutesString(comment.registrationDate)}/>
 
-                            <CardContent style={{display: "block"}}>
-                                <Box style={{wordWrap: "break-word"}}>
+                            <CardContent sx={{display: "block", px: {xs: 2, sm: 3}}}>
+                                <Box sx={{overflowWrap: "anywhere"}}>
                                     {comment.content}
                                 </Box>
                             </CardContent>

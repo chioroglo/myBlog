@@ -6,7 +6,7 @@ import { createStore } from 'redux';
 import App from './App';
 import { ApplicationState, CurrentUserState, CustomNotificationPayload, ReduxActionTypes } from './redux';
 import { JwtTokenKeyName, UserIdTokenKeyName, applicationTheme } from './shared/config';
-import { ThemeProvider } from '@emotion/react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import * as serviceWorkerRegistration from './register-service-worker';
@@ -85,6 +85,7 @@ const store = createStore(reducer);
 root.render(
     <Provider store={store}>
         <ThemeProvider theme={applicationTheme}>
+            <CssBaseline/>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <BrowserRouter>
                     <App/>
