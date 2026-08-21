@@ -5,20 +5,13 @@ using MyBlog.Common.Dto.Auth;
 using MyBlog.Common.Exceptions;
 using MyBlog.Domain;
 using MyBlog.Service.Abstract.Auth.Passkeys;
-using ResponseData = Fido2NetLib.AuthenticatorAttestationRawResponse.ResponseData;
+using ResponseData = Fido2NetLib.AuthenticatorAttestationRawResponse.AttestationResponse;
 using AssertionResponse = Fido2NetLib.AuthenticatorAssertionRawResponse.AssertionResponse;
 
 namespace MyBlog.Service.Auth.Passkeys;
 
-public class PasskeyCryptographyService : IPasskeyCryptographyService
+public class PasskeyCryptographyService(IFido2 fido2) : IPasskeyCryptographyService
 {
-    private readonly IFido2 _fido2;
-
-    public PasskeyCryptographyService(IFido2 fido2)
-    {
-        _fido2 = fido2;
-    }
-
     public async Task<Passkey> ValidateRegistration(RegisterPasskeyRequest request, User user,
         CredentialCreateOptions options, CancellationToken ct)
     {
@@ -28,7 +21,7 @@ public class PasskeyCryptographyService : IPasskeyCryptographyService
 
         var fido2AttestationObject = new AuthenticatorAttestationRawResponse
         {
-            Id = rawId,
+            Id = request.Id,
             RawId = rawId,
             Type = PublicKeyCredentialType.PublicKey,
             Response = new ResponseData
@@ -38,31 +31,35 @@ public class PasskeyCryptographyService : IPasskeyCryptographyService
             }
         };
 
-        var result = await _fido2.MakeNewCredentialAsync(
-            fido2AttestationObject,
-            options,
-            isCredentialIdUniqueToUser: (newCredential, _) =>
-            {
-                return Task.FromResult(user.Passkeys.All(p =>
-                    Convert.FromBase64String(p.CredentialId) != newCredential.CredentialId));
-            },  cancellationToken: ct);
-
-        if (result.Result == null ||
-            !string.IsNullOrWhiteSpace(result.ErrorMessage) ||
-            result.Status != "ok")
+        try
         {
-            throw new ValidationException(result.Result?.ErrorMessage ?? "signature not valid");
+            var result = await fido2.MakeNewCredentialAsync(new MakeNewCredentialParams
+            {
+                AttestationResponse = fido2AttestationObject,
+                OriginalOptions = options,
+                IsCredentialIdUniqueToUserCallback = (newCredential, _) =>
+                {
+                    return Task.FromResult(user.Passkeys.All(p =>
+                        !Convert.FromBase64String(p.CredentialId).SequenceEqual(newCredential.CredentialId)));
+                }
+            }, ct);
+
+            return new Passkey
+            {
+                UserId = user.Id,
+                CredentialId = Convert.ToBase64String(result.Id),
+                PublicKey = Convert.ToBase64String(result.PublicKey),
+                CredentialType = result.Type.ToString(),
+                IsActive = true,
+                AaGuid = result.AaGuid.ToString()
+            };
+
+        }
+        catch (Exception ex)
+        {
+            throw new ValidationException(ex.Message);
         }
 
-        return new Passkey
-        {
-            UserId = user.Id,
-            CredentialId = Convert.ToBase64String(result.Result.CredentialId),
-            PublicKey = Convert.ToBase64String(result.Result.PublicKey),
-            CredentialType = result.Result.CredType,
-            IsActive = true,
-            AaGuid = result.Result.Aaguid.ToString()
-        };
     }
 
     public async Task ValidateAuthentication(AuthenticatePasskeyRequest request, User user, AssertionOptions options, CancellationToken ct)
@@ -93,7 +90,7 @@ public class PasskeyCryptographyService : IPasskeyCryptographyService
 
         var authenticationAssertionObject = new AuthenticatorAssertionRawResponse
         {
-            Id = id,
+            Id = request.CredentialId,
             RawId = id,
             Response = assertionResponse,
             Type = PublicKeyCredentialType.PublicKey
@@ -101,12 +98,13 @@ public class PasskeyCryptographyService : IPasskeyCryptographyService
 
 
         // Throws on unsuccessful result, otherwise authentication is OK
-        await _fido2.MakeAssertionAsync(
-            authenticationAssertionObject,
-            options,
-            publicKeyBase64,
-            0,
-            async (_, _) => true,
-            cancellationToken: ct);
+        await fido2.MakeAssertionAsync(new MakeAssertionParams
+        {
+            AssertionResponse = authenticationAssertionObject,
+            OriginalOptions = options,
+            StoredPublicKey = publicKeyBase64,
+            StoredSignatureCounter = 0,
+            IsUserHandleOwnerOfCredentialIdCallback = (_, _) => Task.FromResult(true)
+        }, ct);
    }
 }

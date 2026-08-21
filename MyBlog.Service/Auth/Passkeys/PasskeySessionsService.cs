@@ -53,14 +53,16 @@ public class PasskeySessionsService : IPasskeySessionsService
         var authenticatorSelection = new AuthenticatorSelection
         {
             UserVerification = UserVerificationRequirement.Required,
-            RequireResidentKey = true
+            ResidentKey = ResidentKeyRequirement.Required
         };
 
-        var fido2CredentialCreateOptions = _fido2.RequestNewCredential(
-            fido2User,
-            existingCredentialDescriptors,
-            authenticatorSelection,
-            AttestationConveyancePreference.Direct);
+        var fido2CredentialCreateOptions = _fido2.RequestNewCredential(new RequestNewCredentialParams
+        {
+            User = fido2User,
+            ExcludeCredentials = existingCredentialDescriptors,
+            AuthenticatorSelection = authenticatorSelection,
+            AttestationPreference = AttestationConveyancePreference.Direct
+        });
 
         await _cache.SetAsync(cacheKey, fido2CredentialCreateOptions, _options.ChallengeLifetime);
         return fido2CredentialCreateOptions;
@@ -81,7 +83,11 @@ public class PasskeySessionsService : IPasskeySessionsService
 
     public async Task<PasskeyAuthenticationOptionsModel> CreateAuthenticationSession(CancellationToken ct)
     {
-        var options = _fido2.GetAssertionOptions([], UserVerificationRequirement.Required);
+        var options = _fido2.GetAssertionOptions(new GetAssertionOptionsParams
+        {
+            AllowedCredentials = [],
+            UserVerification = UserVerificationRequirement.Required
+        });
 
         var challengeBase64 = Convert.ToBase64String(options.Challenge);
         var cacheKey = PasskeyUtils.AuthenticationCacheKey(challengeBase64);

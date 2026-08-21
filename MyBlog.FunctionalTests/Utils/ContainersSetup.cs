@@ -7,18 +7,16 @@ namespace MyBlog.FunctionalTests.Utils;
 
 public static class ContainersSetup
 {
-    public static MsSqlContainer BuildMsSqlContainer(INetwork network) => new MsSqlBuilder()
+    public static MsSqlContainer BuildMsSqlContainer(INetwork network) => new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest")
         .WithNetwork(network)
-        .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
         .WithPortBinding(1433, true)
         .WithPassword("P@ssword!")
         .WithCleanUp(true)
         .Build();
 
-    public static RedisContainer BuildRedisContainer(INetwork network) => new RedisBuilder()
+    public static RedisContainer BuildRedisContainer(INetwork network) => new RedisBuilder("redis:7.2.3-alpine")
         .WithNetwork(network)
         .WithPortBinding(6379, true)
-        .WithImage("redis:7.2.3-alpine")
         .WithCleanUp(true)
         .Build();
 
@@ -29,8 +27,7 @@ public static class ContainersSetup
         public const string Password = "admin123";
     }
 
-    public static RabbitMqContainer BuildRabbitMqContainer(INetwork network) => new RabbitMqBuilder()
-        .WithImage("masstransit/rabbitmq")
+    public static RabbitMqContainer BuildRabbitMqContainer(INetwork network) => new RabbitMqBuilder("masstransit/rabbitmq")
         .WithNetwork(network)
         .WithPortBinding(5672, true)     // AMQP port
         .WithPortBinding(15672, true)    // Management UI port

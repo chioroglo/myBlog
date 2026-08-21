@@ -30,11 +30,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
-		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
 		<PackageReference Include="Microsoft.FeatureManagement.AspNetCore" />
-		<!-- TODO: to remove????-->
-		<PackageReference Include="Microsoft.IdentityModel" />
-		<!-- endtodo -->
 		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
 		<PackageReference Include="Microsoft.IdentityModel.Protocols" />
 		<PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" />

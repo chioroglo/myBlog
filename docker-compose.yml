@@ -1,41 +1,79 @@
+x-common: &common
+  restart: unless-stopped
+  networks:
+    - blog-network
+
 services:
   redis:
-    container_name: "Redis"
-    restart: always
+    <<: *common
+    container_name: "redis"
     image: "redis:7.2.3-alpine"
     ports:
       - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
   mssql:
+    <<: *common
     container_name: "MSSQL2022"
-    restart: always
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     environment:
       SA_PASSWORD: "P@ssword!"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"P@ssword!\" -Q \"SELECT 1\" -C || exit 1"
+      ]
+      interval: 15s
+      timeout: 5s
+      retries: 10
 
   rabbitmq:
-    container_name: blog-mq
-    restart: always
-    hostname: blog-mq
+    <<: *common
     image: masstransit/rabbitmq
+    container_name: blog-mq
+    hostname: blog-mq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
     ports:
       - "5672:5672"
       - "15672:15672"
     volumes:
       - ./.containers/queue/data/:/var/lib/rabbitmq/mnesia
       - ./.containers/queue/log/:/var/log/rabbitmq/mnesia
-    environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
 
   azurite:
-    restart: always
-    container_name: azure-storage
+    <<: *common
     image: "mcr.microsoft.com/azure-storage/azurite:latest"
+    container_name: azure-storage
     ports:
       - "10000:10000"
       - "10001:10001"
       - "10002:10002"
+    volumes:
+      - azurite-data:/data
+
+volumes:
+  redis-data:
+  mssql-data:
+  azurite-data:
+    
+networks:
+  blog-network:
+    driver: bridge
